@@ -4,7 +4,6 @@ import 'package:hrea_mobile_staff/app/base/base_view.dart';
 import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_staff/app/resources/style_manager.dart';
-import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:lottie/lottie.dart';
 
 import '../controllers/reset_password_successfully_controller.dart';
@@ -15,6 +14,10 @@ class ResetPasswordSuccessfullyView
   @override
   Widget buildView(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: ColorsManager.primary,
+        elevation: 0,
+      ),
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Lottie.asset('animations/successfully.json',
             height: UtilsReponsive.height(context, 300),

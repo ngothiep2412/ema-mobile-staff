@@ -24,40 +24,47 @@ class TabViewView extends BaseView<TabViewController> {
       padding:
           EdgeInsets.symmetric(vertical: UtilsReponsive.height(context, 15)),
       child: GNav(
-          gap: 20,
+          gap: 15,
           padding: EdgeInsets.all(UtilsReponsive.width(context, 15)),
-          activeColor: ColorsManager.mainColor,
+          activeColor: ColorsManager.primary,
           iconSize: 24,
           tabBackgroundColor:
               ColorsManager.colorBottomNav, // selected tab background color
           tabs: [
             GButton(
-                icon: LineIcons.home,
-                text: 'Home',
-                iconColor: ColorsManager.mainColor,
+                icon: LineIcons.hollyBerry,
+                text: 'Sự kiện',
+                iconColor: ColorsManager.primary,
                 onPressed: () {
                   controller.onTapped(0);
                 }),
             GButton(
-                icon: LineIcons.briefcase,
-                text: 'Schedule',
-                iconColor: ColorsManager.mainColor,
+                icon: Icons.event_available,
+                text: 'Chấm công',
+                iconColor: ColorsManager.primary,
                 onPressed: () {
                   controller.onTapped(1);
                 }),
             GButton(
-                icon: LineIcons.bell,
-                text: 'Notification',
-                iconColor: ColorsManager.mainColor,
+                icon: Icons.note_add,
+                text: 'Đơn',
+                iconColor: ColorsManager.primary,
                 onPressed: () {
                   controller.onTapped(2);
                 }),
             GButton(
-                icon: LineIcons.user,
-                text: 'Profile',
-                iconColor: ColorsManager.mainColor,
+                icon: LineIcons.bell,
+                text: 'Thông báo',
+                iconColor: ColorsManager.primary,
                 onPressed: () {
                   controller.onTapped(3);
+                }),
+            GButton(
+                icon: LineIcons.list,
+                text: 'Khác',
+                iconColor: ColorsManager.primary,
+                onPressed: () {
+                  controller.onTapped(4);
                 })
           ]),
     );

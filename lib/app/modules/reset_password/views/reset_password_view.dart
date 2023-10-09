@@ -5,8 +5,6 @@ import 'package:hrea_mobile_staff/app/base/base_view.dart';
 import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_staff/app/resources/style_manager.dart';
-import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
-
 import '../controllers/reset_password_controller.dart';
 
 class ResetPasswordView extends BaseView<ResetPasswordController> {

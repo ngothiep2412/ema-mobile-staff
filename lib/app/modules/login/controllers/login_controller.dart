@@ -66,7 +66,7 @@ class LoginController extends BaseController {
           errorLogin.value = true;
           errorLoginText.value = "Sai email hoặc mật khẩu";
         }
-        if (loginReponseApi!.accessToken!.isNotEmpty) {
+        if (loginReponseApi!.accessToken != null) {
           Map<String, dynamic> decodedToken =
               JwtDecoder.decode(loginReponseApi!.accessToken!);
           if (decodedToken["role"] == "STAFF") {
