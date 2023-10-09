@@ -58,6 +58,7 @@ class ForgotPasswordView extends BaseView<ForgotPasswordController> {
                 ),
                 child: TextFormField(
                   keyboardType: TextInputType.emailAddress,
+                  onChanged: (value) => {controller.setEmail(value)},
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -76,24 +77,35 @@ class ForgotPasswordView extends BaseView<ForgotPasswordController> {
               SizedBox(
                 height: UtilsReponsive.height(context, 30),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: UtilsReponsive.width(context, 20),
-                ),
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: ColorsManager.primary,
+              Obx(
+                () => Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: UtilsReponsive.width(context, 20),
                   ),
-                  child: MaterialButton(
-                    onPressed: () {
-                      Get.toNamed(Routes.OTP);
-                    },
-                    child: Text(
-                      "Lấy lại mật khẩu",
-                      style: GetTextStyle.getTextStyle(
-                          20, 'Roboto', FontWeight.w400, Colors.white),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: ColorsManager.primary,
+                    ),
+                    child: MaterialButton(
+                      onPressed: () async {
+                        await controller.sendOtp();
+                        controller.errorForgotPassword.value
+                            ? _errorMessage(context)
+                            : _successMessage(context);
+                      },
+                      child: controller.isLoading.value
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                                color: ColorsManager.backgroundWhite,
+                              ),
+                            )
+                          : Text(
+                              "Lấy lại mật khẩu",
+                              style: GetTextStyle.getTextStyle(
+                                  20, 'Roboto', FontWeight.w400, Colors.white),
+                            ),
                     ),
                   ),
                 ),
@@ -111,7 +123,7 @@ class ForgotPasswordView extends BaseView<ForgotPasswordController> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.offAndToNamed(Routes.LOGIN);
+                      Get.offAllNamed(Routes.LOGIN);
                     },
                     child: Text(
                       'Đăng nhập',
@@ -124,5 +136,99 @@ class ForgotPasswordView extends BaseView<ForgotPasswordController> {
             ],
           ),
         ));
+  }
+
+  _successMessage(BuildContext context) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.transparent,
+        content: Container(
+          padding: UtilsReponsive.paddingAll(context, padding: 8),
+          height: UtilsReponsive.height(context, 80),
+          decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 81, 146, 83),
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Row(children: [
+            const Icon(
+              Icons.check_circle,
+              color: ColorsManager.backgroundWhite,
+              size: 40,
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            Expanded(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Thành công',
+                  style: GetTextStyle.getTextStyle(
+                      18, 'Roboto', FontWeight.w800, Colors.white),
+                ),
+                Spacer(),
+                Text(
+                  'Gửi mã thành công',
+                  style: GetTextStyle.getTextStyle(
+                      12, 'Roboto', FontWeight.w500, Colors.white),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            ))
+          ]),
+        ),
+        behavior: SnackBarBehavior.floating,
+        elevation: 0,
+      ),
+    );
+  }
+
+  _errorMessage(BuildContext context) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.transparent,
+        content: Container(
+          padding: UtilsReponsive.paddingAll(context, padding: 8),
+          height: UtilsReponsive.height(context, 80),
+          decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 219, 90, 90),
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Row(children: [
+            const Icon(
+              Icons.error_outline,
+              color: ColorsManager.backgroundWhite,
+              size: 40,
+            ),
+            SizedBox(
+              width: UtilsReponsive.width(context, 12),
+            ),
+            Expanded(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Thất bại',
+                  style: GetTextStyle.getTextStyle(
+                      18, 'Roboto', FontWeight.w800, Colors.white),
+                ),
+                const Spacer(),
+                Obx(
+                  () => Text(
+                    controller.errorForgotPasswordText.value,
+                    style: GetTextStyle.getTextStyle(
+                        12, 'Roboto', FontWeight.w500, Colors.white),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                )
+              ],
+            ))
+          ]),
+        ),
+        behavior: SnackBarBehavior.floating,
+        elevation: 0,
+      ),
+    );
   }
 }

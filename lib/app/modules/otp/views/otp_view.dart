@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:hrea_mobile_staff/app/base/base_view.dart';
 import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_staff/app/resources/style_manager.dart';
-import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:pinput/pinput.dart';
 
 import '../controllers/otp_controller.dart';
@@ -78,68 +76,71 @@ class OtpView extends BaseView<OtpController> {
                 children: [
                   Expanded(
                     child: Pinput(
-                      controller: _otp,
-                      length: 5,
+                      length: 4,
                       defaultPinTheme: defaultTheme,
                       focusedPinTheme: focusedTheme,
                       submittedPinTheme: focusedTheme,
                       onChanged: (value) {
-                        print('111' + _otp.text);
+                        controller.setOtp(value);
                       },
                     ),
                   )
                 ],
               ),
-              const SizedBox(height: 40),
+              SizedBox(height: UtilsReponsive.height(context, 40)),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 5,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: MaterialButton(
-                        color: ColorsManager.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        onPressed: () {},
-                        child: const Padding(
-                          padding: EdgeInsets.all(15.0),
-                          child: Text(
-                            "Xác nhận",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
+                padding: UtilsReponsive.paddingAll(context, padding: 20),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: ColorsManager.primary,
+                  ),
+                  child: Obx(
+                    () => MaterialButton(
+                      onPressed: () async {
+                        await controller.verifyCode();
+                        controller.errorVerifyCode.value
+                            ? _errorMessage(context)
+                            : _successMessage(context);
+                      },
+                      child: controller.isLoading.value
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                                color: ColorsManager.backgroundWhite,
+                              ),
+                            )
+                          : Text(
+                              "Xác thực",
+                              style: GetTextStyle.getTextStyle(
+                                  20, 'Roboto', FontWeight.w400, Colors.white),
                             ),
-                          ),
-                        ),
-                      ),
                     ),
-                  ],
+                  ),
                 ),
               ),
-              const Spacer(),
+              SizedBox(
+                height: UtilsReponsive.height(context, 20),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     "Không nhận được mã code? ",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: GetTextStyle.getTextStyle(
+                        16, 'Roboto', FontWeight.w500, Colors.black),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () async {
+                      await controller.sendOtp();
+                      controller.errorVerifyCode.value
+                          ? _errorMessage(context)
+                          : _successMessageBySentOtp(context);
+                    },
                     child: Text(
                       "Gửi lại",
-                      style: TextStyle(
-                        color: ColorsManager.primary,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
+                      style: GetTextStyle.getTextStyle(
+                          16, 'Roboto', FontWeight.w700, ColorsManager.primary),
                     ),
                   ),
                 ],
@@ -147,5 +148,146 @@ class OtpView extends BaseView<OtpController> {
             ],
           ),
         ));
+  }
+
+  _successMessage(BuildContext context) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.transparent,
+        content: Container(
+          padding: UtilsReponsive.paddingAll(context, padding: 8),
+          height: UtilsReponsive.height(context, 80),
+          decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 81, 146, 83),
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Row(children: [
+            const Icon(
+              Icons.check_circle,
+              color: ColorsManager.backgroundWhite,
+              size: 40,
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            Expanded(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Thành công',
+                  style: GetTextStyle.getTextStyle(
+                      18, 'Roboto', FontWeight.w800, Colors.white),
+                ),
+                Spacer(),
+                Text(
+                  'Xác thực mã code thành công',
+                  style: GetTextStyle.getTextStyle(
+                      12, 'Roboto', FontWeight.w500, Colors.white),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            ))
+          ]),
+        ),
+        behavior: SnackBarBehavior.floating,
+        elevation: 0,
+      ),
+    );
+  }
+
+  _successMessageBySentOtp(BuildContext context) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.transparent,
+        content: Container(
+          padding: UtilsReponsive.paddingAll(context, padding: 8),
+          height: UtilsReponsive.height(context, 80),
+          decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 81, 146, 83),
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Row(children: [
+            const Icon(
+              Icons.check_circle,
+              color: ColorsManager.backgroundWhite,
+              size: 40,
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            Expanded(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Thành công',
+                  style: GetTextStyle.getTextStyle(
+                      18, 'Roboto', FontWeight.w800, Colors.white),
+                ),
+                Spacer(),
+                Text(
+                  'Đã gửi mã thành công',
+                  style: GetTextStyle.getTextStyle(
+                      12, 'Roboto', FontWeight.w500, Colors.white),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            ))
+          ]),
+        ),
+        behavior: SnackBarBehavior.floating,
+        elevation: 0,
+      ),
+    );
+  }
+
+  _errorMessage(BuildContext context) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.transparent,
+        content: Container(
+          padding: UtilsReponsive.paddingAll(context, padding: 8),
+          height: UtilsReponsive.height(context, 80),
+          decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 219, 90, 90),
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Row(children: [
+            const Icon(
+              Icons.error_outline,
+              color: ColorsManager.backgroundWhite,
+              size: 40,
+            ),
+            SizedBox(
+              width: UtilsReponsive.width(context, 12),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Thất bại',
+                    style: GetTextStyle.getTextStyle(
+                        18, 'Roboto', FontWeight.w800, Colors.white),
+                  ),
+                  const Spacer(),
+                  Obx(
+                    () => Text(
+                      controller.errorVerifyCodeText.value,
+                      style: GetTextStyle.getTextStyle(
+                          12, 'Roboto', FontWeight.w500, Colors.white),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ]),
+        ),
+        behavior: SnackBarBehavior.floating,
+        elevation: 0,
+      ),
+    );
   }
 }

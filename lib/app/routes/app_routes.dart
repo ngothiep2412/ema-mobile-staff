@@ -8,6 +8,8 @@ abstract class Routes {
   static const TAB_VIEW = _Paths.TAB_VIEW;
   static const FORGOT_PASSWORD = _Paths.FORGOT_PASSWORD;
   static const OTP = _Paths.OTP;
+  static const RESET_PASSWORD = _Paths.RESET_PASSWORD;
+  static const RESET_PASSWORD_SUCCESSFULLY = _Paths.RESET_PASSWORD_SUCCESSFULLY;
 }
 
 abstract class _Paths {
@@ -17,4 +19,6 @@ abstract class _Paths {
   static const TAB_VIEW = '/tab-view';
   static const FORGOT_PASSWORD = '/forgot-password';
   static const OTP = '/otp';
+  static const RESET_PASSWORD = '/reset-password';
+  static const RESET_PASSWORD_SUCCESSFULLY = '/reset-password-successfully';
 }

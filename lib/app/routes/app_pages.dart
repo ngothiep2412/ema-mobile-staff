@@ -8,6 +8,10 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/otp/bindings/otp_binding.dart';
 import '../modules/otp/views/otp_view.dart';
+import '../modules/reset_password/bindings/reset_password_binding.dart';
+import '../modules/reset_password/views/reset_password_view.dart';
+import '../modules/reset_password_successfully/bindings/reset_password_successfully_binding.dart';
+import '../modules/reset_password_successfully/views/reset_password_successfully_view.dart';
 import '../modules/tab_view/bindings/tab_view_binding.dart';
 import '../modules/tab_view/views/tab_view_view.dart';
 
@@ -43,6 +47,16 @@ class AppPages {
       name: _Paths.OTP,
       page: () => const OtpView(),
       binding: OtpBinding(),
+    ),
+    GetPage(
+      name: _Paths.RESET_PASSWORD,
+      page: () => const ResetPasswordView(),
+      binding: ResetPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.RESET_PASSWORD_SUCCESSFULLY,
+      page: () => const ResetPasswordSuccessfullyView(),
+      binding: ResetPasswordSuccessfullyBinding(),
     ),
   ];
 }

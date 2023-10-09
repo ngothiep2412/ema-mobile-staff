@@ -28,48 +28,49 @@ class LoginView extends BaseView<LoginController> {
             ),
           ),
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: UtilsReponsive.height(context, 36),
-                        horizontal: UtilsReponsive.width(context, 24)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'HREA',
-                          style: GetTextStyle.getTextStyle(
-                              46, 'Roboto', FontWeight.w800, Colors.white),
-                        ),
-                        SizedBox(
-                          height: UtilsReponsive.height(context, 10),
-                        ),
-                        Text(
-                          'Đăng nhập',
-                          style: GetTextStyle.getTextStyle(
-                              20, 'Roboto', FontWeight.w400, Colors.white),
-                        ),
-                      ],
-                    ),
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: UtilsReponsive.height(context, 36),
+                      horizontal: UtilsReponsive.width(context, 24)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'HREA',
+                        style: GetTextStyle.getTextStyle(
+                            46, 'Roboto', FontWeight.w800, Colors.white),
+                      ),
+                      SizedBox(
+                        height: UtilsReponsive.height(context, 10),
+                      ),
+                      Text(
+                        'Đăng nhập',
+                        style: GetTextStyle.getTextStyle(
+                            20, 'Roboto', FontWeight.w400, Colors.white),
+                      ),
+                    ],
                   ),
                 ),
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(40))),
-                    child: Padding(
-                      padding: UtilsReponsive.paddingAll(context, padding: 24),
-                      child: Column(
+              ),
+              Expanded(
+                flex: 3,
+                child: Container(
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(40))),
+                  child: Padding(
+                    padding: UtilsReponsive.paddingAll(context, padding: 24),
+                    child: Obx(
+                      () => Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -88,47 +89,48 @@ class LoginView extends BaseView<LoginController> {
                                 color: Colors.grey[600]!,
                               ),
                             ),
+                            onChanged: (value) => {controller.setEmail(value)},
                           ),
                           SizedBox(
-                            height: UtilsReponsive.height(context, 20),
+                            height: UtilsReponsive.height(context, 25),
                           ),
-                          Obx(
-                            () => TextFormField(
-                              keyboardType: TextInputType.visiblePassword,
-                              obscureText: controller.passwordObscured.value,
-                              decoration: InputDecoration(
-                                  errorBorder: InputBorder.none,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  filled: true,
-                                  fillColor: ColorsManager.textInput,
-                                  hintText: "Mật khẩu",
-                                  prefixIcon: Icon(
-                                    Icons.lock,
-                                    color: Colors.grey[600]!,
-                                  ),
-                                  suffixIcon: IconButton(
-                                    onPressed: () {
-                                      controller.passwordObscured.value =
-                                          !controller.passwordObscured.value;
-                                    },
-                                    icon: Icon(
-                                      controller.passwordObscured.value
-                                          ? Icons.visibility_off
-                                          : Icons.visibility,
-                                      color: Colors.grey[600]!,
-                                    ),
-                                  )),
+                          TextFormField(
+                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: controller.passwordObscured.value,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide.none,
+                              ),
+                              filled: true,
+                              fillColor: ColorsManager.textInput,
+                              hintText: "Mật khẩu",
+                              prefixIcon: Icon(
+                                Icons.lock,
+                                color: Colors.grey[600]!,
+                              ),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  controller.passwordObscured.value =
+                                      !controller.passwordObscured.value;
+                                },
+                                icon: Icon(
+                                  controller.passwordObscured.value
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
+                                  color: Colors.grey[600]!,
+                                ),
+                              ),
                             ),
+                            onChanged: (value) =>
+                                {controller.setPassword(value)},
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  Get.toNamed(Routes.FORGOT_PASSWORD);
+                                  controller.forgotPassword();
                                 },
                                 child: Text(
                                   "Quên mật khẩu?",
@@ -148,21 +150,133 @@ class LoginView extends BaseView<LoginController> {
                               color: ColorsManager.primary,
                             ),
                             child: MaterialButton(
-                              onPressed: () {},
-                              child: Text(
-                                "Đăng nhập",
-                                style: GetTextStyle.getTextStyle(20, 'Roboto',
-                                    FontWeight.w400, Colors.white),
-                              ),
+                              onPressed: () async {
+                                await controller.login();
+                                controller.errorLogin.value
+                                    ? _errorMessage(context)
+                                    : null;
+                                // : _successMessage(context);
+                              },
+                              child: controller.isLoading.value
+                                  ? const Center(
+                                      child: CircularProgressIndicator(
+                                        color: ColorsManager.backgroundWhite,
+                                      ),
+                                    )
+                                  : Text(
+                                      "Đăng nhập",
+                                      style: GetTextStyle.getTextStyle(
+                                          20,
+                                          'Roboto',
+                                          FontWeight.w400,
+                                          Colors.white),
+                                    ),
                             ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                )
-              ]),
+                ),
+              )
+            ],
+          ),
         ),
+      ),
+    );
+  }
+
+  // _successMessage(BuildContext context) {
+  //   return ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       backgroundColor: Colors.transparent,
+  //       content: Container(
+  //         padding: UtilsReponsive.paddingAll(context, padding: 8),
+  //         height: UtilsReponsive.height(context, 80),
+  //         decoration: const BoxDecoration(
+  //             color: Color.fromARGB(255, 81, 146, 83),
+  //             borderRadius: BorderRadius.all(Radius.circular(10))),
+  //         child: Row(children: [
+  //           const Icon(
+  //             Icons.check_circle,
+  //             color: ColorsManager.backgroundWhite,
+  //             size: 40,
+  //           ),
+  //           const SizedBox(
+  //             width: 20,
+  //           ),
+  //           Expanded(
+  //               child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               Text(
+  //                 'Thành công',
+  //                 style: GetTextStyle.getTextStyle(
+  //                     18, 'Roboto', FontWeight.w800, Colors.white),
+  //               ),
+  //               Spacer(),
+  //               Text(
+  //                 'Đăng nhập thành công',
+  //                 style: GetTextStyle.getTextStyle(
+  //                     12, 'Roboto', FontWeight.w500, Colors.white),
+  //                 maxLines: 2,
+  //                 overflow: TextOverflow.ellipsis,
+  //               )
+  //             ],
+  //           ))
+  //         ]),
+  //       ),
+  //       behavior: SnackBarBehavior.floating,
+  //       elevation: 0,
+  //     ),
+  //   );
+  // }
+
+  _errorMessage(BuildContext context) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.transparent,
+        content: Container(
+          padding: UtilsReponsive.paddingAll(context, padding: 8),
+          height: UtilsReponsive.height(context, 80),
+          decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 219, 90, 90),
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Row(children: [
+            const Icon(
+              Icons.error_outline,
+              color: ColorsManager.backgroundWhite,
+              size: 40,
+            ),
+            SizedBox(
+              width: UtilsReponsive.width(context, 12),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Thất bại',
+                    style: GetTextStyle.getTextStyle(
+                        18, 'Roboto', FontWeight.w800, Colors.white),
+                  ),
+                  const Spacer(),
+                  Obx(
+                    () => Text(
+                      controller.errorLoginText.value,
+                      style: GetTextStyle.getTextStyle(
+                          12, 'Roboto', FontWeight.w500, Colors.white),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ]),
+        ),
+        behavior: SnackBarBehavior.floating,
+        elevation: 0,
       ),
     );
   }
