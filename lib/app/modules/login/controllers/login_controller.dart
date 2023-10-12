@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/login/api/login_api.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/user_model.dart';
@@ -75,10 +77,14 @@ class LoginController extends BaseController {
 
             userModel =
                 await LoginApi.getProfile(loginReponseApi!.accessToken!);
-            String userJson = userModel!.result!.toJson().toString();
-            prefs.setString('User', userJson);
-            errorLogin.value = false;
-            Get.offAllNamed(Routes.TAB_VIEW);
+            if (userModel != null) {
+              String userJson = jsonEncode(userModel);
+              GetStorage().write('user', userJson);
+              // var user = GetStorage().read('user');
+              // print('user ${user}');
+              errorLogin.value = false;
+              Get.offAllNamed(Routes.TAB_VIEW);
+            }
           } else {
             errorLogin.value = true;
             errorLoginText.value =

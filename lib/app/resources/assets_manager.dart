@@ -1,5 +1,5 @@
 const String IMAGE_PATH = "assets/images";
 
 class ImageAssets {
-  // static const String testImage = "$IMAGE_PATH/s.jpeg";
+  static const String defaultAvatar = "$IMAGE_PATH/defaultAvatar.jpg";
 }
