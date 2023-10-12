@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_view.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_setting_controller/tab_setting_controller.dart';
 import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_staff/app/resources/style_manager.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TabSettingView extends BaseView<TabSettingController> {
   const TabSettingView({Key? key}) : super(key: key);
@@ -133,7 +135,13 @@ class TabSettingView extends BaseView<TabSettingController> {
                   padding:
                       UtilsReponsive.paddingHorizontal(context, padding: 40),
                   child: OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      SharedPreferences preferences =
+                          await SharedPreferences.getInstance();
+                      preferences.clear();
+                      GetStorage().remove('user');
+                      Get.offAllNamed(Routes.LOGIN);
+                    },
                     child: Text(
                       "Đăng xuất",
                       style: GetTextStyle.getTextStyle(

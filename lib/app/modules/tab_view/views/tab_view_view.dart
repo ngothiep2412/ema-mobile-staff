@@ -46,7 +46,7 @@ class TabViewView extends BaseView<TabViewController> {
                   controller.onTapped(1);
                 }),
             GButton(
-                icon: Icons.note_add,
+                icon: Icons.note_add_outlined,
                 text: 'Đơn',
                 iconColor: ColorsManager.primary,
                 onPressed: () {
