@@ -10,6 +10,8 @@ abstract class Routes {
   static const OTP = _Paths.OTP;
   static const RESET_PASSWORD = _Paths.RESET_PASSWORD;
   static const RESET_PASSWORD_SUCCESSFULLY = _Paths.RESET_PASSWORD_SUCCESSFULLY;
+  static const TASK_OVERALL_VIEW = _Paths.TASK_OVERALL_VIEW;
+  static const TASK_DETAIL_VIEW = _Paths.TASK_DETAIL_VIEW;
   static const PROFILE = _Paths.PROFILE;
 }
 
@@ -22,5 +24,7 @@ abstract class _Paths {
   static const OTP = '/otp';
   static const RESET_PASSWORD = '/reset-password';
   static const RESET_PASSWORD_SUCCESSFULLY = '/reset-password-successfully';
+  static const TASK_OVERALL_VIEW = '/task-overall-view';
+  static const TASK_DETAIL_VIEW = '/task-detail-view';
   static const PROFILE = '/profile';
 }

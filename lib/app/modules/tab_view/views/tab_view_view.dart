@@ -14,6 +14,7 @@ class TabViewView extends BaseView<TabViewController> {
   @override
   Widget buildView(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.red.shade50,
         bottomNavigationBar: _bottomNav(context),
         body: Obx(
             () => controller.body.elementAt(controller.selectedIndex.value)));

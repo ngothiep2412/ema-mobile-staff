@@ -16,13 +16,17 @@ import '../modules/reset_password_successfully/bindings/reset_password_successfu
 import '../modules/reset_password_successfully/views/reset_password_successfully_view.dart';
 import '../modules/tab_view/bindings/tab_view_binding.dart';
 import '../modules/tab_view/views/tab_view_view.dart';
+import '../modules/task-detail-view/bindings/task_detail_view_binding.dart';
+import '../modules/task-detail-view/views/task_detail_view_view.dart';
+import '../modules/task-overall-view/bindings/task_overall_view_binding.dart';
+import '../modules/task-overall-view/views/task_overall_view_view.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.LOGIN;
+  static const INITIAL = Routes.TAB_VIEW;
 
   static final routes = [
     GetPage(
@@ -61,9 +65,19 @@ class AppPages {
       binding: ResetPasswordSuccessfullyBinding(),
     ),
     GetPage(
+      name: _Paths.TASK_OVERALL_VIEW,
+      page: () => const TaskOverallViewView(),
+      binding: TaskOverallViewBinding(),
+    ),
+    GetPage(
+      name: _Paths.TASK_DETAIL_VIEW,
+      page: () => const TaskDetailViewView(),
+      binding: TaskDetailViewBinding(),
+     ),
+     GetPage(
       name: _Paths.PROFILE,
       page: () => const ProfileView(),
       binding: ProfileBinding(),
-    ),
+      ),
   ];
 }
