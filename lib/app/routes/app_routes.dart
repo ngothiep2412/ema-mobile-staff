@@ -12,6 +12,7 @@ abstract class Routes {
   static const RESET_PASSWORD_SUCCESSFULLY = _Paths.RESET_PASSWORD_SUCCESSFULLY;
   static const TASK_OVERALL_VIEW = _Paths.TASK_OVERALL_VIEW;
   static const TASK_DETAIL_VIEW = _Paths.TASK_DETAIL_VIEW;
+  static const PROFILE = _Paths.PROFILE;
 }
 
 abstract class _Paths {
@@ -25,4 +26,5 @@ abstract class _Paths {
   static const RESET_PASSWORD_SUCCESSFULLY = '/reset-password-successfully';
   static const TASK_OVERALL_VIEW = '/task-overall-view';
   static const TASK_DETAIL_VIEW = '/task-detail-view';
+  static const PROFILE = '/profile';
 }

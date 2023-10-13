@@ -83,7 +83,7 @@ class ResetPasswordController extends BaseController {
         log(e.toString());
         errorResetPassword.value = true;
         isLoading.value = false;
-        errorResetPasswordText.value = "Lỗi";
+        errorResetPasswordText.value = "Có lỗi xảy ra";
       }
     }
   }
