@@ -28,12 +28,12 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                       onPressed: () => Get.back(),
                       icon: Icon(Icons.arrow_back)),
                   Container(
-                    height: UtilsReponsive.height(context, 50),
-                    width: UtilsReponsive.height(context, 50),
+                    height: UtilsReponsive.height(50,context),
+                    width: UtilsReponsive.height(50,context),
                     decoration: BoxDecoration(
                         color: Colors.amber,
                         borderRadius: BorderRadius.circular(
-                            UtilsReponsive.height(context, 15))),
+                            UtilsReponsive.height(15,context))),
                   ),
                   SizedBox(
                     width: 5,
@@ -44,7 +44,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: UtilsReponsive.height(context, 16),
+                          fontSize: UtilsReponsive.height(16,context),
                           fontWeight: FontWeight.w600),
                     ),
                   ),
@@ -60,7 +60,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                       padding: EdgeInsets.all(10),
                       itemBuilder: (context, index) => _taskCommon(context),
                       separatorBuilder: (context, index) => SizedBox(
-                            height: UtilsReponsive.height(context, 10),
+                            height: UtilsReponsive.height(10,context),
                           ),
                       itemCount: 4))
             ],
@@ -73,14 +73,14 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
       decoration: BoxDecoration(
           color: Colors.grey.withOpacity(0.5),
           borderRadius:
-              BorderRadius.circular(UtilsReponsive.height(context, 10))),
+              BorderRadius.circular(UtilsReponsive.height(10,context))),
       child: ExpansionTile(
         title: Text(
           'Task lớn đầu tiên',
           style: TextStyle(
               letterSpacing: 1.5,
               color: Colors.black,
-              fontSize: UtilsReponsive.height(context, 16),
+              fontSize: UtilsReponsive.height(16,context),
               fontWeight: FontWeight.bold),
         ),
         children: controller.listEventModel
@@ -98,9 +98,9 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
         Get.toNamed(Routes.TASK_DETAIL_VIEW);
       },
       child: Container(
-        margin: EdgeInsets.only(bottom: UtilsReponsive.height(context, 15)),
+        margin: EdgeInsets.only(bottom: UtilsReponsive.height(15,context)),
         width: double.infinity,
-        // padding: EdgeInsets.all(UtilsReponsive.height(context, 15)),
+        // padding: EdgeInsets.all(UtilsReponsive.height(15,context)),
         decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -112,14 +112,14 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
             ],
             color: Colors.white,
             borderRadius:
-                BorderRadius.circular(UtilsReponsive.height(context, 5))),
+                BorderRadius.circular(UtilsReponsive.height(5,context))),
         child: Column(
           children: [
             taskModel.isParent
                 ? SizedBox()
                 : Container(
                     width: double.infinity,
-                    height: UtilsReponsive.height(context, 30),
+                    height: UtilsReponsive.height(30,context),
                     decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -139,41 +139,41 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                 ? Colors.blue.withOpacity(0.7)
                                 : Colors.red.withOpacity(0.7),
                         borderRadius: BorderRadius.circular(
-                            UtilsReponsive.height(context, 5))),
+                            UtilsReponsive.height(5,context))),
                     child: Center(
                         child: Text(taskModel.status,
                             style: TextStyle(
                                 letterSpacing: 1.2,
                                 color: Colors.white,
-                                fontSize: UtilsReponsive.height(context, 14),
+                                fontSize: UtilsReponsive.height(14,context),
                                 fontWeight: FontWeight.bold))),
                   ),
             Padding(
-              padding: EdgeInsets.all(UtilsReponsive.height(context, 20)),
+              padding: EdgeInsets.all(UtilsReponsive.height(20,context)),
               child: Column(
                 children: [
                   SizedBox(
-                    height: UtilsReponsive.height(context, 20),
+                    height: UtilsReponsive.height(20,context),
                   ),
                   Text(taskModel.title,
                       style: TextStyle(
-                          fontSize: UtilsReponsive.height(context, 14),
+                          fontSize: UtilsReponsive.height(14,context),
                           fontWeight: FontWeight.bold)),
                   taskModel.image.isEmpty
                       ? SizedBox(
-                          height: UtilsReponsive.height(context, 30),
+                          height: UtilsReponsive.height(30,context),
                         )
                       : SizedBox(
-                          height: UtilsReponsive.height(context, 150),
+                          height: UtilsReponsive.height(150,context),
                           child: CachedNetworkImage(
                             fit: BoxFit.fill,
                             imageUrl: taskModel.image,
                             progressIndicatorBuilder:
                                 (context, url, downloadProgress) => Container(
                               padding: EdgeInsets.all(
-                                  UtilsReponsive.height(context, 10)),
-                              height: UtilsReponsive.height(context, 20),
-                              width: UtilsReponsive.height(context, 20),
+                                  UtilsReponsive.height(10,context)),
+                              height: UtilsReponsive.height(20,context),
+                              width: UtilsReponsive.height(20,context),
                               child: CircularProgressIndicator(
                                 color: ColorsManager.primary,
                               ),
@@ -183,14 +183,14 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                           ),
                         ),
                   SizedBox(
-                    height: UtilsReponsive.height(context, 15),
+                    height: UtilsReponsive.height(15,context),
                   ),
                   Row(
                     children: [
                       CircleAvatar(
                         backgroundColor: Colors.amber,
-                        radius: UtilsReponsive.height(context, 15),
-                        child: FittedBox(
+                        radius: UtilsReponsive.height(15,context),
+                        child:const FittedBox(
                           fit: BoxFit.contain,
                           child: Text(
                             'NV',
@@ -199,18 +199,18 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                         ),
                       ),
                       SizedBox(
-                        width: UtilsReponsive.width(context, 10),
+                        width: UtilsReponsive.width(10,context),
                       ),
                       CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade500,
-                          radius: UtilsReponsive.height(context, 15),
+                          radius: UtilsReponsive.height(15,context),
                           child: Icon(
                             Icons.calendar_month,
                             color: Colors.white,
                             size: 15,
                           )),
                       SizedBox(
-                        width: UtilsReponsive.width(context, 10),
+                        width: UtilsReponsive.width(10,context),
                       ),
                       taskModel.startTime != null
                           ? Text(controller.dateFormat
@@ -232,7 +232,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                         size: 15,
                       ),
                       SizedBox(
-                        width: UtilsReponsive.width(context, 5),
+                        width: UtilsReponsive.width(5,context),
                       ),
                       Text('${taskModel.index}/${taskModel.totalTask}')
                     ],

@@ -6,8 +6,8 @@ import '../controllers/task_overall_view_controller.dart';
 class TaskOverallViewBinding extends BaseBindings {
   @override
   void injectService() {
-    Get.lazyPut<TaskOverallViewController>(
-      () => TaskOverallViewController(),
+    Get.put(
+      TaskOverallViewController(),
     );
   }
 }

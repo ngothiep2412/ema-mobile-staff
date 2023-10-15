@@ -20,16 +20,16 @@ class ResetPasswordSuccessfullyView
       ),
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Lottie.asset('animations/successfully.json',
-            height: UtilsReponsive.height(context, 300),
+            height: UtilsReponsive.height(300, context),
             reverse: true,
             repeat: true,
             fit: BoxFit.cover),
         SizedBox(
-          height: UtilsReponsive.height(context, 30),
+          height: UtilsReponsive.height(30, context),
         ),
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: UtilsReponsive.width(context, 30),
+            horizontal: UtilsReponsive.width(30, context),
           ),
           child: Container(
             width: double.infinity,

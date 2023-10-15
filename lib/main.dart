@@ -10,8 +10,8 @@ void main() {
     GetMaterialApp(
       title: "Application",
          localizationsDelegates: GlobalMaterialLocalizations.delegates,
-      supportedLocales: [
-        const Locale('vi', 'VN'), // Set the Locale to Vietnamese
+      supportedLocales: const [
+        Locale('vi', 'VN'), // Set the Locale to Vietnamese
       ],
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,

@@ -12,7 +12,7 @@ class TabHomeView extends BaseView<TabHomeController> {
   Widget buildView(BuildContext context) {
     return SafeArea(
         child: Padding(
-      padding: EdgeInsets.all(UtilsReponsive.height(context, 20)),
+      padding: EdgeInsets.all(UtilsReponsive.height(20,context)),
       child: Column(
         children: [
           const Row(
@@ -34,7 +34,7 @@ class TabHomeView extends BaseView<TabHomeController> {
             ],
           ),
           Container(
-            padding: EdgeInsets.all(UtilsReponsive.width(context, 8)),
+            padding: EdgeInsets.all(UtilsReponsive.width(8, context)),
             child: GridView.builder(
               scrollDirection: Axis.vertical,
               physics: const BouncingScrollPhysics(),
@@ -64,32 +64,32 @@ class TabHomeView extends BaseView<TabHomeController> {
         controller.onTapEvent(idEvent: eventModel.id);
       },
       child: Container(
-        height: UtilsReponsive.height(context, 50),
-        width: UtilsReponsive.width(context, 150),
+        height: UtilsReponsive.height(50,context),
+        width: UtilsReponsive.width(150,context),
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius:
-                BorderRadius.circular(UtilsReponsive.height(context, 15))),
+                BorderRadius.circular(UtilsReponsive.height(15,context))),
         child: Padding(
-          padding: EdgeInsets.all(UtilsReponsive.height(context, 10)),
+          padding: EdgeInsets.all(UtilsReponsive.height(10,context)),
           child: Column(
             children: [
               Container(
                 clipBehavior: Clip.hardEdge,
-                height: UtilsReponsive.height(context, 80),
+                height: UtilsReponsive.height(80, context),
                 width: double.infinity,
                 decoration: BoxDecoration(
                     color: Colors.red.shade50,
                     borderRadius: BorderRadius.circular(
-                        UtilsReponsive.height(context, 15))),
+                        UtilsReponsive.height(15,context))),
                 child: CachedNetworkImage(
                   fit: BoxFit.fill,
                   imageUrl: eventModel.image,
                   progressIndicatorBuilder: (context, url, downloadProgress) =>
                       Container(
-                    padding: EdgeInsets.all(UtilsReponsive.height(context, 10)),
-                    height: UtilsReponsive.height(context, 20),
-                    width: UtilsReponsive.height(context, 20),
+                    padding: EdgeInsets.all(UtilsReponsive.height(10,context)),
+                    height: UtilsReponsive.height(20,context),
+                    width: UtilsReponsive.height(20,context),
                     child: CircularProgressIndicator(
                       color: ColorsManager.primary,
                     ),
@@ -98,12 +98,12 @@ class TabHomeView extends BaseView<TabHomeController> {
                 ),
               ),
               SizedBox(
-                height: UtilsReponsive.height(context, 10),
+                height: UtilsReponsive.height(10,context),
               ),
               Expanded(
                 child: Text(
                   eventModel.title,
-                  style: TextStyle(fontSize: UtilsReponsive.height(context, 16)),
+                  style: TextStyle(fontSize: UtilsReponsive.height(16, context)),
                 ),
               )
             ],

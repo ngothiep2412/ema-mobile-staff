@@ -23,11 +23,11 @@ class ForgotPasswordView extends BaseView<ForgotPasswordController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: UtilsReponsive.height(context, 20),
+                height: UtilsReponsive.height(20, context),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: UtilsReponsive.width(context, 20),
+                  horizontal: UtilsReponsive.width(20,context),
                 ),
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
@@ -40,8 +40,8 @@ class ForgotPasswordView extends BaseView<ForgotPasswordController> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: UtilsReponsive.width(context, 20),
-                  vertical: UtilsReponsive.height(context, 10),
+                  horizontal: UtilsReponsive.width(20,context),
+                  vertical: UtilsReponsive.height(10,context),
                 ),
                 child: Text(
                   'Hãy nhập email và chúng tôi sẽ gửi mã code cho bạn.',
@@ -50,11 +50,11 @@ class ForgotPasswordView extends BaseView<ForgotPasswordController> {
                 ),
               ),
               SizedBox(
-                height: UtilsReponsive.height(context, 15),
+                height: UtilsReponsive.height(15, context),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: UtilsReponsive.width(context, 20),
+                  horizontal: UtilsReponsive.width(20,context),
                 ),
                 child: TextFormField(
                   keyboardType: TextInputType.emailAddress,
@@ -75,12 +75,12 @@ class ForgotPasswordView extends BaseView<ForgotPasswordController> {
                 ),
               ),
               SizedBox(
-                height: UtilsReponsive.height(context, 30),
+                height: UtilsReponsive.height(30, context),
               ),
               Obx(
                 () => Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: UtilsReponsive.width(context, 20),
+                    horizontal: UtilsReponsive.width(20,context),
                   ),
                   child: Container(
                     width: double.infinity,
@@ -111,7 +111,7 @@ class ForgotPasswordView extends BaseView<ForgotPasswordController> {
                 ),
               ),
               SizedBox(
-                height: UtilsReponsive.height(context, 20),
+                height: UtilsReponsive.height(20, context),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -144,7 +144,7 @@ class ForgotPasswordView extends BaseView<ForgotPasswordController> {
         backgroundColor: Colors.transparent,
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
-          height: UtilsReponsive.height(context, 80),
+          height: UtilsReponsive.height(80, context),
           decoration: const BoxDecoration(
               color: Color.fromARGB(255, 81, 146, 83),
               borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -190,7 +190,7 @@ class ForgotPasswordView extends BaseView<ForgotPasswordController> {
         backgroundColor: Colors.transparent,
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
-          height: UtilsReponsive.height(context, 80),
+          height: UtilsReponsive.height(80, context),
           decoration: const BoxDecoration(
               color: Color.fromARGB(255, 219, 90, 90),
               borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -201,7 +201,7 @@ class ForgotPasswordView extends BaseView<ForgotPasswordController> {
               size: 40,
             ),
             SizedBox(
-              width: UtilsReponsive.width(context, 12),
+              width: UtilsReponsive.width(12, context),
             ),
             Expanded(
                 child: Column(
