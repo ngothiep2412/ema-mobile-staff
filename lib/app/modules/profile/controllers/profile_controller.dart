@@ -117,6 +117,7 @@ class ProfileController extends BaseController {
             if (responseApi.statusCode == 200 ||
                 responseApi.statusCode == 201) {
               errorUpdateProfile.value = false;
+              print('upload file thành công');
             } else {
               errorUpdateProfile.value = true;
               errorUpdateProfileText.value =

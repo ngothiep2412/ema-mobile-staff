@@ -26,7 +26,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.TAB_VIEW;
+  static const INITIAL = Routes.LOGIN;
 
   static final routes = [
     GetPage(
@@ -73,11 +73,11 @@ class AppPages {
       name: _Paths.TASK_DETAIL_VIEW,
       page: () => const TaskDetailViewView(),
       binding: TaskDetailViewBinding(),
-     ),
-     GetPage(
+    ),
+    GetPage(
       name: _Paths.PROFILE,
       page: () => const ProfileView(),
       binding: ProfileBinding(),
-      ),
+    ),
   ];
 }
