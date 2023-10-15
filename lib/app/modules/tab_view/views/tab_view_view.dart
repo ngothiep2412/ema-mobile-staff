@@ -23,10 +23,10 @@ class TabViewView extends BaseView<TabViewController> {
   Padding _bottomNav(BuildContext context) {
     return Padding(
       padding:
-          EdgeInsets.symmetric(vertical: UtilsReponsive.height(context, 15)),
+          EdgeInsets.symmetric(vertical: UtilsReponsive.height(15,context)),
       child: GNav(
           gap: 15,
-          padding: EdgeInsets.all(UtilsReponsive.width(context, 15)),
+          padding: EdgeInsets.all(UtilsReponsive.width(15,context)),
           activeColor: ColorsManager.primary,
           iconSize: 24,
           tabBackgroundColor:

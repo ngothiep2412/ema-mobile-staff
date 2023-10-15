@@ -35,8 +35,8 @@ class LoginView extends BaseView<LoginController> {
                 flex: 2,
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                      vertical: UtilsReponsive.height(context, 36),
-                      horizontal: UtilsReponsive.width(context, 24)),
+                      vertical: UtilsReponsive.height(36, context),
+                      horizontal: UtilsReponsive.width(24,context)),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +47,7 @@ class LoginView extends BaseView<LoginController> {
                             46, 'Roboto', FontWeight.w800, Colors.white),
                       ),
                       SizedBox(
-                        height: UtilsReponsive.height(context, 10),
+                        height: UtilsReponsive.height(10,context),
                       ),
                       Text(
                         'Đăng nhập',
@@ -92,7 +92,7 @@ class LoginView extends BaseView<LoginController> {
                             onChanged: (value) => {controller.setEmail(value)},
                           ),
                           SizedBox(
-                            height: UtilsReponsive.height(context, 25),
+                            height: UtilsReponsive.height(25, context),
                           ),
                           TextFormField(
                             keyboardType: TextInputType.visiblePassword,
@@ -141,7 +141,7 @@ class LoginView extends BaseView<LoginController> {
                             ],
                           ),
                           SizedBox(
-                            height: UtilsReponsive.height(context, 20),
+                            height: UtilsReponsive.height(20, context),
                           ),
                           Container(
                             width: double.infinity,
@@ -192,7 +192,7 @@ class LoginView extends BaseView<LoginController> {
   //       backgroundColor: Colors.transparent,
   //       content: Container(
   //         padding: UtilsReponsive.paddingAll(context, padding: 8),
-  //         height: UtilsReponsive.height(context, 80),
+  //         height: UtilsReponsive.height(80, context),
   //         decoration: const BoxDecoration(
   //             color: Color.fromARGB(255, 81, 146, 83),
   //             borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -238,7 +238,7 @@ class LoginView extends BaseView<LoginController> {
         backgroundColor: Colors.transparent,
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
-          height: UtilsReponsive.height(context, 80),
+          height: UtilsReponsive.height(80, context),
           decoration: const BoxDecoration(
               color: Color.fromARGB(255, 219, 90, 90),
               borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -249,7 +249,7 @@ class LoginView extends BaseView<LoginController> {
               size: 40,
             ),
             SizedBox(
-              width: UtilsReponsive.width(context, 12),
+              width: UtilsReponsive.width(12, context),
             ),
             Expanded(
               child: Column(

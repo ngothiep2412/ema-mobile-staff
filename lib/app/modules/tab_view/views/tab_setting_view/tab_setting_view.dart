@@ -34,8 +34,8 @@ class TabSettingView extends BaseView<TabSettingController> {
               child: Stack(
                 children: [
                   Container(
-                    width: UtilsReponsive.width(context, 150),
-                    height: UtilsReponsive.height(context, 150),
+                    width: UtilsReponsive.width(150, context),
+                    height: UtilsReponsive.height(150, context),
                     decoration: BoxDecoration(
                       border: Border.all(
                           width: 4,
@@ -79,7 +79,7 @@ class TabSettingView extends BaseView<TabSettingController> {
               ),
             ),
             SizedBox(
-              height: UtilsReponsive.height(context, 10),
+              height: UtilsReponsive.height(10, context),
             ),
             Center(
               child: Text(
@@ -96,7 +96,7 @@ class TabSettingView extends BaseView<TabSettingController> {
               ),
             ),
             SizedBox(
-              height: UtilsReponsive.height(context, 30),
+              height: UtilsReponsive.heightv2(context, 30),
             ),
             Row(
               children: [
@@ -105,7 +105,7 @@ class TabSettingView extends BaseView<TabSettingController> {
                   color: ColorsManager.primary,
                 ),
                 SizedBox(
-                  width: UtilsReponsive.width(context, 8),
+                  width: UtilsReponsive.widthv2(context, 8),
                 ),
                 Text(
                   "Tài khoản",
@@ -115,7 +115,7 @@ class TabSettingView extends BaseView<TabSettingController> {
               ],
             ),
             Divider(
-              height: UtilsReponsive.height(context, 20),
+              height: UtilsReponsive.heightv2(context, 20),
               thickness: 2,
             ),
             buildAccountOptionRow(
@@ -126,7 +126,7 @@ class TabSettingView extends BaseView<TabSettingController> {
             buildAccountOptionRow(
                 context, "Quyền riêng tư và bảo mật", Routes.PROFILE),
             SizedBox(
-              height: UtilsReponsive.height(context, 40),
+              height: UtilsReponsive.heightv2(context, 40),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

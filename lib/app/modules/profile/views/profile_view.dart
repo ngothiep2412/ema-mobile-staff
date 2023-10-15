@@ -31,7 +31,7 @@ class ProfileView extends BaseView<ProfileController> {
                   22, 'Roboto', FontWeight.w700, ColorsManager.textColor),
             ),
             SizedBox(
-              height: UtilsReponsive.height(context, 15),
+              height: UtilsReponsive.heightv2(context, 15),
             ),
             Center(
               child: Stack(
@@ -47,29 +47,29 @@ class ProfileView extends BaseView<ProfileController> {
                                     child: Image.network(
                                       'https://img.freepik.com/premium-photo/cartoon-esports-logo-gaming-brand_902820-461.jpg',
                                       fit: BoxFit.cover,
-                                      width: UtilsReponsive.width(context,
+                                      width: UtilsReponsive.widthv2(context,
                                           120), // Kích thước của hình ảnh
                                       height:
-                                          UtilsReponsive.height(context, 145),
+                                          UtilsReponsive.heightv2(context, 145),
                                     ),
                                   )
                                 : ClipOval(
                                     child: Image.asset(
                                       ImageAssets.defaultAvatar,
                                       fit: BoxFit.cover,
-                                      width: UtilsReponsive.width(context,
+                                      width: UtilsReponsive.widthv2(context,
                                           120), // Kích thước của hình ảnh
                                       height:
-                                          UtilsReponsive.height(context, 145),
+                                          UtilsReponsive.heightv2(context, 145),
                                     ),
                                   )
                             : ClipOval(
                                 child: Image.file(
                                   File(controller.selectImagePath.value),
                                   fit: BoxFit.cover,
-                                  width: UtilsReponsive.width(
+                                  width: UtilsReponsive.widthv2(
                                       context, 120), // Kích thước của hình ảnh
-                                  height: UtilsReponsive.height(context, 145),
+                                  height: UtilsReponsive.heightv2(context, 145),
                                 ),
                               ),
                       )),
@@ -77,8 +77,8 @@ class ProfileView extends BaseView<ProfileController> {
                       bottom: 0,
                       right: -5,
                       child: Container(
-                        height: UtilsReponsive.height(context, 50),
-                        width: UtilsReponsive.width(context, 50),
+                        height: UtilsReponsive.heightv2(context, 50),
+                        width: UtilsReponsive.widthv2(context, 50),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
@@ -101,7 +101,7 @@ class ProfileView extends BaseView<ProfileController> {
               ),
             ),
             SizedBox(
-              height: UtilsReponsive.height(context, 35),
+              height: UtilsReponsive.heightv2(context, 35),
             ),
             buildTextField(context, "Họ và tên", "Ví dụ: Thiệp",
                 controller.fullNameController),
@@ -145,10 +145,10 @@ class ProfileView extends BaseView<ProfileController> {
                   filled: true),
             ),
             SizedBox(
-              height: UtilsReponsive.height(context, 20),
+              height: UtilsReponsive.heightv2(context, 20),
             ),
             Container(
-              height: UtilsReponsive.height(context, 40),
+              height: UtilsReponsive.heightv2(context, 40),
               child: ElevatedButton(
                 onPressed: () {
                   controller.updateProfile();
@@ -308,7 +308,7 @@ class ProfileView extends BaseView<ProfileController> {
         backgroundColor: Colors.transparent,
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
-          height: UtilsReponsive.height(context, 80),
+          height: UtilsReponsive.heightv2(context, 80),
           decoration: const BoxDecoration(
               color: Color.fromARGB(255, 81, 146, 83),
               borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -354,7 +354,7 @@ class ProfileView extends BaseView<ProfileController> {
         backgroundColor: Colors.transparent,
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
-          height: UtilsReponsive.height(context, 80),
+          height: UtilsReponsive.heightv2(context, 80),
           decoration: const BoxDecoration(
               color: Color.fromARGB(255, 219, 90, 90),
               borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -365,7 +365,7 @@ class ProfileView extends BaseView<ProfileController> {
               size: 40,
             ),
             SizedBox(
-              width: UtilsReponsive.width(context, 12),
+              width: UtilsReponsive.widthv2(context, 12),
             ),
             Expanded(
               child: Column(
