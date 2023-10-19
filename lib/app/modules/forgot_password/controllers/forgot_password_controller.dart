@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/forgot_password/api/forgot_password_api.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
@@ -33,7 +34,7 @@ class ForgotPasswordController extends BaseController {
 
   sendOtp() async {
     isLoading.value = true;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
     if (emailTxt.value.isEmpty) {
       errorForgotPassword.value = true;
       isLoading.value = false;
@@ -50,7 +51,8 @@ class ForgotPasswordController extends BaseController {
           errorForgotPasswordText.value = "Email không tồn tại";
         } else if (responseApi!.statusCode == 200 ||
             responseApi!.statusCode == 201) {
-          prefs.setString('Email', emailTxt.value);
+          GetStorage().write('Email', emailTxt.value);
+          // prefs.setString('Email', emailTxt.value);
           errorForgotPassword.value = false;
           Get.toNamed(Routes.OTP);
         }

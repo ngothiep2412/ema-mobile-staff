@@ -11,6 +11,13 @@ class ColorsManager {
   static const Color textInput = Color(0xFFe7edeb);
   static Color colorIcon = Colors.grey[600]!;
   static Color colorBottomNav = HexColor.fromHex("#A1CFFF");
+  static const Color backgroundGrey = Color(0xffF1F1F0);
+  static const Color backgroundBlackGrey = Color(0xff232533);
+  static const Color calendar = Color(0xffC2B280);
+
+  static const Color green = Color(0xff198754);
+  static const Color red = Color(0xffdc3545);
+  static const Color yellow = Color(0xffffc107);
 }
 
 extension HexColor on Color {

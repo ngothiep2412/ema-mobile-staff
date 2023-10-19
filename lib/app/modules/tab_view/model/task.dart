@@ -1,20 +1,287 @@
+// To parse this JSON data, do
+//
+//     final taskModel = taskModelFromJson(jsonString);
+
+import 'dart:convert';
+
+List<TaskModel> taskModelFromJson(String str) =>
+    List<TaskModel>.from(json.decode(str).map((x) => TaskModel.fromJson(x)));
+
+String taskModelToJson(List<TaskModel> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
 class TaskModel {
-  String title;
-  String image;
-  DateTime? startTime;
-  DateTime? endTime;
-  bool isParent;
-  int totalTask;
-  int index;
-  String status;
-  TaskModel(
-      {required this.title,
-      required this.image,
-       this.startTime,
-       this.endTime,
-      required this.isParent,
-      required this.totalTask,
-      required this.index,
-      required this.status
-      });
+  String? id;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? title;
+  DateTime? startDate;
+  DateTime? endDate;
+  String? description;
+  Priority? priority;
+  Status? status;
+  int? estimationTime;
+  int? effort;
+  String? createdBy;
+  String? nameAssigner;
+  String? avatarAssigner;
+  String? modifiedBy;
+  dynamic approvedBy;
+  String? eventId;
+  List<TaskFile>? taskFiles;
+  List<AssignTask>? assignTasks;
+  List<TaskModel>? subTask;
+  TaskModel? parent;
+
+  TaskModel({
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.title,
+    this.startDate,
+    this.endDate,
+    this.description,
+    this.priority,
+    this.status,
+    this.estimationTime,
+    this.effort,
+    this.createdBy,
+    this.nameAssigner,
+    this.avatarAssigner,
+    this.modifiedBy,
+    this.approvedBy,
+    this.eventId,
+    this.taskFiles,
+    this.assignTasks,
+    this.subTask,
+    this.parent,
+  });
+
+  factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
+        id: json["id"],
+        createdAt: json["createdAt"] == null
+            ? null
+            : DateTime.parse(json["createdAt"]),
+        updatedAt: json["updatedAt"] == null
+            ? null
+            : DateTime.parse(json["updatedAt"]),
+        title: json["title"],
+        startDate: json["startDate"] == null
+            ? null
+            : DateTime.parse(json["startDate"]),
+        endDate:
+            json["endDate"] == null ? null : DateTime.parse(json["endDate"]),
+        description: json["description"],
+        priority: json["priority"] == null
+            ? null
+            : priorityValues.map[json["priority"]]!,
+        status:
+            json["status"] == null ? null : statusValues.map[json["status"]]!,
+        estimationTime: json["estimationTime"],
+        effort: json["effort"],
+        createdBy: json["createdBy"],
+        modifiedBy: json["modifiedBy"],
+        approvedBy: json["approvedBy"],
+        eventId: json["eventID"],
+        taskFiles: json["taskFiles"] == null
+            ? []
+            : List<TaskFile>.from(
+                json["taskFiles"]!.map((x) => TaskFile.fromJson(x))),
+        assignTasks: json["assignTasks"] == null
+            ? []
+            : List<AssignTask>.from(
+                json["assignTasks"]!.map((x) => AssignTask.fromJson(x))),
+        subTask: json["subTask"] == null
+            ? []
+            : List<TaskModel>.from(
+                json["subTask"]!.map((x) => TaskModel.fromJson(x))),
+        parent:
+            json["parent"] == null ? null : TaskModel.fromJson(json["parent"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "createdAt": createdAt?.toIso8601String(),
+        "updatedAt": updatedAt?.toIso8601String(),
+        "title": title,
+        "startDate": startDate?.toIso8601String(),
+        "endDate": endDate?.toIso8601String(),
+        "description": description,
+        "priority": priorityValues.reverse[priority],
+        "status": statusValues.reverse[status],
+        "estimationTime": estimationTime,
+        "effort": effort,
+        "createdBy": createdBy,
+        "modifiedBy": modifiedBy,
+        "approvedBy": approvedBy,
+        "eventID": eventId,
+        "taskFiles": taskFiles == null
+            ? []
+            : List<dynamic>.from(taskFiles!.map((x) => x.toJson())),
+        "assignTasks": assignTasks == null
+            ? []
+            : List<dynamic>.from(assignTasks!.map((x) => x.toJson())),
+        "subTask": subTask == null
+            ? []
+            : List<dynamic>.from(subTask!.map((x) => x.toJson())),
+        "parent": parent?.toJson(),
+      };
+}
+
+class AssignTask {
+  String? id;
+  User? user;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? assignee;
+  String? taskMaster;
+  bool? isLeader;
+  String? taskId;
+
+  AssignTask({
+    this.id,
+    this.user,
+    this.createdAt,
+    this.updatedAt,
+    this.assignee,
+    this.taskMaster,
+    this.isLeader,
+    this.taskId,
+  });
+
+  factory AssignTask.fromJson(Map<String, dynamic> json) => AssignTask(
+        id: json["id"],
+        user: json["user"] == null ? null : User.fromJson(json["user"]),
+        createdAt: json["createdAt"] == null
+            ? null
+            : DateTime.parse(json["createdAt"]),
+        updatedAt: json["updatedAt"] == null
+            ? null
+            : DateTime.parse(json["updatedAt"]),
+        assignee: json["assignee"],
+        taskMaster: json["taskMaster"],
+        isLeader: json["isLeader"],
+        taskId: json["taskID"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "user": user?.toJson(),
+        "createdAt": createdAt?.toIso8601String(),
+        "updatedAt": updatedAt?.toIso8601String(),
+        "assignee": assignee,
+        "taskMaster": taskMaster,
+        "isLeader": isLeader,
+        "taskID": taskId,
+      };
+}
+
+class User {
+  String? id;
+  Profile? profile;
+
+  User({
+    this.id,
+    this.profile,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) => User(
+        id: json["id"],
+        profile:
+            json["profile"] == null ? null : Profile.fromJson(json["profile"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "profile": profile?.toJson(),
+      };
+}
+
+class Profile {
+  String? profileId;
+  String? fullName;
+  String? avatar;
+
+  Profile({
+    this.profileId,
+    this.fullName,
+    this.avatar,
+  });
+
+  factory Profile.fromJson(Map<String, dynamic> json) => Profile(
+        profileId: json["profileId"],
+        fullName: json["fullName"],
+        avatar: json["avatar"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "profileId": profileId,
+        "fullName": fullName,
+        "avatar": avatar,
+      };
+}
+
+enum Priority { HIGH, LOW, MEDIUM }
+
+final priorityValues = EnumValues(
+    {"HIGH": Priority.HIGH, "LOW": Priority.LOW, "MEDIUM": Priority.MEDIUM});
+
+enum Status { PENDING, PROCESSING, DONE, CANCEL, OVERDUE }
+
+final statusValues = EnumValues(
+  {
+    "PENDING": Status.PENDING,
+    "PROCESSING": Status.PROCESSING,
+    "DONE": Status.DONE,
+    "CANCEL": Status.CANCEL,
+    "OVERDUE": Status.OVERDUE
+  },
+);
+
+class TaskFile {
+  String? id;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? fileUrl;
+  String? taskId;
+
+  TaskFile({
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.fileUrl,
+    this.taskId,
+  });
+
+  factory TaskFile.fromJson(Map<String, dynamic> json) => TaskFile(
+        id: json["id"],
+        createdAt: json["createdAt"] == null
+            ? null
+            : DateTime.parse(json["createdAt"]),
+        updatedAt: json["updatedAt"] == null
+            ? null
+            : DateTime.parse(json["updatedAt"]),
+        fileUrl: json["fileUrl"],
+        taskId: json["taskID"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "createdAt": createdAt?.toIso8601String(),
+        "updatedAt": updatedAt?.toIso8601String(),
+        "fileUrl": fileUrl,
+        "taskID": taskId,
+      };
+}
+
+class EnumValues<T> {
+  Map<String, T> map;
+  late Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    reverseMap = map.map((k, v) => MapEntry(v, k));
+    return reverseMap;
+  }
 }

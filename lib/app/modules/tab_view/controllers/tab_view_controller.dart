@@ -6,6 +6,8 @@ import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_notificat
 import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_request_controller/tab_request_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_setting_controller/tab_setting_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_timekeeping_controller/tab_timekeeping_controller.dart';
+import 'package:hrea_mobile_staff/app/modules/tab_view/model/event.dart';
+import 'package:hrea_mobile_staff/app/modules/tab_view/model/user_model.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/views/tab_home_view/tab_home_view.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/views/tab_notification_view/tab_notification_view.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/views/tab_request_view/tab_request_view.dart';
@@ -13,8 +15,6 @@ import 'package:hrea_mobile_staff/app/modules/tab_view/views/tab_setting_view/ta
 import 'package:hrea_mobile_staff/app/modules/tab_view/views/tab_timesheet_view/tab_timesheet_view.dart';
 
 class TabViewController extends BaseController {
-  //TODO: Implement TabViewController
-
   RxList<Widget> body = RxList([
     const TabHomeView(),
     const TabTimeKeepingView(),
@@ -38,11 +38,18 @@ class TabViewController extends BaseController {
     super.onClose();
   }
 
-  onTapped(int index) {
+  onTapped(int index) async {
     switch (index) {
       case 0:
         Get.find<TabHomeController>();
+        // Get.find<TabHomeController>().isLoading.value = true;
+        // Get.find<TabHomeController>().isLoading.value = false;
+        // userModel.value =
+        //     (await Get.find<TabSettingController>().getProfile()).value;
+        // print(userModel.value.result!.fullName);
+
         selectedIndex(index);
+        await Get.find<TabHomeController>().getEvent();
         break;
       case 1:
         Get.find<TabTimeKeepingController>();
@@ -58,6 +65,7 @@ class TabViewController extends BaseController {
         break;
       case 4:
         Get.find<TabSettingController>();
+        await Get.find<TabSettingController>().getProfile();
         selectedIndex(index);
         break;
       default:

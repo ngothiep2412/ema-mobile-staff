@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
 
 class TabTimeKeepingController extends BaseController {
-  //TODO: Implement TabViewController
+  RxBool isLoading = false.obs;
 
   final count = 0.obs;
   @override

@@ -14,33 +14,36 @@ class TabViewView extends BaseView<TabViewController> {
   @override
   Widget buildView(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red.shade50,
+        backgroundColor: ColorsManager.backgroundBlackGrey,
         bottomNavigationBar: _bottomNav(context),
         body: Obx(
             () => controller.body.elementAt(controller.selectedIndex.value)));
   }
 
-  Padding _bottomNav(BuildContext context) {
-    return Padding(
-      padding:
-          EdgeInsets.symmetric(vertical: UtilsReponsive.height(15,context)),
+  Container _bottomNav(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.white70, borderRadius: BorderRadius.circular(20)),
+      padding: EdgeInsets.symmetric(
+          vertical: UtilsReponsive.height(10, context),
+          horizontal: UtilsReponsive.height(10, context)),
       child: GNav(
           gap: 15,
-          padding: EdgeInsets.all(UtilsReponsive.width(15,context)),
+          padding: EdgeInsets.all(UtilsReponsive.width(10, context)),
           activeColor: ColorsManager.primary,
           iconSize: 24,
           tabBackgroundColor:
               ColorsManager.colorBottomNav, // selected tab background color
           tabs: [
             GButton(
-                icon: LineIcons.hollyBerry,
+                icon: Icons.event,
                 text: 'Sự kiện',
                 iconColor: ColorsManager.primary,
                 onPressed: () {
                   controller.onTapped(0);
                 }),
             GButton(
-                icon: Icons.event_available,
+                icon: Icons.check_circle_outline,
                 text: 'Chấm công',
                 iconColor: ColorsManager.primary,
                 onPressed: () {

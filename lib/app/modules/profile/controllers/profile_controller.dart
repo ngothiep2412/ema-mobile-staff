@@ -6,13 +6,15 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/profile/api/profile_api.dart';
+import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_setting_controller/tab_setting_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/user_model.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileController extends BaseController {
+  ProfileController({required this.userModel});
+
   TextEditingController? fullNameController;
   // TextEditingController? emailController;
   TextEditingController? phoneController;
@@ -25,12 +27,14 @@ class ProfileController extends BaseController {
   XFile? file;
   String? userForm;
   UserModel? userModel;
+  Rx<UserModel> userModelView = UserModel().obs;
+
   ResponseApi? responseApi;
   RxString selectImagePath = ''.obs;
   RxString selectImageSize = ''.obs;
 
   var selectedDate = DateTime.now().obs;
-  var user = GetStorage().read('user');
+  // var user = GetStorage().read('user');
   RxBool errorUpdateProfile = false.obs;
   RxString errorUpdateProfileText = ''.obs;
   RxBool isLoading = false.obs;
@@ -40,28 +44,29 @@ class ProfileController extends BaseController {
 
   @override
   void onInit() async {
+    super.onInit();
     try {
-      print('user ${user}');
-      Map<String, dynamic> userMap = jsonDecode(GetStorage().read('user'));
-      userModel = UserModel.fromJson(userMap);
-      print('userForm ${userModel!.result!.fullName}');
+      // print('user ${user}');
+      // Map<String, dynamic> userMap = jsonDecode(GetStorage().read('user'));
+      // userModel = UserModel.fromJson(userMap);
+      userModelView.value = userModel!;
+      print('userForm ${userModelView.value.result!.fullName}');
 
       dateController = TextEditingController(
-          text: DateFormat('dd/MM/yyyy').format(userModel!.result!.dob!));
+          text: DateFormat('dd/MM/yyyy')
+              .format(userModelView.value.result!.dob!));
       fullNameController =
-          TextEditingController(text: userModel!.result!.fullName);
+          TextEditingController(text: userModelView.value.result!.fullName);
       // emailController = TextEditingController(text: userModel!.result!.email);
       addressController =
-          TextEditingController(text: userModel!.result!.address);
+          TextEditingController(text: userModelView.value.result!.address);
       phoneController =
-          TextEditingController(text: userModel!.result!.phoneNumber);
-      imageUrl.value = userModel!.result!.avatar!;
-      selectedGenderVal.value = userModel!.result!.gender!;
+          TextEditingController(text: userModelView.value.result!.phoneNumber);
+      imageUrl.value = userModelView.value.result!.avatar!;
+      selectedGenderVal.value = userModelView.value.result!.gender!;
     } catch (e) {
       print('Error parsing JSON: $e');
     }
-
-    super.onInit();
   }
 
   @override
@@ -75,7 +80,7 @@ class ProfileController extends BaseController {
   }
 
   void updateProfile() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
+    // SharedPreferences pref = await SharedPreferences.getInstance();
     if (fullNameController!.text == '') {
       print(fullNameController!.text);
       errorUpdateProfile.value = true;
@@ -96,28 +101,48 @@ class ProfileController extends BaseController {
       isLoading.value = false;
     } else {
       try {
-        String? jwtToken = pref.getString('JWT');
+        // String? jwtToken = pref.getString('JWT');
+        String? jwtToken = GetStorage().read('JWT');
         if (jwtToken != null) {
           if (imageFile == null) {
             responseApi = await ProfileApi.updateProfile(
                 phoneController!.text,
                 fullNameController!.text,
-                dateController!.text,
+                DateTime.parse(dateController!.text),
                 addressController!.text,
-                userModel!.result!.avatar!,
+                imageUrl.value,
                 selectedGenderVal.value,
                 jwtToken);
             if (responseApi!.statusCode == 200 ||
                 responseApi!.statusCode == 201) {
               errorUpdateProfile.value = false;
-            } else {}
+              await Get.find<TabSettingController>().getProfile();
+            } else {
+              errorUpdateProfile.value = true;
+              errorUpdateProfileText.value = "Không thể cập nhật thông tin";
+            }
           } else {
             ResponseApi responseApi =
                 await ProfileApi.uploadFile(jwtToken, file!);
             if (responseApi.statusCode == 200 ||
                 responseApi.statusCode == 201) {
-              errorUpdateProfile.value = false;
-              print('upload file thành công');
+              ResponseApi responseApiv2 = await ProfileApi.updateProfile(
+                  phoneController!.text,
+                  fullNameController!.text,
+                  DateTime.parse(dateController!.text),
+                  addressController!.text,
+                  responseApi.result!,
+                  selectedGenderVal.value,
+                  jwtToken);
+              if (responseApiv2.statusCode == 200 ||
+                  responseApiv2.statusCode == 201) {
+                errorUpdateProfile.value = false;
+                await Get.find<TabSettingController>().getProfile();
+              } else {
+                errorUpdateProfile.value = true;
+                errorUpdateProfileText.value =
+                    "Không thể cập nhật thông tin";
+              }
             } else {
               errorUpdateProfile.value = true;
               errorUpdateProfileText.value =

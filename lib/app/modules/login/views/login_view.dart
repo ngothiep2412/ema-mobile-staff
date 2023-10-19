@@ -4,7 +4,6 @@ import 'package:hrea_mobile_staff/app/base/base_view.dart';
 import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_staff/app/resources/style_manager.dart';
-import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends BaseView<LoginController> {
@@ -36,7 +35,7 @@ class LoginView extends BaseView<LoginController> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                       vertical: UtilsReponsive.height(36, context),
-                      horizontal: UtilsReponsive.width(24,context)),
+                      horizontal: UtilsReponsive.width(24, context)),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +46,7 @@ class LoginView extends BaseView<LoginController> {
                             46, 'Roboto', FontWeight.w800, Colors.white),
                       ),
                       SizedBox(
-                        height: UtilsReponsive.height(10,context),
+                        height: UtilsReponsive.height(10, context),
                       ),
                       Text(
                         'Đăng nhập',

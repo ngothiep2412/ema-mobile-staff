@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrea_mobile_staff/app/base/base_view.dart';
@@ -16,175 +17,289 @@ class ProfileView extends BaseView<ProfileController> {
   @override
   Widget buildView(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: ColorsManager.primary,
-        elevation: 0,
-      ),
-      body: Container(
-        padding:
-            UtilsReponsive.paddingOnly(context, left: 16, top: 25, right: 16),
-        child: ListView(
-          children: [
-            Text(
-              "Thay đổi thông tin",
-              style: GetTextStyle.getTextStyle(
-                  22, 'Roboto', FontWeight.w700, ColorsManager.textColor),
+      backgroundColor: ColorsManager.backgroundBlackGrey,
+      body: SafeArea(
+        child: Column(children: [
+          Expanded(
+            flex: 1,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                IconButton(
+                    onPressed: () => {
+                          Get.back(),
+                          controller.onDelete(),
+                        },
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    )),
+                SizedBox(
+                  width: UtilsReponsive.width(5, context),
+                ),
+                Expanded(
+                  child: Text(
+                    "Thay đổi thông tin",
+                    style: GetTextStyle.getTextStyle(
+                        20, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                  ),
+                ),
+              ],
             ),
-            SizedBox(
-              height: UtilsReponsive.heightv2(context, 15),
-            ),
-            Center(
-              child: Stack(
+          ),
+          Expanded(
+            flex: 10,
+            child: Padding(
+              padding: UtilsReponsive.paddingHorizontal(context, padding: 20),
+              child: ListView(
                 children: [
-                  Obx(() => CircleAvatar(
-                        backgroundColor:
-                            ColorsManager.primary, // Màu nền mà bạn muốn
-                        radius:
-                            60, // Điều chỉnh kích thước hình tròn theo ý muốn
-                        child: controller.selectImagePath.value.isEmpty
-                            ? controller.imageUrl.value.isNotEmpty
-                                ? ClipOval(
-                                    child: Image.network(
-                                      'https://img.freepik.com/premium-photo/cartoon-esports-logo-gaming-brand_902820-461.jpg',
-                                      fit: BoxFit.cover,
-                                      width: UtilsReponsive.widthv2(context,
-                                          120), // Kích thước của hình ảnh
+                  SizedBox(
+                    height: UtilsReponsive.heightv2(context, 15),
+                  ),
+                  Center(
+                    child: Stack(
+                      children: [
+                        Obx(() => CircleAvatar(
+                              backgroundColor: ColorsManager
+                                  .backgroundBlackGrey, // Màu nền mà bạn muốn
+                              radius:
+                                  60, // Điều chỉnh kích thước hình tròn theo ý muốn
+                              child: controller.selectImagePath.value.isEmpty
+                                  ? Container(
+                                      width: UtilsReponsive.width(150, context),
                                       height:
-                                          UtilsReponsive.heightv2(context, 145),
+                                          UtilsReponsive.height(150, context),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            width: 4,
+                                            color: ColorsManager.primary),
+                                        boxShadow: const [
+                                          // BoxShadow(
+                                          //   spreadRadius: 2,
+                                          //   blurRadius: 10,
+                                          //   color: Colors.white12,
+                                          //   offset: Offset(0, 10),
+                                          // )
+                                        ],
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: CachedNetworkImage(
+                                        // fit: BoxFit.contain,
+                                        imageUrl: controller.userModelView.value
+                                            .result!.avatar!,
+                                        // imageUrl:
+                                        //     'https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg',
+                                        imageBuilder: (context,
+                                                imageProvider) =>
+                                            Container(
+                                                width: UtilsReponsive.width(
+                                                    150, context),
+                                                height: UtilsReponsive.height(
+                                                    150, context),
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        width: 4,
+                                                        color: ColorsManager
+                                                            .backgroundBlackGrey),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          spreadRadius: 2,
+                                                          blurRadius: 10,
+                                                          color: Colors.black
+                                                              .withOpacity(0.1),
+                                                          offset: const Offset(
+                                                              0, 10))
+                                                    ],
+                                                    shape: BoxShape.circle,
+                                                    image: DecorationImage(
+                                                        fit: BoxFit.cover,
+                                                        image: imageProvider))),
+                                        progressIndicatorBuilder:
+                                            (context, url, downloadProgress) =>
+                                                Container(
+                                          padding: EdgeInsets.all(
+                                              UtilsReponsive.height(
+                                                  10, context)),
+                                          height:
+                                              UtilsReponsive.height(5, context),
+                                          width:
+                                              UtilsReponsive.height(5, context),
+                                          child: CircularProgressIndicator(
+                                            color: ColorsManager.primary,
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
+                                      ),
+                                    )
+                                  : ClipOval(
+                                      child: Image.file(
+                                        File(controller.selectImagePath.value),
+                                        fit: BoxFit.cover,
+                                        width: UtilsReponsive.widthv2(context,
+                                            120), // Kích thước của hình ảnh
+                                        height: UtilsReponsive.heightv2(
+                                            context, 145),
+                                      ),
                                     ),
-                                  )
-                                : ClipOval(
-                                    child: Image.asset(
-                                      ImageAssets.defaultAvatar,
-                                      fit: BoxFit.cover,
-                                      width: UtilsReponsive.widthv2(context,
-                                          120), // Kích thước của hình ảnh
-                                      height:
-                                          UtilsReponsive.heightv2(context, 145),
-                                    ),
-                                  )
-                            : ClipOval(
-                                child: Image.file(
-                                  File(controller.selectImagePath.value),
-                                  fit: BoxFit.cover,
-                                  width: UtilsReponsive.widthv2(
-                                      context, 120), // Kích thước của hình ảnh
-                                  height: UtilsReponsive.heightv2(context, 145),
+                            )),
+                        Positioned(
+                            bottom: 0,
+                            right: -5,
+                            child: Container(
+                              height: UtilsReponsive.heightv2(context, 50),
+                              width: UtilsReponsive.widthv2(context, 50),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  width: 4,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                ),
+                                color: ColorsManager.primary,
+                              ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  showAlertDialog(context);
+                                },
+                                child: const Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.white,
                                 ),
                               ),
-                      )),
-                  Positioned(
-                      bottom: 0,
-                      right: -5,
-                      child: Container(
-                        height: UtilsReponsive.heightv2(context, 50),
-                        width: UtilsReponsive.widthv2(context, 50),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            width: 4,
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                          ),
-                          color: ColorsManager.primary,
+                            )),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: UtilsReponsive.heightv2(context, 25),
+                  ),
+                  Text(
+                    'Họ và tên',
+                    style: GetTextStyle.getTextStyle(
+                        16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                  ),
+                  SizedBox(
+                    height: UtilsReponsive.heightv2(context, 10),
+                  ),
+                  buildTextField(context, "Họ và tên", "Ví dụ: Thiệp",
+                      controller.fullNameController),
+                  // buildTextField(context, "E-mail", "Ví dụ: hrea@gmail.com",
+                  //     controller.emailController),
+                  Text(
+                    'Địa chỉ',
+                    style: GetTextStyle.getTextStyle(
+                        16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                  ),
+                  SizedBox(
+                    height: UtilsReponsive.heightv2(context, 10),
+                  ),
+                  buildTextField(
+                      context,
+                      "Địa chỉ",
+                      "Ví dụ: thành Phố Hồ Chí Minh",
+                      controller.addressController),
+                  Text(
+                    'Ngày sinh',
+                    style: GetTextStyle.getTextStyle(
+                        16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                  ),
+                  SizedBox(
+                    height: UtilsReponsive.heightv2(context, 10),
+                  ),
+                  buildTextFieldDate(
+                    context,
+                    "Ngày sinh",
+                    "Ví dụ: 2001/24/12",
+                  ),
+                  Text(
+                    'Số điện thoại',
+                    style: GetTextStyle.getTextStyle(
+                        16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                  ),
+                  SizedBox(
+                    height: UtilsReponsive.heightv2(context, 10),
+                  ),
+                  buildTextField(context, "Số điện thoại",
+                      "Ví dụ: 0905952718", controller.phoneController),
+                  Text(
+                    'Giới tính',
+                    style: GetTextStyle.getTextStyle(
+                        16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                  ),
+                  SizedBox(
+                    height: UtilsReponsive.heightv2(context, 10),
+                  ),
+                  DropdownButtonFormField(
+                    items: controller.genderList
+                        .map((e) => DropdownMenuItem(
+                              child: Text(e),
+                              value: e,
+                            ))
+                        .toList(),
+                    onChanged: (value) {
+                      controller.setGender(value as String);
+                    },
+                    value:
+                        controller.selectedGenderVal == "MALE" ? "Nam" : "Nữ",
+                    icon: Icon(
+                      Icons.arrow_drop_down_circle,
+                      color: ColorsManager.primary,
+                    ),
+                    decoration: const InputDecoration(
+                        // labelText: 'Giới tính',
+                        errorBorder: InputBorder.none,
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
                         ),
-                        child: GestureDetector(
-                          onTap: () {
-                            showAlertDialog(context);
-                          },
-                          child: const Icon(
-                            Icons.camera_alt,
-                            color: Colors.white,
-                          ),
+                        fillColor: ColorsManager.textInput,
+                        filled: true),
+                  ),
+                  SizedBox(
+                    height: UtilsReponsive.heightv2(context, 20),
+                  ),
+                  Container(
+                    height: UtilsReponsive.heightv2(context, 60),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        controller.updateProfile();
+                        print('${controller.errorUpdateProfile}');
+                        controller.errorUpdateProfile.value
+                            ? _errorMessage(context)
+                            : _successMessage(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              5.0), // Đặt border radius theo mong muốn
                         ),
-                      )),
+                      ),
+                      child: controller.isLoading.value
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                color: ColorsManager.primary,
+                              ),
+                            )
+                          : Text(
+                              "Cập nhật",
+                              style: GetTextStyle.getTextStyle(
+                                14,
+                                'Roboto',
+                                FontWeight.w800,
+                                ColorsManager.backgroundWhite,
+                              ),
+                            ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  )
                 ],
               ),
             ),
-            SizedBox(
-              height: UtilsReponsive.heightv2(context, 35),
-            ),
-            buildTextField(context, "Họ và tên", "Ví dụ: Thiệp",
-                controller.fullNameController),
-            // buildTextField(context, "E-mail", "Ví dụ: hrea@gmail.com",
-            //     controller.emailController),
-            buildTextField(
-                context,
-                "Địa chỉ",
-                "Ví dụ: thành Phố Hồ Chí Minh",
-                controller.addressController),
-            buildTextFieldDate(
-              context,
-              "Ngày sinh",
-              "Ví dụ: 2001/24/12",
-            ),
-            buildTextField(context, "Số điện thoại", "Ví dụ: 0905952718",
-                controller.phoneController),
-
-            DropdownButtonFormField(
-              items: controller.genderList
-                  .map((e) => DropdownMenuItem(
-                        child: Text(e),
-                        value: e,
-                      ))
-                  .toList(),
-              onChanged: (value) {
-                controller.setGender(value as String);
-              },
-              value: controller.selectedGenderVal == "MALE" ? "Nam" : "Nữ",
-              icon: Icon(
-                Icons.arrow_drop_down_circle,
-                color: ColorsManager.primary,
-              ),
-              decoration: const InputDecoration(
-                  labelText: 'Giới tính',
-                  errorBorder: InputBorder.none,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                  ),
-                  fillColor: ColorsManager.textInput,
-                  filled: true),
-            ),
-            SizedBox(
-              height: UtilsReponsive.heightv2(context, 20),
-            ),
-            Container(
-              height: UtilsReponsive.heightv2(context, 40),
-              child: ElevatedButton(
-                onPressed: () {
-                  controller.updateProfile();
-                  print('${controller.errorUpdateProfile}');
-                  controller.errorUpdateProfile.value
-                      ? _errorMessage(context)
-                      : _successMessage(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                        5.0), // Đặt border radius theo mong muốn
-                  ),
-                ),
-                child: controller.isLoading.value
-                    ? Center(
-                        child: CircularProgressIndicator(
-                          color: ColorsManager.primary,
-                        ),
-                      )
-                    : Text(
-                        "Cập nhật",
-                        style: GetTextStyle.getTextStyle(
-                          14,
-                          'Roboto',
-                          FontWeight.w800,
-                          ColorsManager.backgroundWhite,
-                        ),
-                      ),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            )
-          ],
-        ),
+          ),
+        ]),
       ),
     );
   }
@@ -196,7 +311,7 @@ class ProfileView extends BaseView<ProfileController> {
     TextEditingController? nameTextEditingController,
   ) {
     return Padding(
-      padding: UtilsReponsive.paddingOnly(context, bottom: 30),
+      padding: UtilsReponsive.paddingOnly(context, bottom: 10),
       child: TextField(
         controller: nameTextEditingController,
         decoration: InputDecoration(
@@ -206,7 +321,8 @@ class ProfileView extends BaseView<ProfileController> {
           ),
           filled: true,
           fillColor: ColorsManager.textInput,
-          labelText: labelText,
+          // labelText: labelText,
+          // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
           hintStyle: GetTextStyle.getTextStyle(
@@ -222,7 +338,7 @@ class ProfileView extends BaseView<ProfileController> {
     String hintText,
   ) {
     return Padding(
-      padding: UtilsReponsive.paddingOnly(context, bottom: 30),
+      padding: UtilsReponsive.paddingOnly(context, bottom: 10),
       child: TextField(
         controller: controller.dateController,
         decoration: InputDecoration(
@@ -241,7 +357,8 @@ class ProfileView extends BaseView<ProfileController> {
           ),
           filled: true,
           fillColor: ColorsManager.textInput,
-          labelText: labelText,
+          // labelText: labelText,
+          // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
           hintStyle: GetTextStyle.getTextStyle(

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/forgot_password/api/forgot_password_api.dart';
 import 'package:hrea_mobile_staff/app/modules/otp/api/otp_api.dart';
@@ -32,7 +33,7 @@ class OtpController extends BaseController {
   }
 
   verifyCode() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
     isLoading.value = true;
 
     if (otpTxt.value.isEmpty) {
@@ -45,7 +46,7 @@ class OtpController extends BaseController {
       errorVerifyCodeText.value = "Vui lòng nhập đủ 4 số";
     } else {
       try {
-        String emailTxt = prefs.getString('Email')!;
+        String emailTxt = GetStorage().read('Email');
         // String emailTxt = "ngothiep2412@gmail.com";
         responseApi = await VerifyCodeApi.verifyCode(emailTxt, otpTxt.value);
         if (responseApi!.statusCode == 400 || responseApi!.statusCode == 500) {
@@ -67,9 +68,10 @@ class OtpController extends BaseController {
   }
 
   sendOtp() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      String emailTxt = prefs.getString('Email')!;
+      // String emailTxt = prefs.getString('Email')!;
+      String emailTxt = GetStorage().read('Email');
       // String emailTxt = "ngothiep2412@gmail.com";
       responseApi = await ForgotPasswordApi.sendOtp(emailTxt);
       print('responseApi ${responseApi!.toJson().toString()}');

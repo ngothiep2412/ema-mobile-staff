@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/edit-description/bindings/edit_description_binding.dart';
+import '../modules/edit-description/views/edit_description_view.dart';
 import '../modules/forgot_password/bindings/forgot_password_binding.dart';
 import '../modules/forgot_password/views/forgot_password_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -14,6 +16,10 @@ import '../modules/reset_password/bindings/reset_password_binding.dart';
 import '../modules/reset_password/views/reset_password_view.dart';
 import '../modules/reset_password_successfully/bindings/reset_password_successfully_binding.dart';
 import '../modules/reset_password_successfully/views/reset_password_successfully_view.dart';
+import '../modules/splash-screen/bindings/splash_screen_binding.dart';
+import '../modules/splash-screen/views/splash_screen_view.dart';
+import '../modules/subtask-detail-view/bindings/subtask_detail_view_binding.dart';
+import '../modules/subtask-detail-view/views/subtask_detail_view_view.dart';
 import '../modules/tab_view/bindings/tab_view_binding.dart';
 import '../modules/tab_view/views/tab_view_view.dart';
 import '../modules/task-detail-view/bindings/task_detail_view_binding.dart';
@@ -26,7 +32,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.LOGIN;
+  static const INITIAL = Routes.SPLASH_SCREEN;
 
   static final routes = [
     GetPage(
@@ -78,6 +84,21 @@ class AppPages {
       name: _Paths.PROFILE,
       page: () => const ProfileView(),
       binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.SPLASH_SCREEN,
+      page: () => const SplashScreenView(),
+      binding: SplashScreenBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_DESCRIPTION,
+      page: () => const EditDescriptionView(),
+      binding: EditDescriptionBinding(),
+    ),
+    GetPage(
+      name: _Paths.SUBTASK_DETAIL_VIEW,
+      page: () => const SubtaskDetailViewView(),
+      binding: SubtaskDetailViewBinding(),
     ),
   ];
 }

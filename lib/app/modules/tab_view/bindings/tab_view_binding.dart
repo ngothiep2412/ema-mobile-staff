@@ -5,7 +5,6 @@ import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_notificat
 import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_request_controller/tab_request_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_setting_controller/tab_setting_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_timekeeping_controller/tab_timekeeping_controller.dart';
-import 'package:hrea_mobile_staff/app/modules/tab_view/views/tab_setting_view/tab_setting_view.dart';
 
 import '../controllers/tab_view_controller.dart';
 

@@ -12,7 +12,7 @@ class ProfileApi {
   static Future<ResponseApi> updateProfile(
       String phoneNumber,
       String fullName,
-      String dob,
+      DateTime dob,
       String address,
       String avatar,
       String gender,
@@ -20,12 +20,14 @@ class ProfileApi {
     Map<String, String> body = {
       "phoneNumber": phoneNumber,
       "fullName": fullName,
-      "dob": dob,
+      "dob": dob.toString(),
       "address": address,
       "avatar": avatar,
       "gender": gender,
       "role": "STAFF",
     };
+
+    print('dob ${dob}');
     var response = await http.put(
         Uri.parse(BaseLink.localBaseLink + BaseLink.updateProfile),
         headers: {
@@ -51,8 +53,9 @@ class ProfileApi {
     final uri = Uri.parse(BaseLink.localBaseLink + BaseLink.uploadFile);
 
     http.MultipartRequest request = http.MultipartRequest('POST', uri);
-    http.MultipartFile multipartFile =
-        await http.MultipartFile.fromPath('file', image.path);
+    http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
+        'file', image.path,
+        filename: image.path.split('/').last);
     request.files.add(multipartFile);
     request.headers.addAll(_header(jwtToken));
     request.fields['folderName'] = 'avatar';

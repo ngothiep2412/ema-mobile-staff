@@ -39,7 +39,7 @@ class LoginController extends BaseController {
     super.onClose();
   }
 
-  login() async {
+  Future<void> login() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     isLoading.value = true;
 
@@ -71,20 +71,21 @@ class LoginController extends BaseController {
         if (loginReponseApi!.accessToken != null) {
           Map<String, dynamic> decodedToken =
               JwtDecoder.decode(loginReponseApi!.accessToken!);
-          if (decodedToken["role"] == "STAFF") {
+          if (decodedToken["role"] == "STAFF" && loginReponseApi != null) {
             prefs.setString('JWT', loginReponseApi!.accessToken!);
+            GetStorage().write('JWT', loginReponseApi!.accessToken!);
             print('JWT: ${loginReponseApi!.accessToken!}');
 
-            userModel =
-                await LoginApi.getProfile(loginReponseApi!.accessToken!);
-            if (userModel != null) {
-              String userJson = jsonEncode(userModel);
-              GetStorage().write('user', userJson);
-              // var user = GetStorage().read('user');
-              // print('user ${user}');
-              errorLogin.value = false;
-              Get.offAllNamed(Routes.TAB_VIEW);
-            }
+            // userModel =
+            //     await LoginApi.getProfile(loginReponseApi!.accessToken!);
+            // if (userModel != null) {
+            // String userJson = jsonEncode(userModel);
+            // GetStorage().write('user', userJson);
+            // var user = GetStorage().read('user');
+            // print('user ${user}');
+            errorLogin.value = false;
+            Get.offAllNamed(Routes.TAB_VIEW);
+            // }
           } else {
             errorLogin.value = true;
             errorLoginText.value =

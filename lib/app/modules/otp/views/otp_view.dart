@@ -14,8 +14,8 @@ class OtpView extends BaseView<OtpController> {
   Widget buildView(BuildContext context) {
     TextEditingController _otp = TextEditingController();
     PinTheme defaultTheme = PinTheme(
-      height: UtilsReponsive.height(15,context),
-      width: UtilsReponsive.height(15,context),
+      height: UtilsReponsive.height(70, context),
+      width: UtilsReponsive.height(70, context),
       textStyle: const TextStyle(fontSize: 25),
       decoration: BoxDecoration(
           color: const Color(0xFFF7F8F9),
@@ -25,8 +25,8 @@ class OtpView extends BaseView<OtpController> {
           borderRadius: BorderRadius.circular(8)),
     );
     PinTheme focusedTheme = PinTheme(
-      height: UtilsReponsive.height(15,context),
-      width: UtilsReponsive.height(15,context),
+      height: UtilsReponsive.height(70, context),
+      width: UtilsReponsive.height(70, context),
       textStyle: const TextStyle(fontSize: 25),
       decoration: BoxDecoration(
           color: Colors.white,
@@ -49,7 +49,7 @@ class OtpView extends BaseView<OtpController> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: UtilsReponsive.width(20,context),
+                  horizontal: UtilsReponsive.width(20, context),
                 ),
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
@@ -62,7 +62,7 @@ class OtpView extends BaseView<OtpController> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: UtilsReponsive.width(20,context),
+                  horizontal: UtilsReponsive.width(20, context),
                   vertical: UtilsReponsive.height(10, context),
                 ),
                 child: Text(
@@ -72,20 +72,17 @@ class OtpView extends BaseView<OtpController> {
                 ),
               ),
               SizedBox(height: UtilsReponsive.height(20, context)),
-              Row(
-                children: [
-                  Expanded(
-                    child: Pinput(
-                      length: 4,
-                      defaultPinTheme: defaultTheme,
-                      focusedPinTheme: focusedTheme,
-                      submittedPinTheme: focusedTheme,
-                      onChanged: (value) {
-                        controller.setOtp(value);
-                      },
-                    ),
-                  )
-                ],
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Pinput(
+                  length: 4,
+                  defaultPinTheme: defaultTheme,
+                  focusedPinTheme: focusedTheme,
+                  submittedPinTheme: focusedTheme,
+                  onChanged: (value) {
+                    controller.setOtp(value);
+                  },
+                ),
               ),
               SizedBox(height: UtilsReponsive.height(40, context)),
               Padding(
@@ -156,7 +153,7 @@ class OtpView extends BaseView<OtpController> {
         backgroundColor: Colors.transparent,
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
-          height: UtilsReponsive.height(80,context),
+          height: UtilsReponsive.height(80, context),
           decoration: const BoxDecoration(
               color: Color.fromARGB(255, 81, 146, 83),
               borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -202,7 +199,7 @@ class OtpView extends BaseView<OtpController> {
         backgroundColor: Colors.transparent,
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
-          height: UtilsReponsive.height(80,context),
+          height: UtilsReponsive.height(80, context),
           decoration: const BoxDecoration(
               color: Color.fromARGB(255, 81, 146, 83),
               borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -248,7 +245,7 @@ class OtpView extends BaseView<OtpController> {
         backgroundColor: Colors.transparent,
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
-          height: UtilsReponsive.height(80,context),
+          height: UtilsReponsive.height(80, context),
           decoration: const BoxDecoration(
               color: Color.fromARGB(255, 219, 90, 90),
               borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -259,7 +256,7 @@ class OtpView extends BaseView<OtpController> {
               size: 40,
             ),
             SizedBox(
-              width: UtilsReponsive.width(12,context),
+              width: UtilsReponsive.width(12, context),
             ),
             Expanded(
               child: Column(

@@ -13,6 +13,9 @@ abstract class Routes {
   static const TASK_OVERALL_VIEW = _Paths.TASK_OVERALL_VIEW;
   static const TASK_DETAIL_VIEW = _Paths.TASK_DETAIL_VIEW;
   static const PROFILE = _Paths.PROFILE;
+  static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
+  static const EDIT_DESCRIPTION = _Paths.EDIT_DESCRIPTION;
+  static const SUBTASK_DETAIL_VIEW = _Paths.SUBTASK_DETAIL_VIEW;
 }
 
 abstract class _Paths {
@@ -27,4 +30,7 @@ abstract class _Paths {
   static const TASK_OVERALL_VIEW = '/task-overall-view';
   static const TASK_DETAIL_VIEW = '/task-detail-view';
   static const PROFILE = '/profile';
+  static const SPLASH_SCREEN = '/splash-screen';
+  static const EDIT_DESCRIPTION = '/edit-description';
+  static const SUBTASK_DETAIL_VIEW = '/subtask-detail-view';
 }
