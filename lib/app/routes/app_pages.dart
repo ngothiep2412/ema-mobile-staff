@@ -1,5 +1,9 @@
 import 'package:get/get.dart';
 
+import '../modules/attendance/bindings/attendance_binding.dart';
+import '../modules/attendance/bindings/attendance_binding.dart';
+import '../modules/attendance/views/attendance_view.dart';
+import '../modules/attendance/views/attendance_view.dart';
 import '../modules/edit-description/bindings/edit_description_binding.dart';
 import '../modules/edit-description/views/edit_description_view.dart';
 import '../modules/forgot_password/bindings/forgot_password_binding.dart';
@@ -20,19 +24,23 @@ import '../modules/splash-screen/bindings/splash_screen_binding.dart';
 import '../modules/splash-screen/views/splash_screen_view.dart';
 import '../modules/subtask-detail-view/bindings/subtask_detail_view_binding.dart';
 import '../modules/subtask-detail-view/views/subtask_detail_view_view.dart';
+import '../modules/tab-attendance/bindings/tab_attendance_binding.dart';
+import '../modules/tab-attendance/views/tab_attendance_view.dart';
 import '../modules/tab_view/bindings/tab_view_binding.dart';
 import '../modules/tab_view/views/tab_view_view.dart';
 import '../modules/task-detail-view/bindings/task_detail_view_binding.dart';
 import '../modules/task-detail-view/views/task_detail_view_view.dart';
 import '../modules/task-overall-view/bindings/task_overall_view_binding.dart';
 import '../modules/task-overall-view/views/task_overall_view_view.dart';
+import '../modules/time-sheet/bindings/time_sheet_binding.dart';
+import '../modules/time-sheet/views/time_sheet_view.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.SPLASH_SCREEN;
+  static const INITIAL = Routes.TAB_ATTENDANCE;
 
   static final routes = [
     GetPage(
@@ -99,6 +107,21 @@ class AppPages {
       name: _Paths.SUBTASK_DETAIL_VIEW,
       page: () => const SubtaskDetailViewView(),
       binding: SubtaskDetailViewBinding(),
+    ),
+    GetPage(
+      name: _Paths.TAB_ATTENDANCE,
+      page: () => const AttendanceTabView(),
+      binding: AttendanceTabBinding(),
+    ),
+    GetPage(
+      name: _Paths.ATTENDANCE,
+      page: () => const AttendanceView(),
+      binding: AttendanceBinding(),
+    ),
+    GetPage(
+      name: _Paths.TIME_SHEET,
+      page: () => const TimeSheetView(),
+      binding: TimeSheetBinding(),
     ),
   ];
 }

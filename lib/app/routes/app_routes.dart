@@ -16,6 +16,9 @@ abstract class Routes {
   static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
   static const EDIT_DESCRIPTION = _Paths.EDIT_DESCRIPTION;
   static const SUBTASK_DETAIL_VIEW = _Paths.SUBTASK_DETAIL_VIEW;
+  static const TAB_ATTENDANCE = _Paths.TAB_ATTENDANCE;
+  static const ATTENDANCE = _Paths.ATTENDANCE;
+  static const TIME_SHEET = _Paths.TIME_SHEET;
 }
 
 abstract class _Paths {
@@ -33,4 +36,7 @@ abstract class _Paths {
   static const SPLASH_SCREEN = '/splash-screen';
   static const EDIT_DESCRIPTION = '/edit-description';
   static const SUBTASK_DETAIL_VIEW = '/subtask-detail-view';
+  static const TAB_ATTENDANCE = '/tab-attendance';
+  static const ATTENDANCE = '/attendance';
+  static const TIME_SHEET = '/time-sheet';
 }
