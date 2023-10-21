@@ -25,7 +25,10 @@ class EditDescriptionView extends BaseView<EditDescriptionController> {
                 child: Obx(
                   () => Column(
                     children: [
-                      Quil.QuillToolbar.basic(
+                      Quil.QuillProvider(
+                        configurations: Quil.QuillConfigurations(
+                            controller: controller.quillController.value),
+                        child: Quil.QuillToolbar.basic(
                           embedButtons: FlutterQuillEmbeds.buttons(),
                           showDividers: false,
                           showFontFamily: false,
@@ -59,20 +62,25 @@ class EditDescriptionView extends BaseView<EditDescriptionController> {
                           showSubscript: false,
                           showSuperscript: false,
                           multiRowsDisplay: true,
-                          controller: controller.quillController.value),
+                        ),
+                      ),
                       const Divider(
                         color: ColorsManager.textColor2,
                         thickness: 1,
                       ),
                       Stack(
                         children: [
-                          Quil.QuillEditor.basic(
-                              focusNode: controller.focusNodeDetail,
-                              autoFocus: false,
-                              expands: false,
-                              controller: controller.quillController.value,
-                              readOnly: false // true for view only mode
-                              ),
+                          Quil.QuillProvider(
+                            configurations: Quil.QuillConfigurations(
+                                controller: controller.quillController.value),
+                            child: Quil.QuillEditor.basic(
+                                focusNode: controller.focusNodeDetail,
+                                autoFocus: false,
+                                expands: false,
+                                // controller: controller.quillController.value,
+                                readOnly: false // true for view only mode
+                                ),
+                          )
                         ],
                       )
                     ],

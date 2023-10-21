@@ -1779,15 +1779,22 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
             //     !controller.isEditDescription.value
             IgnorePointer(
               // ignoring: true,
-              child: Quil.QuillEditor.basic(
-                focusNode: controller.focusNodeDetail,
-                autoFocus: false,
-                expands: false,
+              child: Quil.QuillProvider(
+                configurations: Quil.QuillConfigurations(
+                    controller: controller.quillController.value),
+                child: Quil.QuillEditor.basic(
+                  // controller: controller,
+                  focusNode: controller.focusNodeDetail,
+                  autoFocus: false,
+                  expands: false,
 
-                controller: controller.quillController.value,
-                readOnly: !controller
-                    .isEditDescription.value, // true for view only mode
+                  // controller: controller.quillController.value,
+                  readOnly: !controller.isEditDescription.value,
+                ),
               ),
+              //  Quil.QuillEditor.basic(
+              //   // true for view only mode
+              // ),
             ),
 
             //         : Quil.QuillEditor.basic(

@@ -242,7 +242,8 @@ class TaskDetailViewController extends BaseController {
     print('descriptionString.value ${descriptionString.value.toString()}');
     Get.toNamed(Routes.EDIT_DESCRIPTION, arguments: {
       "quillController": quillController,
-      "taskModel": taskModel
+      "taskModel": taskModel,
+      "isSubtask": false,
     });
   }
 

@@ -5,6 +5,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
+import 'package:hrea_mobile_staff/app/modules/subtask-detail-view/controllers/subtask_detail_view_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/task.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/api/task_detail_api.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/controllers/task_detail_view_controller.dart';
@@ -13,11 +14,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class EditDescriptionController extends BaseController {
   EditDescriptionController(
-      {required this.quillController, required this.taskModel});
+      {required this.quillController,
+      required this.taskModel,
+      required this.isSubTask});
   Rx<TaskModel> taskModel = TaskModel().obs;
   RxBool isLoading = false.obs;
   String jwt = '';
   Rx<QuillController> quillController = QuillController.basic().obs;
+  bool isSubTask = false;
 
   Rx<QuillController> quillServerController = QuillController.basic().obs;
   RxBool errorUpdateTask = false.obs;
@@ -59,7 +63,12 @@ class EditDescriptionController extends BaseController {
           taskModel.value.eventId!,
           '${jsonEncode(quillController.value.document.toDelta())}');
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-        Get.find<TaskDetailViewController>().getTaskDetail();
+        if (isSubTask == true) {
+          Get.find<SubtaskDetailViewController>().getTaskDetail();
+        } else {
+          Get.find<TaskDetailViewController>().getTaskDetail();
+        }
+
         errorUpdateTask.value = false;
         Get.back();
       }

@@ -8,14 +8,18 @@ import '../controllers/edit_description_controller.dart';
 class EditDescriptionBinding extends BaseBindings {
   Rx<QuillController> quillController = QuillController.basic().obs;
   Rx<TaskModel> taskModel = TaskModel().obs;
+  bool isSubTask = false;
   @override
   void injectService() {
     quillController = Get.arguments['quillController'] as Rx<QuillController>;
     taskModel = Get.arguments['taskModel'] as Rx<TaskModel>;
-
+    taskModel = Get.arguments['taskModel'] as Rx<TaskModel>;
+    isSubTask = Get.arguments['isSubtask'] as bool;
     Get.put(
       EditDescriptionController(
-          quillController: quillController, taskModel: taskModel),
+          quillController: quillController,
+          taskModel: taskModel,
+          isSubTask: isSubTask),
     );
   }
 }

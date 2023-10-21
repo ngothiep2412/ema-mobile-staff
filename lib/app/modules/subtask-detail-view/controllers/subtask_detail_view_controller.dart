@@ -128,8 +128,11 @@ class SubtaskDetailViewController extends BaseController {
   onTapEditDescription() {
     // isEditDescription.value = true;
     print('descriptionString.value ${descriptionString.value.toString()}');
-    Get.toNamed(Routes.EDIT_DESCRIPTION,
-        arguments: {"quillController": quillController});
+    Get.toNamed(Routes.EDIT_DESCRIPTION, arguments: {
+      "quillController": quillController,
+      "taskModel": taskModel,
+      "isSubtask": true,
+    });
   }
 
   saveDescription() {
