@@ -289,8 +289,10 @@ class CustomSearch extends SearchDelegate {
         var result = matchQuery[index];
         return GestureDetector(
           onTap: () {
-            Get.toNamed(Routes.TASK_OVERALL_VIEW,
-                arguments: {"eventID": result.id});
+            Get.toNamed(Routes.TASK_OVERALL_VIEW, arguments: {
+              "eventID": result.id,
+              "eventName": result.eventName
+            });
           },
           child: ListTile(
               title: Row(
