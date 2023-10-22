@@ -24,7 +24,7 @@ dependencies:
   get_storage: ^2.1.1
   # awesome_dialog: ^3.1.0
   flutter_quill: ^7.6.1
-  flutter_quill_extensions: ^0.5.0
+  # flutter_quill_extensions: ^0.5.0
   calendar_date_picker2:
   firebase_messaging: ^14.2.3
   flutter_local_notifications: ^16.1.0

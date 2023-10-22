@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+// import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:get/get.dart';
 import 'package:hrea_mobile_staff/app/base/base_view.dart';
 import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
@@ -31,7 +31,7 @@ class EditDescriptionView extends BaseView<EditDescriptionController> {
                   child: Column(
                     children: [
                       Quil.QuillToolbar.basic(
-                        embedButtons: FlutterQuillEmbeds.buttons(),
+                        // embedButtons: FlutterQuillEmbeds.buttons(),
 
                         showDividers: false,
                         showFontFamily: false,
@@ -77,7 +77,7 @@ class EditDescriptionView extends BaseView<EditDescriptionController> {
                               autoFocus: false,
                               expands: false,
                               editorKey: GlobalKey(),
-                              embedBuilders: FlutterQuillEmbeds.builders(),
+                              // embedBuilders: FlutterQuillEmbeds.builders(),
 
                               // controller: controller.quillController.value,
                               readOnly: false // true for view only mode

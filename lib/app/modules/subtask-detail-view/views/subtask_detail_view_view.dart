@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+// import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_quill/flutter_quill.dart' as Quil;
 import 'package:get/get.dart';
@@ -3043,7 +3043,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 // controller: controller,
                 readOnly: true,
                 autoFocus: false,
-                embedBuilders: FlutterQuillEmbeds.builders(),
+                // embedBuilders: FlutterQuillEmbeds.builders(),
               ),
             ),
             //   //  Quil.QuillEditor.basic(

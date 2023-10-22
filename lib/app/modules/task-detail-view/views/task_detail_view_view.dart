@@ -8,7 +8,7 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as Quil;
-import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+// import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:get/get.dart';
@@ -1973,7 +1973,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                 // controller: controller,
                 readOnly: true,
                 autoFocus: false,
-                embedBuilders: FlutterQuillEmbeds.builders(),
+                // embedBuilders: FlutterQuillEmbeds.builders(),
               ),
             ),
             // ),
