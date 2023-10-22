@@ -92,7 +92,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.EDIT_DESCRIPTION,
-      page: () => const EditDescriptionView(),
+      page: () => EditDescriptionView(),
       binding: EditDescriptionBinding(),
     ),
     GetPage(

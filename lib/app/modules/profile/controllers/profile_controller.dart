@@ -8,6 +8,7 @@ import 'package:hrea_mobile_staff/app/base/base_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/profile/api/profile_api.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_setting_controller/tab_setting_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/user_model.dart';
+import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/uploadfile_model.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -122,16 +123,19 @@ class ProfileController extends BaseController {
               errorUpdateProfileText.value = "Không thể cập nhật thông tin";
             }
           } else {
-            ResponseApi responseApi =
+            UploadFileModel responseApi =
                 await ProfileApi.uploadFile(jwtToken, file!);
             if (responseApi.statusCode == 200 ||
                 responseApi.statusCode == 201) {
+              List<String> parts = dateController!.text.split('/');
+              String formattedDate = '${parts[2]}-${parts[1]}-${parts[0]}';
+
               ResponseApi responseApiv2 = await ProfileApi.updateProfile(
                   phoneController!.text,
                   fullNameController!.text,
-                  DateTime.parse(dateController!.text),
+                  DateTime.parse(formattedDate),
                   addressController!.text,
-                  responseApi.result!,
+                  responseApi.result!.downloadUrl!,
                   selectedGenderVal.value,
                   jwtToken);
               if (responseApiv2.statusCode == 200 ||
@@ -167,6 +171,20 @@ class ProfileController extends BaseController {
       selectImagePath.value = file!.path;
       selectImageSize.value =
           "${((File(selectImagePath.value)).lengthSync() / 1024 / 1024).toStringAsFixed(2)}Mb";
+      double fileLength =
+          File(selectImagePath.value).lengthSync() / 1024 / 1024;
+      if (fileLength > 10) {
+        Get.snackbar('Lỗi', 'Không thể lấy hình lớn hơn 10mb',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.redAccent,
+            colorText: Colors.white);
+        isLoading.value = false;
+        return;
+      }
+      // imageFile = File(file!.path);
+      // selectImagePath.value = file!.path;
+      // selectImageSize.value =
+      //     "${((File(selectImagePath.value)).lengthSync() / 1024 / 1024).toStringAsFixed(2)}Mb";
     } else {
       Get.snackbar('Lỗi', 'Không thể lấy hình ảnh',
           snackPosition: SnackPosition.BOTTOM,

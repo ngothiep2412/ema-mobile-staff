@@ -5,6 +5,7 @@ import 'package:hrea_mobile_staff/app/modules/tab_view/model/task.dart';
 import 'package:hrea_mobile_staff/app/modules/task-overall-view/api/task-overall-api.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:intl/intl.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class TaskOverallViewController extends BaseController {
   TaskOverallViewController({required this.eventID, required this.eventName});
@@ -34,15 +35,22 @@ class TaskOverallViewController extends BaseController {
     String jwt = GetStorage().read('JWT');
     print('JWT 123: $jwt');
     isLoading.value = true;
-    listTask.value = await TaskOverallApi.getTask(jwt, eventID);
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+    listTask.value =
+        await TaskOverallApi.getTask(jwt, eventID, decodedToken['id']);
 
-    for (var item in listTask) {
-      if (item.parent == null) {
+    if (listTask.isNotEmpty) {
+      for (var item in listTask) {
+        print('${item.assignTasks![0].user!.id}');
+
         listTask.value = listTask
-            .where(
-                (task) => task.parent == null && task.status != Status.CANCEL)
+            .where((task) =>
+                task.parent == null &&
+                task.status != Status.CANCEL &&
+                task.status != Status.CONFIRM)
             .toList();
       }
+
       // for (int index0 = 0; index0 < listTask.length; index0++) {
       //   if (listTask[index0].parent == null &&
       //       listTask[index0].subTask!.isNotEmpty) {

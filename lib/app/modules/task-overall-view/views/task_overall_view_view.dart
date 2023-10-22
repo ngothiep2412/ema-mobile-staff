@@ -55,7 +55,65 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                             ),
                           ),
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(
+                                                  10)), // Đây là phần quan trọng để làm cho các góc bo tròn
+                                          color: Colors
+                                              .white, // Màu nền của container
+                                        ),
+                                        height:
+                                            UtilsReponsive.height(500, context),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: UtilsReponsive.height(
+                                                  10, context)),
+                                          child: Column(children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                IconButton(
+                                                  onPressed: () => Get.back(),
+                                                  icon: const Icon(
+                                                    Icons.cancel,
+                                                    color:
+                                                        ColorsManager.textColor,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Bộ lọc',
+                                                  style:
+                                                      GetTextStyle.getTextStyle(
+                                                          16,
+                                                          'Roboto',
+                                                          FontWeight.w600,
+                                                          ColorsManager
+                                                              .textColor),
+                                                ),
+                                                Text(
+                                                  'Bỏ lọc',
+                                                  style:
+                                                      GetTextStyle.getTextStyle(
+                                                          16,
+                                                          'Roboto',
+                                                          FontWeight.w600,
+                                                          ColorsManager
+                                                              .primary),
+                                                ),
+                                              ],
+                                            )
+                                          ]),
+                                        ),
+                                      );
+                                    });
+                              },
                               icon: const Icon(
                                 Icons.filter_alt_outlined,
                                 color: Colors.white,
@@ -98,8 +156,10 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                               context,
                                               padding: 20),
                                           itemBuilder: (context, index) =>
-                                              _taskCommon(context,
-                                                  controller.listTask[index]),
+                                              _taskCommon(
+                                                  context,
+                                                  controller.listTask[index],
+                                                  index),
                                           separatorBuilder: (context, index) =>
                                               SizedBox(
                                                 height: UtilsReponsive.height(
@@ -116,7 +176,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
         ));
   }
 
-  Container _taskCommon(BuildContext context, TaskModel taskModel) {
+  Container _taskCommon(BuildContext context, TaskModel taskModel, int index) {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
@@ -133,6 +193,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
             children: [
               GestureDetector(
                 onTap: () {
+                  print('id ${taskModel.id!}');
                   controller.getTaskDetail(taskModel.id!);
                 },
                 child: Icon(
@@ -143,10 +204,11 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
               SizedBox(
                 width: UtilsReponsive.width(10, context),
               ),
-              taskModel.status == Status.DONE
+              taskModel.status == Status.DONE ||
+                      taskModel.status == Status.CONFIRM
                   ? Text(
-                      taskModel.title!.length > 28
-                          ? '${taskModel.title!.substring(0, 28)}...'
+                      taskModel.title!.length > 20
+                          ? '${taskModel.title!.substring(0, 20)}...'
                           : taskModel.title!,
                       style: TextStyle(
                         fontFamily: 'Roboto',
@@ -158,7 +220,9 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                       ),
                     )
                   : Text(
-                      taskModel.title!,
+                      taskModel.title!.length > 20
+                          ? '${taskModel.title!.substring(0, 20)}...'
+                          : taskModel.title!,
                       style: TextStyle(
                           fontFamily: 'Roboto',
                           letterSpacing: 1.5,
@@ -196,10 +260,12 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                             taskModel.status! == Status.PENDING
                                 ? Colors.grey
                                 : taskModel.status! == Status.PROCESSING
-                                    ? ColorsManager.orange
+                                    ? ColorsManager.primary
                                     : taskModel.status! == Status.DONE
                                         ? ColorsManager.green
-                                        : ColorsManager.red,
+                                        : taskModel.status! == Status.OVERDUE
+                                            ? ColorsManager.red
+                                            : Colors.purpleAccent,
                           ),
                         )
                       : const SizedBox(),
@@ -213,10 +279,12 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                             taskModel.status! == Status.PENDING
                                 ? Colors.grey
                                 : taskModel.status! == Status.PROCESSING
-                                    ? ColorsManager.orange
+                                    ? ColorsManager.primary
                                     : taskModel.status! == Status.DONE
                                         ? ColorsManager.green
-                                        : ColorsManager.red,
+                                        : taskModel.status! == Status.OVERDUE
+                                            ? ColorsManager.red
+                                            : Colors.purpleAccent,
                           ))
                       : const SizedBox(),
                 ],
@@ -234,10 +302,12 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                       color: taskModel.status! == Status.PENDING
                           ? Colors.grey
                           : taskModel.status! == Status.PROCESSING
-                              ? ColorsManager.orange
+                              ? ColorsManager.primary
                               : taskModel.status! == Status.DONE
                                   ? ColorsManager.green
-                                  : ColorsManager.red,
+                                  : taskModel.status! == Status.OVERDUE
+                                      ? ColorsManager.red
+                                      : Colors.purpleAccent,
                       size: 25,
                     ),
                   ),
@@ -246,12 +316,14 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                   ),
                   Text(
                       taskModel.status! == Status.PENDING
-                          ? "Chưa bắt đầu"
+                          ? "Đang kiểm thực"
                           : taskModel.status! == Status.PROCESSING
-                              ? "Đang làm"
+                              ? "Đang thực hiện"
                               : taskModel.status! == Status.DONE
-                                  ? "Đã hoàn thành"
-                                  : "Chưa hoàn thành",
+                                  ? "Hoàn thành"
+                                  : taskModel.status == Status.OVERDUE
+                                      ? 'Quá hạn'
+                                      : "Đã xác thực",
                       style: GetTextStyle.getTextStyle(
                         14,
                         'Roboto',
@@ -259,10 +331,12 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                         taskModel.status! == Status.PENDING
                             ? Colors.grey
                             : taskModel.status! == Status.PROCESSING
-                                ? ColorsManager.orange
+                                ? ColorsManager.primary
                                 : taskModel.status! == Status.DONE
                                     ? ColorsManager.green
-                                    : ColorsManager.red,
+                                    : taskModel.status! == Status.OVERDUE
+                                        ? ColorsManager.red
+                                        : Colors.purpleAccent,
                       ))
                 ],
               ),
@@ -277,9 +351,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                   // int index = entry.key;
 
                   return _itemTask(
-                    context: context,
-                    taskModel: taskModel,
-                  );
+                      context: context, taskModel: taskModel, index: index);
                 }).toList()
               : []),
     );
@@ -288,11 +360,15 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
   Widget _itemTask({
     required BuildContext context,
     required TaskModel taskModel,
+    required int index,
   }) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routes.SUBTASK_DETAIL_VIEW,
-            arguments: {"taskID": taskModel.id});
+        Get.toNamed(Routes.SUBTASK_DETAIL_VIEW, arguments: {
+          "taskID": taskModel.id,
+          "isNavigateDetail": false,
+          "endDate": controller.listTask[index].endDate
+        });
       },
       child: Padding(
         padding: UtilsReponsive.paddingAll(context, padding: 5),
@@ -364,7 +440,8 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          taskModel.status == Status.DONE
+                          taskModel.status == Status.DONE ||
+                                  taskModel.status == Status.CONFIRM
                               ? Text(
                                   taskModel.title!.length > 28
                                       ? '${taskModel.title!.substring(0, 28)}...'
@@ -380,7 +457,9 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                   ),
                                 )
                               : Text(
-                                  taskModel.title!,
+                                  taskModel.title!.length > 28
+                                      ? '${taskModel.title!.substring(0, 28)}...'
+                                      : taskModel.title!,
                                   style: TextStyle(
                                       fontFamily: 'Roboto',
                                       letterSpacing: 1.5,
@@ -428,11 +507,15 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                                 ? Colors.grey
                                                 : taskModel.status! ==
                                                         Status.PROCESSING
-                                                    ? ColorsManager.orange
+                                                    ? ColorsManager.primary
                                                     : taskModel.status! ==
                                                             Status.DONE
                                                         ? ColorsManager.green
-                                                        : ColorsManager.red,
+                                                        : taskModel.status! ==
+                                                                Status.OVERDUE
+                                                            ? ColorsManager.red
+                                                            : Colors
+                                                                .purpleAccent,
                                           ),
                                         )
                                       : taskModel.startDate != null
@@ -448,12 +531,18 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                                     ? Colors.grey
                                                     : taskModel.status! ==
                                                             Status.PROCESSING
-                                                        ? ColorsManager.orange
+                                                        ? ColorsManager.primary
                                                         : taskModel.status! ==
                                                                 Status.DONE
                                                             ? ColorsManager
                                                                 .green
-                                                            : ColorsManager.red,
+                                                            : taskModel.status! ==
+                                                                    Status
+                                                                        .OVERDUE
+                                                                ? ColorsManager
+                                                                    .red
+                                                                : ColorsManager
+                                                                    .orange,
                                               ),
                                             )
                                           : taskModel.endDate != null
@@ -472,13 +561,18 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                                                 Status
                                                                     .PROCESSING
                                                             ? ColorsManager
-                                                                .orange
+                                                                .primary
                                                             : taskModel.status! ==
                                                                     Status.DONE
                                                                 ? ColorsManager
                                                                     .green
-                                                                : ColorsManager
-                                                                    .red,
+                                                                : taskModel.status! ==
+                                                                        Status
+                                                                            .OVERDUE
+                                                                    ? ColorsManager
+                                                                        .red
+                                                                    : ColorsManager
+                                                                        .orange,
                                                   ),
                                                 )
                                               : const SizedBox(),
@@ -497,10 +591,13 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                   color: taskModel.status! == Status.PENDING
                                       ? Colors.grey
                                       : taskModel.status! == Status.PROCESSING
-                                          ? ColorsManager.orange
+                                          ? ColorsManager.primary
                                           : taskModel.status! == Status.DONE
                                               ? ColorsManager.green
-                                              : ColorsManager.red,
+                                              : taskModel.status! ==
+                                                      Status.OVERDUE
+                                                  ? ColorsManager.red
+                                                  : Colors.purpleAccent,
                                   size: 25,
                                 ),
                               ),
@@ -509,12 +606,15 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                               ),
                               Text(
                                   taskModel.status! == Status.PENDING
-                                      ? "Chưa bắt đầu"
+                                      ? "Đang kiểm thực"
                                       : taskModel.status! == Status.PROCESSING
-                                          ? "Đang làm"
+                                          ? "Đang thực hiện"
                                           : taskModel.status! == Status.DONE
-                                              ? "Đã hoàn thành"
-                                              : "Chưa hoàn thành",
+                                              ? "Hoàn thành"
+                                              : taskModel.status ==
+                                                      Status.OVERDUE
+                                                  ? "Quá hạn"
+                                                  : "Đã xác nhận",
                                   style: GetTextStyle.getTextStyle(
                                     14,
                                     'Roboto',
@@ -522,10 +622,13 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                     taskModel.status! == Status.PENDING
                                         ? Colors.grey
                                         : taskModel.status! == Status.PROCESSING
-                                            ? ColorsManager.orange
+                                            ? ColorsManager.primary
                                             : taskModel.status! == Status.DONE
                                                 ? ColorsManager.green
-                                                : ColorsManager.red,
+                                                : taskModel.status! ==
+                                                        Status.OVERDUE
+                                                    ? ColorsManager.red
+                                                    : Colors.purpleAccent,
                                   ))
                             ],
                           ),
@@ -575,8 +678,11 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                         : taskModel.assignTasks!.isNotEmpty &&
                                 taskModel.assignTasks!.length == 1
                             ? Row(children: [
+                                SizedBox(
+                                  width: UtilsReponsive.width(20, context),
+                                ),
                                 CircleAvatar(
-                                  radius: UtilsReponsive.height(20, context),
+                                  radius: UtilsReponsive.height(18, context),
                                   backgroundColor: Colors
                                       .transparent, // Đảm bảo nền trong suốt
                                   child: ClipOval(
@@ -598,7 +704,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                     width: UtilsReponsive.width(20, context),
                                   ),
                                   CircleAvatar(
-                                    radius: UtilsReponsive.height(16, context),
+                                    radius: UtilsReponsive.height(18, context),
                                     backgroundColor: ColorsManager
                                         .textColor2, // Đảm bảo nền trong suốt
                                     child: ClipOval(
@@ -617,28 +723,29 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                   ),
                 ],
               ),
-              taskModel.taskFiles!.isEmpty
-                  ? SizedBox(
-                      height: UtilsReponsive.height(30, context),
-                    )
-                  : SizedBox(
-                      height: UtilsReponsive.height(150, context),
-                      child: CachedNetworkImage(
-                        fit: BoxFit.fill,
-                        imageUrl: taskModel.taskFiles![0].toString(),
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) => Container(
-                          padding: EdgeInsets.all(
-                              UtilsReponsive.height(10, context)),
-                          height: UtilsReponsive.height(20, context),
-                          width: UtilsReponsive.height(20, context),
-                          child: CircularProgressIndicator(
-                            color: ColorsManager.primary,
-                          ),
-                        ),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                      ),
-                    ),
+              // taskModel.taskFiles!.isEmpty
+              //     ? SizedBox(
+              //         height: UtilsReponsive.height(30, context),
+              //       )
+              //     : SizedBox(
+              //         height: UtilsReponsive.height(150, context),
+              //         child: CachedNetworkImage(
+              //           fit: BoxFit.fill,
+              //           imageUrl: taskModel.taskFiles![0].toString(),
+              //           progressIndicatorBuilder:
+              //               (context, url, downloadProgress) => Container(
+              //             padding: EdgeInsets.all(
+              //                 UtilsReponsive.height(10, context)),
+              //             height: UtilsReponsive.height(20, context),
+              //             width: UtilsReponsive.height(20, context),
+              //             child: CircularProgressIndicator(
+              //               color: ColorsManager.primary,
+              //             ),
+              //           ),
+              //           errorWidget: (context, url, error) => Icon(Icons.error),
+              //         ),
+              //       ),
+
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.end,
               //   children: [

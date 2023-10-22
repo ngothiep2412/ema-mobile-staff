@@ -13,29 +13,27 @@ import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EditDescriptionController extends BaseController {
-  EditDescriptionController(
-      {required this.quillController,
-      required this.taskModel,
-      required this.isSubTask});
+  EditDescriptionController({required this.taskModel, required this.isSubTask});
   Rx<TaskModel> taskModel = TaskModel().obs;
   RxBool isLoading = false.obs;
   String jwt = '';
   Rx<QuillController> quillController = QuillController.basic().obs;
   bool isSubTask = false;
+  String description = '';
 
-  Rx<QuillController> quillServerController = QuillController.basic().obs;
+  // Rx<QuillController> quillServerController = QuillController.basic().obs;
   RxBool errorUpdateTask = false.obs;
   RxString errorUpdateTaskText = ''.obs;
 
   FocusNode focusNodeDetail = FocusNode();
 
-  QuillController coppyController(QuillController controller) {
-    QuillController abc = QuillController(
-      document: Document.fromDelta(controller.document.toDelta()),
-      selection: const TextSelection.collapsed(offset: 0),
-    );
-    return abc;
-  }
+  // QuillController coppyController(QuillController controller) {
+  //   QuillController abc = QuillController(
+  //     document: Document.fromDelta(controller.document.toDelta()),
+  //     selection: const TextSelection.collapsed(offset: 0),
+  //   );
+  //   return abc;
+  // }
 
   Future<void> saveDescription() async {
     // quillServerController.value = coppyController(quillController.value);
@@ -88,6 +86,10 @@ class EditDescriptionController extends BaseController {
   final count = 0.obs;
   @override
   void onInit() {
+    quillController.value = QuillController(
+      document: Document.fromJson(jsonDecode(taskModel.value.description!)),
+      selection: const TextSelection.collapsed(offset: 0),
+    );
     // quillServerController.value = QuillController(
     //   document: Document.fromJson(myJSON),
     //   selection: const TextSelection.collapsed(offset: 0),
@@ -113,6 +115,7 @@ class EditDescriptionController extends BaseController {
 
   @override
   void onClose() {
+    // quillController.value.dispose();
     super.onClose();
   }
 

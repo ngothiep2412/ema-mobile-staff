@@ -5,10 +5,10 @@ import 'package:http/http.dart' as http;
 
 class TaskOverallApi {
   static Future<List<TaskModel>> getTask(
-      String jwtToken, String eventID) async {
+      String jwtToken, String eventID, String staffID) async {
     var response = await http.get(
       Uri.parse(
-          '${BaseLink.localBaseLink}${BaseLink.getTask}?fieldName=eventID&conValue=$eventID&sizePage=10&currentPage=1'),
+          '${BaseLink.localBaseLink}${BaseLink.getTaskBySelf}?assignee=$staffID&eventID=$eventID'),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",

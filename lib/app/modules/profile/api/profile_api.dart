@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:get/get.dart';
+import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/uploadfile_model.dart';
 import 'package:hrea_mobile_staff/app/resources/base_link.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:http/http.dart' as http;
@@ -25,6 +26,7 @@ class ProfileApi {
       "avatar": avatar,
       "gender": gender,
       "role": "STAFF",
+      // "isFullTime": false,
     };
 
     print('dob ${dob}');
@@ -49,7 +51,8 @@ class ProfileApi {
     }
   }
 
-  static Future<ResponseApi> uploadFile(String jwtToken, XFile image) async {
+  static Future<UploadFileModel> uploadFile(
+      String jwtToken, XFile image) async {
     final uri = Uri.parse(BaseLink.localBaseLink + BaseLink.uploadFile);
 
     http.MultipartRequest request = http.MultipartRequest('POST', uri);
@@ -63,11 +66,11 @@ class ProfileApi {
     var response = await http.Response.fromStream(streamedResponse);
     print(response.body);
     if (response.statusCode == 201 || response.statusCode == 200) {
-      return Future<ResponseApi>.value(
-          ResponseApi.fromJson(jsonDecode(response.body)));
+      return Future<UploadFileModel>.value(
+          UploadFileModel.fromJson(jsonDecode(response.body)));
     } else if (response.statusCode == 500 || response.statusCode == 400) {
-      return Future<ResponseApi>.value(
-          ResponseApi.fromJson(jsonDecode(response.body)));
+      return Future<UploadFileModel>.value(
+          UploadFileModel.fromJson(jsonDecode(response.body)));
     } else {
       throw Exception('Exception');
     }

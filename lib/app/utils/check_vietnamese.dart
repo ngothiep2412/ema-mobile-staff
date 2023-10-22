@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 String removeVietnameseAccent(String str) {
   String normalized = str
       .replaceAll('á', 'a')
@@ -68,4 +70,26 @@ String removeVietnameseAccent(String str) {
       .replaceAll('ỹ', 'y')
       .replaceAll('ỵ', 'y');
   return normalized;
+}
+
+String calculateTimeDifference(String createdAt) {
+  DateTime now = DateTime.now();
+  DateTime createdAtDateTime = DateTime.parse(createdAt);
+
+  const viLocale = 'vi_VN'; // Locale của Việt Nam
+
+  Duration difference = now.difference(createdAtDateTime);
+
+  if (difference.inMinutes < 1) {
+    return "Vừa mới đây";
+  } else if (difference.inHours < 1) {
+    return "${difference.inMinutes} phút trước";
+  } else if (difference.inDays < 1) {
+    return "${difference.inHours} giờ trước";
+  } else if (difference.inDays < 30) {
+    return "${difference.inDays} ngày trước";
+  } else {
+    final formattedDate = DateFormat.yMMMd(viLocale).format(createdAtDateTime);
+    return "vào lúc $formattedDate";
+  }
 }

@@ -9,60 +9,62 @@ import '../controllers/edit_description_controller.dart';
 import 'package:flutter_quill/flutter_quill.dart' as Quil;
 
 class EditDescriptionView extends BaseView<EditDescriptionController> {
-  const EditDescriptionView({Key? key}) : super(key: key);
+  EditDescriptionView({Key? key}) : super(key: key);
+
+  final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
   @override
   Widget buildView(BuildContext context) {
     return Scaffold(
+      key: _scaffoldkey,
       appBar: _appBar(context),
       backgroundColor: ColorsManager.backgroundBlackGrey,
-      body: SafeArea(
-        child: Container(
-          color: Colors.white,
-          child: Column(
-            children: [
-              Expanded(
-                flex: 10,
-                child: Obx(
-                  () => Column(
+      body: Quil.QuillProvider(
+        configurations: Quil.QuillConfigurations(
+            controller: controller.quillController.value),
+        child: SafeArea(
+          child: Container(
+            color: Colors.white,
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 10,
+                  child: Column(
                     children: [
-                      Quil.QuillProvider(
-                        configurations: Quil.QuillConfigurations(
-                            controller: controller.quillController.value),
-                        child: Quil.QuillToolbar.basic(
-                          embedButtons: FlutterQuillEmbeds.buttons(),
-                          showDividers: false,
-                          showFontFamily: false,
-                          showFontSize: true,
-                          showBoldButton: true,
-                          showItalicButton: true,
-                          showSmallButton: false,
-                          showUnderLineButton: true,
-                          showStrikeThrough: false,
-                          showInlineCode: false,
-                          showColorButton: true,
-                          showBackgroundColorButton: false,
-                          showClearFormat: false,
-                          showAlignmentButtons: true,
-                          showLeftAlignment: true,
-                          showCenterAlignment: true,
-                          showRightAlignment: true,
-                          showJustifyAlignment: true,
-                          showHeaderStyle: false,
-                          showListNumbers: false,
-                          showListBullets: false,
-                          showListCheck: false,
-                          showCodeBlock: false,
-                          showQuote: false,
-                          showIndent: false,
-                          showLink: false,
-                          showUndo: true,
-                          showRedo: true,
-                          showDirection: false,
-                          showSearchButton: false,
-                          showSubscript: false,
-                          showSuperscript: false,
-                          multiRowsDisplay: true,
-                        ),
+                      Quil.QuillToolbar.basic(
+                        embedButtons: FlutterQuillEmbeds.buttons(),
+
+                        showDividers: false,
+                        showFontFamily: false,
+                        showFontSize: true,
+                        showBoldButton: true,
+                        showItalicButton: true,
+                        showSmallButton: false,
+                        showUnderLineButton: true,
+                        showStrikeThrough: false,
+                        showInlineCode: false,
+                        showColorButton: true,
+                        showBackgroundColorButton: false,
+                        showClearFormat: false,
+                        showAlignmentButtons: true,
+                        showLeftAlignment: true,
+                        showCenterAlignment: true,
+                        showRightAlignment: true,
+                        showJustifyAlignment: true,
+                        showHeaderStyle: false,
+                        showListNumbers: false,
+                        showListBullets: false,
+                        showListCheck: false,
+                        showCodeBlock: false,
+                        showQuote: false,
+                        showIndent: false,
+                        showLink: false,
+                        showUndo: true,
+                        showRedo: true,
+                        showDirection: false,
+                        showSearchButton: false,
+                        showSubscript: false,
+                        showSuperscript: false,
+                        // multiRowsDisplay: true,
                       ),
                       const Divider(
                         color: ColorsManager.textColor2,
@@ -70,24 +72,23 @@ class EditDescriptionView extends BaseView<EditDescriptionController> {
                       ),
                       Stack(
                         children: [
-                          Quil.QuillProvider(
-                            configurations: Quil.QuillConfigurations(
-                                controller: controller.quillController.value),
-                            child: Quil.QuillEditor.basic(
-                                focusNode: controller.focusNodeDetail,
-                                autoFocus: false,
-                                expands: false,
-                                // controller: controller.quillController.value,
-                                readOnly: false // true for view only mode
-                                ),
-                          )
+                          Quil.QuillEditor.basic(
+                              focusNode: controller.focusNodeDetail,
+                              autoFocus: false,
+                              expands: false,
+                              editorKey: GlobalKey(),
+                              embedBuilders: FlutterQuillEmbeds.builders(),
+
+                              // controller: controller.quillController.value,
+                              readOnly: false // true for view only mode
+                              ),
                         ],
                       )
                     ],
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),

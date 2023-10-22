@@ -226,7 +226,7 @@ enum Priority { HIGH, LOW, MEDIUM }
 final priorityValues = EnumValues(
     {"HIGH": Priority.HIGH, "LOW": Priority.LOW, "MEDIUM": Priority.MEDIUM});
 
-enum Status { PENDING, PROCESSING, DONE, CANCEL, OVERDUE }
+enum Status { PENDING, PROCESSING, DONE, CANCEL, OVERDUE, CONFIRM }
 
 final statusValues = EnumValues(
   {
@@ -234,7 +234,8 @@ final statusValues = EnumValues(
     "PROCESSING": Status.PROCESSING,
     "DONE": Status.DONE,
     "CANCEL": Status.CANCEL,
-    "OVERDUE": Status.OVERDUE
+    "OVERDUE": Status.OVERDUE,
+    "CONFIRM": Status.CONFIRM
   },
 );
 
@@ -244,6 +245,7 @@ class TaskFile {
   DateTime? updatedAt;
   String? fileUrl;
   String? taskId;
+  String? fileName;
 
   TaskFile({
     this.id,
@@ -251,19 +253,18 @@ class TaskFile {
     this.updatedAt,
     this.fileUrl,
     this.taskId,
+    this.fileName,
   });
 
   factory TaskFile.fromJson(Map<String, dynamic> json) => TaskFile(
-        id: json["id"],
-        createdAt: json["createdAt"] == null
-            ? null
-            : DateTime.parse(json["createdAt"]),
-        updatedAt: json["updatedAt"] == null
-            ? null
-            : DateTime.parse(json["updatedAt"]),
-        fileUrl: json["fileUrl"],
-        taskId: json["taskID"],
-      );
+      id: json["id"],
+      createdAt:
+          json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
+      updatedAt:
+          json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
+      fileUrl: json["fileUrl"],
+      taskId: json["taskID"],
+      fileName: json["fileName"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -271,6 +272,7 @@ class TaskFile {
         "updatedAt": updatedAt?.toIso8601String(),
         "fileUrl": fileUrl,
         "taskID": taskId,
+        "fileName": fileName,
       };
 }
 

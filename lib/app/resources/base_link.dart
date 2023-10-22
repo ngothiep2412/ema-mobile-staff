@@ -9,10 +9,14 @@ class BaseLink {
   static const uploadFile = '/api/v1/file/upload';
   static const getEvent = '/api/v1/event/division';
   static const getTask = '/api/v1/task';
+  static const getTaskBySelf = '/api/v1/task/filterByAssignee';
   static const getAssignerInformation = '/api/v1/user/';
   static const updateStatusTask = '/api/v1/task/updateTaskStatus';
   static const updateFileTask = '/api/v1/taskFile';
   static const updateTask = '/api/v1/task/updateTask';
   static const createSubTask = '/api/v1/task/createTask';
   static const createComment = '/api/v1/comment';
+  static const getAllEmployee = '/api/v1/user';
+  static const assignTask = '/api/v1/assign-task';
+  static const getAllComment = '/api/v1/comment';
 }

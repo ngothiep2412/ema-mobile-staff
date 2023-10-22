@@ -259,37 +259,39 @@ class ProfileView extends BaseView<ProfileController> {
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 20),
                   ),
-                  Container(
-                    height: UtilsReponsive.heightv2(context, 60),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        controller.updateProfile();
-                        print('${controller.errorUpdateProfile}');
-                        controller.errorUpdateProfile.value
-                            ? _errorMessage(context)
-                            : _successMessage(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              5.0), // Đặt border radius theo mong muốn
+                  Obx(
+                    () => Container(
+                      height: UtilsReponsive.heightv2(context, 60),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          controller.updateProfile();
+                          print('${controller.errorUpdateProfile}');
+                          controller.errorUpdateProfile.value
+                              ? _errorMessage(context)
+                              : _successMessage(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                5.0), // Đặt border radius theo mong muốn
+                          ),
                         ),
+                        child: controller.isLoading.value
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                  color: ColorsManager.primary,
+                                ),
+                              )
+                            : Text(
+                                "Cập nhật",
+                                style: GetTextStyle.getTextStyle(
+                                  14,
+                                  'Roboto',
+                                  FontWeight.w800,
+                                  ColorsManager.backgroundWhite,
+                                ),
+                              ),
                       ),
-                      child: controller.isLoading.value
-                          ? Center(
-                              child: CircularProgressIndicator(
-                                color: ColorsManager.primary,
-                              ),
-                            )
-                          : Text(
-                              "Cập nhật",
-                              style: GetTextStyle.getTextStyle(
-                                14,
-                                'Roboto',
-                                FontWeight.w800,
-                                ColorsManager.backgroundWhite,
-                              ),
-                            ),
                     ),
                   ),
                   SizedBox(
