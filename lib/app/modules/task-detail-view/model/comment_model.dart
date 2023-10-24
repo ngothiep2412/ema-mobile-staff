@@ -15,7 +15,7 @@ class CommentModel {
   String? text;
   bool? status;
   User? user;
-  List<dynamic>? commentFiles;
+  List<CommentFile>? commentFiles;
 
   CommentModel({
     this.id,
@@ -36,7 +36,8 @@ class CommentModel {
         user: json["user"] == null ? null : User.fromJson(json["user"]),
         commentFiles: json["commentFiles"] == null
             ? []
-            : List<dynamic>.from(json["commentFiles"]!.map((x) => x)),
+            : List<CommentFile>.from(
+                json["commentFiles"]!.map((x) => CommentFile.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -47,7 +48,31 @@ class CommentModel {
         "user": user?.toJson(),
         "commentFiles": commentFiles == null
             ? []
-            : List<dynamic>.from(commentFiles!.map((x) => x)),
+            : List<dynamic>.from(commentFiles!.map((x) => x.toJson())),
+      };
+}
+
+class CommentFile {
+  String? id;
+  String? fileName;
+  String? fileUrl;
+
+  CommentFile({
+    this.id,
+    this.fileName,
+    this.fileUrl,
+  });
+
+  factory CommentFile.fromJson(Map<String, dynamic> json) => CommentFile(
+        id: json["id"],
+        fileName: json["fileName"],
+        fileUrl: json["fileUrl"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "fileName": fileName,
+        "fileUrl": fileUrl,
       };
 }
 

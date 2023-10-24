@@ -9,8 +9,10 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/subtask-detail-view/api/subtask_detail_api.dart';
+import 'package:hrea_mobile_staff/app/modules/subtask-detail-view/model/attachment_model.dart';
 import 'package:hrea_mobile_staff/app/modules/subtask-detail-view/model/employee_model.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/task.dart';
+import 'package:hrea_mobile_staff/app/modules/tab_view/model/user_model.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/api/task_detail_api.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/controllers/task_detail_view_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/comment_model.dart';
@@ -31,7 +33,8 @@ class SubtaskDetailViewController extends BaseController {
   SubtaskDetailViewController(
       {required this.taskID,
       required this.isNavigateDetail,
-      required this.endDateTaskParent});
+      required this.endDateTaskParent,
+      required this.startDateTaskParent});
   String taskID = '';
   Rx<TaskModel> taskModel = TaskModel().obs;
   bool isNavigateDetail = false;
@@ -62,15 +65,18 @@ class SubtaskDetailViewController extends BaseController {
 
   RxList<PlatformFile> filePicker = <PlatformFile>[].obs;
 
-  Rx<DateTime> startDate = DateTime.now().toUtc().add(Duration(hours: 7)).obs;
-  Rx<DateTime> endDate = DateTime.now().toUtc().add(Duration(hours: 7)).obs;
+  Rx<DateTime> startDate =
+      DateTime.now().toUtc().add(const Duration(hours: 7)).obs;
+  Rx<DateTime> endDate =
+      DateTime.now().toUtc().add(const Duration(hours: 7)).obs;
   DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'vi');
 
   DateTime endDateTaskParent;
+  DateTime startDateTaskParent;
 
   List<DateTime?> listChange = [
-    DateTime.now().toUtc().add(Duration(hours: 7)),
-    DateTime.now().toUtc().add(Duration(hours: 7))
+    DateTime.now().toUtc().add(const Duration(hours: 7)),
+    DateTime.now().toUtc().add(const Duration(hours: 7))
   ];
 
   FocusNode focusNodeDetail = FocusNode();
@@ -79,8 +85,12 @@ class SubtaskDetailViewController extends BaseController {
   RxBool errorUpdateSubTask = false.obs;
   RxString errorUpdateSubTaskText = ''.obs;
 
+  RxList<AttachmentModel> listAttachment = <AttachmentModel>[].obs;
+
   RxString descriptionString = ''.obs;
   String jwt = '';
+
+  String idUser = '';
 
   Future<void> getTaskDetail() async {
     isLoading.value = true;
@@ -89,11 +99,11 @@ class SubtaskDetailViewController extends BaseController {
 
       taskModel.value = await SubTaskDetailApi.getTaskDetail(jwt, taskID);
       titleSubTaskController.text = taskModel.value.title!;
-      if (taskModel.value.endDate != null) {
+      if (taskModel.value.startDate != null) {
         startDate.value = taskModel.value.startDate!;
         listChange.add(taskModel.value.startDate);
       }
-      if (taskModel.value.startDate != null) {
+      if (taskModel.value.endDate != null) {
         endDate.value = taskModel.value.endDate!;
         listChange.add(taskModel.value.endDate);
       }
@@ -108,32 +118,73 @@ class SubtaskDetailViewController extends BaseController {
       } else {
         employeeLeader.value = EmployeeModel();
       }
-      // UserModel assigner = await TaskDetailApi.getAssignerDetail(
-      //     jwt, taskModel.value.createdBy!);
-      // if (assigner.statusCode == 200 || assigner.statusCode == 201) {
-      //   taskModel.value.nameAssigner = assigner.result!.fullName;
-      //   taskModel.value.avatarAssigner = assigner.result!.avatar;
-      // }
-      quillController.value = QuillController(
-        document: Document.fromJson(jsonDecode(taskModel.value.description!)),
-        selection: const TextSelection.collapsed(offset: 0),
-      );
+      UserModel assigner = await TaskDetailApi.getAssignerDetail(
+          jwt, taskModel.value.createdBy!);
+      if (assigner.statusCode == 200 || assigner.statusCode == 201) {
+        taskModel.value.nameAssigner = assigner.result!.fullName;
+        taskModel.value.avatarAssigner = assigner.result!.avatar;
+      }
+      if (taskModel.value.description == null ||
+          taskModel.value.description == '') {
+        quillController.value = QuillController(
+          document: Document(),
+          selection: const TextSelection.collapsed(offset: 0),
+        );
+      } else {
+        quillController.value = QuillController(
+          document: Document.fromJson(jsonDecode(taskModel.value.description!)),
+          selection: const TextSelection.collapsed(offset: 0),
+        );
+      }
 
       listComment.value =
           await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+      if (listComment.isNotEmpty) {
+        listComment.sort((comment1, comment2) {
+          return comment2.createdAt!.compareTo(comment1.createdAt!);
+        });
+      }
 
-      print(taskModel.value.description);
+      getAllAttachment();
+
       isLoading.value = false;
-      print('taskModel ${taskModel.value.endDate}');
     } catch (e) {
       isLoading.value = false;
       print(e);
     }
   }
 
+  void getAllAttachment() {
+    List<AttachmentModel> list = [];
+
+    if (taskModel.value.taskFiles!.isNotEmpty) {
+      taskModel.value.taskFiles!.sort((taskFile1, taskFile2) {
+        return taskFile2.createdAt!.compareTo(taskFile1.createdAt!);
+      });
+      for (var item in taskModel.value.taskFiles!) {
+        list.add(AttachmentModel(
+            fileName: item.fileName, fileUrl: item.fileUrl, mode: 1));
+      }
+    }
+    if (listComment.isNotEmpty) {
+      for (var item in listComment) {
+        if (item.commentFiles!.isNotEmpty) {
+          for (var file in item.commentFiles!) {
+            list.add(AttachmentModel(
+                fileName: file.fileName, fileUrl: file.fileUrl, mode: 2));
+          }
+        }
+      }
+    }
+
+    listAttachment.value = list;
+  }
+
   void checkToken() {
     if (GetStorage().read('JWT') != null) {
       jwt = GetStorage().read('JWT');
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+      idUser = decodedToken['id'];
     } else {
       Get.offAllNamed(Routes.LOGIN);
     }
@@ -304,6 +355,7 @@ class SubtaskDetailViewController extends BaseController {
     super.onInit();
     // await getAllEmployee();
     await getTaskDetail();
+
     // var myJSON = jsonDecode(
     //     r'[{"insert": "The Two Towers"}, {"insert": "\n", "attributes": {"header": 1}}, {"insert": "Aragorn sped on up the hill.\n"}]');
     if (taskModel.value.description != null &&
@@ -491,7 +543,7 @@ class SubtaskDetailViewController extends BaseController {
 
   onTapEditDescription() {
     // isEditDescription.value = true;
-    print('descriptionString.value ${descriptionString.value.toString()}');
+
     Get.toNamed(Routes.EDIT_DESCRIPTION, arguments: {
       // "quillController": quillController,
       "description": taskModel.value.description,
@@ -562,6 +614,42 @@ class SubtaskDetailViewController extends BaseController {
     }
   }
 
+  Future<void> updatePriority(String priority, String taskID) async {
+    isLoading.value = true;
+    try {
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      checkToken();
+
+      ResponseApi responseApi = await SubTaskDetailApi.updatePriority(
+          jwt, taskID, taskModel.value.eventId!, priority);
+      if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+        // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
+        // UserModel assigner = await TaskDetailApi.getAssignerDetail(
+        //     jwt, taskModel.value.createdBy!);
+        // if (assigner.statusCode == 200 || assigner.statusCode == 201) {
+        //   taskModel.value.nameAssigner = assigner.result!.fullName;
+        //   taskModel.value.avatarAssigner = assigner.result!.avatar;
+
+        // }
+
+        await updatePageOverall();
+        errorUpdateSubTask.value = false;
+      }
+      if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
+        errorUpdateSubTask.value = true;
+        print('responseApi.message ${responseApi.message}');
+        errorUpdateSubTaskText.value = responseApi.message!;
+      }
+      isLoading.value = false;
+    } catch (e) {
+      errorUpdateSubTask.value = true;
+      errorUpdateSubTaskText.value = 'Có lỗi xảy ra';
+      isLoading.value = false;
+      print(e);
+    }
+  }
+
   Future<void> updateTitleTask(String title, String taskID) async {
     isLoading.value = true;
     try {
@@ -600,55 +688,59 @@ class SubtaskDetailViewController extends BaseController {
 
   Future<void> updateDateTime(
     String taskID,
+    DateTime startDate,
+    DateTime endDate,
   ) async {
     isLoading.value = true;
 
-    if (listChange.isEmpty) {
-      startDate.value = DateTime.now().toUtc().add(Duration(hours: 7));
-      endDate.value = DateTime.now().toUtc().add(Duration(hours: 7));
-    } else {
-      startDate.value = listChange.first!;
-      endDate.value = listChange.last!;
-    }
-    startDate.value = startDate.value.copyWith(hour: 0);
-    startDate.value = startDate.value.copyWith(minute: 0);
-    endDate.value = endDate.value.copyWith(hour: 0);
-    endDate.value = endDate.value.copyWith(minute: 0);
-
-    try {
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
-
-      if (GetStorage().read('JWT') != null) {
-        jwt = GetStorage().read('JWT');
-      } else {
-        Get.offAllNamed(Routes.LOGIN);
-      }
-      ResponseApi responseApi = await SubTaskDetailApi.updateDateTimeTask(jwt,
-          taskID, startDate.value, endDate.value, taskModel.value.eventId!);
-      if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-        // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
-        // UserModel assigner = await TaskDetailApi.getAssignerDetail(
-        //     jwt, taskModel.value.createdBy!);
-        // if (assigner.statusCode == 200 || assigner.statusCode == 201) {
-        //   taskModel.value.nameAssigner = assigner.result!.fullName;
-        //   taskModel.value.avatarAssigner = assigner.result!.avatar;
-
-        // }
-
-        await updatePageOverall();
-        errorUpdateSubTask.value = false;
-      }
-      if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
-        errorUpdateSubTask.value = true;
-        print('responseApi.message ${responseApi.message}');
-        errorUpdateSubTaskText.value = responseApi.message!;
-      }
-      isLoading.value = false;
-    } catch (e) {
+    // if (listChange.isEmpty) {
+    //   startDate.value = DateTime.now().toUtc().add(Duration(hours: 7));
+    //   endDate.value = DateTime.now().toUtc().add(Duration(hours: 7));
+    // } else {
+    //   startDate.value = listChange.first!;
+    //   endDate.value = listChange.last!;
+    // }
+    // startDate.value = startDate.value.copyWith(hour: 0);
+    // startDate.value = startDate.value.copyWith(minute: 0);
+    // endDate.value = endDate.value.copyWith(hour: 0);
+    // endDate.value = endDate.value.copyWith(minute: 0);
+    if (startDate.isAfter(endDate)) {
       errorUpdateSubTask.value = true;
-      errorUpdateSubTaskText.value = 'Có lỗi xảy ra';
+      errorUpdateSubTaskText.value =
+          'Ngày kết thúc phải nhỏ hơn ngày bắt đầu';
       isLoading.value = false;
-      print(e);
+    } else {
+      try {
+        // SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        checkToken();
+        ResponseApi responseApi = await SubTaskDetailApi.updateDateTimeTask(
+            jwt, taskID, startDate, endDate, taskModel.value.eventId!);
+        if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+          // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
+          // UserModel assigner = await TaskDetailApi.getAssignerDetail(
+          //     jwt, taskModel.value.createdBy!);
+          // if (assigner.statusCode == 200 || assigner.statusCode == 201) {
+          //   taskModel.value.nameAssigner = assigner.result!.fullName;
+          //   taskModel.value.avatarAssigner = assigner.result!.avatar;
+
+          // }
+
+          await updatePageOverall();
+          errorUpdateSubTask.value = false;
+        }
+        if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
+          errorUpdateSubTask.value = true;
+          print('responseApi.message ${responseApi.message}');
+          errorUpdateSubTaskText.value = responseApi.message!;
+        }
+        isLoading.value = false;
+      } catch (e) {
+        errorUpdateSubTask.value = true;
+        errorUpdateSubTaskText.value = 'Có lỗi xảy ra';
+        isLoading.value = false;
+        print(e);
+      }
     }
   }
 
@@ -826,7 +918,7 @@ class SubtaskDetailViewController extends BaseController {
         //     snackPosition: SnackPosition.BOTTOM,
         //     backgroundColor: Colors.redAccent,
         //     colorText: Colors.white);
-        // isLoading.value = false;
+        isLoading.value = false;
         return;
       }
 
@@ -957,18 +1049,18 @@ class SubtaskDetailViewController extends BaseController {
             listFile.add(FileModel(
                 fileName: responseApi.result!.fileName,
                 fileUrl: responseApi.result!.downloadUrl));
-            ResponseApi uplodateFileRsp = await TaskDetailApi.updateFileTask(
-                jwt,
-                taskID,
-                responseApi.result!.downloadUrl!,
-                responseApi.result!.fileName!);
-            if (uplodateFileRsp.statusCode == 400 ||
-                uplodateFileRsp.statusCode == 500) {
-              errorUpdateSubTaskText.value = 'Có lỗi xảy ra';
-              errorUpdateSubTask.value = true;
-              isLoading.value = false;
-              return;
-            }
+            // ResponseApi uplodateFileRsp = await TaskDetailApi.updateFileTask(
+            //     jwt,
+            //     taskID,
+            //     responseApi.result!.downloadUrl!,
+            //     responseApi.result!.fileName!);
+            // if (uplodateFileRsp.statusCode == 400 ||
+            //     uplodateFileRsp.statusCode == 500) {
+            //   errorUpdateSubTaskText.value = 'Có lỗi xảy ra';
+            //   errorUpdateSubTask.value = true;
+            //   isLoading.value = false;
+            //   return;
+            // }
           } else {
             errorUpdateSubTaskText.value = 'Có lỗi xảy ra';
             errorUpdateSubTask.value = true;
@@ -1001,11 +1093,43 @@ class SubtaskDetailViewController extends BaseController {
     OpenFile.open(file.path!);
   }
 
-  void deleteTaskFile(TaskFile taskFile) {
+  void deleteTaskFile(AttachmentModel attachmentModel) {
     isLoading.value = true;
     try {
-      taskModel.value.taskFiles!
-          .removeWhere((element) => element.id == taskFile.id);
+      if (attachmentModel.mode == 1) {
+        taskModel.value.taskFiles!.removeAt(0); // mốt thay api
+      } else {
+        for (var item in listComment) {
+          item.commentFiles!.removeAt(0); // mốt thay api
+        }
+      }
+      getAllAttachment();
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+    }
+  }
+
+  void deleteCommentFile(CommentFile commentFile) {
+    isLoading.value = true;
+    try {
+      for (var item in listComment) {
+        item.commentFiles!.removeWhere(
+          (element) => element.id == commentFile.id,
+        );
+      }
+
+      getAllAttachment();
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+    }
+  }
+
+  void deleteAttachmentCommentFile(int index) {
+    isLoading.value = true;
+    try {
+      filePicker.removeAt(index);
       isLoading.value = false;
     } catch (e) {
       isLoading.value = false;

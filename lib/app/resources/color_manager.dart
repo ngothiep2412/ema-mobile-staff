@@ -13,6 +13,7 @@ class ColorsManager {
   static Color colorBottomNav = HexColor.fromHex("#A1CFFF");
   static const Color backgroundGrey = Color(0xffF1F1F0);
   static const Color backgroundBlackGrey = Color(0xff232533);
+  static const Color backgroundContainer = Color(0xffF4F5F7);
   static const Color calendar = Color(0xffC2B280);
 
   static const Color green = Color(0xff198754);

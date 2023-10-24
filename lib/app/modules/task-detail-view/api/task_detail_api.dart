@@ -215,7 +215,9 @@ class TaskDetailApi {
     Map<String, dynamic> body = {
       "title": title,
       "eventID": eventID,
+      "desc": "",
       "parentTask": parentTask,
+      "priority": "LOW",
       "assignee": [],
     };
 

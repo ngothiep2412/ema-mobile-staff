@@ -1,20 +1,19 @@
 // import 'dart:convert';
 // import 'dart:developer';
-
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:expandable_text/expandable_text.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as Quil;
 // import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
 import 'package:get/get.dart';
 import 'package:hrea_mobile_staff/app/base/base_view.dart';
+import 'package:hrea_mobile_staff/app/modules/subtask-detail-view/model/attachment_model.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/task.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/comment_model.dart';
+import 'package:hrea_mobile_staff/app/resources/assets_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/form_field_widget.dart';
 import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
@@ -29,7 +28,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
   @override
   Widget buildView(BuildContext context) {
     return Scaffold(
-        backgroundColor: ColorsManager.backgroundBlackGrey,
+        backgroundColor: ColorsManager.backgroundContainer,
         appBar: _appBar(context),
         body: Obx(
           () => controller.isLoading.value
@@ -39,23 +38,17 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                     // size: 50.0,
                   ),
                 )
-              :
-              // Quil.QuillProvider(
-              //     configurations: Quil.QuillConfigurations(
-              //         controller: controller.quillController.value),
-              //     child:
-
-              SafeArea(
+              : SafeArea(
                   child: Container(
                     height: double.infinity,
-                    color: ColorsManager.backgroundBlackGrey,
+                    color: ColorsManager.backgroundContainer,
                     child: Stack(
                       children: [
                         RefreshIndicator(
                           onRefresh: controller.refreshPage,
                           child: SingleChildScrollView(
                             padding: EdgeInsets.all(
-                                UtilsReponsive.height(15, context)),
+                                UtilsReponsive.height(8, context)),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -66,7 +59,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                           controller.taskModel.value.title!),
                                 ),
                                 SizedBox(
-                                  height: UtilsReponsive.height(20, context),
+                                  height: UtilsReponsive.height(15, context),
                                 ),
                                 Obx(
                                   () => _statusBuilder(
@@ -87,230 +80,257 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                       taskID: controller.taskModel.value.id!),
                                 ),
                                 SizedBox(
-                                  height: UtilsReponsive.height(30, context),
-                                ),
-                                Obx(
-                                  () => _timeBuilder(
-                                    context: context,
-                                    startTime: controller.dateFormat.format(
-                                        controller.taskModel.value.startDate!),
-                                    endTime: controller.dateFormat.format(
-                                        controller.taskModel.value.endDate!),
-                                  ),
-                                ),
-
-                                SizedBox(
-                                  height: UtilsReponsive.width(15, context),
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.timelapse,
-                                      color: ColorsManager.primary,
-                                    ),
-                                    Obx(
-                                      () => Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: UtilsReponsive.width(
-                                                15, context),
-                                            vertical: UtilsReponsive.height(
-                                                10, context)),
-                                        decoration: BoxDecoration(
-                                          color: controller
-                                                      .taskModel.value.status ==
-                                                  Status.PENDING
-                                              ? Colors.grey
-                                              : controller.taskModel.value
-                                                          .status! ==
-                                                      Status.PROCESSING
-                                                  ? ColorsManager.primary
-                                                  : controller.taskModel.value
-                                                              .status! ==
-                                                          Status.DONE
-                                                      ? ColorsManager.green
-                                                      : ColorsManager.red,
-                                          borderRadius: BorderRadius.circular(
-                                              UtilsReponsive.height(
-                                                  5, context)),
-                                        ),
-                                        margin: EdgeInsets.only(
-                                            left: UtilsReponsive.width(
-                                                15, context)),
-                                        child: controller
-                                                    .taskModel.value.endDate !=
-                                                null
-                                            ? Text(
-                                                '${controller.dateFormat.format(controller.taskModel.value.endDate!)} - ${getCurrentTime(controller.taskModel.value.endDate!)}',
-                                                style: TextStyle(
-                                                    letterSpacing: 1.5,
-                                                    fontFamily: 'Roboto',
-                                                    color: Colors.white,
-                                                    fontSize:
-                                                        UtilsReponsive.height(
-                                                            16, context),
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              )
-                                            : Text(
-                                                '--',
-                                                style: TextStyle(
-                                                    letterSpacing: 1.5,
-                                                    fontFamily: 'Roboto',
-                                                    color: Colors.white,
-                                                    fontSize:
-                                                        UtilsReponsive.height(
-                                                            16, context),
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: UtilsReponsive.width(15, context),
+                                  height: UtilsReponsive.height(15, context),
                                 ),
                                 Obx(
                                   () => Row(
                                     children: [
-                                      controller.taskModel.value
-                                                  .avatarAssigner !=
-                                              null
-                                          ? CircleAvatar(
-                                              radius: UtilsReponsive.height(
-                                                  20, context),
-                                              backgroundColor: Colors
-                                                  .transparent, // Đảm bảo nền trong suốt
-                                              child: ClipOval(
-                                                child: Image.network(
-                                                  controller.taskModel.value
-                                                      .avatarAssigner!,
-                                                  fit: BoxFit.cover,
-                                                  width: UtilsReponsive.widthv2(
-                                                      context, 45),
-                                                  height:
-                                                      UtilsReponsive.heightv2(
-                                                          context, 50),
-                                                ),
+                                      Icon(
+                                        Icons.priority_high,
+                                        color: ColorsManager.primary,
+                                      ),
+                                      priorityBuilder(
+                                          context: context,
+                                          objectStatusTask: controller.taskModel
+                                                      .value.priority! ==
+                                                  Priority.LOW
+                                              ? "Thấp"
+                                              : controller.taskModel.value
+                                                          .priority! ==
+                                                      Priority.MEDIUM
+                                                  ? "Trung bình"
+                                                  : "Cao",
+                                          taskID:
+                                              controller.taskModel.value.id!)
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: UtilsReponsive.width(10, context),
+                                ),
+                                Obx(
+                                  () => Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal:
+                                            UtilsReponsive.height(5, context),
+                                        vertical:
+                                            UtilsReponsive.height(10, context)),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: Colors.white,
+                                    ),
+                                    child: _timeBuilder(
+                                      context: context,
+                                      startTime: controller.dateFormat.format(
+                                          controller
+                                              .taskModel.value.startDate!),
+                                      endTime: controller.dateFormat.format(
+                                          controller.taskModel.value.endDate!),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: UtilsReponsive.width(10, context),
+                                ),
+                                Obx(
+                                  () => Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal:
+                                            UtilsReponsive.height(5, context),
+                                        vertical:
+                                            UtilsReponsive.height(10, context)),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: Colors.white,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        CachedNetworkImage(
+                                          // fit: BoxFit.contain,
+                                          imageUrl: controller
+                                              .taskModel.value.avatarAssigner!,
+                                          imageBuilder: (context,
+                                                  imageProvider) =>
+                                              Container(
+                                                  width: UtilsReponsive.width(
+                                                      40, context),
+                                                  height: UtilsReponsive.height(
+                                                      45, context),
+                                                  decoration: BoxDecoration(
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          spreadRadius: 0.5,
+                                                          blurRadius: 0.5,
+                                                          color: Colors.black
+                                                              .withOpacity(0.1),
+                                                        )
+                                                      ],
+                                                      shape: BoxShape.circle,
+                                                      image: DecorationImage(
+                                                          fit: BoxFit.cover,
+                                                          image:
+                                                              imageProvider))),
+                                          progressIndicatorBuilder: (context,
+                                                  url, downloadProgress) =>
+                                              Container(
+                                            padding: EdgeInsets.all(
+                                                UtilsReponsive.height(
+                                                    10, context)),
+                                            height: UtilsReponsive.height(
+                                                5, context),
+                                            width: UtilsReponsive.height(
+                                                5, context),
+                                            child: CircularProgressIndicator(
+                                              color: ColorsManager.primary,
+                                            ),
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              CircleAvatar(
+                                            radius: UtilsReponsive.height(
+                                                20, context),
+                                            child: Text(
+                                              getTheAbbreviation(controller
+                                                  .taskModel
+                                                  .value
+                                                  .nameAssigner!),
+                                              style: TextStyle(
+                                                  letterSpacing: 1.5,
+                                                  color:
+                                                      ColorsManager.textColor,
+                                                  fontSize:
+                                                      UtilsReponsive.height(
+                                                          17, context),
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width:
+                                              UtilsReponsive.width(10, context),
+                                        ),
+                                        Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              controller.taskModel.value
+                                                  .nameAssigner!,
+                                              style: TextStyle(
+                                                  fontFamily: 'Roboto',
+                                                  color:
+                                                      ColorsManager.textColor,
+                                                  fontSize:
+                                                      UtilsReponsive.height(
+                                                          17, context),
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              "Người giao việc",
+                                              style: TextStyle(
+                                                  fontFamily: 'Roboto',
+                                                  color: ColorsManager.primary,
+                                                  fontSize:
+                                                      UtilsReponsive.height(
+                                                          16, context),
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: UtilsReponsive.width(10, context),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                          UtilsReponsive.height(5, context),
+                                      vertical:
+                                          UtilsReponsive.height(10, context)),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Colors.white,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          CachedNetworkImage(
+                                            // fit: BoxFit.contain,
+                                            imageUrl: controller
+                                                .taskModel
+                                                .value
+                                                .assignTasks![0]
+                                                .user!
+                                                .profile!
+                                                .avatar!,
+                                            imageBuilder: (context,
+                                                    imageProvider) =>
+                                                Container(
+                                                    width: UtilsReponsive.width(
+                                                        40, context),
+                                                    height:
+                                                        UtilsReponsive.height(
+                                                            45, context),
+                                                    decoration: BoxDecoration(
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            spreadRadius: 0.5,
+                                                            blurRadius: 0.5,
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.1),
+                                                          )
+                                                        ],
+                                                        shape: BoxShape.circle,
+                                                        image: DecorationImage(
+                                                            fit: BoxFit.cover,
+                                                            image:
+                                                                imageProvider))),
+                                            progressIndicatorBuilder: (context,
+                                                    url, downloadProgress) =>
+                                                Container(
+                                              padding: EdgeInsets.all(
+                                                  UtilsReponsive.height(
+                                                      10, context)),
+                                              height: UtilsReponsive.height(
+                                                  5, context),
+                                              width: UtilsReponsive.height(
+                                                  5, context),
+                                              child: CircularProgressIndicator(
+                                                color: ColorsManager.primary,
                                               ),
-                                            )
-                                          : CircleAvatar(
+                                            ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    CircleAvatar(
                                               radius: UtilsReponsive.height(
                                                   20, context),
                                               child: Text(
                                                 getTheAbbreviation(controller
                                                     .taskModel
                                                     .value
-                                                    .nameAssigner!),
+                                                    .assignTasks![0]
+                                                    .user!
+                                                    .profile!
+                                                    .fullName!),
                                                 style: TextStyle(
                                                     letterSpacing: 1.5,
-                                                    color: Colors.white,
+                                                    color:
+                                                        ColorsManager.primary,
                                                     fontSize:
                                                         UtilsReponsive.height(
-                                                            16, context),
+                                                            17, context),
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
                                             ),
-                                      SizedBox(
-                                        width:
-                                            UtilsReponsive.width(10, context),
-                                      ),
-                                      Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            controller
-                                                .taskModel.value.nameAssigner!,
-                                            style: TextStyle(
-                                                fontFamily: 'Roboto',
-                                                color: Colors.white,
-                                                fontSize: UtilsReponsive.height(
-                                                    18, context),
-                                                fontWeight: FontWeight.bold),
                                           ),
-                                          Text(
-                                            "Người giao việc",
-                                            style: TextStyle(
-                                                fontFamily: 'Roboto',
-                                                color: ColorsManager.primary,
-                                                fontSize: UtilsReponsive.height(
-                                                    17, context),
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: UtilsReponsive.width(20, context),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        // _showBottomAssign(context: context);
-                                      },
-                                      child: Row(
-                                        children: [
-                                          controller
-                                                  .taskModel
-                                                  .value
-                                                  .assignTasks![0]
-                                                  .user!
-                                                  .profile!
-                                                  .avatar!
-                                                  .isNotEmpty
-                                              ? CircleAvatar(
-                                                  radius: UtilsReponsive.height(
-                                                      20, context),
-                                                  backgroundColor: Colors
-                                                      .transparent, // Đảm bảo nền trong suốt
-                                                  child: ClipOval(
-                                                    child: Image.network(
-                                                      controller
-                                                          .taskModel
-                                                          .value
-                                                          .assignTasks![0]
-                                                          .user!
-                                                          .profile!
-                                                          .avatar!,
-                                                      fit: BoxFit.cover,
-                                                      width: UtilsReponsive
-                                                          .widthv2(context, 45),
-                                                      height: UtilsReponsive
-                                                          .heightv2(
-                                                              context, 50),
-                                                    ),
-                                                  ),
-                                                )
-                                              : CircleAvatar(
-                                                  radius: UtilsReponsive.height(
-                                                      20, context),
-                                                  child: Text(
-                                                    getTheAbbreviation(
-                                                        controller
-                                                            .taskModel
-                                                            .value
-                                                            .assignTasks![0]
-                                                            .user!
-                                                            .profile!
-                                                            .fullName!),
-                                                    style: TextStyle(
-                                                        letterSpacing: 1.5,
-                                                        color: Colors.white,
-                                                        fontSize: UtilsReponsive
-                                                            .height(
-                                                                16, context),
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ),
                                           SizedBox(
                                             width: UtilsReponsive.width(
                                                 10, context),
@@ -330,71 +350,39 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                     .fullName!,
                                                 style: TextStyle(
                                                     fontFamily: 'Roboto',
-                                                    color: ColorsManager
-                                                        .backgroundWhite,
+                                                    color:
+                                                        ColorsManager.textColor,
                                                     fontSize:
                                                         UtilsReponsive.height(
                                                             18, context),
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
-                                              controller.taskModel.value
-                                                          .assignTasks!.length >
-                                                      3
-                                                  ? Text(
-                                                      "Leader và ${controller.taskModel.value.assignTasks!.length} thành viên",
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color: ColorsManager
-                                                              .primary,
-                                                          fontSize:
-                                                              UtilsReponsive
-                                                                  .height(17,
-                                                                      context),
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    )
-                                                  : Text(
-                                                      'Người chịu trách nhiệm',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color: ColorsManager
-                                                              .primary,
-                                                          fontSize:
-                                                              UtilsReponsive
-                                                                  .height(17,
-                                                                      context),
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
+                                              Text(
+                                                'Người chịu trách nhiệm',
+                                                style: TextStyle(
+                                                    fontFamily: 'Roboto',
+                                                    color:
+                                                        ColorsManager.primary,
+                                                    fontSize:
+                                                        UtilsReponsive.height(
+                                                            17, context),
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
                                             ],
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    // TextButton(
-                                    //   onPressed: () {
-                                    //     _showBottomAddMore(context: context);
-                                    //   },
-                                    //   child: Text(
-                                    //     "Thêm người",
-                                    //     style: TextStyle(
-                                    //         fontFamily: 'Roboto',
-                                    //         color: ColorsManager.primary,
-                                    //         fontSize:
-                                    //             UtilsReponsive.height(18, context),
-                                    //         fontWeight: FontWeight.w800),
-                                    //   ),
-                                    // )
-                                  ],
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(
-                                  height: UtilsReponsive.height(20, context),
+                                  height: UtilsReponsive.height(10, context),
                                 ),
                                 Obx(() => _description(context)),
                                 // ExpandableText(
-                                //              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
-
+                                //   'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
                                 //   expandText: 'show more',
                                 //   maxLines: 2,
                                 //   linkColor: Colors.blue,
@@ -404,7 +392,8 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                 //   onPrefixTap: () {},
                                 //   prefixStyle: TextStyle(
                                 //       color: Colors.black,
-                                //       fontSize: UtilsReponsive.height(13,context),
+                                //       fontSize:
+                                //           UtilsReponsive.height(13, context),
                                 //       fontWeight: FontWeight.bold),
                                 //   hashtagStyle: TextStyle(
                                 //     color: Color(0xFF30B6F9),
@@ -419,10 +408,10 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                 //       height: 1.6,
                                 //       wordSpacing: 1.2,
                                 //       color: Colors.black,
-                                //       fontSize: UtilsReponsive.height(13,context),
+                                //       fontSize:
+                                //           UtilsReponsive.height(13, context),
                                 //       fontWeight: FontWeight.w400),
                                 // ),
-                                // _documentV1(context),
                                 SizedBox(
                                   height: UtilsReponsive.height(15, context),
                                 ),
@@ -439,8 +428,8 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                   () => SizedBox(
                                     height: controller.filePicker.isNotEmpty
                                         ? UtilsReponsive.height(
-                                            50 + 200, context)
-                                        : UtilsReponsive.height(50, context),
+                                            70 + 200, context)
+                                        : UtilsReponsive.height(70, context),
                                   ),
                                 ),
                               ],
@@ -454,7 +443,15 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                           child: Obx(
                             () => controller.filePicker.isNotEmpty
                                 ? Container(
-                                    color: Colors.white,
+                                    decoration: const BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: ColorsManager.textColor,
+                                          blurRadius: 1.0,
+                                        ),
+                                      ],
+                                      color: Colors.white,
+                                    ),
                                     child: Column(
                                       children: [
                                         Container(
@@ -470,18 +467,19 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                             separatorBuilder:
                                                 (context, index) => SizedBox(
                                                     width: UtilsReponsive.width(
-                                                        20, context)),
+                                                        15, context)),
                                             itemBuilder: (context, index) {
-                                              return fileComment(
+                                              return attchFileComment(
                                                   controller.filePicker[index],
-                                                  context);
+                                                  context,
+                                                  index);
                                             },
                                           ),
                                         ),
-                                        Divider(
-                                          color: ColorsManager.textColor2,
-                                          thickness: 1,
-                                        ),
+                                        // const Divider(
+                                        //   color: ColorsManager.textColor2,
+                                        //   thickness: 1,
+                                        // ),
                                         TextField(
                                           onChanged: (value) => {
                                             controller.commentController.text =
@@ -500,8 +498,9 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                 onPressed: () async {
                                                   await controller.selectFile();
                                                 },
-                                                icon: const Icon(Icons
-                                                    .attach_file_outlined)),
+                                                icon: const Icon(
+                                                  Icons.attach_file_outlined,
+                                                )),
                                             suffixIcon: IconButton(
                                                 onPressed: () async {
                                                   await controller
@@ -511,13 +510,12 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                     Icons.double_arrow_sharp)),
                                             contentPadding: EdgeInsets.all(
                                                 UtilsReponsive.width(
-                                                    10, context)),
+                                                    15, context)),
                                             hintText: 'Nhập bình luận',
                                             focusedBorder:
                                                 const UnderlineInputBorder(
                                               borderSide: BorderSide(
-                                                  color: Colors
-                                                      .grey), // Màu gạch dưới khi TextField được chọn
+                                                  color: Colors.grey),
                                             ),
                                             enabledBorder:
                                                 const UnderlineInputBorder(
@@ -531,7 +529,15 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                     ),
                                   )
                                 : Container(
-                                    color: Colors.white,
+                                    decoration: const BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: ColorsManager.textColor,
+                                          blurRadius: 1.0,
+                                        ),
+                                      ],
+                                      color: Colors.white,
+                                    ),
                                     child: Column(
                                       children: [
                                         TextField(
@@ -552,8 +558,9 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                 onPressed: () async {
                                                   await controller.selectFile();
                                                 },
-                                                icon: const Icon(Icons
-                                                    .attach_file_outlined)),
+                                                icon: const Icon(
+                                                  Icons.attach_file_outlined,
+                                                )),
                                             suffixIcon: IconButton(
                                                 onPressed: () async {
                                                   await controller
@@ -563,7 +570,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                     Icons.double_arrow_sharp)),
                                             contentPadding: EdgeInsets.all(
                                                 UtilsReponsive.width(
-                                                    10, context)),
+                                                    15, context)),
                                             hintText: 'Nhập bình luận',
                                             focusedBorder:
                                                 const UnderlineInputBorder(
@@ -600,31 +607,35 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
       children: [
         const Icon(
           Icons.calendar_month,
+          size: 25,
           color: Color(0xffC2B280),
         ),
         Container(
-          padding: EdgeInsets.symmetric(
-              horizontal: UtilsReponsive.width(15, context),
-              vertical: UtilsReponsive.height(10, context)),
-          decoration: BoxDecoration(
-            color: controller.taskModel.value.status == Status.PENDING
-                ? Colors.grey
-                : controller.taskModel.value.status! == Status.PROCESSING
-                    ? ColorsManager.primary
-                    : controller.taskModel.value.status! == Status.DONE
-                        ? ColorsManager.green
-                        : ColorsManager.red,
-            borderRadius:
-                BorderRadius.circular(UtilsReponsive.height(5, context)),
-          ),
-          margin: EdgeInsets.only(left: UtilsReponsive.width(15, context)),
+          // padding: EdgeInsets.symmetric(
+          //     horizontal: UtilsReponsive.width(5, context),
+          //     vertical: UtilsReponsive.height(10, context)),
+          // decoration: BoxDecoration(
+          //   color: Colors.white,
+          //   borderRadius:
+          //       BorderRadius.circular(UtilsReponsive.height(5, context)),
+          // ),
+          margin: EdgeInsets.only(left: UtilsReponsive.width(10, context)),
           child: Text(
-            '$startTime - $endTime',
+            '$startTime ${getCurrentTime(controller.taskModel.value.startDate!)} - $endTime ${getCurrentTime(controller.taskModel.value.endDate!)}',
             style: TextStyle(
                 letterSpacing: 1.5,
                 fontFamily: 'Roboto',
-                color: Colors.white,
-                fontSize: UtilsReponsive.height(16, context),
+                color: controller.taskModel.value.status == Status.PENDING
+                    ? Colors.grey.withOpacity(0.8)
+                    : controller.taskModel.value.status! == Status.PROCESSING
+                        ? ColorsManager.primary
+                        : controller.taskModel.value.status! == Status.DONE
+                            ? ColorsManager.green
+                            : controller.taskModel.value.status! ==
+                                    Status.CONFIRM
+                                ? Colors.purpleAccent
+                                : ColorsManager.red,
+                fontSize: UtilsReponsive.height(17, context),
                 fontWeight: FontWeight.bold),
           ),
         )
@@ -713,7 +724,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
   void _showBottomSheetStatus(BuildContext context, String taskID) {
     Get.bottomSheet(Container(
       decoration: const BoxDecoration(
-        color: ColorsManager.backgroundGrey,
+        color: ColorsManager.backgroundContainer,
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(10), topRight: Radius.circular(10)),
       ),
@@ -755,7 +766,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                   child: ListTile(
                     leading: CircleAvatar(
                       backgroundColor: e == "Đang kiểm thử"
-                          ? Colors.grey
+                          ? Colors.grey.withOpacity(0.8)
                           : e == "Đang thực hiện"
                               ? ColorsManager.primary
                               : e == "Hoàn thành"
@@ -773,7 +784,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                       style: TextStyle(
                           fontFamily: 'Roboto',
                           letterSpacing: 1.5,
-                          color: ColorsManager.textColor,
+                          color: ColorsManager.textColor2,
                           fontSize: UtilsReponsive.height(16, context),
                           fontWeight: FontWeight.w600),
                     ),
@@ -792,18 +803,17 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
       required String taskID}) {
     return GestureDetector(
       onTap: () {
-        _showBottomSheetStatus(context, taskID);
-        // controller.errorUpdateTask.value == true
-        //     ? _errorMessage(context)
-        //     : _successMessage(context);
+        if (controller.taskModel.value.status != Status.CONFIRM) {
+          _showBottomSheetStatus(context, taskID);
+        }
       },
       child: Container(
         padding: EdgeInsets.symmetric(
-            horizontal: UtilsReponsive.width(20, context),
+            horizontal: UtilsReponsive.width(10, context),
             vertical: UtilsReponsive.width(5, context)),
         decoration: BoxDecoration(
           color: controller.taskModel.value.status == Status.PENDING
-              ? Colors.grey
+              ? Colors.grey.withOpacity(0.8)
               : controller.taskModel.value.status! == Status.PROCESSING
                   ? ColorsManager.primary
                   : controller.taskModel.value.status! == Status.DONE
@@ -833,6 +843,55 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
     );
   }
 
+  Widget priorityBuilder(
+      {required BuildContext context,
+      required String objectStatusTask,
+      required String taskID}) {
+    return GestureDetector(
+      onTap: () {
+        // _showBottomSheetStatus(context, taskID);
+        // controller.errorUpdateTask.value == true
+        //     ? _errorMessage(context)
+        //     : _successMessage(context);
+      },
+      child: Container(
+        // padding: EdgeInsets.symmetric(
+        //     horizontal: UtilsReponsive.width(5, context),
+        //     vertical: UtilsReponsive.height(10, context)),
+        // decoration: BoxDecoration(
+        //   color: Colors.grey,
+        //   borderRadius:
+        //       BorderRadius.circular(UtilsReponsive.height(5, context)),
+        // ),
+        margin: EdgeInsets.only(left: UtilsReponsive.width(10, context)),
+        child: controller.taskModel.value.endDate != null
+            ? Text(
+                objectStatusTask,
+                style: TextStyle(
+                    letterSpacing: 1.5,
+                    fontFamily: 'Roboto',
+                    color: controller.taskModel.value.priority! == Priority.LOW
+                        ? Colors.grey.withOpacity(0.8)
+                        : controller.taskModel.value.priority! ==
+                                Priority.MEDIUM
+                            ? ColorsManager.orange
+                            : ColorsManager.red,
+                    fontSize: UtilsReponsive.height(18, context),
+                    fontWeight: FontWeight.bold),
+              )
+            : Text(
+                '--',
+                style: TextStyle(
+                    letterSpacing: 1.5,
+                    fontFamily: 'Roboto',
+                    color: Colors.white,
+                    fontSize: UtilsReponsive.height(18, context),
+                    fontWeight: FontWeight.bold),
+              ),
+      ),
+    );
+  }
+
   Container _header(
       {required BuildContext context, required String objectTask}) {
     return Container(
@@ -845,233 +904,27 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               style: TextStyle(
                   letterSpacing: 1.5,
                   fontFamily: 'Roboto',
-                  color: ColorsManager.backgroundWhite,
-                  fontSize: UtilsReponsive.height(20, context),
+                  color: ColorsManager.textColor,
+                  fontSize: UtilsReponsive.height(24, context),
                   fontWeight: FontWeight.bold),
             ),
           ),
-          // InkWell(
-          //   onTap: () {
-          //     _showBottomAssign(context: context);
-          //   },
-          //   child: CircleAvatar(
-          //     radius: UtilsReponsive.height(20, context),
-          //     child: Text(
-          //       'NV',
-          //       style: TextStyle(
-          //           letterSpacing: 1.5,
-          //           color: Colors.white,
-          //           fontSize: UtilsReponsive.height(16, context),
-          //           fontWeight: FontWeight.bold),
-          //     ),
-          //   ),
-          // )
         ],
       ),
     );
   }
 
-  // _showBottomAddMore({required BuildContext context}) {
-  //   Get.bottomSheet(Container(
-  //     height: 400,
-  //     constraints:
-  //         BoxConstraints(maxHeight: UtilsReponsive.width(400, context)),
-  //     padding: EdgeInsetsDirectional.symmetric(
-  //         horizontal: UtilsReponsive.width(15, context),
-  //         vertical: UtilsReponsive.height(20, context)),
-  //     decoration: BoxDecoration(
-  //       color: Colors.red.shade50,
-  //       borderRadius: BorderRadius.only(
-  //           topLeft: Radius.circular(UtilsReponsive.height(10, context)),
-  //           topRight: Radius.circular(UtilsReponsive.height(10, context))),
-  //     ),
-  //     child: Column(
-  //       mainAxisSize: MainAxisSize.min,
-  //       children: [
-  //         Row(
-  //           children: [
-  //             Expanded(
-  //                 child: FormFieldWidget(
-  //                     controllerEditting: controller.textSearchController,
-  //                     icon: Icon(Icons.search),
-  //                     radiusBorder: 15,
-  //                     setValueFunc: (value) async {
-  //                       await controller.testController();
-  //                     })),
-  //             Padding(
-  //               padding: const EdgeInsets.all(8.0),
-  //               child: TextButton(onPressed: () {}, child: Text('Save')),
-  //             )
-  //           ],
-  //         ),
-  //         SizedBox(
-  //           height: UtilsReponsive.height(10, context),
-  //         ),
-  //         Obx(() => Container(
-  //               constraints: BoxConstraints(
-  //                   maxHeight: UtilsReponsive.height(30, context)),
-  //               width: double.infinity,
-  //               child: ListView(
-  //                 scrollDirection: Axis.horizontal,
-  //                 shrinkWrap: true,
-  //                 children: controller.listFind.value
-  //                     .map((element) => Chip(
-  //                         onDeleted: () {
-  //                           controller.listFind.remove(element);
-  //                         },
-  //                         label: Text(element)))
-  //                     .toList(),
-  //               ),
-  //             )),
-  //         SizedBox(
-  //           height: UtilsReponsive.height(10, context),
-  //         ),
-  //         Obx(() {
-  //           controller.listFind.value;
-  //           return controller.isLoadingFetchUser.value
-  //               ? Center(
-  //                   child: SizedBox(
-  //                     height: 40,
-  //                     width: 40,
-  //                     child: CircularProgressIndicator(),
-  //                   ),
-  //                 )
-  //               : Expanded(
-  //                   child: ListView.separated(
-  //                       shrinkWrap: true,
-  //                       itemCount: controller.testList.value,
-  //                       separatorBuilder: (context, index) => SizedBox(
-  //                             height: UtilsReponsive.height(10, context),
-  //                           ),
-  //                       itemBuilder: (context, index) {
-  //                         String text = 'Nguyễn Văn A $index';
-  //                         return GestureDetector(
-  //                           onTap: () {
-  //                             if (!controller.listFind.contains(text)) {
-  //                               controller.addData(text);
-  //                             } else {
-  //                               controller.listFind.remove(text);
-  //                             }
-  //                           },
-  //                           child: Card(
-  //                             child: Container(
-  //                               color: controller.listFind.contains(text)
-  //                                   ? Colors.blue.shade100
-  //                                   : Colors.white,
-  //                               child: ListTile(
-  //                                 leading: CircleAvatar(
-  //                                   child: Text('N/A'),
-  //                                 ),
-  //                                 title: Text(
-  //                                   text,
-  //                                   style: TextStyle(
-  //                                       letterSpacing: 1.5,
-  //                                       color: Colors.black,
-  //                                       fontSize:
-  //                                           UtilsReponsive.height(16, context),
-  //                                       fontWeight: FontWeight.bold),
-  //                                 ),
-  //                                 subtitle: Text('Người phụ'),
-  //                               ),
-  //                             ),
-  //                           ),
-  //                         );
-  //                       }),
-  //                 );
-  //         })
-  //       ],
-  //     ),
-  //   ));
-  // }
-
-  // _showDateTimePicker(BuildContext context) async {
-  //   await Get.defaultDialog(
-  //     confirm: TextButton(
-  //         onPressed: () {
-  //           controller.saveTime();
-  //           Get.back();
-  //         },
-  //         child: Text('Save')),
-  //     title: 'Chọn ngày',
-  //     content: Container(
-  //       height: UtilsReponsive.height(300, context),
-  //       width: UtilsReponsive.height(300, context),
-  //       child: CalendarDatePicker2(
-  //         config: CalendarDatePicker2Config(
-  //           currentDate: DateTime.now(),
-  //           firstDate: DateTime.now(),
-  //           calendarType: CalendarDatePicker2Type.range,
-  //           centerAlignModePicker: true,
-  //           selectedDayTextStyle:
-  //               TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
-  //           selectedDayHighlightColor: Colors.blue,
-  //         ),
-  //         onValueChanged: (value) {
-  //           controller.getTimeRange(value);
-  //         },
-  //         value: [controller.startDate.value, controller.endDate.value],
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // _showBottomAssign({required BuildContext context}) {
-  //   Get.bottomSheet(Container(
-  //     constraints:
-  //         BoxConstraints(maxHeight: UtilsReponsive.width(400, context)),
-  //     padding: EdgeInsetsDirectional.symmetric(
-  //         horizontal: UtilsReponsive.width(15, context),
-  //         vertical: UtilsReponsive.height(20, context)),
-  //     decoration: BoxDecoration(
-  //       color: Colors.red.shade50,
-  //       borderRadius: BorderRadius.only(
-  //           topLeft: Radius.circular(UtilsReponsive.height(10, context)),
-  //           topRight: Radius.circular(UtilsReponsive.height(10, context))),
-  //     ),
-  //     child: Column(
-  //       mainAxisSize: MainAxisSize.min,
-  //       children: [
-  //         ListView.separated(
-  //           shrinkWrap: true,
-  //           itemCount: controller.dataAssign.length,
-  //           separatorBuilder: (context, index) => SizedBox(
-  //             height: UtilsReponsive.height(10, context),
-  //           ),
-  //           itemBuilder: (context, index) => Card(
-  //             child: Container(
-  //               child: ListTile(
-  //                 leading: CircleAvatar(
-  //                   child: Text('N/A'),
-  //                 ),
-  //                 title: Text(
-  //                   controller.dataAssign[index],
-  //                   style: TextStyle(
-  //                       letterSpacing: 1.5,
-  //                       color: Colors.black,
-  //                       fontSize: UtilsReponsive.height(16, context),
-  //                       fontWeight: FontWeight.bold),
-  //                 ),
-  //                 subtitle: Text('Người phụ'),
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   ));
-  // }
-
   AppBar _appBar(BuildContext context) {
     return AppBar(
-      backgroundColor: ColorsManager.backgroundBlackGrey,
+      backgroundColor: ColorsManager.backgroundContainer,
       leading: IconButton(
         onPressed: () {
           Get.back();
           controller.onDelete();
         },
-        icon: const Icon(
+        icon: Icon(
           Icons.arrow_back_ios_new,
-          color: Colors.white,
+          color: ColorsManager.primary,
         ),
       ),
       // actions: [
@@ -1093,42 +946,6 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
     );
   }
 
-  // ExpansionTile _documentV1(BuildContext context) {
-  //   return ExpansionTile(
-  //     title: Text(
-  //       'Tài liệu',
-  //       style: TextStyle(
-  //           height: 1.6,
-  //           wordSpacing: 1.2,
-  //           color: Colors.black,
-  //           fontSize: UtilsReponsive.height(13, context),
-  //           fontWeight: FontWeight.bold),
-  //     ),
-  //     children: [
-  //       Container(
-  //         height: UtilsReponsive.height(80, context),
-  //         child: ListView.separated(
-  //             scrollDirection: Axis.horizontal,
-  //             itemCount: 4,
-  //             separatorBuilder: (context, index) =>
-  //                 SizedBox(width: UtilsReponsive.width(20, context)),
-  //             itemBuilder: (context, index) {
-  //               return Container(
-  //                 decoration: BoxDecoration(
-  //                   color: Colors.red.shade50,
-  //                   borderRadius: BorderRadius.circular(
-  //                       UtilsReponsive.height(10, context)),
-  //                 ),
-  //                 height: UtilsReponsive.height(80, context),
-  //                 width: UtilsReponsive.width(60, context),
-  //                 child: Icon(index == 3 ? Icons.add : Icons.file_present),
-  //               );
-  //             }),
-  //       )
-  //     ],
-  //   );
-  // }
-
   Container _commentList(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
@@ -1147,29 +964,66 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Bình luận',
-              style: TextStyle(
-                  fontFamily: 'Roboto',
-                  wordSpacing: 1.2,
-                  color: Colors.black,
-                  fontSize: UtilsReponsive.height(18, context),
-                  fontWeight: FontWeight.bold)),
+          Padding(
+            padding: EdgeInsets.only(left: UtilsReponsive.height(10, context)),
+            child: Text('Bình luận',
+                style: TextStyle(
+                    fontFamily: 'Roboto',
+                    wordSpacing: 1.2,
+                    color: Colors.black,
+                    fontSize: UtilsReponsive.height(18, context),
+                    fontWeight: FontWeight.bold)),
+          ),
           SizedBox(
             height: UtilsReponsive.height(10, context),
           ),
           Obx(
-            () => Container(
-              margin: EdgeInsets.only(top: UtilsReponsive.height(10, context)),
-              child: ListView.separated(
-                  primary: false,
-                  shrinkWrap: true,
-                  itemCount: controller.listComment.length,
-                  separatorBuilder: (context, index) =>
-                      SizedBox(height: UtilsReponsive.height(30, context)),
-                  itemBuilder: (context, index) {
-                    return comment(controller.listComment[index], context);
-                  }),
-            ),
+            () => controller.listComment.isNotEmpty
+                ? Container(
+                    padding: EdgeInsets.only(
+                        left: UtilsReponsive.height(10, context)),
+                    margin: EdgeInsets.only(
+                        top: UtilsReponsive.height(10, context)),
+                    child: ListView.separated(
+                        primary: false,
+                        shrinkWrap: true,
+                        itemCount: controller.listComment.length,
+                        separatorBuilder: (context, index) => SizedBox(
+                            height: UtilsReponsive.height(30, context)),
+                        itemBuilder: (context, index) {
+                          return comment(
+                              controller.listComment[index], context);
+                        }),
+                  )
+                : GestureDetector(
+                    onTap: () {
+                      FocusScope.of(context)
+                          .requestFocus(controller.focusNodeComment);
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            Image.asset(
+                              ImageAssets.comments,
+                              fit: BoxFit.contain,
+                              width: UtilsReponsive.widthv2(context, 100),
+                              height: UtilsReponsive.heightv2(context, 120),
+                            ),
+                            SizedBox(
+                              height: UtilsReponsive.height(10, context),
+                            ),
+                            Text(
+                              'Để lại bình luận đầu tiên',
+                              style: GetTextStyle.getTextStyle(14, 'Roboto',
+                                  FontWeight.w500, ColorsManager.primary),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
           )
         ],
       ),
@@ -1237,20 +1091,25 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                 ],
               ),
               SizedBox(height: UtilsReponsive.height(10, context)),
-              Container(
-                margin: EdgeInsets.only(top: UtilsReponsive.height(8, context)),
-                height: UtilsReponsive.height(150, context),
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: controller.taskModel.value.taskFiles!.length,
-                  separatorBuilder: (context, index) =>
-                      SizedBox(width: UtilsReponsive.width(15, context)),
-                  itemBuilder: (context, index) {
-                    return _filesComment(
-                        controller.taskModel.value.taskFiles![index], context);
-                  },
-                ),
-              ),
+              commentModel.commentFiles!.isNotEmpty
+                  ? Container(
+                      margin: EdgeInsets.only(
+                          top: UtilsReponsive.height(8, context)),
+                      height: UtilsReponsive.height(150, context),
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: commentModel.commentFiles!.length,
+                        separatorBuilder: (context, index) =>
+                            SizedBox(width: UtilsReponsive.width(15, context)),
+                        itemBuilder: (context, index) {
+                          return _filesComment(
+                              commentModel.commentFiles![index],
+                              context,
+                              isEditComment);
+                        },
+                      ),
+                    )
+                  : SizedBox(),
               SizedBox(height: UtilsReponsive.height(10, context)),
               isEditComment == true
                   ? Container(
@@ -1265,6 +1124,12 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                     )
                   : Text(
                       commentModel.text!,
+                      style: TextStyle(
+                          fontFamily: 'Roboto',
+                          letterSpacing: 1,
+                          color: ColorsManager.textColor,
+                          fontSize: UtilsReponsive.height(18, context),
+                          fontWeight: FontWeight.w500),
                     ),
               SizedBox(height: UtilsReponsive.width(10, context)),
               isEditComment == false
@@ -1276,20 +1141,22 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                 isEditComment = true;
                               });
                             },
-                            child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'Chỉnh sửa',
-                                  style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      wordSpacing: 1.2,
-                                      color: Colors.blue,
-                                      fontSize:
-                                          UtilsReponsive.height(18, context),
-                                      fontWeight: FontWeight.bold),
-                                ))),
+                            child: commentModel.user!.id == controller.idUser
+                                ? Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      'Chỉnh sửa',
+                                      style: TextStyle(
+                                          fontFamily: 'Roboto',
+                                          wordSpacing: 1.2,
+                                          color: Colors.blue,
+                                          fontSize: UtilsReponsive.height(
+                                              18, context),
+                                          fontWeight: FontWeight.bold),
+                                    ))
+                                : SizedBox()),
                         SizedBox(
-                          width: 10,
+                          width: UtilsReponsive.width(10, context),
                         ),
                       ],
                     )
@@ -1314,7 +1181,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                       fontWeight: FontWeight.bold),
                                 ))),
                         SizedBox(
-                          width: 10,
+                          width: UtilsReponsive.width(10, context),
                         ),
                         InkWell(
                             onTap: () {
@@ -1345,7 +1212,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
 
   Container _subTask(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
+      padding: EdgeInsets.all(UtilsReponsive.height(15, context)),
       decoration: BoxDecoration(
           color: Colors.white,
           // boxShadow: const [
@@ -1389,9 +1256,9 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                             },
                             controller: controller.titleSubTaskController,
                           ),
-                          actions: <Widget>[
+                          actions: [
                             TextButton(
-                              child: Text('Cancel',
+                              child: Text('Hủy',
                                   style: GetTextStyle.getTextStyle(
                                       16,
                                       'Roboto',
@@ -1403,7 +1270,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                               },
                             ),
                             TextButton(
-                              child: Text('Save',
+                              child: Text('Lưu',
                                   style: GetTextStyle.getTextStyle(16, 'Roboto',
                                       FontWeight.w500, ColorsManager.primary)),
                               onPressed: () {
@@ -1456,12 +1323,14 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
             ),
             Column(
               children: controller.taskModel.value.subTask!
+                  .where((element) => element.status != Status.CANCEL)
                   .map((e) => GestureDetector(
                         onTap: () {
                           Get.toNamed(Routes.SUBTASK_DETAIL_VIEW, arguments: {
                             "taskID": e.id,
                             "isNavigateDetail": true,
-                            "endDate": controller.taskModel.value.endDate
+                            "endDate": controller.taskModel.value.endDate,
+                            "startDate": controller.taskModel.value.startDate,
                           });
                         },
                         child: Card(
@@ -1518,6 +1387,9 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                           context, e.id!);
                                     },
                                     child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: UtilsReponsive.height(
+                                              5, context)),
                                       height:
                                           UtilsReponsive.height(40, context),
                                       decoration: BoxDecoration(
@@ -1535,31 +1407,38 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                       ),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        // mainAxisAlignment:
+                                        //     MainAxisAlignment.spaceAround,
                                         children: [
-                                          Text(
-                                            e.status == Status.PENDING
-                                                ? "Đang kiểm thực"
-                                                : e.status == Status.PROCESSING
-                                                    ? "Đang thực hiện"
-                                                    : e.status == Status.DONE
-                                                        ? "Hoàn thành"
-                                                        : e.status ==
-                                                                Status.CONFIRM
-                                                            ? "Đã xác thực"
-                                                            : "Quá hạn",
-                                            style: TextStyle(
-                                                fontFamily: 'Roboto',
-                                                letterSpacing: 1.5,
-                                                color: Colors.white,
-                                                fontSize: UtilsReponsive.height(
-                                                    14, context),
-                                                fontWeight: FontWeight.bold),
+                                          Expanded(
+                                            flex: 3,
+                                            child: Text(
+                                              e.status == Status.PENDING
+                                                  ? "Đang kiểm thực"
+                                                  : e.status ==
+                                                          Status.PROCESSING
+                                                      ? "Đang thực hiện"
+                                                      : e.status == Status.DONE
+                                                          ? "Hoàn thành"
+                                                          : e.status ==
+                                                                  Status.CONFIRM
+                                                              ? "Đã xác thực"
+                                                              : "Quá hạn",
+                                              style: TextStyle(
+                                                  fontFamily: 'Roboto',
+                                                  letterSpacing: 1.5,
+                                                  color: Colors.white,
+                                                  fontSize:
+                                                      UtilsReponsive.height(
+                                                          14, context),
+                                                  fontWeight: FontWeight.bold),
+                                            ),
                                           ),
-                                          const Icon(
-                                            Icons.arrow_drop_down_rounded,
-                                            color: Colors.white,
+                                          const Expanded(
+                                            child: Icon(
+                                              Icons.arrow_drop_down_rounded,
+                                              color: Colors.white,
+                                            ),
                                           )
                                         ],
                                       ),
@@ -1582,157 +1461,361 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
   Obx _documentV2(BuildContext context) {
     return Obx(
       () => Container(
-        height: controller.taskModel.value.taskFiles!.isEmpty
-            ? 50
-            : UtilsReponsive.height(200, context),
-        padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            // boxShadow: const [
-            //   BoxShadow(
-            //     color: Colors.white,
-            //     spreadRadius: 0.5,
-            //     blurRadius: 7,
-            //     offset: Offset(0, 3),
-            //   ),
-            // ],
-            borderRadius:
-                BorderRadius.circular(UtilsReponsive.height(10, context))),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // height: controller.listAttachment.isEmpty
+          //     ? 50
+          //     : UtilsReponsive.height(200, context),
+          // padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius:
+                  BorderRadius.circular(UtilsReponsive.height(10, context))),
+          child: Theme(
+            data: ThemeData().copyWith(dividerColor: Colors.transparent),
+            child: ExpansionTile(
+              title: Row(
+                children: [
+                  Text('Tài liệu',
+                      style: TextStyle(
+                          fontFamily: 'Roboto',
+                          wordSpacing: 1.2,
+                          color: Colors.black,
+                          fontSize: UtilsReponsive.height(18, context),
+                          fontWeight: FontWeight.bold)),
+                  SizedBox(
+                    width: UtilsReponsive.width(5, context),
+                  ),
+                  controller.listAttachment.isNotEmpty
+                      ? CircleAvatar(
+                          radius: UtilsReponsive.height(10, context),
+                          child: Text(
+                            controller.listAttachment.length.toString(),
+                            style: TextStyle(
+                                letterSpacing: 1.5,
+                                color: ColorsManager.backgroundWhite,
+                                fontSize: UtilsReponsive.height(15, context),
+                                fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      : SizedBox(),
+                ],
+              ),
               children: [
-                Text('Tài liệu',
-                    style: TextStyle(
-                        fontFamily: 'Roboto',
-                        wordSpacing: 1.2,
-                        color: Colors.black,
-                        fontSize: UtilsReponsive.height(18, context),
-                        fontWeight: FontWeight.bold)),
-                // InkWell(
-                //   onTap: () async {
-                //     await controller.selectFile();
-                //   },
-                //   child: Icon(
-                //     Icons.add,
-                //     color: ColorsManager.primary,
-                //     size: UtilsReponsive.height(30, context),
-                //   ),
-                // )
+                controller.listAttachment.isEmpty
+                    ? SizedBox()
+                    : Container(
+                        padding: EdgeInsets.only(
+                            left: UtilsReponsive.height(15, context),
+                            right: UtilsReponsive.height(15, context),
+                            bottom: UtilsReponsive.height(10, context)),
+                        height: UtilsReponsive.height(120, context),
+                        child: ListView.separated(
+                          primary: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: controller.listAttachment.length,
+                          separatorBuilder: (context, index) => SizedBox(
+                              width: UtilsReponsive.width(10, context)),
+                          itemBuilder: (context, index) {
+                            return _files(
+                                controller.listAttachment[index], context);
+                          },
+                        ),
+                      ),
               ],
             ),
-            controller.taskModel.value.taskFiles!.isEmpty
-                ? SizedBox()
-                : Container(
-                    margin:
-                        EdgeInsets.only(top: UtilsReponsive.height(8, context)),
-                    height: UtilsReponsive.height(130, context),
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: controller.taskModel.value.taskFiles!.length,
-                      separatorBuilder: (context, index) =>
-                          SizedBox(width: UtilsReponsive.width(10, context)),
-                      itemBuilder: (context, index) {
-                        return _files(
-                            controller.taskModel.value.taskFiles![index],
-                            context);
-                      },
-                    ),
-                  ),
-          ],
-        ),
-      ),
+          )),
     );
   }
 
-  InkWell fileComment(PlatformFile commentFile, BuildContext context) {
-    final fileName = commentFile.path!.split('/').last;
-    final kb = commentFile.size / 1024;
+  void _showOptionsFileCommentPopup(
+      BuildContext context, CommentFile commentFile) {
+    BuildContext popupContext = context;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            "Tùy chọn",
+            style: TextStyle(
+                fontFamily: 'Roboto',
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: ColorsManager.textColor2),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: const Text(
+                  'Xóa',
+                  style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                      color: ColorsManager.red),
+                ),
+                onTap: () {
+                  _showDeleteFileCommentConfirmation(
+                      context, commentFile, popupContext);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _showDeleteFileCommentConfirmation(BuildContext context,
+      CommentFile commentFile, BuildContext popupContext) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            "Xóa tệp này?",
+            style: TextStyle(
+                fontFamily: 'Roboto',
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: ColorsManager.textColor2),
+          ),
+          content: const Text(
+            "Một khi nó đã mất, thì nó đã mất.",
+            style: TextStyle(
+                fontFamily: 'Roboto',
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                color: ColorsManager.textColor2),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Đóng hộp thoại
+              },
+              child: Text(
+                "Hủy",
+                style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: ColorsManager.primary),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                controller.deleteCommentFile(commentFile);
+                Navigator.of(context).pop();
+                Navigator.of(popupContext).pop();
+              },
+              child: const Text(
+                "Xóa",
+                style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: ColorsManager.red),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showOptionsAttachmentCommentPopup(BuildContext context, int index) {
+    BuildContext popupContext = context;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            "Tùy chọn",
+            style: TextStyle(
+                fontFamily: 'Roboto',
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: ColorsManager.textColor2),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: const Text(
+                  'Xóa',
+                  style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                      color: ColorsManager.red),
+                ),
+                onTap: () {
+                  _showDeleteAttachmentCommentConfirmation(
+                      context, index, popupContext);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _showDeleteAttachmentCommentConfirmation(
+      BuildContext context, int index, BuildContext popupContext) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            "Xóa tệp này?",
+            style: TextStyle(
+                fontFamily: 'Roboto',
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: ColorsManager.textColor2),
+          ),
+          content: const Text(
+            "Một khi nó đã mất, thì nó đã mất.",
+            style: TextStyle(
+                fontFamily: 'Roboto',
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                color: ColorsManager.textColor2),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Đóng hộp thoại
+              },
+              child: Text(
+                "Hủy",
+                style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: ColorsManager.primary),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                controller.deleteAttachmentCommentFile(index);
+                Navigator.of(context).pop();
+                Navigator.of(popupContext).pop();
+              },
+              child: const Text(
+                "Xóa",
+                style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: ColorsManager.red),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  InkWell attchFileComment(
+      PlatformFile attachCommentFile, BuildContext context, int index) {
+    final fileName = attachCommentFile.path!.split('/').last;
+    final kb = attachCommentFile.size / 1024;
     final mb = kb / 1024;
     final fileSize =
         mb >= 1 ? '${mb.toStringAsFixed(2)} MB' : '${kb.toStringAsFixed(2)} KB';
-    final extension = commentFile.extension;
+    final extension = attachCommentFile.extension;
     return InkWell(
       onTap: () {
-        controller.openFile(commentFile);
+        controller.openFile(attachCommentFile);
+      },
+      onLongPress: () {
+        _showOptionsAttachmentCommentPopup(context, index);
       },
       child: extension == 'jpg' || extension == 'png' || extension == 'jpeg'
           ? Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
                 color: ColorsManager.backgroundGrey,
               ),
               width: UtilsReponsive.width(120, context),
               child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
                 child: Image.file(
-                  File(commentFile.path!),
+                  File(attachCommentFile.path!),
                   fit: BoxFit.cover,
                 ),
               ),
             )
           : Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
                 color: ColorsManager.backgroundGrey,
               ),
-              width: UtilsReponsive.width(120, context),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 4,
-                        // child: Text('hiii'),
-                        child: fileName.length > 35
-                            ? Text(
-                                fileName.length > 35
-                                    ? '${fileName.substring(0, 35)}...'
-                                    : fileName,
-                                style: const TextStyle(
-                                    fontFamily: 'Roboto',
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: ColorsManager.textColor),
-                              )
-                            : Text(
-                                fileName,
-                                style: const TextStyle(
-                                    fontFamily: 'Roboto',
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: ColorsManager.textColor),
-                              ),
-                      ),
-                      Expanded(
-                          child: Text(
-                        fileSize,
-                        style: const TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: ColorsManager.textColor2),
-                      )),
-                    ]),
-              ),
+              width: UtilsReponsive.width(125, context),
+              padding: UtilsReponsive.paddingOnly(context,
+                  top: 10, left: 10, bottom: 5, right: 10),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 4,
+                      // child: Text('hiii'),
+                      child: fileName.length > 35
+                          ? Text(
+                              fileName.length > 35
+                                  ? '${fileName.substring(0, 35)}...'
+                                  : fileName,
+                              style: const TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: ColorsManager.textColor),
+                            )
+                          : Text(
+                              fileName,
+                              style: const TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: ColorsManager.textColor),
+                            ),
+                    ),
+                    Expanded(
+                        child: Text(
+                      fileSize,
+                      style: const TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: ColorsManager.textColor2),
+                    )),
+                  ]),
             ),
     );
   }
 
-  InkWell _filesComment(TaskFile taskFile, BuildContext context) {
+  InkWell _filesComment(
+      CommentFile commentFile, BuildContext context, bool isEditComment) {
     return InkWell(
       onTap: () async {
-        final url = Uri.parse(taskFile.fileUrl!);
+        final url = Uri.parse(commentFile.fileUrl!);
         if (await canLaunchUrl(url)) {
           await launchUrl(url, mode: LaunchMode.externalApplication);
         }
       },
+      onLongPress: () {
+        if (isEditComment) {
+          _showOptionsFileCommentPopup(context, commentFile);
+        }
+      },
       child: CachedNetworkImage(
-        imageUrl: taskFile.fileUrl!,
+        imageUrl: commentFile.fileUrl!,
         imageBuilder: (context, imageProvider) => Container(
             width: UtilsReponsive.width(110, context),
             padding: UtilsReponsive.paddingAll(context, padding: 5),
             decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
                 image:
                     DecorationImage(fit: BoxFit.cover, image: imageProvider))),
         progressIndicatorBuilder: (context, url, downloadProgress) => Container(
@@ -1744,17 +1827,21 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
           ),
         ),
         errorWidget: (context, url, error) => Container(
-          padding: UtilsReponsive.paddingAll(context, padding: 5),
-          color: ColorsManager.backgroundGrey,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: ColorsManager.backgroundGrey,
+          ),
           width: UtilsReponsive.width(120, context),
+          padding: UtilsReponsive.paddingOnly(context,
+              top: 10, left: 10, bottom: 5, right: 10),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Expanded(
-              child: taskFile.fileName!.length > 35
+              child: commentFile.fileName!.length > 35
                   ? Text(
-                      taskFile.fileName!.length > 35
-                          ? '${taskFile.fileName!.substring(0, 35)}...'
-                          : taskFile.fileName!,
+                      commentFile.fileName!.length > 35
+                          ? '${commentFile.fileName!.substring(0, 35)}...'
+                          : commentFile.fileName!,
                       style: const TextStyle(
                           fontFamily: 'Roboto',
                           fontSize: 14,
@@ -1762,7 +1849,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                           color: ColorsManager.textColor),
                     )
                   : Text(
-                      taskFile.fileName!,
+                      commentFile.fileName!,
                       style: const TextStyle(
                           fontFamily: 'Roboto',
                           fontSize: 14,
@@ -1791,21 +1878,21 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
     );
   }
 
-  InkWell _files(TaskFile taskFile, BuildContext context) {
+  InkWell _files(AttachmentModel attachmentModel, BuildContext context) {
     return InkWell(
       onTap: () async {
-        final url = Uri.parse(taskFile.fileUrl!);
+        final url = Uri.parse(attachmentModel.fileUrl!);
         if (await canLaunchUrl(url)) {
           await launchUrl(url, mode: LaunchMode.externalApplication);
         }
-        print('aaa');
       },
       child: CachedNetworkImage(
-        imageUrl: taskFile.fileUrl!,
+        imageUrl: attachmentModel.fileUrl!,
         imageBuilder: (context, imageProvider) => Container(
             width: UtilsReponsive.width(110, context),
             padding: UtilsReponsive.paddingAll(context, padding: 5),
             decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
                 image:
                     DecorationImage(fit: BoxFit.cover, image: imageProvider))),
         progressIndicatorBuilder: (context, url, downloadProgress) => Container(
@@ -1817,30 +1904,34 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
           ),
         ),
         errorWidget: (context, url, error) => Container(
-          color: ColorsManager.backgroundGrey,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: ColorsManager.backgroundGrey,
+          ),
           width: UtilsReponsive.width(110, context),
-          padding: UtilsReponsive.paddingAll(context, padding: 5),
+          padding: UtilsReponsive.paddingOnly(context,
+              top: 10, left: 10, bottom: 5, right: 10),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Expanded(
               flex: 2,
               // child: Text('hiii'),
-              child: taskFile.fileName!.length > 35
+              child: attachmentModel.fileName!.length > 35
                   ? Text(
-                      taskFile.fileName!.length > 35
-                          ? '${taskFile.fileName!.substring(0, 35)}...'
-                          : taskFile.fileName!,
+                      attachmentModel.fileName!.length > 35
+                          ? '${attachmentModel.fileName!.substring(0, 35)}...'
+                          : attachmentModel.fileName!,
                       style: const TextStyle(
                           fontFamily: 'Roboto',
-                          fontSize: 12,
+                          fontSize: 11,
                           fontWeight: FontWeight.w500,
                           color: ColorsManager.textColor),
                     )
                   : Text(
-                      taskFile.fileName!,
+                      attachmentModel.fileName!,
                       style: const TextStyle(
                           fontFamily: 'Roboto',
-                          fontSize: 12,
+                          fontSize: 11,
                           fontWeight: FontWeight.w500,
                           color: ColorsManager.textColor),
                     ),
@@ -1871,129 +1962,58 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
       configurations: Quil.QuillConfigurations(
           controller: controller.quillController.value),
       child: Container(
-        padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
         decoration: BoxDecoration(
-            color: Colors.white,
-            // boxShadow: const [
-            //   BoxShadow(
-            //     color: Colors.white,
-            //     spreadRadius: 0.5,
-            //     blurRadius: 7,
-            //     offset: Offset(0, 3),
-            //   ),
-            // ],
-            borderRadius:
-                BorderRadius.circular(UtilsReponsive.height(10, context))),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Mô tả',
-                  style: TextStyle(
-                      fontFamily: 'Roboto',
-                      wordSpacing: 1.2,
-                      color: Colors.black,
-                      fontSize: UtilsReponsive.height(18, context),
-                      fontWeight: FontWeight.bold),
-                ),
-                // !controller.isEditDescription.value
-                // IconButton(
-                //     onPressed: () {
-                //       controller.onTapEditDescription();
-                //     },
-                //     icon: Icon(
-                //       Icons.edit,
-                //       size: 20,
-                //       color: ColorsManager.primary,
-                //     ))
-                // : Wrap(
-                //     children: [
-                //       IconButton(
-                //           onPressed: () {
-                //             // controller.onTapEditDescription();
-                //             //Thêm hàm save vô
-                //             controller.saveDescription();
-                //           },
-                //           icon: Icon(Icons.save)),
-                //       IconButton(
-                //           onPressed: () {
-                //             controller.discardDescription();
-                //           },
-                //           icon: const Icon(Icons.close))
-                //     ],
-                //   )
-              ],
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(
+            UtilsReponsive.height(10, context),
+          ),
+        ),
+        child: Theme(
+          data: ThemeData().copyWith(dividerColor: Colors.transparent),
+          child: ExpansionTile(
+            title: Text(
+              'Mô tả',
+              style: TextStyle(
+                  fontFamily: 'Roboto',
+                  wordSpacing: 1.2,
+                  color: ColorsManager.textColor,
+                  fontSize: UtilsReponsive.height(18, context),
+                  fontWeight: FontWeight.bold),
             ),
-            // !controller.isEditDescription.value
-            //     ? SizedBox()
-            //     : Quil.QuillToolbar.basic(
-            //         embedButtons: FlutterQuillEmbeds.buttons(),
-            //         showDividers: false,
-            //         showFontFamily: false,
-            //         showFontSize: true,
-            //         showBoldButton: true,
-            //         showItalicButton: true,
-            //         showSmallButton: false,
-            //         showUnderLineButton: true,
-            //         showStrikeThrough: false,
-            //         showInlineCode: false,
-            //         showColorButton: true,
-            //         showBackgroundColorButton: false,
-            //         showClearFormat: false,
-            //         showAlignmentButtons: true,
-            //         showLeftAlignment: true,
-            //         showCenterAlignment: true,
-            //         showRightAlignment: true,
-            //         showJustifyAlignment: true,
-            //         showHeaderStyle: false,
-            //         showListNumbers: false,
-            //         showListBullets: false,
-            //         showListCheck: false,
-            //         showCodeBlock: false,
-            //         showQuote: false,
-            //         showIndent: false,
-            //         showLink: false,
-            //         showUndo: true,
-            //         showRedo: true,
-            //         showDirection: false,
-            //         showSearchButton: false,
-            //         showSubscript: false,
-            //         showSuperscript: false,
-            //         multiRowsDisplay: true,
-            //         controller: controller.quillController.value),
-            // Container(
-            //   child: Stack(children: [
-            //     !controller.isEditDescription.value
-            IgnorePointer(
-              ignoring: true,
-              child: Quil.QuillEditor.basic(
-                // controller: controller,
-                readOnly: true,
-                autoFocus: false,
-                // embedBuilders: FlutterQuillEmbeds.builders(),
-              ),
-            ),
-            // ),
-
-            //  Quil.QuillEditor.basic(
-            //     focusNode: controller.focusNodeDetail,
-            //     autoFocus: false,
-            //     expands: false,
-            //     controller: controller.quillController.value,
-            //     readOnly: !controller
-            //         .isEditDescription.value, // true for view only mode
-            //   ),
-            // Container(
-            //   height: 300,
-            //   width: 300,
-            //   child: SizedBox(),
-            // ),
-            //   ]),
-            // )
-          ],
+            children: [
+              controller.taskModel.value.description != null &&
+                      controller.taskModel.value.description != '' &&
+                      controller.taskModel.value.description!.trim() !=
+                          '[{\"insert\":\"\\n\"}]'
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: UtilsReponsive.height(20, context)),
+                      child: IgnorePointer(
+                        ignoring: true,
+                        child: Quil.QuillEditor.basic(
+                          // controller: controller,
+                          configurations: const Quil.QuillEditorConfigurations(
+                              readOnly: false),
+                          autoFocus: false,
+                          // embedBuilders: FlutterQuillEmbeds.builders(),
+                        ),
+                      ),
+                    )
+                  : Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: UtilsReponsive.height(20, context)),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Thêm mô tả...',
+                            style: GetTextStyle.getTextStyle(15, 'Roboto',
+                                FontWeight.w500, ColorsManager.textColor2),
+                          ),
+                        ],
+                      ),
+                    ),
+            ],
+          ),
         ),
       ),
     );

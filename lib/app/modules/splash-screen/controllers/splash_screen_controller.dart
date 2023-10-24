@@ -18,7 +18,10 @@ class SplashScreenController extends BaseController {
     super.onReady();
     if (getStorage.read('JWT') != null) {
       String jwt = getStorage.read('JWT');
+      print('JwtDecoder.isExpired(jwt) ${JwtDecoder.isExpired(jwt)}');
+      DateTime expirationDate = JwtDecoder.getExpirationDate(jwt);
       if (JwtDecoder.isExpired(jwt)) {
+        getStorage.remove('JWT');
         Get.offAllNamed(Routes.LOGIN);
       } else {
         Get.offAllNamed(Routes.TAB_VIEW);

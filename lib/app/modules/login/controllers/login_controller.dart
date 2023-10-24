@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/login/api/login_api.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/user_model.dart';
 import 'package:hrea_mobile_staff/app/resources/login_model.dart';
+import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -75,16 +77,24 @@ class LoginController extends BaseController {
             prefs.setString('JWT', loginReponseApi!.accessToken!);
             GetStorage().write('JWT', loginReponseApi!.accessToken!);
             print('JWT: ${loginReponseApi!.accessToken!}');
-
-            // userModel =
-            //     await LoginApi.getProfile(loginReponseApi!.accessToken!);
+            final token = await FirebaseMessaging.instance.getToken();
+            print('JWT: $token');
+            if (token != null || token != '') {
+              ResponseApi storeDeviceReponseApi =
+                  await LoginApi.storeDeviceToken(
+                      token!, loginReponseApi!.accessToken!);
+              if (storeDeviceReponseApi.statusCode == 200 ||
+                  storeDeviceReponseApi.statusCode == 201) {
+                errorLogin.value = false;
+                Get.offAllNamed(Routes.TAB_VIEW);
+              }
+            }
             // if (userModel != null) {
             // String userJson = jsonEncode(userModel);
             // GetStorage().write('user', userJson);
             // var user = GetStorage().read('user');
             // print('user ${user}');
-            errorLogin.value = false;
-            Get.offAllNamed(Routes.TAB_VIEW);
+
             // }
           } else {
             errorLogin.value = true;

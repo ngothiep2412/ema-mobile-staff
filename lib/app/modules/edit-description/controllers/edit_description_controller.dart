@@ -86,10 +86,19 @@ class EditDescriptionController extends BaseController {
   final count = 0.obs;
   @override
   void onInit() {
-    quillController.value = QuillController(
-      document: Document.fromJson(jsonDecode(taskModel.value.description!)),
-      selection: const TextSelection.collapsed(offset: 0),
-    );
+    if (taskModel.value.description == null ||
+        taskModel.value.description == '') {
+      quillController.value = QuillController(
+        document: Document(),
+        selection: const TextSelection.collapsed(offset: 0),
+      );
+    } else {
+      quillController.value = QuillController(
+        document: Document.fromJson(jsonDecode(taskModel.value.description!)),
+        selection: const TextSelection.collapsed(offset: 0),
+      );
+    }
+
     // quillServerController.value = QuillController(
     //   document: Document.fromJson(myJSON),
     //   selection: const TextSelection.collapsed(offset: 0),

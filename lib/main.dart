@@ -28,8 +28,8 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   pushNotificationsProvider.initPushNotifications();
   pushNotificationsProvider.onMessageListener();
-  final token = await FirebaseMessaging.instance.getToken();
-  print('getToken: $token');
+  // final token = await FirebaseMessaging.instance.getToken();
+  // print('getToken: $token');
   runApp(
     GetMaterialApp(
       title: "Application",

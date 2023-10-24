@@ -41,16 +41,16 @@ class TabHomeView extends BaseView<TabHomeController> {
                                   listEvent: controller.listEvent));
                         },
                         icon: const Icon(Icons.search),
-                        color: ColorsManager.backgroundWhite,
+                        color: ColorsManager.primary,
                       ),
                       Text(
                         'Sự kiện',
                         style: GetTextStyle.getTextStyle(20, 'Roboto',
                             FontWeight.w600, ColorsManager.primary),
                       ),
-                      const Icon(
+                      Icon(
                         Icons.filter_alt_outlined,
-                        color: ColorsManager.backgroundWhite,
+                        color: ColorsManager.primary,
                       ),
                     ],
                   ),

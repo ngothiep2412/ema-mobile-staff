@@ -5,6 +5,7 @@ import 'package:hrea_mobile_staff/app/base/base_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/api/tab_home_api/tab_home_api.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/event.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TabHomeController extends BaseController {
@@ -24,14 +25,23 @@ class TabHomeController extends BaseController {
     isLoading.value = false;
   }
 
+  void checkToken() {
+    if (GetStorage().read('JWT') != null) {
+      jwt = GetStorage().read('JWT');
+      if (JwtDecoder.isExpired(jwt)) {
+        Get.offAllNamed(Routes.LOGIN);
+        return;
+      }
+    } else {
+      Get.offAllNamed(Routes.LOGIN);
+      return;
+    }
+  }
+
   Future<void> getEvent() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if (GetStorage().read('JWT') != null) {
-      jwt = GetStorage().read('JWT');
-    } else {
-      jwt = prefs.getString('JWT')!;
-    }
+    checkToken();
     print('JWT 123: $jwt');
     isLoading.value = true;
 

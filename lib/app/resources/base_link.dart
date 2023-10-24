@@ -1,6 +1,7 @@
 class BaseLink {
   static const localBaseLink = 'http://api.hreaevent.live';
   static const login = '/api/v1/auth/login';
+  static const storeDevice = '/api/v1/device';
   static const sendOtp = '/api/v1/auth/send-code';
   static const verifyCode = '/api/v1/auth/verify-code';
   static const resetPassword = '/api/v1/auth/forget-password';

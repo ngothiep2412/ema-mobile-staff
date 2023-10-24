@@ -36,41 +36,23 @@ class TaskOverallViewController extends BaseController {
     print('JWT 123: $jwt');
     isLoading.value = true;
     Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
-    listTask.value =
-        await TaskOverallApi.getTask(jwt, eventID, decodedToken['id']);
-
-    if (listTask.isNotEmpty) {
-      for (var item in listTask) {
-        print('${item.assignTasks![0].user!.id}');
-
-        listTask.value = listTask
-            .where((task) =>
-                task.parent == null &&
-                task.status != Status.CANCEL &&
-                task.status != Status.CONFIRM)
-            .toList();
+    // listTask.value =
+    //     await TaskOverallApi.getTask(jwt, eventID, decodedToken['id']);
+    listTask.clear();
+    List<TaskModel> list = [];
+    list = await TaskOverallApi.getTask(jwt, eventID);
+    if (list.isNotEmpty) {
+      for (var item in list) {
+        if (item.assignTasks!.isNotEmpty) {
+          if (item.parent == null &&
+              item.status != Status.CANCEL &&
+              item.assignTasks![0].user!.id == decodedToken['id']) {
+            listTask.add(item);
+          }
+        }
       }
 
-      // for (int index0 = 0; index0 < listTask.length; index0++) {
-      //   if (listTask[index0].parent == null &&
-      //       listTask[index0].subTask!.isNotEmpty) {
-      //     for (int index1 = 0;
-      //         index1 < listTask[index0].subTask!.length;
-      //         index1++) {
-      //       if (listTask[index0].subTask![index1].assignTasks!.isNotEmpty) {
-      //         for (int index2 = 0;
-      //             index2 <
-      //                 listTask[index0].subTask![index1].assignTasks!.length;
-      //             index2++) {
-      //           listTask[index0]
-      //               .subTask![index1]
-      //               .assignTasks![index2]
-      //               .nameAssignee = 'T';
-      //         }
-      //       }
-      //     }
-      // }
-      // }
+      list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
     }
     isLoading.value = false;
 

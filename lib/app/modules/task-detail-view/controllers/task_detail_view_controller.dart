@@ -8,6 +8,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
+import 'package:hrea_mobile_staff/app/modules/subtask-detail-view/model/attachment_model.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/task.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/user_model.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/api/task_detail_api.dart';
@@ -18,6 +19,7 @@ import 'package:hrea_mobile_staff/app/modules/task-overall-view/controllers/task
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:intl/intl.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -65,10 +67,13 @@ class TaskDetailViewController extends BaseController {
   RxString descriptionString = ''.obs;
 
   String jwt = '';
+  String idUser = '';
   RxInt count = 0.obs;
   RxDouble progressSubTaskDone = 0.0.obs;
 
   RxList<PlatformFile> filePicker = <PlatformFile>[].obs;
+
+  RxList<AttachmentModel> listAttachment = <AttachmentModel>[].obs;
 
   // late IO.Socket socket;
 
@@ -127,6 +132,10 @@ class TaskDetailViewController extends BaseController {
       }
       listComment.value =
           await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+      listComment.sort((comment1, comment2) {
+        return comment2.createdAt!.compareTo(comment1.createdAt!);
+      });
+      getAllAttachment();
 
       // for (var item in taskModel.value.assignTasks!) {
       //   UserModel assigner = await TaskDetailApi.getAssignerDetail(
@@ -373,6 +382,32 @@ class TaskDetailViewController extends BaseController {
     }
   }
 
+  void getAllAttachment() {
+    List<AttachmentModel> list = [];
+
+    if (taskModel.value.taskFiles!.isNotEmpty) {
+      taskModel.value.taskFiles!.sort((taskFile1, taskFile2) {
+        return taskFile2.createdAt!.compareTo(taskFile1.createdAt!);
+      });
+      for (var item in taskModel.value.taskFiles!) {
+        list.add(AttachmentModel(
+            fileName: item.fileName, fileUrl: item.fileUrl, mode: 1));
+      }
+    }
+    if (listComment.isNotEmpty) {
+      for (var item in listComment) {
+        if (item.commentFiles!.isNotEmpty) {
+          for (var file in item.commentFiles!) {
+            list.add(AttachmentModel(
+                fileName: file.fileName, fileUrl: file.fileUrl, mode: 2));
+          }
+        }
+      }
+    }
+
+    listAttachment.value = list;
+  }
+
   Future<void> createSubTask() async {
     isLoading.value = true;
     // SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -494,8 +529,36 @@ class TaskDetailViewController extends BaseController {
   void checkToken() {
     if (GetStorage().read('JWT') != null) {
       jwt = GetStorage().read('JWT');
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+      idUser = decodedToken['id'];
     } else {
       Get.offAllNamed(Routes.LOGIN);
+    }
+  }
+
+  void deleteCommentFile(CommentFile commentFile) {
+    isLoading.value = true;
+    try {
+      for (var item in listComment) {
+        item.commentFiles!.removeWhere(
+          (element) => element.id == commentFile.id,
+        );
+      }
+
+      getAllAttachment();
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+    }
+  }
+
+  void deleteAttachmentCommentFile(int index) {
+    isLoading.value = true;
+    try {
+      filePicker.removeAt(index);
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
     }
   }
 }
