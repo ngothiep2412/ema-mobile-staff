@@ -57,63 +57,73 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                           ),
                           IconButton(
                               onPressed: () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(
-                                                  10)), // Đây là phần quan trọng để làm cho các góc bo tròn
-                                          color: Colors
-                                              .white, // Màu nền của container
-                                        ),
-                                        height:
-                                            UtilsReponsive.height(500, context),
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: UtilsReponsive.height(
-                                                  10, context)),
-                                          child: Column(children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                IconButton(
-                                                  onPressed: () => Get.back(),
-                                                  icon: const Icon(
-                                                    Icons.cancel,
-                                                    color:
-                                                        ColorsManager.textColor,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'Bộ lọc',
-                                                  style:
-                                                      GetTextStyle.getTextStyle(
-                                                          16,
-                                                          'Roboto',
-                                                          FontWeight.w600,
-                                                          ColorsManager
-                                                              .textColor),
-                                                ),
-                                                Text(
-                                                  'Bỏ lọc',
-                                                  style:
-                                                      GetTextStyle.getTextStyle(
-                                                          16,
-                                                          'Roboto',
-                                                          FontWeight.w600,
-                                                          ColorsManager
-                                                              .primary),
-                                                ),
-                                              ],
-                                            )
-                                          ]),
-                                        ),
-                                      );
-                                    });
+                                Get.bottomSheet(Container(
+                                  height: UtilsReponsive.height(280, context),
+                                  constraints: BoxConstraints(
+                                      maxHeight:
+                                          UtilsReponsive.width(280, context)),
+                                  padding: EdgeInsetsDirectional.symmetric(
+                                      horizontal:
+                                          UtilsReponsive.width(15, context),
+                                      vertical:
+                                          UtilsReponsive.height(20, context)),
+                                  decoration: BoxDecoration(
+                                    color: ColorsManager.backgroundWhite,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(
+                                            UtilsReponsive.height(20, context)),
+                                        topRight: Radius.circular(
+                                            UtilsReponsive.height(
+                                                20, context))),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal:
+                                            UtilsReponsive.height(10, context)),
+                                    child: Column(children: [
+                                      Row(
+                                        children: [
+                                          Center(
+                                            child: Text(
+                                              'Bộ lọc',
+                                              style: GetTextStyle.getTextStyle(
+                                                  18,
+                                                  'Roboto',
+                                                  FontWeight.bold,
+                                                  ColorsManager.primary),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Obx(
+                                        () => Expanded(
+                                            child: ListView.separated(
+                                                shrinkWrap: true,
+                                                itemCount: controller
+                                                    .filterList.length,
+                                                separatorBuilder: (context,
+                                                        index) =>
+                                                    SizedBox(
+                                                      height:
+                                                          UtilsReponsive.height(
+                                                              10, context),
+                                                    ),
+                                                itemBuilder: (context, index) {
+                                                  return GestureDetector(
+                                                    onTap: () {},
+                                                    child: Padding(
+                                                      padding: UtilsReponsive
+                                                          .paddingAll(context,
+                                                              padding: 8),
+                                                      child: Text(controller
+                                                          .filterList[index]),
+                                                    ),
+                                                  );
+                                                })),
+                                      )
+                                    ]),
+                                  ),
+                                ));
                               },
                               icon: Icon(
                                 Icons.filter_alt_outlined,
@@ -146,7 +156,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                           16,
                                           'Roboto',
                                           FontWeight.w600,
-                                          ColorsManager.backgroundWhite),
+                                          ColorsManager.primary),
                                     ),
                                   )
                                 : Obx(
@@ -155,7 +165,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                       child: ListView.separated(
                                           padding: UtilsReponsive.paddingAll(
                                               context,
-                                              padding: 10),
+                                              padding: 15),
                                           itemBuilder: (context, index) =>
                                               _taskCommon(
                                                   context,
@@ -223,10 +233,9 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                             : taskModel.title!,
                         style: TextStyle(
                           fontFamily: 'Roboto',
-                          letterSpacing: 1.5,
                           color: ColorsManager.textColor,
-                          fontSize: UtilsReponsive.height(18, context),
-                          fontWeight: FontWeight.bold,
+                          fontSize: UtilsReponsive.height(22, context),
+                          fontWeight: FontWeight.w600,
                           decoration: TextDecoration.lineThrough,
                         ),
                       )
@@ -236,10 +245,9 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                             : taskModel.title!,
                         style: TextStyle(
                             fontFamily: 'Roboto',
-                            letterSpacing: 1.5,
                             color: ColorsManager.textColor,
-                            fontSize: UtilsReponsive.height(18, context),
-                            fontWeight: FontWeight.bold),
+                            fontSize: UtilsReponsive.height(22, context),
+                            fontWeight: FontWeight.w600),
                       )
               ],
             ),
@@ -252,10 +260,10 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                   const Icon(
                     Icons.priority_high,
                     color: Colors.grey,
-                    size: 28,
+                    size: 20,
                   ),
                   SizedBox(
-                    width: UtilsReponsive.width(10, context),
+                    width: UtilsReponsive.width(15, context),
                   ),
                   Text(
                       taskModel.priority! == Priority.LOW
@@ -272,19 +280,78 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                               : taskModel.priority! == Priority.MEDIUM
                                   ? ColorsManager.orange
                                   : ColorsManager.green)),
+                  SizedBox(
+                    width: UtilsReponsive.width(15, context),
+                  ),
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: ColorsManager.backgroundGrey,
+                        radius: UtilsReponsive.height(15, context),
+                        child: Icon(
+                          Icons.check_circle,
+                          color: taskModel.status! == Status.PENDING
+                              ? Colors.grey
+                              : taskModel.status! == Status.PROCESSING
+                                  ? ColorsManager.primary
+                                  : taskModel.status! == Status.DONE
+                                      ? ColorsManager.green
+                                      : taskModel.status! == Status.OVERDUE
+                                          ? ColorsManager.red
+                                          : Colors.purpleAccent,
+                          size: 20,
+                        ),
+                      ),
+                      SizedBox(
+                        width: UtilsReponsive.width(5, context),
+                      ),
+                      Text(
+                          taskModel.status! == Status.PENDING
+                              ? "Đang kiểm thực"
+                              : taskModel.status! == Status.PROCESSING
+                                  ? "Đang thực hiện"
+                                  : taskModel.status! == Status.DONE
+                                      ? "Hoàn thành"
+                                      : taskModel.status == Status.OVERDUE
+                                          ? 'Quá hạn'
+                                          : "Đã xác thực",
+                          style: GetTextStyle.getTextStyle(
+                            16,
+                            'Roboto',
+                            FontWeight.w600,
+                            taskModel.status! == Status.PENDING
+                                ? Colors.grey
+                                : taskModel.status! == Status.PROCESSING
+                                    ? ColorsManager.primary
+                                    : taskModel.status! == Status.DONE
+                                        ? ColorsManager.green
+                                        : taskModel.status! == Status.OVERDUE
+                                            ? ColorsManager.red
+                                            : Colors.purpleAccent,
+                          ))
+                    ],
+                  ),
                 ]),
                 SizedBox(
                   height: UtilsReponsive.height(10, context),
                 ),
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.calendar_month,
-                      color: ColorsManager.calendar,
-                      size: 30,
+                      color: taskModel.status! == Status.PENDING
+                          ? Colors.grey
+                          : taskModel.status! == Status.PROCESSING
+                              ? ColorsManager.primary
+                              : taskModel.status! == Status.DONE
+                                  ? ColorsManager.green
+                                  : taskModel.status! == Status.OVERDUE
+                                      ? ColorsManager.red
+                                      : Colors.purpleAccent,
+                      size: 20,
                     ),
                     SizedBox(
-                      width: UtilsReponsive.width(10, context),
+                      width: UtilsReponsive.width(15, context),
                     ),
                     taskModel.endDate != null
                         ? Text(
@@ -309,54 +376,54 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                 SizedBox(
                   height: UtilsReponsive.height(10, context),
                 ),
-                Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: ColorsManager.backgroundGrey,
-                      radius: UtilsReponsive.height(15, context),
-                      child: Icon(
-                        Icons.check_circle,
-                        color: taskModel.status! == Status.PENDING
-                            ? Colors.grey
-                            : taskModel.status! == Status.PROCESSING
-                                ? ColorsManager.primary
-                                : taskModel.status! == Status.DONE
-                                    ? ColorsManager.green
-                                    : taskModel.status! == Status.OVERDUE
-                                        ? ColorsManager.red
-                                        : Colors.purpleAccent,
-                        size: 25,
-                      ),
-                    ),
-                    SizedBox(
-                      width: UtilsReponsive.width(10, context),
-                    ),
-                    Text(
-                        taskModel.status! == Status.PENDING
-                            ? "Đang kiểm thực"
-                            : taskModel.status! == Status.PROCESSING
-                                ? "Đang thực hiện"
-                                : taskModel.status! == Status.DONE
-                                    ? "Hoàn thành"
-                                    : taskModel.status == Status.OVERDUE
-                                        ? 'Quá hạn'
-                                        : "Đã xác thực",
-                        style: GetTextStyle.getTextStyle(
-                          16,
-                          'Roboto',
-                          FontWeight.w600,
-                          taskModel.status! == Status.PENDING
-                              ? Colors.grey
-                              : taskModel.status! == Status.PROCESSING
-                                  ? ColorsManager.primary
-                                  : taskModel.status! == Status.DONE
-                                      ? ColorsManager.green
-                                      : taskModel.status! == Status.OVERDUE
-                                          ? ColorsManager.red
-                                          : Colors.purpleAccent,
-                        ))
-                  ],
-                ),
+                //   Row(
+                //     children: [
+                //       CircleAvatar(
+                //         backgroundColor: ColorsManager.backgroundGrey,
+                //         radius: UtilsReponsive.height(15, context),
+                //         child: Icon(
+                //           Icons.check_circle,
+                //           color: taskModel.status! == Status.PENDING
+                //               ? Colors.grey
+                //               : taskModel.status! == Status.PROCESSING
+                //                   ? ColorsManager.primary
+                //                   : taskModel.status! == Status.DONE
+                //                       ? ColorsManager.green
+                //                       : taskModel.status! == Status.OVERDUE
+                //                           ? ColorsManager.red
+                //                           : Colors.purpleAccent,
+                //           size: 20,
+                //         ),
+                //       ),
+                //       SizedBox(
+                //         width: UtilsReponsive.width(5, context),
+                //       ),
+                //       Text(
+                //           taskModel.status! == Status.PENDING
+                //               ? "Đang kiểm thực"
+                //               : taskModel.status! == Status.PROCESSING
+                //                   ? "Đang thực hiện"
+                //                   : taskModel.status! == Status.DONE
+                //                       ? "Hoàn thành"
+                //                       : taskModel.status == Status.OVERDUE
+                //                           ? 'Quá hạn'
+                //                           : "Đã xác thực",
+                //           style: GetTextStyle.getTextStyle(
+                //             14,
+                //             'Roboto',
+                //             FontWeight.w600,
+                //             taskModel.status! == Status.PENDING
+                //                 ? Colors.grey
+                //                 : taskModel.status! == Status.PROCESSING
+                //                     ? ColorsManager.primary
+                //                     : taskModel.status! == Status.DONE
+                //                         ? ColorsManager.green
+                //                         : taskModel.status! == Status.OVERDUE
+                //                             ? ColorsManager.red
+                //                             : Colors.purpleAccent,
+                //           ))
+                //     ],
+                //   ),
               ],
             ),
             children: taskModel.subTask!.isNotEmpty
@@ -455,9 +522,18 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                           ),
                           Row(
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.calendar_month,
-                                color: ColorsManager.calendar,
+                                color: taskModel.status! == Status.PENDING
+                                    ? Colors.grey
+                                    : taskModel.status! == Status.PROCESSING
+                                        ? ColorsManager.primary
+                                        : taskModel.status! == Status.DONE
+                                            ? ColorsManager.green
+                                            : taskModel.status! ==
+                                                    Status.OVERDUE
+                                                ? ColorsManager.red
+                                                : Colors.purpleAccent,
                                 size: 20,
                               ),
                               SizedBox(

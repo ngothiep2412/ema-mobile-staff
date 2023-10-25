@@ -20,4 +20,5 @@ class BaseLink {
   static const getAllEmployee = '/api/v1/user';
   static const assignTask = '/api/v1/assign-task';
   static const getAllComment = '/api/v1/comment';
+  static const deleteComment = '/api/v1/comment/';
 }

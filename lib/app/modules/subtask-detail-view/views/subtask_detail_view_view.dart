@@ -5,6 +5,7 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_quill/flutter_quill.dart' as Quil;
@@ -187,10 +188,11 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                 .format(controller
                                                     .taskModel.value.endDate!))
                                         : Row(children: [
-                                            const Icon(
-                                              Icons.calendar_month,
-                                              color: Color(0xffC2B280),
-                                            ),
+                                            Icon(
+                                                size: 25,
+                                                Icons.calendar_month,
+                                                color: Colors.grey
+                                                    .withOpacity(0.8)),
                                             SizedBox(
                                               width: UtilsReponsive.width(
                                                   15, context),
@@ -200,14 +202,265 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                               style: TextStyle(
                                                   letterSpacing: 1.5,
                                                   fontFamily: 'Roboto',
-                                                  color:
-                                                      ColorsManager.textColor,
+                                                  color: Colors.grey
+                                                      .withOpacity(0.8),
                                                   fontSize:
                                                       UtilsReponsive.height(
                                                           16, context),
                                                   fontWeight: FontWeight.bold),
                                             ),
                                           ]),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: UtilsReponsive.width(10, context),
+                              ),
+                              Obx(
+                                () => Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        UtilsReponsive.height(10, context),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Colors.white,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text('Ước lượng (giờ):',
+                                              style: GetTextStyle.getTextStyle(
+                                                  12,
+                                                  'Roboto',
+                                                  FontWeight.bold,
+                                                  ColorsManager.textColor)),
+                                          SizedBox(
+                                            width: UtilsReponsive.width(
+                                                5, context),
+                                          ),
+                                          TextButton(
+                                              style: TextButton.styleFrom(
+                                                backgroundColor: ColorsManager
+                                                    .backgroundContainer,
+                                                side: BorderSide(
+                                                    color:
+                                                        ColorsManager.primary,
+                                                    width: 1),
+                                              ),
+                                              onPressed: () {
+                                                showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return AlertDialog(
+                                                        title: Text(
+                                                            'Nhập con số estimate time',
+                                                            style: GetTextStyle
+                                                                .getTextStyle(
+                                                                    18,
+                                                                    'Roboto',
+                                                                    FontWeight
+                                                                        .w500,
+                                                                    ColorsManager
+                                                                        .primary)),
+                                                        content: TextField(
+                                                          keyboardType:
+                                                              const TextInputType
+                                                                  .numberWithOptions(
+                                                                  decimal:
+                                                                      true),
+                                                          inputFormatters: <TextInputFormatter>[
+                                                            FilteringTextInputFormatter
+                                                                .allow(RegExp(
+                                                                    r'^\d*\.?\d*')),
+                                                          ],
+                                                          onChanged: (value) =>
+                                                              {
+                                                            controller
+                                                                .estController
+                                                                .text = value
+                                                          },
+                                                          controller: controller
+                                                              .estController,
+                                                        ),
+                                                        actions: [
+                                                          TextButton(
+                                                            child: Text('Hủy',
+                                                                style: GetTextStyle.getTextStyle(
+                                                                    16,
+                                                                    'Roboto',
+                                                                    FontWeight
+                                                                        .w500,
+                                                                    ColorsManager
+                                                                        .textColor2)),
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                          ),
+                                                          TextButton(
+                                                            child: Text('Lưu',
+                                                                style: GetTextStyle.getTextStyle(
+                                                                    16,
+                                                                    'Roboto',
+                                                                    FontWeight
+                                                                        .w500,
+                                                                    ColorsManager
+                                                                        .primary)),
+                                                            onPressed:
+                                                                () async {
+                                                              await controller.updateEstimateTime(
+                                                                  controller
+                                                                      .taskModel
+                                                                      .value
+                                                                      .id!,
+                                                                  double.parse(
+                                                                      controller
+                                                                          .estController
+                                                                          .text));
+
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                          ),
+                                                        ],
+                                                      );
+                                                    });
+                                              },
+                                              child: Text(
+                                                  controller.est.toString(),
+                                                  style:
+                                                      GetTextStyle.getTextStyle(
+                                                          12,
+                                                          'Roboto',
+                                                          FontWeight.w700,
+                                                          ColorsManager
+                                                              .primary))),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            UtilsReponsive.width(10, context),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text('Công sức (giờ):',
+                                              style: GetTextStyle.getTextStyle(
+                                                  12,
+                                                  'Roboto',
+                                                  FontWeight.bold,
+                                                  ColorsManager.textColor)),
+                                          SizedBox(
+                                            width: UtilsReponsive.width(
+                                                5, context),
+                                          ),
+                                          TextButton(
+                                              style: TextButton.styleFrom(
+                                                backgroundColor: ColorsManager
+                                                    .backgroundContainer,
+                                                side: BorderSide(
+                                                    color:
+                                                        ColorsManager.primary,
+                                                    width: 1),
+                                              ),
+                                              onPressed: () {
+                                                showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return AlertDialog(
+                                                        title: Text(
+                                                            'Nhập con số effort',
+                                                            style: GetTextStyle
+                                                                .getTextStyle(
+                                                                    18,
+                                                                    'Roboto',
+                                                                    FontWeight
+                                                                        .w500,
+                                                                    ColorsManager
+                                                                        .primary)),
+                                                        content: TextField(
+                                                          keyboardType:
+                                                              const TextInputType
+                                                                  .numberWithOptions(
+                                                                  decimal:
+                                                                      true),
+                                                          inputFormatters: <TextInputFormatter>[
+                                                            FilteringTextInputFormatter
+                                                                .allow(RegExp(
+                                                                    r'^\d*\.?\d*')),
+                                                          ],
+                                                          onChanged: (value) =>
+                                                              {
+                                                            controller
+                                                                .effortController
+                                                                .text = value
+                                                          },
+                                                          controller: controller
+                                                              .effortController,
+                                                        ),
+                                                        actions: [
+                                                          TextButton(
+                                                            child: Text('Hủy',
+                                                                style: GetTextStyle.getTextStyle(
+                                                                    16,
+                                                                    'Roboto',
+                                                                    FontWeight
+                                                                        .w500,
+                                                                    ColorsManager
+                                                                        .textColor2)),
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                          ),
+                                                          TextButton(
+                                                            child: Text('Lưu',
+                                                                style: GetTextStyle.getTextStyle(
+                                                                    16,
+                                                                    'Roboto',
+                                                                    FontWeight
+                                                                        .w500,
+                                                                    ColorsManager
+                                                                        .primary)),
+                                                            onPressed:
+                                                                () async {
+                                                              await controller.updateEffort(
+                                                                  controller
+                                                                      .taskModel
+                                                                      .value
+                                                                      .id!,
+                                                                  double.parse(
+                                                                      controller
+                                                                          .effortController
+                                                                          .text));
+
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                          ),
+                                                        ],
+                                                      );
+                                                    });
+                                              },
+                                              child: Text(
+                                                  controller.effort.toString(),
+                                                  style:
+                                                      GetTextStyle.getTextStyle(
+                                                          12,
+                                                          'Roboto',
+                                                          FontWeight.w700,
+                                                          ColorsManager
+                                                              .primary))),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -892,7 +1145,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                                     controller.taskModel.value.assignTasks!.length >=
                                                                             3
                                                                         ? Text(
-                                                                            "${controller.taskModel.value.assignTasks![1].user!.profile!.fullName!.split(' ').last} và ${controller.taskModel.value.assignTasks!.length - 1} thành viên",
+                                                                            "${controller.taskModel.value.assignTasks![1].user!.profile!.fullName!.split(' ').last} và ${controller.taskModel.value.assignTasks!.length - 2} thành viên khác",
                                                                             style: TextStyle(
                                                                                 fontFamily: 'Roboto',
                                                                                 color: ColorsManager.primary,
@@ -900,7 +1153,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                                                 fontWeight: FontWeight.w600),
                                                                           )
                                                                         : Text(
-                                                                            'Những người tham gia khác',
+                                                                            'Người tham gia',
                                                                             style: TextStyle(
                                                                                 fontFamily: 'Roboto',
                                                                                 color: ColorsManager.primary,
@@ -1516,7 +1769,9 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                   ? ColorsManager.primary
                   : controller.taskModel.value.status! == Status.DONE
                       ? ColorsManager.green
-                      : ColorsManager.red,
+                      : controller.taskModel.value.status! == Status.CONFIRM
+                          ? Colors.purpleAccent
+                          : ColorsManager.red,
           borderRadius:
               BorderRadius.circular(UtilsReponsive.height(8, context)),
         ),
@@ -1752,10 +2007,18 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
       required String endTime}) {
     return Row(
       children: [
-        const Icon(
+        Icon(
           size: 25,
           Icons.calendar_month,
-          color: Color(0xffC2B280),
+          color: controller.taskModel.value.status == Status.PENDING
+              ? Colors.grey.withOpacity(0.8)
+              : controller.taskModel.value.status! == Status.PROCESSING
+                  ? ColorsManager.primary
+                  : controller.taskModel.value.status! == Status.DONE
+                      ? ColorsManager.green
+                      : controller.taskModel.value.status! == Status.CONFIRM
+                          ? Colors.purpleAccent
+                          : ColorsManager.red,
         ),
         Container(
           // padding: EdgeInsets.symmetric(
@@ -2414,11 +2677,11 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                   timeStartDate.minute);
               newStartDate = newDate;
 
-              if (newDate
+              if (!newDate
                   .toLocal()
                   .isAfter(controller.startDateTaskParent.toLocal())) {
                 Get.snackbar(
-                  'Thông báo',
+                  'Thông báo 1',
                   'Giờ bắt đầu của công việc nhỏ phải nhỏ hơn giờ bắt đầu ${controller.dateFormat.format(controller.startDateTaskParent.toLocal())} ${getCurrentTime(controller.startDateTaskParent.toLocal())} của công việc lớn',
                   snackPosition: SnackPosition.TOP,
                   margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
@@ -2428,11 +2691,12 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 );
 
                 isErrorStartDate = true;
-              } else if (newDate
+              } else if (newDate //23/10 0202
                   .toLocal()
                   .isAfter(controller.endDateTaskParent.toLocal())) {
+                //23/10/1231
                 Get.snackbar(
-                  'Thông báo',
+                  'Thông báo 2',
                   'Giờ bắt đầu của công việc nhỏ phải nhỏ hơn giờ kết thúc ${controller.dateFormat.format(controller.endDateTaskParent.toLocal())} ${getCurrentTime(controller.endDateTaskParent.toLocal())} của công việc lớn',
                   snackPosition: SnackPosition.TOP,
                   margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
@@ -2477,6 +2741,17 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 Get.snackbar(
                   'Thông báo',
                   'Giờ kết thúc của công việc nhỏ phải lớn hơn giờ bắt đầu ${controller.dateFormat.format(newStartDate)} ${getCurrentTime(newStartDate)} của công việc nhỏ',
+                  snackPosition: SnackPosition.TOP,
+                  margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
+                  backgroundColor: ColorsManager.backgroundGrey,
+                  colorText: ColorsManager.textColor2,
+                  duration: const Duration(seconds: 4),
+                );
+                isErrorEndDate = true;
+              } else if (newEndDate.difference(newStartDate).inMinutes < 15) {
+                Get.snackbar(
+                  'Thông báo',
+                  'Giờ kết thúc của công việc nhỏ phải lớn hơn 15 phút so với giờ bắt đầu của công việc nhỏ',
                   snackPosition: SnackPosition.TOP,
                   margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
                   backgroundColor: ColorsManager.backgroundGrey,
@@ -2803,184 +3078,229 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
     );
   }
 
-  StatefulBuilder comment(CommentModel commentModel, BuildContext context) {
-    bool isEditComment = false;
-    return StatefulBuilder(
-      builder: (context, setStateX) {
-        return SizedBox(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                      radius: UtilsReponsive.height(20, context),
-                      backgroundColor:
-                          Colors.transparent, // Đảm bảo nền trong suốt
-                      child: commentModel.user!.profile!.avatar == null ||
-                              commentModel.user!.profile!.avatar == ''
-                          ? ClipOval(
-                              child: Image.network(
-                                "https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.webp",
-                                fit: BoxFit.cover,
-                                width: UtilsReponsive.widthv2(context, 60),
-                                height: UtilsReponsive.heightv2(context, 60),
-                              ),
-                            )
-                          : ClipOval(
-                              child: Image.network(
-                                commentModel.user!.profile!.avatar!,
-                                fit: BoxFit.cover,
-                                width: UtilsReponsive.widthv2(context, 60),
-                                height: UtilsReponsive.heightv2(context, 60),
-                              ),
-                            )),
-                  SizedBox(width: UtilsReponsive.width(10, context)),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        commentModel.user!.profile!.fullName!,
-                        style: TextStyle(
-                            fontFamily: 'Roboto',
-                            letterSpacing: 1.5,
-                            color: ColorsManager.textColor,
-                            fontSize: UtilsReponsive.height(17, context),
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: UtilsReponsive.width(5, context)),
-                      Text(
-                        calculateTimeDifference(
-                            commentModel.createdAt.toString()),
-                        style: TextStyle(
-                            fontFamily: 'Roboto',
-                            letterSpacing: 1,
-                            color: ColorsManager.textColor,
-                            fontSize: UtilsReponsive.height(14, context),
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: UtilsReponsive.height(10, context)),
-              commentModel.commentFiles!.isNotEmpty
-                  ? Container(
-                      margin: EdgeInsets.only(
-                          top: UtilsReponsive.height(8, context)),
-                      height: UtilsReponsive.height(150, context),
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: commentModel.commentFiles!.length,
-                        separatorBuilder: (context, index) =>
-                            SizedBox(width: UtilsReponsive.width(15, context)),
-                        itemBuilder: (context, index) {
-                          return _filesComment(
-                              commentModel.commentFiles![index],
-                              context,
-                              isEditComment);
-                        },
-                      ),
-                    )
-                  : SizedBox(),
-              SizedBox(height: UtilsReponsive.height(10, context)),
-              isEditComment == true
-                  ? Container(
-                      constraints: BoxConstraints(
-                          maxHeight: UtilsReponsive.height(300, context),
-                          minHeight: UtilsReponsive.height(100, context)),
-                      child: FormFieldWidget(
-                        setValueFunc: (value) {},
-                        maxLine: 4,
-                        initValue: commentModel.text,
-                      ),
-                    )
-                  : Text(
-                      commentModel.text!,
+  Obx comment(CommentModel commentModel, BuildContext context) {
+    return Obx(
+      () => SizedBox(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                    radius: UtilsReponsive.height(20, context),
+                    backgroundColor:
+                        Colors.transparent, // Đảm bảo nền trong suốt
+                    child: commentModel.user!.profile!.avatar == null ||
+                            commentModel.user!.profile!.avatar == ''
+                        ? ClipOval(
+                            child: Image.network(
+                              "https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.webp",
+                              fit: BoxFit.cover,
+                              width: UtilsReponsive.widthv2(context, 60),
+                              height: UtilsReponsive.heightv2(context, 60),
+                            ),
+                          )
+                        : ClipOval(
+                            child: Image.network(
+                              commentModel.user!.profile!.avatar!,
+                              fit: BoxFit.cover,
+                              width: UtilsReponsive.widthv2(context, 60),
+                              height: UtilsReponsive.heightv2(context, 60),
+                            ),
+                          )),
+                SizedBox(width: UtilsReponsive.width(10, context)),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      commentModel.user!.profile!.fullName!,
+                      style: TextStyle(
+                          fontFamily: 'Roboto',
+                          letterSpacing: 1.5,
+                          color: ColorsManager.textColor,
+                          fontSize: UtilsReponsive.height(17, context),
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: UtilsReponsive.width(5, context)),
+                    Text(
+                      calculateTimeDifference(
+                          commentModel.createdAt.toString()),
                       style: TextStyle(
                           fontFamily: 'Roboto',
                           letterSpacing: 1,
                           color: ColorsManager.textColor,
-                          fontSize: UtilsReponsive.height(18, context),
+                          fontSize: UtilsReponsive.height(14, context),
                           fontWeight: FontWeight.w500),
                     ),
-              SizedBox(height: UtilsReponsive.width(10, context)),
-              isEditComment == false
-                  ? Row(
-                      children: [
-                        InkWell(
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: UtilsReponsive.height(10, context)),
+            commentModel.commentFiles!.isNotEmpty
+                ? Container(
+                    margin:
+                        EdgeInsets.only(top: UtilsReponsive.height(8, context)),
+                    height: UtilsReponsive.height(150, context),
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: commentModel.commentFiles!.length,
+                      separatorBuilder: (context, index) =>
+                          SizedBox(width: UtilsReponsive.width(15, context)),
+                      itemBuilder: (context, index) {
+                        return _filesComment(commentModel.commentFiles![index],
+                            context, controller.isEditComment.value);
+                      },
+                    ),
+                  )
+                : SizedBox(),
+            SizedBox(height: UtilsReponsive.height(10, context)),
+            controller.isEditComment.value == true
+                ? Container(
+                    constraints: BoxConstraints(
+                        maxHeight: UtilsReponsive.height(300, context),
+                        minHeight: UtilsReponsive.height(100, context)),
+                    child: FormFieldWidget(
+                      setValueFunc: (value) {},
+                      maxLine: 4,
+                      initValue: commentModel.text,
+                    ),
+                  )
+                : Text(
+                    commentModel.text!,
+                    style: TextStyle(
+                        fontFamily: 'Roboto',
+                        letterSpacing: 1,
+                        color: ColorsManager.textColor,
+                        fontSize: UtilsReponsive.height(18, context),
+                        fontWeight: FontWeight.w500),
+                  ),
+            SizedBox(height: UtilsReponsive.width(10, context)),
+            controller.isEditComment.value == false
+                ? Row(
+                    children: [
+                      InkWell(
                           onTap: () {
-                            setStateX(() {
-                              isEditComment = true;
-                            });
+                            controller.isEditComment.value = true;
                           },
                           child: commentModel.user!.id == controller.idUser
                               ? Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     'Chỉnh sửa',
-                                    style: TextStyle(
-                                        fontFamily: 'Roboto',
-                                        wordSpacing: 1.2,
-                                        color: Colors.blue,
-                                        fontSize:
-                                            UtilsReponsive.height(18, context),
-                                        fontWeight: FontWeight.bold),
+                                    style: GetTextStyle.getTextStyle(
+                                        14,
+                                        'Roboto',
+                                        FontWeight.w500,
+                                        ColorsManager.primary),
                                   ))
-                              : SizedBox(),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                      ],
-                    )
-                  : Row(
-                      children: [
-                        InkWell(
-                            onTap: () {
-                              setStateX(() {
-                                isEditComment = false;
-                              });
-                            },
-                            child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'Lưu',
-                                  style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      wordSpacing: 1.2,
-                                      color: Colors.blue,
-                                      fontSize:
-                                          UtilsReponsive.height(18, context),
-                                      fontWeight: FontWeight.bold),
-                                ))),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        InkWell(
-                            onTap: () {
-                              setStateX(() {
-                                isEditComment = false;
-                              });
-                            },
-                            child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'Hủy',
-                                  style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      wordSpacing: 1.2,
-                                      color: Colors.blue,
-                                      fontSize:
-                                          UtilsReponsive.height(18, context),
-                                      fontWeight: FontWeight.bold),
-                                ))),
-                      ],
-                    )
-            ],
-          ),
-        );
-      },
+                              : SizedBox()),
+                      SizedBox(
+                        width: UtilsReponsive.width(10, context),
+                      ),
+                      commentModel.user!.id == controller.idUser
+                          ? InkWell(
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text(
+                                          'Xác nhận xóa bình luận',
+                                          style: GetTextStyle.getTextStyle(
+                                              16,
+                                              'Roboto',
+                                              FontWeight.w500,
+                                              ColorsManager.primary),
+                                        ),
+                                        content: Text(
+                                          'Bạn có chắc chắn muốn xóa bình luận này không?',
+                                          style: GetTextStyle.getTextStyle(
+                                              14,
+                                              'Roboto',
+                                              FontWeight.w500,
+                                              ColorsManager.textColor2),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            child: Text(
+                                              'Không',
+                                              style: GetTextStyle.getTextStyle(
+                                                  16,
+                                                  'Roboto',
+                                                  FontWeight.w500,
+                                                  ColorsManager.primary),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          TextButton(
+                                            child: Text(
+                                              'Có',
+                                              style: GetTextStyle.getTextStyle(
+                                                  16,
+                                                  'Roboto',
+                                                  FontWeight.w500,
+                                                  ColorsManager.red),
+                                            ),
+                                            onPressed: () {
+                                              controller
+                                                  .deleteComment(commentModel);
+                                              controller.isEditComment.value =
+                                                  true;
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              },
+                              child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    'Xóa',
+                                    style: GetTextStyle.getTextStyle(
+                                        14,
+                                        'Roboto',
+                                        FontWeight.w500,
+                                        ColorsManager.red),
+                                  )))
+                          : SizedBox(),
+                    ],
+                  )
+                : Row(
+                    children: [
+                      InkWell(
+                          onTap: () {
+                            controller.isEditComment.value = false;
+                          },
+                          child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                'Lưu',
+                                style: GetTextStyle.getTextStyle(14, 'Roboto',
+                                    FontWeight.w500, ColorsManager.primary),
+                              ))),
+                      SizedBox(
+                        width: UtilsReponsive.width(10, context),
+                      ),
+                      InkWell(
+                          onTap: () {
+                            controller.isEditComment.value = false;
+                          },
+                          child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                'Hủy',
+                                style: GetTextStyle.getTextStyle(14, 'Roboto',
+                                    FontWeight.w500, ColorsManager.primary),
+                              ))),
+                    ],
+                  )
+          ],
+        ),
+      ),
     );
   }
 

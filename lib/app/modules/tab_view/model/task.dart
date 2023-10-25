@@ -20,8 +20,8 @@ class TaskModel {
   String? description;
   Priority? priority;
   Status? status;
-  int? estimationTime;
-  int? effort;
+  dynamic? estimationTime;
+  dynamic? effort;
   String? createdBy;
   String? nameAssigner;
   String? avatarAssigner;

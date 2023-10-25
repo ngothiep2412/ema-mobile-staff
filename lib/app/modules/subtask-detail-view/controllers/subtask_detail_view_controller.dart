@@ -19,6 +19,7 @@ import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/comment_mod
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/file_model.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/uploadfile_model.dart';
 import 'package:hrea_mobile_staff/app/modules/task-overall-view/controllers/task_overall_view_controller.dart';
+import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:hrea_mobile_staff/app/utils/check_vietnamese.dart';
@@ -42,6 +43,9 @@ class SubtaskDetailViewController extends BaseController {
   final isLoading = true.obs;
   TextEditingController textSearchController = TextEditingController();
   TextEditingController commentController = TextEditingController();
+  TextEditingController estController = TextEditingController();
+  TextEditingController effortController = TextEditingController();
+
   final testList = 0.obs;
 
   final isLoadingFetchUser = false.obs;
@@ -92,21 +96,28 @@ class SubtaskDetailViewController extends BaseController {
 
   String idUser = '';
 
+  RxDouble est = 0.0.obs;
+  RxDouble effort = 0.0.obs;
+
+  RxBool isEditComment = false.obs;
+
   Future<void> getTaskDetail() async {
     isLoading.value = true;
     try {
       checkToken();
-
+      List<DateTime> listDateTime = [];
       taskModel.value = await SubTaskDetailApi.getTaskDetail(jwt, taskID);
       titleSubTaskController.text = taskModel.value.title!;
       if (taskModel.value.startDate != null) {
         startDate.value = taskModel.value.startDate!;
-        listChange.add(taskModel.value.startDate);
+        listDateTime.add(taskModel.value.startDate!);
       }
       if (taskModel.value.endDate != null) {
         endDate.value = taskModel.value.endDate!;
-        listChange.add(taskModel.value.endDate);
+        listDateTime.add(taskModel.value.endDate!);
       }
+
+      listChange = listDateTime;
 
       if (taskModel.value.assignTasks != null &&
           taskModel.value.assignTasks!.isNotEmpty) {
@@ -143,6 +154,19 @@ class SubtaskDetailViewController extends BaseController {
         listComment.sort((comment1, comment2) {
           return comment2.createdAt!.compareTo(comment1.createdAt!);
         });
+      }
+
+      if (taskModel.value.estimationTime != null) {
+        est.value = taskModel.value.estimationTime!.toDouble();
+        estController.text = taskModel.value.estimationTime.toString();
+      } else {
+        estController.text = '0.0';
+      }
+      if (taskModel.value.effort != null) {
+        effort.value = taskModel.value.effort!.toDouble();
+        effortController.text = taskModel.value.effort.toString();
+      } else {
+        effortController.text = '0.0';
       }
 
       getAllAttachment();
@@ -711,9 +735,12 @@ class SubtaskDetailViewController extends BaseController {
       isLoading.value = false;
     } else {
       try {
-        // SharedPreferences prefs = await SharedPreferences.getInstance();
-
         checkToken();
+        // SharedPreferences prefs = await SharedPreferences.getInstance();
+        if (endDate.difference(startDate).inMinutes / 60.0 < est.value) {
+          await SubTaskDetailApi.updateEstimationTime(
+              jwt, taskID, taskModel.value.eventId!, est.value);
+        }
         ResponseApi responseApi = await SubTaskDetailApi.updateDateTimeTask(
             jwt, taskID, startDate, endDate, taskModel.value.eventId!);
         if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
@@ -744,40 +771,42 @@ class SubtaskDetailViewController extends BaseController {
     }
   }
 
-  Future<void> updateEndDate(
-    String taskID,
-  ) async {
-    isLoading.value = true;
-    try {
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<void> updateEstimateTime(String taskID, double estimateTime) async {
+    if (endDate.value.difference(startDate.value).inMinutes / 60.0 <
+        estimateTime) {
+      Get.snackbar('Lỗi',
+          'Phải nhập estimate time trong khoảng hạn của công việc',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.transparent,
+          colorText: ColorsManager.textColor);
+      estController.text = est.value.toString();
+    } else {
+      try {
+        checkToken();
 
+        ResponseApi responseApi = await SubTaskDetailApi.updateEstimationTime(
+            jwt, taskID, taskModel.value.eventId!, estimateTime);
+        if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+          est.value = estimateTime;
+          estController.text = estimateTime.toString();
+        }
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
+
+  Future<void> updateEffort(String taskID, double effortInput) async {
+    try {
       checkToken();
 
-      ResponseApi responseApi = await SubTaskDetailApi.updateDateTimeTask(jwt,
-          taskID, startDate.value, endDate.value, taskModel.value.eventId!);
+      ResponseApi responseApi = await SubTaskDetailApi.updateEffort(
+          jwt, taskID, taskModel.value.eventId!, effortInput);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-        // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
-        // UserModel assigner = await TaskDetailApi.getAssignerDetail(
-        //     jwt, taskModel.value.createdBy!);
-        // if (assigner.statusCode == 200 || assigner.statusCode == 201) {
-        //   taskModel.value.nameAssigner = assigner.result!.fullName;
-        //   taskModel.value.avatarAssigner = assigner.result!.avatar;
-
-        // }
-
-        await updatePageOverall();
-        errorUpdateSubTask.value = false;
+        effort.value = effortInput;
+        effortController.text = effortInput.toString();
       }
-      if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
-        errorUpdateSubTask.value = true;
-        print('responseApi.message ${responseApi.message}');
-        errorUpdateSubTaskText.value = responseApi.message!;
-      }
-      isLoading.value = false;
     } catch (e) {
-      errorUpdateSubTask.value = true;
-      errorUpdateSubTaskText.value = 'Có lỗi xảy ra';
-      isLoading.value = false;
       print(e);
     }
   }
@@ -905,7 +934,6 @@ class SubtaskDetailViewController extends BaseController {
   }
 
   Future selectFile() async {
-    isLoading.value = true;
     try {
       checkToken();
       final result = await FilePicker.platform.pickFiles(
@@ -914,14 +942,8 @@ class SubtaskDetailViewController extends BaseController {
         // allowedExtensions: ['pdf'],
       );
       if (result == null) {
-        // Get.snackbar('Lỗi', 'Không thể lấy tài liệu',
-        //     snackPosition: SnackPosition.BOTTOM,
-        //     backgroundColor: Colors.redAccent,
-        //     colorText: Colors.white);
-        isLoading.value = false;
         return;
       }
-
       final file = result.files.first;
       File fileResult = File(result.files[0].path!);
       double fileLength =
@@ -930,15 +952,10 @@ class SubtaskDetailViewController extends BaseController {
       if (fileLength > 10) {
         Get.snackbar('Lỗi', 'Không thể lấy tài liệu lớn hơn 10mb',
             snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.redAccent,
+            backgroundColor: Colors.transparent,
             colorText: Colors.white);
-        isLoading.value = false;
         return;
       }
-
-      // final newFile = await saveFilePermaently(file);
-
-      // filePicker.add(file);
       UploadFileModel responseApi =
           await TaskDetailApi.uploadFile(jwt, fileResult, file.extension ?? '');
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
@@ -947,84 +964,58 @@ class SubtaskDetailViewController extends BaseController {
             jwt, taskID, responseApi.result!.downloadUrl!, fileName);
         if (updateFileTask.statusCode == 200 ||
             updateFileTask.statusCode == 201) {
-          await getTaskDetail();
-          errorUpdateSubTask.value = false;
-        } else {
-          errorUpdateSubTaskText.value = 'Có lỗi xảy ra';
-          errorUpdateSubTask.value = true;
+          TaskModel subTask = TaskModel();
+          subTask = await SubTaskDetailApi.getTaskDetail(jwt, taskID);
+          List<AttachmentModel> list = [];
+
+          if (subTask.taskFiles!.isNotEmpty) {
+            subTask.taskFiles!.sort((taskFile1, taskFile2) {
+              return taskFile2.createdAt!.compareTo(taskFile1.createdAt!);
+            });
+            for (var item in subTask.taskFiles!) {
+              list.add(AttachmentModel(
+                  fileName: item.fileName, fileUrl: item.fileUrl, mode: 1));
+            }
+          }
+          if (listComment.isNotEmpty) {
+            for (var item in listComment) {
+              if (item.commentFiles!.isNotEmpty) {
+                for (var file in item.commentFiles!) {
+                  list.add(AttachmentModel(
+                      fileName: file.fileName, fileUrl: file.fileUrl, mode: 2));
+                }
+              }
+            }
+          }
+
+          listAttachment.value = list;
         }
-      } else {
-        errorUpdateSubTask.value = true;
-        errorUpdateSubTaskText.value = 'Có lỗi xảy ra';
       }
-      isLoading.value = false;
     } catch (e) {
-      errorUpdateSubTask.value = true;
       print(e);
-      errorUpdateSubTaskText.value = 'Có lỗi xảy ra';
-      isLoading.value = false;
     }
   }
 
   Future selectFileComment() async {
-    // isLoading.value = true;
-    // try {
-    // checkToken();
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['jpg', 'pdf', 'doc', 'xlsx', 'docx', 'png', 'jpeg'],
-      // allowedExtensions: ['pdf'],
     );
     if (result == null) {
-      // Get.snackbar('Lỗi', 'Không thể lấy tài liệu',
-      //     snackPosition: SnackPosition.BOTTOM,
-      //     backgroundColor: Colors.redAccent,
-      //     colorText: Colors.white);
       isLoading.value = false;
       return;
     }
-
     final file = result.files.first;
-    // File fileResult = File(result.files[0].path!);
     double fileLength = File(result.files[0].path!).lengthSync() / 1024 / 1024;
-
     if (fileLength > 10) {
       Get.snackbar('Lỗi', 'Không thể lấy tài liệu lớn hơn 10mb',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.redAccent,
+          backgroundColor: Colors.transparent,
           colorText: Colors.white);
       isLoading.value = false;
       return;
     }
-
-    // final newFile = await saveFilePermaently(file);
-
     filePicker.add(file);
-    // UploadFileModel responseApi =
-    //     await TaskDetailApi.uploadFile(jwt, fileResult, file.extension ?? '');
-    // if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-    //   String fileName = fileResult.path.split('/').last;
-    //   ResponseApi updateFileTask = await TaskDetailApi.updateFileTask(
-    //       jwt, taskID, responseApi.result!.downloadUrl!, fileName);
-    //   if (updateFileTask.statusCode == 200 ||
-    //       updateFileTask.statusCode == 201) {
-    //     await getTaskDetail();
-    //     errorUpdateTask.value = false;
-    //   } else {
-    //     errorUpdateTaskText.value = 'Có lỗi xảy ra';
-    //     errorUpdateTask.value = true;
-    //   }
-    // } else {
-    //   errorUpdateTask.value = true;
-    //   errorUpdateTaskText.value = 'Có lỗi xảy ra';
-    // }
-    // isLoading.value = false;
-    // } catch (e) {
-    // errorUpdateTask.value = true;
-    // print(e);
-    // errorUpdateTaskText.value = 'Có lỗi xảy ra';
-    // isLoading.value = false;
-    // }
   }
 
   Future<File> saveFilePermaently(PlatformFile file) async {
@@ -1036,56 +1027,54 @@ class SubtaskDetailViewController extends BaseController {
   }
 
   Future<void> createComment() async {
-    isLoading.value = true;
-    try {
-      checkToken();
-      List<FileModel> listFile = [];
-      if (filePicker.isNotEmpty) {
-        for (var item in filePicker) {
-          File fileResult = File(item.path!);
-          UploadFileModel responseApi = await TaskDetailApi.uploadFile(
-              jwt, fileResult, item.extension ?? '');
+    if (commentController.text.isEmpty) {
+      Get.snackbar('Lỗi', 'Phải nhập ít nhất 1 kí tự',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.transparent,
+          colorText: ColorsManager.textColor);
+    } else {
+      try {
+        checkToken();
+        List<FileModel> listFile = [];
+        if (filePicker.isNotEmpty) {
+          for (var item in filePicker) {
+            File fileResult = File(item.path!);
+            UploadFileModel responseApi = await TaskDetailApi.uploadFile(
+                jwt, fileResult, item.extension ?? '');
+            if (responseApi.statusCode == 200 ||
+                responseApi.statusCode == 201) {
+              listFile.add(FileModel(
+                  fileName: responseApi.result!.fileName,
+                  fileUrl: responseApi.result!.downloadUrl));
+            }
+          }
+          ResponseApi responseApi = await TaskDetailApi.createComment(
+              jwt, taskID, commentController.text, listFile);
           if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-            listFile.add(FileModel(
-                fileName: responseApi.result!.fileName,
-                fileUrl: responseApi.result!.downloadUrl));
-            // ResponseApi uplodateFileRsp = await TaskDetailApi.updateFileTask(
-            //     jwt,
-            //     taskID,
-            //     responseApi.result!.downloadUrl!,
-            //     responseApi.result!.fileName!);
-            // if (uplodateFileRsp.statusCode == 400 ||
-            //     uplodateFileRsp.statusCode == 500) {
-            //   errorUpdateSubTaskText.value = 'Có lỗi xảy ra';
-            //   errorUpdateSubTask.value = true;
-            //   isLoading.value = false;
-            //   return;
-            // }
-          } else {
-            errorUpdateSubTaskText.value = 'Có lỗi xảy ra';
-            errorUpdateSubTask.value = true;
-            isLoading.value = false;
-            return;
+            listComment.value =
+                await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+            listComment.sort((comment1, comment2) {
+              return comment2.createdAt!.compareTo(comment1.createdAt!);
+            });
+            getAllAttachment();
+          }
+        } else {
+          ResponseApi responseApi = await TaskDetailApi.createComment(
+              jwt, taskID, commentController.text, listFile);
+          if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+            listComment.value =
+                await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+            listComment.sort((comment1, comment2) {
+              return comment2.createdAt!.compareTo(comment1.createdAt!);
+            });
+            getAllAttachment();
           }
         }
-      } else {
-        ResponseApi responseApi = await TaskDetailApi.createComment(
-            jwt, taskID, commentController.text, listFile);
-        if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-          await getTaskDetail();
-          errorUpdateSubTask.value = false;
-        } else {
-          errorUpdateSubTask.value = true;
-          errorUpdateSubTaskText.value = responseApi.message!;
-        }
+        commentController.text = '';
+        filePicker.value = [];
+      } catch (e) {
+        print(e);
       }
-
-      isLoading.value = false;
-    } catch (e) {
-      errorUpdateSubTask.value = true;
-      errorUpdateSubTaskText.value = 'Có lỗi xảy ra';
-      isLoading.value = false;
-      print(e);
     }
   }
 
@@ -1133,6 +1122,24 @@ class SubtaskDetailViewController extends BaseController {
       isLoading.value = false;
     } catch (e) {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> deleteComment(CommentModel commentModel) async {
+    try {
+      checkToken();
+      ResponseApi responseApi =
+          await TaskDetailApi.deleteComment(jwt, commentModel.id!);
+      if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+        listComment.value =
+            await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+        listComment.sort((comment1, comment2) {
+          return comment2.createdAt!.compareTo(comment1.createdAt!);
+        });
+        getAllAttachment();
+      }
+    } catch (e) {
+      print(e);
     }
   }
 }

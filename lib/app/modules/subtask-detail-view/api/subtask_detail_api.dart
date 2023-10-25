@@ -246,6 +246,72 @@ class SubTaskDetailApi {
     }
   }
 
+  static Future<ResponseApi> updateEstimationTime(String jwtToken,
+      String taskID, String eventID, double estimationTime) async {
+    Map<String, String> body = {
+      "estimationTime": estimationTime.toString(),
+      "eventID": eventID,
+    };
+    print(taskID);
+
+    var response = await http.put(
+        Uri.parse(
+            '${BaseLink.localBaseLink}${BaseLink.updateTask}?taskID=$taskID'),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          'Authorization': 'Bearer $jwtToken',
+        },
+        body: jsonEncode(body));
+
+    print('abc updateStatusTask' + response.statusCode.toString());
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      // TaskModel.fromJson(jsonDecode(jsonData));
+
+      return Future<ResponseApi>.value(
+          ResponseApi.fromJson(jsonDecode(response.body)));
+    } else if (response.statusCode == 400 || response.statusCode == 500) {
+      return Future<ResponseApi>.value(
+          ResponseApi.fromJson(jsonDecode(response.body)));
+    } else {
+      throw Exception('Exception');
+    }
+  }
+
+  static Future<ResponseApi> updateEffort(
+      String jwtToken, String taskID, String eventID, double effort) async {
+    Map<String, String> body = {
+      "effort": effort.toString(),
+      "eventID": eventID,
+    };
+    print(taskID);
+
+    var response = await http.put(
+        Uri.parse(
+            '${BaseLink.localBaseLink}${BaseLink.updateTask}?taskID=$taskID'),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          'Authorization': 'Bearer $jwtToken',
+        },
+        body: jsonEncode(body));
+
+    print('abc updateStatusTask' + response.statusCode.toString());
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      // TaskModel.fromJson(jsonDecode(jsonData));
+
+      return Future<ResponseApi>.value(
+          ResponseApi.fromJson(jsonDecode(response.body)));
+    } else if (response.statusCode == 400 || response.statusCode == 500) {
+      return Future<ResponseApi>.value(
+          ResponseApi.fromJson(jsonDecode(response.body)));
+    } else {
+      throw Exception('Exception');
+    }
+  }
+
   static Future<ResponseApi> updatePriority(
       String jwtToken, String taskID, String eventID, String priority) async {
     Map<String, String> body = {

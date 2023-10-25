@@ -1,22 +1,24 @@
 import 'package:intl/intl.dart';
 
 String calculateTimeDifference(String createdAt) {
-  DateTime now = DateTime.now();
-  DateTime createdAtDateTime = DateTime.parse(createdAt);
+  DateTime now = DateTime.now().toUtc().add(const Duration(hours: 7));
+
+  DateTime createdAtDateTime =
+      DateTime.parse(createdAt).add(const Duration(hours: 7));
 
   Duration difference = now.difference(createdAtDateTime);
 
   if (difference.inMinutes < 1) {
-    return "Just now";
+    return "Vừa mới đây";
   } else if (difference.inHours < 1) {
-    return "${difference.inMinutes} min ago";
+    return "${difference.inMinutes} phút trước";
   } else if (difference.inDays < 1) {
-    return "${difference.inHours} hours ago";
+    return "${difference.inHours} giờ trước";
   } else if (difference.inDays < 30) {
-    return "${difference.inDays} days ago";
+    return "${difference.inDays} ngày trước";
   } else {
     final formattedDate = DateFormat.yMMMd().format(createdAtDateTime);
-    return "on $formattedDate";
+    return "vào $formattedDate";
   }
 }
 

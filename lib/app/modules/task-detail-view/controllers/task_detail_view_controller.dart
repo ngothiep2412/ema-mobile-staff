@@ -16,6 +16,7 @@ import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/comment_mod
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/file_model.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/uploadfile_model.dart';
 import 'package:hrea_mobile_staff/app/modules/task-overall-view/controllers/task_overall_view_controller.dart';
+import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:intl/intl.dart';
@@ -36,6 +37,7 @@ class TaskDetailViewController extends BaseController {
   TextEditingController textSearchController = TextEditingController();
   TextEditingController titleSubTaskController = TextEditingController();
   TextEditingController commentController = TextEditingController();
+  TextEditingController effortController = TextEditingController();
 
   final testList = 0.obs;
 
@@ -75,6 +77,10 @@ class TaskDetailViewController extends BaseController {
 
   RxList<AttachmentModel> listAttachment = <AttachmentModel>[].obs;
 
+  RxBool isExpanded = false.obs;
+  RxDouble effort = 0.0.obs;
+  RxDouble est = 0.0.obs;
+
   // late IO.Socket socket;
 
   Socket socket = io('API_URL', <String, dynamic>{
@@ -103,11 +109,9 @@ class TaskDetailViewController extends BaseController {
         for (var item in taskModel.value.subTask!) {
           if (item.status == Status.DONE || item.status == Status.CONFIRM) {
             count.value++;
-            print('count ${count.value}');
           }
         }
         progressSubTaskDone.value = count / taskModel.value.subTask!.length;
-        print('progressSubTaskDone ${progressSubTaskDone}');
       }
       count.value = 0;
 
@@ -117,8 +121,6 @@ class TaskDetailViewController extends BaseController {
       //   filePicker.add(await parseFile(item.fileUrl!, byte!));
       //   print('filePicker ${filePicker.length}');
       // }
-
-      print('aaaa123 ${taskModel.value.taskFiles!.length}');
 
       UserModel creater = await TaskDetailApi.getAssignerDetail(
           jwt, taskModel.value.createdBy!);
@@ -135,6 +137,16 @@ class TaskDetailViewController extends BaseController {
       listComment.sort((comment1, comment2) {
         return comment2.createdAt!.compareTo(comment1.createdAt!);
       });
+
+      if (taskModel.value.estimationTime != null) {
+        est.value = taskModel.value.estimationTime!.toDouble();
+      }
+      if (taskModel.value.effort != null) {
+        effort.value = taskModel.value.effort!.toDouble();
+        effortController.text = taskModel.value.effort.toString();
+      } else {
+        effortController.text = '0.0';
+      }
       getAllAttachment();
 
       // for (var item in taskModel.value.assignTasks!) {
@@ -152,7 +164,6 @@ class TaskDetailViewController extends BaseController {
       // }
 
       isLoading.value = false;
-      print('taskModel ${taskModel.value.endDate}');
     } catch (e) {
       isLoading.value = false;
       print(e);
@@ -163,7 +174,6 @@ class TaskDetailViewController extends BaseController {
   Future<void> onInit() async {
     super.onInit();
     await getTaskDetail();
-    print('taskModel detail ${taskModel.value.id}');
     // connectAndListen();
     // var myJSON = jsonDecode(
     //     r'[{"insert": "The Two Towers"}, {"insert": "\n", "attributes": {"header": 1}}, {"insert": "Aragorn sped on up the hill.\n"}]');
@@ -209,56 +219,54 @@ class TaskDetailViewController extends BaseController {
   }
 
   Future<void> createComment() async {
-    isLoading.value = true;
-    try {
-      checkToken();
-      List<FileModel> listFile = [];
-      if (filePicker.isNotEmpty) {
-        for (var item in filePicker) {
-          File fileResult = File(item.path!);
-          UploadFileModel responseApi = await TaskDetailApi.uploadFile(
-              jwt, fileResult, item.extension ?? '');
-          if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-            listFile.add(FileModel(
-                fileName: responseApi.result!.fileName,
-                fileUrl: responseApi.result!.downloadUrl));
-            ResponseApi uplodateFileRsp = await TaskDetailApi.updateFileTask(
-                jwt,
-                taskID,
-                responseApi.result!.downloadUrl!,
-                responseApi.result!.fileName!);
-            if (uplodateFileRsp.statusCode == 400 ||
-                uplodateFileRsp.statusCode == 500) {
-              errorUpdateTaskText.value = 'Có lỗi xảy ra';
-              errorUpdateTask.value = true;
-              isLoading.value = false;
-              return;
+    if (commentController.text.isEmpty) {
+      Get.snackbar('Lỗi', 'Phải nhập ít nhất 1 kí tự',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.transparent,
+          colorText: ColorsManager.textColor);
+    } else {
+      try {
+        checkToken();
+        List<FileModel> listFile = [];
+        if (filePicker.isNotEmpty) {
+          for (var item in filePicker) {
+            File fileResult = File(item.path!);
+            UploadFileModel responseApi = await TaskDetailApi.uploadFile(
+                jwt, fileResult, item.extension ?? '');
+            if (responseApi.statusCode == 200 ||
+                responseApi.statusCode == 201) {
+              listFile.add(FileModel(
+                  fileName: responseApi.result!.fileName,
+                  fileUrl: responseApi.result!.downloadUrl));
             }
-          } else {
-            errorUpdateTaskText.value = 'Có lỗi xảy ra';
-            errorUpdateTask.value = true;
-            isLoading.value = false;
-            return;
+          }
+          ResponseApi responseApi = await TaskDetailApi.createComment(
+              jwt, taskID, commentController.text, listFile);
+          if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+            listComment.value =
+                await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+            listComment.sort((comment1, comment2) {
+              return comment2.createdAt!.compareTo(comment1.createdAt!);
+            });
+            getAllAttachment();
+          }
+        } else {
+          ResponseApi responseApi = await TaskDetailApi.createComment(
+              jwt, taskID, commentController.text, listFile);
+          if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+            listComment.value =
+                await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+            listComment.sort((comment1, comment2) {
+              return comment2.createdAt!.compareTo(comment1.createdAt!);
+            });
+            getAllAttachment();
           }
         }
-      } else {
-        ResponseApi responseApi = await TaskDetailApi.createComment(
-            jwt, taskID, commentController.text, listFile);
-        if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-          await getTaskDetail();
-          errorUpdateTask.value = false;
-        } else {
-          errorUpdateTask.value = true;
-          errorUpdateTaskText.value = responseApi.message!;
-        }
+        commentController.text = '';
+        filePicker.value = [];
+      } catch (e) {
+        print(e);
       }
-
-      isLoading.value = false;
-    } catch (e) {
-      errorUpdateTask.value = true;
-      errorUpdateTaskText.value = 'Có lỗi xảy ra';
-      isLoading.value = false;
-      print(e);
     }
   }
 
@@ -295,7 +303,6 @@ class TaskDetailViewController extends BaseController {
 
   onTapEditDescription() {
     // isEditDescription.value = true;
-    print('descriptionString.value ${descriptionString.value.toString()}');
     Get.toNamed(Routes.EDIT_DESCRIPTION, arguments: {
       // "quillController": quillController,
       "taskModel": taskModel,
@@ -336,7 +343,6 @@ class TaskDetailViewController extends BaseController {
 
   Future<void> refreshPage() async {
     String jwt = GetStorage().read('JWT');
-    print('1: ${isLoading.value}');
     isLoading.value = true;
     // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
     // UserModel assigner =
@@ -370,7 +376,6 @@ class TaskDetailViewController extends BaseController {
       }
       if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
         errorUpdateTask.value = true;
-        print('responseApi.message ${responseApi.message}');
         errorUpdateTaskText.value = responseApi.message!;
       }
       isLoading.value = false;
@@ -440,7 +445,6 @@ class TaskDetailViewController extends BaseController {
           Get.find<TaskOverallViewController>().getListTask();
         } else {
           errorUpdateTask.value = true;
-          print('responseApi.message ${responseApi.message}');
           errorUpdateTaskText.value = responseApi.message!;
         }
         isLoading.value = false;
@@ -559,6 +563,39 @@ class TaskDetailViewController extends BaseController {
       isLoading.value = false;
     } catch (e) {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> deleteComment(CommentModel commentModel) async {
+    try {
+      checkToken();
+      ResponseApi responseApi =
+          await TaskDetailApi.deleteComment(jwt, commentModel.id!);
+      if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+        listComment.value =
+            await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+        listComment.sort((comment1, comment2) {
+          return comment2.createdAt!.compareTo(comment1.createdAt!);
+        });
+        getAllAttachment();
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> updateEffort(String taskID, double effortInput) async {
+    try {
+      checkToken();
+
+      ResponseApi responseApi = await TaskDetailApi.updateEffort(
+          jwt, taskID, taskModel.value.eventId!, effortInput);
+      if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+        effort.value = effortInput;
+        effortController.text = effortInput.toString();
+      }
+    } catch (e) {
+      print(e);
     }
   }
 }

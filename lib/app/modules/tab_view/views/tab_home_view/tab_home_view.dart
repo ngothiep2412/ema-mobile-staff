@@ -31,7 +31,6 @@ class TabHomeView extends BaseView<TabHomeController> {
             : Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
                         onPressed: () {
@@ -43,14 +42,13 @@ class TabHomeView extends BaseView<TabHomeController> {
                         icon: const Icon(Icons.search),
                         color: ColorsManager.primary,
                       ),
+                      SizedBox(
+                        width: UtilsReponsive.width(20, context),
+                      ),
                       Text(
                         'Sự kiện',
-                        style: GetTextStyle.getTextStyle(20, 'Roboto',
+                        style: GetTextStyle.getTextStyle(22, 'Roboto',
                             FontWeight.w600, ColorsManager.primary),
-                      ),
-                      Icon(
-                        Icons.filter_alt_outlined,
-                        color: ColorsManager.primary,
                       ),
                     ],
                   ),

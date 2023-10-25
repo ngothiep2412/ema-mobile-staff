@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' as Quil;
 // import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -20,6 +21,7 @@ import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_staff/app/resources/style_manager.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:hrea_mobile_staff/app/utils/calculate_time_difference.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../controllers/task_detail_view_controller.dart';
 
@@ -126,6 +128,176 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                               .taskModel.value.startDate!),
                                       endTime: controller.dateFormat.format(
                                           controller.taskModel.value.endDate!),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: UtilsReponsive.width(10, context),
+                                ),
+                                Obx(
+                                  () => Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                          UtilsReponsive.height(10, context),
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: Colors.white,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Row(children: [
+                                          Text('Ước lượng (giờ):',
+                                              style: GetTextStyle.getTextStyle(
+                                                  12,
+                                                  'Roboto',
+                                                  FontWeight.bold,
+                                                  ColorsManager.textColor)),
+                                          SizedBox(
+                                            width: UtilsReponsive.width(
+                                                5, context),
+                                          ),
+                                          TextButton(
+                                            style: TextButton.styleFrom(
+                                                backgroundColor: ColorsManager
+                                                    .backgroundContainer,
+                                                side: BorderSide(
+                                                    color: ColorsManager
+                                                        .backgroundGrey,
+                                                    width: 1)),
+                                            onPressed: () {},
+                                            child: Text(
+                                                controller.est.toString(),
+                                                style:
+                                                    GetTextStyle.getTextStyle(
+                                                        12,
+                                                        'Roboto',
+                                                        FontWeight.w700,
+                                                        ColorsManager.primary)),
+                                          )
+                                        ]),
+                                        SizedBox(
+                                          width:
+                                              UtilsReponsive.width(15, context),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text('Công sức (giờ):',
+                                                style:
+                                                    GetTextStyle.getTextStyle(
+                                                        12,
+                                                        'Roboto',
+                                                        FontWeight.bold,
+                                                        ColorsManager
+                                                            .textColor)),
+                                            SizedBox(
+                                              width: UtilsReponsive.width(
+                                                  5, context),
+                                            ),
+                                            TextButton(
+                                                style: TextButton.styleFrom(
+                                                  backgroundColor: ColorsManager
+                                                      .backgroundContainer,
+                                                  side: BorderSide(
+                                                      color:
+                                                          ColorsManager.primary,
+                                                      width: 1),
+                                                ),
+                                                onPressed: () {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          title: Text(
+                                                              'Nhập con số effort',
+                                                              style: GetTextStyle
+                                                                  .getTextStyle(
+                                                                      18,
+                                                                      'Roboto',
+                                                                      FontWeight
+                                                                          .w500,
+                                                                      ColorsManager
+                                                                          .primary)),
+                                                          content: TextField(
+                                                            keyboardType:
+                                                                const TextInputType
+                                                                    .numberWithOptions(
+                                                                    decimal:
+                                                                        true),
+                                                            inputFormatters: <TextInputFormatter>[
+                                                              FilteringTextInputFormatter
+                                                                  .allow(RegExp(
+                                                                      r'^\d*\.?\d*')),
+                                                            ],
+                                                            onChanged:
+                                                                (value) => {
+                                                              controller
+                                                                  .effortController
+                                                                  .text = value
+                                                            },
+                                                            controller: controller
+                                                                .effortController,
+                                                          ),
+                                                          actions: [
+                                                            TextButton(
+                                                              child: Text(
+                                                                  'Hủy',
+                                                                  style: GetTextStyle.getTextStyle(
+                                                                      16,
+                                                                      'Roboto',
+                                                                      FontWeight
+                                                                          .w500,
+                                                                      ColorsManager
+                                                                          .textColor2)),
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                            TextButton(
+                                                              child: Text('Lưu',
+                                                                  style: GetTextStyle.getTextStyle(
+                                                                      16,
+                                                                      'Roboto',
+                                                                      FontWeight
+                                                                          .w500,
+                                                                      ColorsManager
+                                                                          .primary)),
+                                                              onPressed:
+                                                                  () async {
+                                                                await controller.updateEffort(
+                                                                    controller
+                                                                        .taskModel
+                                                                        .value
+                                                                        .id!,
+                                                                    double.parse(controller
+                                                                        .effortController
+                                                                        .text));
+
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                          ],
+                                                        );
+                                                      });
+                                                },
+                                                child: Text(
+                                                    controller.effort
+                                                        .toString(),
+                                                    style: GetTextStyle
+                                                        .getTextStyle(
+                                                            12,
+                                                            'Roboto',
+                                                            FontWeight.w700,
+                                                            ColorsManager
+                                                                .primary))),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -605,10 +777,18 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
       required String endTime}) {
     return Row(
       children: [
-        const Icon(
+        Icon(
           Icons.calendar_month,
           size: 25,
-          color: Color(0xffC2B280),
+          color: controller.taskModel.value.status == Status.PENDING
+              ? Colors.grey.withOpacity(0.8)
+              : controller.taskModel.value.status! == Status.PROCESSING
+                  ? ColorsManager.primary
+                  : controller.taskModel.value.status! == Status.DONE
+                      ? ColorsManager.green
+                      : controller.taskModel.value.status! == Status.CONFIRM
+                          ? Colors.purpleAccent
+                          : ColorsManager.red,
         ),
         Container(
           // padding: EdgeInsets.symmetric(
@@ -1030,429 +1210,611 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
     );
   }
 
-  StatefulBuilder comment(CommentModel commentModel, BuildContext context) {
-    bool isEditComment = false;
-    return StatefulBuilder(
-      builder: (context, setStateX) {
-        return SizedBox(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                      radius: UtilsReponsive.height(20, context),
-                      backgroundColor:
-                          Colors.transparent, // Đảm bảo nền trong suốt
-                      child: commentModel.user!.profile!.avatar == null ||
-                              commentModel.user!.profile!.avatar == ''
-                          ? ClipOval(
-                              child: Image.network(
-                                "https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.webp",
-                                fit: BoxFit.cover,
-                                width: UtilsReponsive.widthv2(context, 60),
-                                height: UtilsReponsive.heightv2(context, 60),
-                              ),
-                            )
-                          : ClipOval(
-                              child: Image.network(
-                                commentModel.user!.profile!.avatar!,
-                                fit: BoxFit.cover,
-                                width: UtilsReponsive.widthv2(context, 60),
-                                height: UtilsReponsive.heightv2(context, 60),
-                              ),
-                            )),
-                  SizedBox(width: UtilsReponsive.width(10, context)),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        commentModel.user!.profile!.fullName!,
-                        style: TextStyle(
-                            fontFamily: 'Roboto',
-                            letterSpacing: 1.5,
-                            color: ColorsManager.textColor,
-                            fontSize: UtilsReponsive.height(17, context),
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: UtilsReponsive.width(5, context)),
-                      Text(
-                        calculateTimeDifference(
-                            commentModel.createdAt.toString()),
-                        style: TextStyle(
-                            fontFamily: 'Roboto',
-                            letterSpacing: 1,
-                            color: ColorsManager.textColor,
-                            fontSize: UtilsReponsive.height(14, context),
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: UtilsReponsive.height(10, context)),
-              commentModel.commentFiles!.isNotEmpty
-                  ? Container(
-                      margin: EdgeInsets.only(
-                          top: UtilsReponsive.height(8, context)),
-                      height: UtilsReponsive.height(150, context),
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: commentModel.commentFiles!.length,
-                        separatorBuilder: (context, index) =>
-                            SizedBox(width: UtilsReponsive.width(15, context)),
-                        itemBuilder: (context, index) {
-                          return _filesComment(
-                              commentModel.commentFiles![index],
-                              context,
-                              isEditComment);
-                        },
-                      ),
-                    )
-                  : SizedBox(),
-              SizedBox(height: UtilsReponsive.height(10, context)),
-              isEditComment == true
-                  ? Container(
-                      constraints: BoxConstraints(
-                          maxHeight: UtilsReponsive.height(300, context),
-                          minHeight: UtilsReponsive.height(100, context)),
-                      child: FormFieldWidget(
-                        setValueFunc: (value) {},
-                        maxLine: 4,
-                        initValue: commentModel.text,
-                      ),
-                    )
-                  : Text(
-                      commentModel.text!,
+  Obx comment(CommentModel commentModel, BuildContext context) {
+    return Obx(
+      () => SizedBox(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                    radius: UtilsReponsive.height(20, context),
+                    backgroundColor:
+                        Colors.transparent, // Đảm bảo nền trong suốt
+                    child: commentModel.user!.profile!.avatar == null ||
+                            commentModel.user!.profile!.avatar == ''
+                        ? ClipOval(
+                            child: Image.network(
+                              "https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.webp",
+                              fit: BoxFit.cover,
+                              width: UtilsReponsive.widthv2(context, 60),
+                              height: UtilsReponsive.heightv2(context, 60),
+                            ),
+                          )
+                        : ClipOval(
+                            child: Image.network(
+                              commentModel.user!.profile!.avatar!,
+                              fit: BoxFit.cover,
+                              width: UtilsReponsive.widthv2(context, 60),
+                              height: UtilsReponsive.heightv2(context, 60),
+                            ),
+                          )),
+                SizedBox(width: UtilsReponsive.width(10, context)),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      commentModel.user!.profile!.fullName!,
+                      style: TextStyle(
+                          fontFamily: 'Roboto',
+                          letterSpacing: 1.5,
+                          color: ColorsManager.textColor,
+                          fontSize: UtilsReponsive.height(17, context),
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: UtilsReponsive.width(5, context)),
+                    Text(
+                      calculateTimeDifference(
+                          commentModel.createdAt.toString()),
                       style: TextStyle(
                           fontFamily: 'Roboto',
                           letterSpacing: 1,
                           color: ColorsManager.textColor,
-                          fontSize: UtilsReponsive.height(18, context),
+                          fontSize: UtilsReponsive.height(14, context),
                           fontWeight: FontWeight.w500),
                     ),
-              SizedBox(height: UtilsReponsive.width(10, context)),
-              isEditComment == false
-                  ? Row(
-                      children: [
-                        InkWell(
-                            onTap: () {
-                              setStateX(() {
-                                isEditComment = true;
-                              });
-                            },
-                            child: commentModel.user!.id == controller.idUser
-                                ? Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Text(
-                                      'Chỉnh sửa',
-                                      style: TextStyle(
-                                          fontFamily: 'Roboto',
-                                          wordSpacing: 1.2,
-                                          color: Colors.blue,
-                                          fontSize: UtilsReponsive.height(
-                                              18, context),
-                                          fontWeight: FontWeight.bold),
-                                    ))
-                                : SizedBox()),
-                        SizedBox(
-                          width: UtilsReponsive.width(10, context),
-                        ),
-                      ],
-                    )
-                  : Row(
-                      children: [
-                        InkWell(
-                            onTap: () {
-                              setStateX(() {
-                                isEditComment = false;
-                              });
-                            },
-                            child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'Lưu',
-                                  style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      wordSpacing: 1.2,
-                                      color: Colors.blue,
-                                      fontSize:
-                                          UtilsReponsive.height(18, context),
-                                      fontWeight: FontWeight.bold),
-                                ))),
-                        SizedBox(
-                          width: UtilsReponsive.width(10, context),
-                        ),
-                        InkWell(
-                            onTap: () {
-                              setStateX(() {
-                                isEditComment = false;
-                              });
-                            },
-                            child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'Hủy',
-                                  style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      wordSpacing: 1.2,
-                                      color: Colors.blue,
-                                      fontSize:
-                                          UtilsReponsive.height(18, context),
-                                      fontWeight: FontWeight.bold),
-                                ))),
-                      ],
-                    )
-            ],
-          ),
-        );
-      },
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: UtilsReponsive.height(10, context)),
+            commentModel.commentFiles!.isNotEmpty
+                ? Container(
+                    margin:
+                        EdgeInsets.only(top: UtilsReponsive.height(8, context)),
+                    height: UtilsReponsive.height(150, context),
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: commentModel.commentFiles!.length,
+                      separatorBuilder: (context, index) =>
+                          SizedBox(width: UtilsReponsive.width(15, context)),
+                      itemBuilder: (context, index) {
+                        return _filesComment(commentModel.commentFiles![index],
+                            context, controller.isEditComment.value);
+                      },
+                    ),
+                  )
+                : SizedBox(),
+            SizedBox(height: UtilsReponsive.height(10, context)),
+            controller.isEditComment.value == true
+                ? Container(
+                    constraints: BoxConstraints(
+                        maxHeight: UtilsReponsive.height(300, context),
+                        minHeight: UtilsReponsive.height(100, context)),
+                    child: FormFieldWidget(
+                      setValueFunc: (value) {},
+                      maxLine: 4,
+                      initValue: commentModel.text,
+                    ),
+                  )
+                : Text(
+                    commentModel.text!,
+                    style: TextStyle(
+                        fontFamily: 'Roboto',
+                        letterSpacing: 1,
+                        color: ColorsManager.textColor,
+                        fontSize: UtilsReponsive.height(18, context),
+                        fontWeight: FontWeight.w500),
+                  ),
+            SizedBox(height: UtilsReponsive.width(10, context)),
+            controller.isEditComment.value == false
+                ? Row(
+                    children: [
+                      InkWell(
+                          onTap: () {
+                            controller.isEditComment.value = true;
+                          },
+                          child: commentModel.user!.id == controller.idUser
+                              ? Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    'Chỉnh sửa',
+                                    style: GetTextStyle.getTextStyle(
+                                        14,
+                                        'Roboto',
+                                        FontWeight.w500,
+                                        ColorsManager.primary),
+                                  ))
+                              : SizedBox()),
+                      SizedBox(
+                        width: UtilsReponsive.width(10, context),
+                      ),
+                      commentModel.user!.id == controller.idUser
+                          ? InkWell(
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text(
+                                          'Xác nhận xóa bình luận',
+                                          style: GetTextStyle.getTextStyle(
+                                              16,
+                                              'Roboto',
+                                              FontWeight.w500,
+                                              ColorsManager.primary),
+                                        ),
+                                        content: Text(
+                                          'Bạn có chắc chắn muốn xóa bình luận này không?',
+                                          style: GetTextStyle.getTextStyle(
+                                              14,
+                                              'Roboto',
+                                              FontWeight.w500,
+                                              ColorsManager.textColor2),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            child: Text(
+                                              'Không',
+                                              style: GetTextStyle.getTextStyle(
+                                                  16,
+                                                  'Roboto',
+                                                  FontWeight.w500,
+                                                  ColorsManager.primary),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          TextButton(
+                                            child: Text(
+                                              'Có',
+                                              style: GetTextStyle.getTextStyle(
+                                                  16,
+                                                  'Roboto',
+                                                  FontWeight.w500,
+                                                  ColorsManager.red),
+                                            ),
+                                            onPressed: () {
+                                              controller
+                                                  .deleteComment(commentModel);
+                                              controller.isEditComment.value =
+                                                  true;
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              },
+                              child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    'Xóa',
+                                    style: GetTextStyle.getTextStyle(
+                                        14,
+                                        'Roboto',
+                                        FontWeight.w500,
+                                        ColorsManager.red),
+                                  )))
+                          : SizedBox(),
+                    ],
+                  )
+                : Row(
+                    children: [
+                      InkWell(
+                          onTap: () {
+                            controller.isEditComment.value = false;
+                          },
+                          child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                'Lưu',
+                                style: GetTextStyle.getTextStyle(14, 'Roboto',
+                                    FontWeight.w500, ColorsManager.primary),
+                              ))),
+                      SizedBox(
+                        width: UtilsReponsive.width(10, context),
+                      ),
+                      InkWell(
+                          onTap: () {
+                            controller.isEditComment.value = false;
+                          },
+                          child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                'Hủy',
+                                style: GetTextStyle.getTextStyle(14, 'Roboto',
+                                    FontWeight.w500, ColorsManager.primary),
+                              ))),
+                    ],
+                  )
+          ],
+        ),
+      ),
     );
   }
 
-  Container _subTask(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(UtilsReponsive.height(15, context)),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          // boxShadow: const [
-          //   BoxShadow(
-          //     color: Colors.white,
-          //     spreadRadius: 0.5,
-          //     blurRadius: 7,
-          //     offset: Offset(0, 3),
-          //   ),
-          // ],
-          borderRadius:
-              BorderRadius.circular(UtilsReponsive.height(10, context))),
-      child: Obx(
-        () => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Công việc',
-                  style: TextStyle(
-                      fontFamily: 'Roboto',
-                      wordSpacing: 1.2,
-                      color: Colors.black,
-                      fontSize: UtilsReponsive.height(18, context),
-                      fontWeight: FontWeight.bold),
-                ),
-                InkWell(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Thêm công việc con',
-                              style: GetTextStyle.getTextStyle(18, 'Roboto',
-                                  FontWeight.w500, ColorsManager.primary)),
-                          content: TextField(
-                            onChanged: (value) => {
-                              controller.titleSubTaskController.text = value
-                            },
-                            controller: controller.titleSubTaskController,
-                          ),
-                          actions: [
-                            TextButton(
-                              child: Text('Hủy',
-                                  style: GetTextStyle.getTextStyle(
-                                      16,
-                                      'Roboto',
-                                      FontWeight.w500,
-                                      ColorsManager.textColor2)),
-                              onPressed: () {
-                                controller.titleSubTaskController.text = '';
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            TextButton(
-                              child: Text('Lưu',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto',
-                                      FontWeight.w500, ColorsManager.primary)),
-                              onPressed: () {
-                                controller.createSubTask();
-                                controller.errorUpdateTask.value == true
-                                    ? _errorMessage(context)
-                                    : _successMessage(context);
-                                Navigator.of(context).pop();
-                                controller.titleSubTaskController.text = '';
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  child: Icon(
-                    Icons.add,
-                    color: ColorsManager.primary,
-                    size: UtilsReponsive.height(30, context),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: UtilsReponsive.height(10, context),
-            ),
-            Container(
-              clipBehavior: Clip.hardEdge,
-              height: UtilsReponsive.height(10, context),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade400,
-                borderRadius:
-                    BorderRadius.circular(UtilsReponsive.height(5, context)),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    height: double.infinity,
-                    width: MediaQuery.of(context).size.width *
-                        controller.progressSubTaskDone.value,
-                    color: Colors.green,
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: UtilsReponsive.height(10, context),
-            ),
-            Column(
-              children: controller.taskModel.value.subTask!
-                  .where((element) => element.status != Status.CANCEL)
-                  .map((e) => GestureDetector(
-                        onTap: () {
-                          Get.toNamed(Routes.SUBTASK_DETAIL_VIEW, arguments: {
-                            "taskID": e.id,
-                            "isNavigateDetail": true,
-                            "endDate": controller.taskModel.value.endDate,
-                            "startDate": controller.taskModel.value.startDate,
-                          });
-                        },
-                        child: Card(
-                          child: Container(
-                            padding: EdgeInsets.only(
-                              top: UtilsReponsive.height(5, context),
-                              bottom: UtilsReponsive.height(5, context),
-                              left: UtilsReponsive.height(5, context),
-                              right: UtilsReponsive.height(5, context),
-                            ),
-                            width: double.infinity,
-                            height: UtilsReponsive.height(60, context),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    flex: 6,
-                                    child: e.status == Status.DONE ||
-                                            e.status == Status.CONFIRM
-                                        ? Text(
-                                            e.title!.length > 20
-                                                ? '${e.title!.substring(0, 20)}...'
-                                                : e.title!,
-                                            style: TextStyle(
-                                              fontFamily: 'Roboto',
-                                              letterSpacing: 1.5,
-                                              color: ColorsManager.textColor,
-                                              fontSize: UtilsReponsive.height(
-                                                  16, context),
-                                              fontWeight: FontWeight.bold,
-                                              decoration:
-                                                  TextDecoration.lineThrough,
-                                            ),
-                                          )
-                                        : Text(
-                                            e.title!.length > 20
-                                                ? '${e.title!.substring(0, 20)}...'
-                                                : e.title!,
-                                            style: TextStyle(
-                                                fontFamily: 'Roboto',
-                                                letterSpacing: 1.5,
-                                                color: ColorsManager.textColor,
-                                                fontSize: UtilsReponsive.height(
-                                                    16, context),
-                                                fontWeight: FontWeight.bold),
-                                          )),
-                                SizedBox(
-                                  width: UtilsReponsive.width(10, context),
+  Obx _subTask(BuildContext context) {
+    return Obx(
+      () => GestureDetector(
+        onTap: () {
+          controller.isExpanded.value = !controller.isExpanded.value;
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius:
+                  BorderRadius.circular(UtilsReponsive.height(10, context))),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                    left: UtilsReponsive.height(15, context),
+                    right: UtilsReponsive.height(5, context)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Công việc',
+                          style: TextStyle(
+                              fontFamily: 'Roboto',
+                              wordSpacing: 1.2,
+                              color: Colors.black,
+                              fontSize: UtilsReponsive.height(18, context),
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: UtilsReponsive.width(5, context),
+                        ),
+                        controller.taskModel.value.subTask!
+                                .where((element) =>
+                                    element.status != Status.CANCEL)
+                                .isNotEmpty
+                            ? CircleAvatar(
+                                radius: UtilsReponsive.height(10, context),
+                                child: Text(
+                                  controller.taskModel.value.subTask!
+                                      .where((element) =>
+                                          element.status != Status.CANCEL)
+                                      .length
+                                      .toString(),
+                                  style: TextStyle(
+                                      letterSpacing: 1.5,
+                                      color: ColorsManager.backgroundWhite,
+                                      fontSize:
+                                          UtilsReponsive.height(15, context),
+                                      fontWeight: FontWeight.bold),
                                 ),
-                                Expanded(
-                                  flex: 5,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      _showBottomSheetStatusSubtask(
-                                          context, e.id!);
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: UtilsReponsive.height(
-                                              5, context)),
-                                      height:
-                                          UtilsReponsive.height(40, context),
-                                      decoration: BoxDecoration(
-                                        color: e.status == Status.PENDING
-                                            ? Colors.grey
-                                            : e.status == Status.PROCESSING
-                                                ? ColorsManager.primary
-                                                : e.status == Status.DONE
-                                                    ? ColorsManager.green
-                                                    : e.status == Status.CONFIRM
-                                                        ? Colors.purpleAccent
-                                                        : ColorsManager.red,
-                                        borderRadius: BorderRadius.circular(
-                                            UtilsReponsive.height(5, context)),
+                              )
+                            : SizedBox(),
+                      ],
+                    ),
+                    ExpandIcon(
+                      isExpanded: controller.isExpanded.value,
+                      size: 25,
+                      color: controller.isExpanded.value
+                          ? ColorsManager.primary
+                          : ColorsManager.textColor2,
+                      onPressed: (bool isExpanded) {
+                        controller.isExpanded.value = !isExpanded;
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: UtilsReponsive.height(10, context),
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                    left: UtilsReponsive.height(15, context),
+                    right: UtilsReponsive.height(15, context)),
+                clipBehavior: Clip.hardEdge,
+                height: UtilsReponsive.height(10, context),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade400,
+                  borderRadius:
+                      BorderRadius.circular(UtilsReponsive.height(5, context)),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      height: double.infinity,
+                      width: MediaQuery.of(context).size.width *
+                          controller.progressSubTaskDone.value,
+                      color: Colors.green,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: UtilsReponsive.height(10, context),
+              ),
+              if (controller.isExpanded.value)
+                Padding(
+                  padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: UtilsReponsive.height(10, context),
+                      ),
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Thêm công việc con',
+                                        style: GetTextStyle.getTextStyle(
+                                            18,
+                                            'Roboto',
+                                            FontWeight.w500,
+                                            ColorsManager.primary)),
+                                    content: TextField(
+                                      onChanged: (value) => {
+                                        controller.titleSubTaskController.text =
+                                            value
+                                      },
+                                      controller:
+                                          controller.titleSubTaskController,
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        child: Text('Hủy',
+                                            style: GetTextStyle.getTextStyle(
+                                                16,
+                                                'Roboto',
+                                                FontWeight.w500,
+                                                ColorsManager.textColor2)),
+                                        onPressed: () {
+                                          controller
+                                              .titleSubTaskController.text = '';
+                                          Navigator.of(context).pop();
+                                        },
                                       ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        // mainAxisAlignment:
-                                        //     MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Expanded(
-                                            flex: 3,
-                                            child: Text(
-                                              e.status == Status.PENDING
-                                                  ? "Đang kiểm thực"
-                                                  : e.status ==
-                                                          Status.PROCESSING
-                                                      ? "Đang thực hiện"
-                                                      : e.status == Status.DONE
-                                                          ? "Hoàn thành"
-                                                          : e.status ==
-                                                                  Status.CONFIRM
-                                                              ? "Đã xác thực"
-                                                              : "Quá hạn",
-                                              style: TextStyle(
-                                                  fontFamily: 'Roboto',
-                                                  letterSpacing: 1.5,
-                                                  color: Colors.white,
-                                                  fontSize:
-                                                      UtilsReponsive.height(
-                                                          14, context),
-                                                  fontWeight: FontWeight.bold),
+                                      TextButton(
+                                        child: Text('Lưu',
+                                            style: GetTextStyle.getTextStyle(
+                                                16,
+                                                'Roboto',
+                                                FontWeight.w500,
+                                                ColorsManager.primary)),
+                                        onPressed: () {
+                                          controller.createSubTask();
+                                          controller.errorUpdateTask.value ==
+                                                  true
+                                              ? _errorMessage(context)
+                                              : _successMessage(context);
+                                          Navigator.of(context).pop();
+                                          controller
+                                              .titleSubTaskController.text = '';
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: Text(
+                              '+  Thêm công việc con',
+                              style: GetTextStyle.getTextStyle(15, 'Roboto',
+                                  FontWeight.w500, ColorsManager.primary),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: UtilsReponsive.height(10, context),
+                      ),
+                      controller.taskModel.value.subTask!
+                              .where(
+                                  (element) => element.status != Status.CANCEL)
+                              .isEmpty
+                          ? SizedBox()
+                          : Column(
+                              children: controller.taskModel.value.subTask!
+                                  .where((element) =>
+                                      element.status != Status.CANCEL)
+                                  .map((e) => GestureDetector(
+                                        onTap: () {
+                                          Get.toNamed(
+                                              Routes.SUBTASK_DETAIL_VIEW,
+                                              arguments: {
+                                                "taskID": e.id,
+                                                "isNavigateDetail": true,
+                                                "endDate": controller
+                                                    .taskModel.value.endDate,
+                                                "startDate": controller
+                                                    .taskModel.value.startDate,
+                                              });
+                                        },
+                                        child: Card(
+                                          child: Container(
+                                            padding: EdgeInsets.only(
+                                              top: UtilsReponsive.height(
+                                                  5, context),
+                                              bottom: UtilsReponsive.height(
+                                                  5, context),
+                                              left: UtilsReponsive.height(
+                                                  5, context),
+                                              right: UtilsReponsive.height(
+                                                  5, context),
+                                            ),
+                                            width: double.infinity,
+                                            height: UtilsReponsive.height(
+                                                60, context),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                    flex: 6,
+                                                    child: e.status ==
+                                                                Status.DONE ||
+                                                            e.status ==
+                                                                Status.CONFIRM
+                                                        ? Text(
+                                                            e.title!.length > 20
+                                                                ? '${e.title!.substring(0, 20)}...'
+                                                                : e.title!,
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'Roboto',
+                                                              letterSpacing:
+                                                                  1.5,
+                                                              color:
+                                                                  ColorsManager
+                                                                      .textColor,
+                                                              fontSize:
+                                                                  UtilsReponsive
+                                                                      .height(
+                                                                          16,
+                                                                          context),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .lineThrough,
+                                                            ),
+                                                          )
+                                                        : Text(
+                                                            e.title!.length > 20
+                                                                ? '${e.title!.substring(0, 20)}...'
+                                                                : e.title!,
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'Roboto',
+                                                                letterSpacing:
+                                                                    1.5,
+                                                                color: ColorsManager
+                                                                    .textColor,
+                                                                fontSize:
+                                                                    UtilsReponsive
+                                                                        .height(
+                                                                            16,
+                                                                            context),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          )),
+                                                SizedBox(
+                                                  width: UtilsReponsive.width(
+                                                      10, context),
+                                                ),
+                                                Expanded(
+                                                  flex: 5,
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      _showBottomSheetStatusSubtask(
+                                                          context, e.id!);
+                                                    },
+                                                    child: Container(
+                                                      padding: EdgeInsets.symmetric(
+                                                          horizontal:
+                                                              UtilsReponsive
+                                                                  .height(5,
+                                                                      context)),
+                                                      height:
+                                                          UtilsReponsive.height(
+                                                              40, context),
+                                                      decoration: BoxDecoration(
+                                                        color: e.status ==
+                                                                Status.PENDING
+                                                            ? Colors.grey
+                                                            : e.status ==
+                                                                    Status
+                                                                        .PROCESSING
+                                                                ? ColorsManager
+                                                                    .primary
+                                                                : e.status ==
+                                                                        Status
+                                                                            .DONE
+                                                                    ? ColorsManager
+                                                                        .green
+                                                                    : e.status ==
+                                                                            Status
+                                                                                .CONFIRM
+                                                                        ? Colors
+                                                                            .purpleAccent
+                                                                        : ColorsManager
+                                                                            .red,
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                UtilsReponsive
+                                                                    .height(5,
+                                                                        context)),
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        // mainAxisAlignment:
+                                                        //     MainAxisAlignment.spaceAround,
+                                                        children: [
+                                                          Expanded(
+                                                            flex: 3,
+                                                            child: Text(
+                                                              e.status ==
+                                                                      Status
+                                                                          .PENDING
+                                                                  ? "Đang kiểm thực"
+                                                                  : e.status ==
+                                                                          Status
+                                                                              .PROCESSING
+                                                                      ? "Đang thực hiện"
+                                                                      : e.status ==
+                                                                              Status.DONE
+                                                                          ? "Hoàn thành"
+                                                                          : e.status == Status.CONFIRM
+                                                                              ? "Đã xác thực"
+                                                                              : "Quá hạn",
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                      'Roboto',
+                                                                  letterSpacing:
+                                                                      1.5,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: UtilsReponsive
+                                                                      .height(
+                                                                          14,
+                                                                          context),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          ),
+                                                          const Expanded(
+                                                            child: Icon(
+                                                              Icons
+                                                                  .arrow_drop_down_rounded,
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          const Expanded(
-                                            child: Icon(
-                                              Icons.arrow_drop_down_rounded,
-                                              color: Colors.white,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                        ),
+                                      ))
+                                  .toList(),
                             ),
-                          ),
-                        ),
-                      ))
-                  .toList(),
-            ),
-          ],
+                    ],
+                  ),
+                )
+            ],
+          ),
         ),
       ),
     );

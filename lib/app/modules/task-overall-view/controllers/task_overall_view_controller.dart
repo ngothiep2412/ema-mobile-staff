@@ -18,6 +18,16 @@ class TaskOverallViewController extends BaseController {
   RxList<TaskModel> listTask = <TaskModel>[].obs;
   RxBool isLoading = false.obs;
 
+  RxList<String> filterList = <String>[
+    "Không chọn",
+    "Ngày tạo (Tăng dần)",
+    "Ngày tạo (Giảm dần)",
+    "Hạn hoàn thành (Tăng dần)",
+    "Hạn hoàn thành (Giảm dần)",
+    "Mức độ ưu tiên (Tăng dần)",
+    "Mức độ ưu tiên (Giảm dần)",
+  ].obs;
+
   Future<void> refreshPage() async {
     listTask.clear();
     String jwt = GetStorage().read('JWT');

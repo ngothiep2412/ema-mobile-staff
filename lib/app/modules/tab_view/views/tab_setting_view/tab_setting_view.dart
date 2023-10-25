@@ -109,8 +109,8 @@ class TabSettingView extends BaseView<TabSettingController> {
                   () => Center(
                     child: Text(
                       controller.userModel.value.result!.fullName!,
-                      style: GetTextStyle.getTextStyle(17, 'Roboto',
-                          FontWeight.w600, ColorsManager.backgroundWhite),
+                      style: GetTextStyle.getTextStyle(
+                          17, 'Roboto', FontWeight.w600, ColorsManager.primary),
                     ),
                   ),
                 ),
@@ -171,12 +171,11 @@ class TabSettingView extends BaseView<TabSettingController> {
                               (Set<MaterialState> states) {
                                 if (states.contains(MaterialState.pressed)) {
                                   return const BorderSide(
-                                    color: Colors
-                                        .white, // Màu viền khi nút được nhấn
+                                    color: Colors.white,
                                   );
                                 }
-                                return const BorderSide(
-                                  color: Colors.white, // Màu viền mặc định
+                                return BorderSide(
+                                  color: ColorsManager.primary,
                                 );
                               },
                             ),
@@ -188,8 +187,8 @@ class TabSettingView extends BaseView<TabSettingController> {
                               ),
                             ),
                             // Bất kỳ thuộc tính khác mà bạn muốn tùy chỉnh, ví dụ: màu nền
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.transparent),
+                            backgroundColor: MaterialStateProperty.all(
+                                ColorsManager.backgroundWhite),
                           ),
                           onPressed: () async {
                             // Xử lý sự kiện khi nút được nhấn
@@ -229,7 +228,7 @@ class TabSettingView extends BaseView<TabSettingController> {
             Text(
               title,
               style: GetTextStyle.getTextStyle(
-                  18, 'Roboto', FontWeight.w600, Colors.white70),
+                  18, 'Roboto', FontWeight.w600, ColorsManager.primary),
             ),
             const Icon(
               Icons.arrow_forward_ios,
