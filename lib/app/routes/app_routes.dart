@@ -21,6 +21,8 @@ abstract class Routes {
   static const CREATE_BUDGET = _Paths.CREATE_BUDGET;
   static const EDIT_BUDGET = _Paths.EDIT_BUDGET;
   static const EVENT_DETAIL = _Paths.EVENT_DETAIL;
+  static const ATTENDANCE = _Paths.ATTENDANCE;
+  static const TIME_SHEET = _Paths.TIME_SHEET;
 }
 
 abstract class _Paths {
@@ -43,4 +45,6 @@ abstract class _Paths {
   static const CREATE_BUDGET = '/create-budget';
   static const EDIT_BUDGET = '/edit-budget';
   static const EVENT_DETAIL = '/event-detail';
+  static const ATTENDANCE = '/attendance';
+  static const TIME_SHEET = '/time-sheet';
 }
