@@ -6,44 +6,73 @@ import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_timekeepi
 import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_staff/app/resources/style_manager.dart';
+import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 
 class TabTimeKeepingView extends BaseView<TabTimeKeepingController> {
   const TabTimeKeepingView({Key? key}) : super(key: key);
   @override
   Widget buildView(BuildContext context) {
     return SafeArea(
-      child: Obx(
-        () => Padding(
-          padding: EdgeInsets.all(UtilsReponsive.height(20, context)),
-          child: controller.isLoading.value == true
-              ? Center(
-                  child: SpinKitFadingCircle(
-                    color: ColorsManager.primary,
-                    // size: 30.0,
+        child: Padding(
+      padding: EdgeInsets.all(UtilsReponsive.height(20, context)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                  child: GestureDetector(
+                onTap: () {
+                  Get.toNamed(Routes.ATTENDANCE);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(
+                          UtilsReponsive.height(10, context))),
+                  height: UtilsReponsive.height(60, context),
+                  child: Center(
+                    child: Text(
+                      'Attendance',
+                      style: GetTextStyle.getTextStyle(
+                          UtilsReponsive.height(18, context),
+                          'Roboto',
+                          FontWeight.w800,
+                          Colors.white),
+                    ),
                   ),
-                )
-              : Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: Text(
-                              'Chấm công',
-                              style: GetTextStyle.getTextStyle(20, 'Roboto',
-                                  FontWeight.w600, ColorsManager.primary),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: UtilsReponsive.height(10, context),
-                    ),
-                  ],
                 ),
-        ),
+              )),
+              SizedBox(
+                width: UtilsReponsive.width(20, context),
+              ),
+              Expanded(
+                  child: GestureDetector(
+                onTap: () {
+                  Get.toNamed(Routes.TIME_SHEET);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(
+                          UtilsReponsive.height(10, context))),
+                  height: UtilsReponsive.height(60, context),
+                  child: Center(
+                    child: Text(
+                      'Confirm TimeSheet',
+                      style: GetTextStyle.getTextStyle(
+                          UtilsReponsive.height(18, context),
+                          'Roboto',
+                          FontWeight.w800,
+                          Colors.white),
+                    ),
+                  ),
+                ),
+              )),
+            ],
+          )
+        ],
       ),
-    );
+    ));
   }
 }

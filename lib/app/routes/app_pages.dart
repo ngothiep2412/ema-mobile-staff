@@ -6,6 +6,10 @@ import '../modules/budget_detail/bindings/budget_detail_binding.dart';
 import '../modules/budget_detail/views/budget_detail_view.dart';
 import '../modules/create_budget/bindings/create_budget_binding.dart';
 import '../modules/create_budget/views/create_budget_view.dart';
+import '../modules/attendance/bindings/attendance_binding.dart';
+import '../modules/attendance/bindings/attendance_binding.dart';
+import '../modules/attendance/views/attendance_view.dart';
+import '../modules/attendance/views/attendance_view.dart';
 import '../modules/edit-description/bindings/edit_description_binding.dart';
 import '../modules/edit-description/views/edit_description_view.dart';
 import '../modules/edit_budget/bindings/edit_budget_binding.dart';
@@ -36,6 +40,8 @@ import '../modules/task-detail-view/bindings/task_detail_view_binding.dart';
 import '../modules/task-detail-view/views/task_detail_view_view.dart';
 import '../modules/task-overall-view/bindings/task_overall_view_binding.dart';
 import '../modules/task-overall-view/views/task_overall_view_view.dart';
+import '../modules/time-sheet/bindings/time_sheet_binding.dart';
+import '../modules/time-sheet/views/time_sheet_view.dart';
 
 part 'app_routes.dart';
 
@@ -134,6 +140,16 @@ class AppPages {
       name: _Paths.EVENT_DETAIL,
       page: () => const EventDetailView(),
       binding: EventDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.ATTENDANCE,
+      page: () => const AttendanceView(),
+      binding: AttendanceBinding(),
+    ),
+    GetPage(
+      name: _Paths.TIME_SHEET,
+      page: () => const TimeSheetView(),
+      binding: TimeSheetBinding(),
     ),
   ];
 }
