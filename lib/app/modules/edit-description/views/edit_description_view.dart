@@ -75,13 +75,13 @@ class EditDescriptionView extends BaseView<EditDescriptionController> {
                       Stack(
                         children: [
                           Quil.QuillEditor.basic(
-                            configurations:
-                                const Quil.QuillEditorConfigurations(
-                                    readOnly: false),
+                            configurations: Quil.QuillEditorConfigurations(
+                                autoFocus: false,
+                                expands: false,
+                                editorKey: GlobalKey(),
+                                readOnly: false),
                             focusNode: controller.focusNodeDetail,
-                            autoFocus: false,
-                            expands: false,
-                            editorKey: GlobalKey(),
+
                             // embedBuilders: FlutterQuillEmbeds.builders(),
 
                             // controller: controller.quillController.value,

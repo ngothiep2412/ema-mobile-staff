@@ -1,7 +1,17 @@
 import 'package:get/get.dart';
 
+import '../modules/budget/bindings/budget_binding.dart';
+import '../modules/budget/views/budget_view.dart';
+import '../modules/budget_detail/bindings/budget_detail_binding.dart';
+import '../modules/budget_detail/views/budget_detail_view.dart';
+import '../modules/create_budget/bindings/create_budget_binding.dart';
+import '../modules/create_budget/views/create_budget_view.dart';
 import '../modules/edit-description/bindings/edit_description_binding.dart';
 import '../modules/edit-description/views/edit_description_view.dart';
+import '../modules/edit_budget/bindings/edit_budget_binding.dart';
+import '../modules/edit_budget/views/edit_budget_view.dart';
+import '../modules/event_detail/bindings/event_detail_binding.dart';
+import '../modules/event_detail/views/event_detail_view.dart';
 import '../modules/forgot_password/bindings/forgot_password_binding.dart';
 import '../modules/forgot_password/views/forgot_password_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -99,6 +109,31 @@ class AppPages {
       name: _Paths.SUBTASK_DETAIL_VIEW,
       page: () => const SubtaskDetailViewView(),
       binding: SubtaskDetailViewBinding(),
+    ),
+    GetPage(
+      name: _Paths.BUDGET,
+      page: () => const BudgetView(),
+      binding: BudgetBinding(),
+    ),
+    GetPage(
+      name: _Paths.BUDGET_DETAIL,
+      page: () => const BudgetDetailView(),
+      binding: BudgetDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.CREATE_BUDGET,
+      page: () => const CreateBudgetView(),
+      binding: CreateBudgetBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_BUDGET,
+      page: () => const EditBudgetView(),
+      binding: EditBudgetBinding(),
+    ),
+    GetPage(
+      name: _Paths.EVENT_DETAIL,
+      page: () => const EventDetailView(),
+      binding: EventDetailBinding(),
     ),
   ];
 }

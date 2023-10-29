@@ -32,7 +32,7 @@ class ProfileView extends BaseView<ProfileController> {
                           controller.onDelete(),
                         },
                     icon: const Icon(
-                      Icons.arrow_back,
+                      Icons.arrow_back_ios_new,
                       color: Colors.white,
                     )),
                 SizedBox(
@@ -60,90 +60,89 @@ class ProfileView extends BaseView<ProfileController> {
                   Center(
                     child: Stack(
                       children: [
-                        Obx(() => CircleAvatar(
-                              backgroundColor: ColorsManager
-                                  .backgroundBlackGrey, // Màu nền mà bạn muốn
-                              radius:
-                                  60, // Điều chỉnh kích thước hình tròn theo ý muốn
-                              child: controller.selectImagePath.value.isEmpty
-                                  ? Container(
-                                      width: UtilsReponsive.width(150, context),
-                                      height:
-                                          UtilsReponsive.height(150, context),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            width: 4,
-                                            color: ColorsManager.primary),
-                                        boxShadow: const [
-                                          // BoxShadow(
-                                          //   spreadRadius: 2,
-                                          //   blurRadius: 10,
-                                          //   color: Colors.white12,
-                                          //   offset: Offset(0, 10),
-                                          // )
-                                        ],
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: CachedNetworkImage(
-                                        // fit: BoxFit.contain,
-                                        imageUrl: controller.userModelView.value
-                                            .result!.avatar!,
-                                        // imageUrl:
-                                        //     'https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg',
-                                        imageBuilder: (context,
-                                                imageProvider) =>
-                                            Container(
-                                                width: UtilsReponsive.width(
-                                                    150, context),
-                                                height: UtilsReponsive.height(
-                                                    150, context),
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        width: 4,
-                                                        color: ColorsManager
-                                                            .backgroundBlackGrey),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                          spreadRadius: 2,
-                                                          blurRadius: 10,
-                                                          color: Colors.black
-                                                              .withOpacity(0.1),
-                                                          offset: const Offset(
-                                                              0, 10))
-                                                    ],
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                        fit: BoxFit.cover,
-                                                        image: imageProvider))),
-                                        progressIndicatorBuilder:
-                                            (context, url, downloadProgress) =>
-                                                Container(
-                                          padding: EdgeInsets.all(
-                                              UtilsReponsive.height(
-                                                  10, context)),
-                                          height:
-                                              UtilsReponsive.height(5, context),
-                                          width:
-                                              UtilsReponsive.height(5, context),
-                                          child: CircularProgressIndicator(
-                                            color: ColorsManager.primary,
-                                          ),
-                                        ),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(Icons.error),
-                                      ),
-                                    )
-                                  : ClipOval(
-                                      child: Image.file(
-                                        File(controller.selectImagePath.value),
-                                        fit: BoxFit.cover,
-                                        width: UtilsReponsive.widthv2(context,
-                                            120), // Kích thước của hình ảnh
-                                        height: UtilsReponsive.heightv2(
-                                            context, 145),
-                                      ),
+                        Obx(
+                          () => CircleAvatar(
+                            backgroundColor: ColorsManager
+                                .backgroundBlackGrey, // Màu nền mà bạn muốn
+                            radius:
+                                60, // Điều chỉnh kích thước hình tròn theo ý muốn
+                            child: controller.selectImagePath.value.isEmpty
+                                ? Container(
+                                    width: UtilsReponsive.width(150, context),
+                                    height: UtilsReponsive.height(150, context),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 4,
+                                          color: ColorsManager.primary),
+                                      boxShadow: const [
+                                        // BoxShadow(
+                                        //   spreadRadius: 2,
+                                        //   blurRadius: 10,
+                                        //   color: Colors.white12,
+                                        //   offset: Offset(0, 10),
+                                        // )
+                                      ],
+                                      shape: BoxShape.circle,
                                     ),
-                            )),
+                                    child: CachedNetworkImage(
+                                      // fit: BoxFit.contain,
+                                      imageUrl: controller
+                                          .userModelView.value.result!.avatar!,
+                                      // imageUrl:
+                                      //     'https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg',
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                              width: UtilsReponsive.width(
+                                                  150, context),
+                                              height: UtilsReponsive.height(
+                                                  150, context),
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      width: 4,
+                                                      color: ColorsManager
+                                                          .backgroundBlackGrey),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        spreadRadius: 2,
+                                                        blurRadius: 10,
+                                                        color: Colors.black
+                                                            .withOpacity(0.1),
+                                                        offset:
+                                                            const Offset(0, 10))
+                                                  ],
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                      fit: BoxFit.cover,
+                                                      image: imageProvider))),
+                                      progressIndicatorBuilder:
+                                          (context, url, downloadProgress) =>
+                                              Container(
+                                        padding: EdgeInsets.all(
+                                            UtilsReponsive.height(10, context)),
+                                        height:
+                                            UtilsReponsive.height(5, context),
+                                        width:
+                                            UtilsReponsive.height(5, context),
+                                        child: CircularProgressIndicator(
+                                          color: ColorsManager.primary,
+                                        ),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                    ),
+                                  )
+                                : ClipOval(
+                                    child: Image.file(
+                                      File(controller.selectImagePath.value),
+                                      fit: BoxFit.cover,
+                                      width: UtilsReponsive.widthv2(context,
+                                          120), // Kích thước của hình ảnh
+                                      height:
+                                          UtilsReponsive.heightv2(context, 145),
+                                    ),
+                                  ),
+                          ),
+                        ),
                         Positioned(
                             bottom: 0,
                             right: -5,
@@ -369,28 +368,6 @@ class ProfileView extends BaseView<ProfileController> {
       ),
     );
   }
-
-  // Widget buildTextField(
-  //   BuildContext context,
-  //   String labelText,
-  //   bool isPasswordTextField,
-  //   TextEditingController? nameTextEditingController,
-  // ) {
-  //   return Padding(
-  //     padding: UtilsReponsive.paddingOnly(context, bottom: 35),
-  //     child: TextField(
-  //       controller: nameTextEditingController,
-  //       decoration: InputDecoration(
-  //         contentPadding: UtilsReponsive.paddingOnly(context, bottom: 3),
-  //         labelText: labelText,
-  //         floatingLabelBehavior: FloatingLabelBehavior.always,
-  //         hintText: labelText,
-  //         hintStyle: GetTextStyle.getTextStyle(
-  //             14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   void showAlertDialog(BuildContext context) {
     Widget galleryButton = ElevatedButton(

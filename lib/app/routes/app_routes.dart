@@ -16,6 +16,11 @@ abstract class Routes {
   static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
   static const EDIT_DESCRIPTION = _Paths.EDIT_DESCRIPTION;
   static const SUBTASK_DETAIL_VIEW = _Paths.SUBTASK_DETAIL_VIEW;
+  static const BUDGET = _Paths.BUDGET;
+  static const BUDGET_DETAIL = _Paths.BUDGET_DETAIL;
+  static const CREATE_BUDGET = _Paths.CREATE_BUDGET;
+  static const EDIT_BUDGET = _Paths.EDIT_BUDGET;
+  static const EVENT_DETAIL = _Paths.EVENT_DETAIL;
 }
 
 abstract class _Paths {
@@ -33,4 +38,9 @@ abstract class _Paths {
   static const SPLASH_SCREEN = '/splash-screen';
   static const EDIT_DESCRIPTION = '/edit-description';
   static const SUBTASK_DETAIL_VIEW = '/subtask-detail-view';
+  static const BUDGET = '/budget';
+  static const BUDGET_DETAIL = '/budget-detail';
+  static const CREATE_BUDGET = '/create-budget';
+  static const EDIT_BUDGET = '/edit-budget';
+  static const EVENT_DETAIL = '/event-detail';
 }

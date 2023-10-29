@@ -21,4 +21,8 @@ class BaseLink {
   static const assignTask = '/api/v1/assign-task';
   static const getAllComment = '/api/v1/comment';
   static const deleteComment = '/api/v1/comment/';
+  static const createBudget = '/api/v1/budget';
+  static const getAllBudget = '/api/v1/budget';
+  static const updateBudget = '/api/v1/budget/';
+  static const getBudgetDetail = '/api/v1/budget/detail/';
 }

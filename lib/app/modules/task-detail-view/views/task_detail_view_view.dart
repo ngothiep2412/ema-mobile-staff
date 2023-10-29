@@ -89,7 +89,15 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                     children: [
                                       Icon(
                                         Icons.priority_high,
-                                        color: ColorsManager.primary,
+                                        color: controller.taskModel.value
+                                                    .priority! ==
+                                                Priority.LOW
+                                            ? Colors.grey.withOpacity(0.8)
+                                            : controller.taskModel.value
+                                                        .priority! ==
+                                                    Priority.MEDIUM
+                                                ? ColorsManager.orange
+                                                : ColorsManager.red,
                                       ),
                                       priorityBuilder(
                                           context: context,
@@ -1008,7 +1016,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
             Text(
               objectStatusTask,
               style: TextStyle(
-                  letterSpacing: 1.5,
+                  letterSpacing: 1,
                   color: Colors.white,
                   fontSize: UtilsReponsive.height(14, context),
                   fontWeight: FontWeight.bold),
@@ -1048,7 +1056,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
             ? Text(
                 objectStatusTask,
                 style: TextStyle(
-                    letterSpacing: 1.5,
+                    letterSpacing: 1,
                     fontFamily: 'Roboto',
                     color: controller.taskModel.value.priority! == Priority.LOW
                         ? Colors.grey.withOpacity(0.8)
@@ -1056,16 +1064,16 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                 Priority.MEDIUM
                             ? ColorsManager.orange
                             : ColorsManager.red,
-                    fontSize: UtilsReponsive.height(18, context),
+                    fontSize: UtilsReponsive.height(16, context),
                     fontWeight: FontWeight.bold),
               )
             : Text(
                 '--',
                 style: TextStyle(
-                    letterSpacing: 1.5,
+                    letterSpacing: 1,
                     fontFamily: 'Roboto',
                     color: Colors.white,
-                    fontSize: UtilsReponsive.height(18, context),
+                    fontSize: UtilsReponsive.height(16, context),
                     fontWeight: FontWeight.bold),
               ),
       ),
@@ -1082,10 +1090,10 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
             child: Text(
               objectTask,
               style: TextStyle(
-                  letterSpacing: 1.5,
+                  letterSpacing: 1,
                   fontFamily: 'Roboto',
                   color: ColorsManager.textColor,
-                  fontSize: UtilsReponsive.height(24, context),
+                  fontSize: UtilsReponsive.height(22, context),
                   fontWeight: FontWeight.bold),
             ),
           ),
@@ -1907,7 +1915,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                title: const Text(
+                title: Text(
                   'Xóa',
                   style: TextStyle(
                       fontFamily: 'Roboto',
@@ -1969,7 +1977,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                 Navigator.of(context).pop();
                 Navigator.of(popupContext).pop();
               },
-              child: const Text(
+              child: Text(
                 "Xóa",
                 style: TextStyle(
                     fontFamily: 'Roboto',
@@ -2002,7 +2010,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                title: const Text(
+                title: Text(
                   'Xóa',
                   style: TextStyle(
                       fontFamily: 'Roboto',
@@ -2064,7 +2072,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                 Navigator.of(context).pop();
                 Navigator.of(popupContext).pop();
               },
-              child: const Text(
+              child: Text(
                 "Xóa",
                 style: TextStyle(
                     fontFamily: 'Roboto',
@@ -2355,8 +2363,8 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                         child: Quil.QuillEditor.basic(
                           // controller: controller,
                           configurations: const Quil.QuillEditorConfigurations(
-                              readOnly: false),
-                          autoFocus: false,
+                              autoFocus: false, readOnly: false),
+
                           // embedBuilders: FlutterQuillEmbeds.builders(),
                         ),
                       ),

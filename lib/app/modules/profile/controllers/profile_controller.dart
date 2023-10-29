@@ -17,7 +17,6 @@ class ProfileController extends BaseController {
   ProfileController({required this.userModel});
 
   TextEditingController? fullNameController;
-  // TextEditingController? emailController;
   TextEditingController? phoneController;
   TextEditingController? addressController;
   TextEditingController? dateController;

@@ -638,6 +638,43 @@ class SubtaskDetailViewController extends BaseController {
     }
   }
 
+  Future<void> deleteTask(String status, String taskID) async {
+    isLoading.value = true;
+    try {
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      checkToken();
+
+      ResponseApi responseApi =
+          await TaskDetailApi.updateStatusTask(jwt, taskID, status);
+      if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+        // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
+        // UserModel assigner = await TaskDetailApi.getAssignerDetail(
+        //     jwt, taskModel.value.createdBy!);
+        // if (assigner.statusCode == 200 || assigner.statusCode == 201) {
+        //   taskModel.value.nameAssigner = assigner.result!.fullName;
+        //   taskModel.value.avatarAssigner = assigner.result!.avatar;
+
+        // }
+
+        await updatePageOverall();
+        errorUpdateSubTask.value = false;
+        Get.back();
+      }
+      if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
+        errorUpdateSubTask.value = true;
+        print('responseApi.message ${responseApi.message}');
+        errorUpdateSubTaskText.value = responseApi.message!;
+      }
+      isLoading.value = false;
+    } catch (e) {
+      errorUpdateSubTask.value = true;
+      errorUpdateSubTaskText.value = 'Có lỗi xảy ra';
+      isLoading.value = false;
+      print(e);
+    }
+  }
+
   Future<void> updatePriority(String priority, String taskID) async {
     isLoading.value = true;
     try {
@@ -775,7 +812,7 @@ class SubtaskDetailViewController extends BaseController {
     if (endDate.value.difference(startDate.value).inMinutes / 60.0 <
         estimateTime) {
       Get.snackbar('Lỗi',
-          'Phải nhập estimate time trong khoảng hạn của công việc',
+          'Phải nhập thời gian ước lượng trong khoảng hạn của công việc',
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.transparent,
           colorText: ColorsManager.textColor);

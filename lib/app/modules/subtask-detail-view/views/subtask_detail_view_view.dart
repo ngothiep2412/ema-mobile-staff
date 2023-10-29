@@ -130,10 +130,21 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               Obx(
                                 () => Row(
                                   children: [
-                                    Icon(
-                                      Icons.priority_high,
-                                      color: ColorsManager.primary,
-                                    ),
+                                    controller.taskModel.value.priority == null
+                                        ? Icon(Icons.priority_high,
+                                            color: Colors.grey.withOpacity(0.8))
+                                        : Icon(
+                                            Icons.priority_high,
+                                            color: controller.taskModel.value
+                                                        .priority! ==
+                                                    Priority.LOW
+                                                ? Colors.grey.withOpacity(0.8)
+                                                : controller.taskModel.value
+                                                            .priority! ==
+                                                        Priority.MEDIUM
+                                                    ? ColorsManager.orange
+                                                    : ColorsManager.red,
+                                          ),
                                     controller.taskModel.value.priority == null
                                         ? priorityBuilder(
                                             context: context,
@@ -256,7 +267,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                         (BuildContext context) {
                                                       return AlertDialog(
                                                         title: Text(
-                                                            'Nhập con số estimate time',
+                                                            'Nhập con số thời gian ước lượng',
                                                             style: GetTextStyle
                                                                 .getTextStyle(
                                                                     18,
@@ -312,19 +323,35 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                                         .primary)),
                                                             onPressed:
                                                                 () async {
-                                                              await controller.updateEstimateTime(
-                                                                  controller
-                                                                      .taskModel
-                                                                      .value
-                                                                      .id!,
-                                                                  double.parse(
-                                                                      controller
-                                                                          .estController
-                                                                          .text));
-
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
+                                                              if (controller
+                                                                  .estController
+                                                                  .text
+                                                                  .isEmpty) {
+                                                                Get.snackbar(
+                                                                    'Lỗi',
+                                                                    'Không được để trống thời gian ước lượng',
+                                                                    snackPosition:
+                                                                        SnackPosition
+                                                                            .TOP,
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    colorText:
+                                                                        ColorsManager
+                                                                            .textColor);
+                                                              } else {
+                                                                await controller.updateEstimateTime(
+                                                                    controller
+                                                                        .taskModel
+                                                                        .value
+                                                                        .id!,
+                                                                    double.parse(controller
+                                                                        .estController
+                                                                        .text));
+                                                                Navigator.of(Get
+                                                                        .context!)
+                                                                    .pop();
+                                                              }
                                                             },
                                                           ),
                                                         ],
@@ -374,7 +401,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                         (BuildContext context) {
                                                       return AlertDialog(
                                                         title: Text(
-                                                            'Nhập con số effort',
+                                                            'Nhập con số thời gian công sức',
                                                             style: GetTextStyle
                                                                 .getTextStyle(
                                                                     18,
@@ -430,19 +457,36 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                                         .primary)),
                                                             onPressed:
                                                                 () async {
-                                                              await controller.updateEffort(
-                                                                  controller
-                                                                      .taskModel
-                                                                      .value
-                                                                      .id!,
-                                                                  double.parse(
-                                                                      controller
-                                                                          .effortController
-                                                                          .text));
+                                                              if (controller
+                                                                  .effortController
+                                                                  .text
+                                                                  .isEmpty) {
+                                                                Get.snackbar(
+                                                                    'Lỗi',
+                                                                    'Không được để trống thời gian công sức',
+                                                                    snackPosition:
+                                                                        SnackPosition
+                                                                            .TOP,
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    colorText:
+                                                                        ColorsManager
+                                                                            .textColor);
+                                                              } else {
+                                                                await controller.updateEffort(
+                                                                    controller
+                                                                        .taskModel
+                                                                        .value
+                                                                        .id!,
+                                                                    double.parse(controller
+                                                                        .effortController
+                                                                        .text));
 
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
+                                                                Navigator.of(Get
+                                                                        .context!)
+                                                                    .pop();
+                                                              }
                                                             },
                                                           ),
                                                         ],
@@ -1687,7 +1731,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
   Container _header(
       {required BuildContext context, required String objectTask}) {
     return Container(
-      padding: UtilsReponsive.paddingAll(context, padding: 5),
+      // padding: UtilsReponsive.paddingAll(context, padding: 5),
       child: Row(
         children: [
           Expanded(
@@ -1737,7 +1781,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               child: Text(
                 objectTask,
                 style: TextStyle(
-                    letterSpacing: 1.5,
+                    letterSpacing: 1,
                     fontFamily: 'Roboto',
                     color: ColorsManager.textColor,
                     fontSize: UtilsReponsive.height(24, context),
@@ -1781,9 +1825,9 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
             Text(
               objectStatusTask,
               style: TextStyle(
-                  letterSpacing: 1.5,
+                  letterSpacing: 1,
                   color: Colors.white,
-                  fontSize: UtilsReponsive.height(16, context),
+                  fontSize: UtilsReponsive.height(14, context),
                   fontWeight: FontWeight.bold),
             ),
             const Icon(
@@ -1909,19 +1953,19 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                   ? Text(
                       objectStatusTask,
                       style: TextStyle(
-                          letterSpacing: 1.5,
+                          letterSpacing: 1,
                           fontFamily: 'Roboto',
                           color: Colors.white,
-                          fontSize: UtilsReponsive.height(18, context),
+                          fontSize: UtilsReponsive.height(14, context),
                           fontWeight: FontWeight.bold),
                     )
                   : Text(
                       '--',
                       style: TextStyle(
-                          letterSpacing: 1.5,
+                          letterSpacing: 1,
                           fontFamily: 'Roboto',
                           color: Colors.white,
-                          fontSize: UtilsReponsive.height(18, context),
+                          fontSize: UtilsReponsive.height(14, context),
                           fontWeight: FontWeight.bold),
                     ),
               controller.taskModel.value.priority != null
@@ -2065,12 +2109,12 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
       context: context,
       cancelText: 'Hủy chọn giờ bắt đầu',
       initialTime: TimeOfDay(
-          hour: controller.taskModel.value.endDate == null
+          hour: controller.taskModel.value.startDate == null
               ? DateTime.now().toUtc().add(const Duration(hours: 7)).hour
-              : controller.taskModel.value.endDate!.hour,
-          minute: controller.taskModel.value.endDate == null
+              : controller.taskModel.value.startDate!.hour,
+          minute: controller.taskModel.value.startDate == null
               ? DateTime.now().toUtc().add(const Duration(hours: 7)).minute
-              : controller.taskModel.value.endDate!.minute));
+              : controller.taskModel.value.startDate!.minute));
 
   Future<TimeOfDay?> pickTimeEndDate(BuildContext context) => showTimePicker(
       context: context,
@@ -2942,8 +2986,10 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                     ),
                     actions: <Widget>[
                       TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
+                        onPressed: () async {
+                          Navigator.of(Get.context!).pop();
+                          await controller.deleteTask(
+                              "CANCEL", controller.taskID);
                         },
                         child: Text('Xóa',
                             style: TextStyle(
@@ -3441,7 +3487,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                title: const Text(
+                title: Text(
                   'Xóa',
                   style: TextStyle(
                       fontFamily: 'Roboto',
@@ -3516,7 +3562,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 Navigator.of(context).pop();
                 Navigator.of(popupContext).pop();
               },
-              child: const Text(
+              child: Text(
                 "Xóa",
                 style: TextStyle(
                     fontFamily: 'Roboto',
@@ -3550,7 +3596,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                title: const Text(
+                title: Text(
                   'Xóa',
                   style: TextStyle(
                       fontFamily: 'Roboto',
@@ -3612,7 +3658,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 Navigator.of(context).pop();
                 Navigator.of(popupContext).pop();
               },
-              child: const Text(
+              child: Text(
                 "Xóa",
                 style: TextStyle(
                     fontFamily: 'Roboto',
@@ -3645,7 +3691,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                title: const Text(
+                title: Text(
                   'Xóa',
                   style: TextStyle(
                       fontFamily: 'Roboto',
@@ -3707,7 +3753,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 Navigator.of(context).pop();
                 Navigator.of(popupContext).pop();
               },
-              child: const Text(
+              child: Text(
                 "Xóa",
                 style: TextStyle(
                     fontFamily: 'Roboto',
@@ -4006,8 +4052,8 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                 // controller: controller,
                                 configurations:
                                     const Quil.QuillEditorConfigurations(
-                                        readOnly: false),
-                                autoFocus: false,
+                                        autoFocus: false, readOnly: false),
+
                                 // embedBuilders: FlutterQuillEmbeds.builders(),
                               ))),
                     )
@@ -4067,7 +4113,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 ),
                 Spacer(),
                 Text(
-                  'Thay đổi thông tin cá nhân thành công',
+                  'Thay đổi công việc thành công',
                   style: GetTextStyle.getTextStyle(
                       12, 'Roboto', FontWeight.w500, Colors.white),
                   maxLines: 2,

@@ -48,7 +48,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                       Text(
                         'Sự kiện',
                         style: GetTextStyle.getTextStyle(22, 'Roboto',
-                            FontWeight.w600, ColorsManager.primary),
+                            FontWeight.w600, ColorsManager.textColor2),
                       ),
                     ],
                   ),

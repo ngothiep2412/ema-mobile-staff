@@ -16,6 +16,7 @@ class TaskOverallViewController extends BaseController {
   String eventName = '';
 
   RxList<TaskModel> listTask = <TaskModel>[].obs;
+
   RxBool isLoading = false.obs;
 
   RxList<String> filterList = <String>[
@@ -28,9 +29,12 @@ class TaskOverallViewController extends BaseController {
     "Mức độ ưu tiên (Giảm dần)",
   ].obs;
 
+  RxString filterChoose = ''.obs;
+  String jwt = '';
+
   Future<void> refreshPage() async {
     listTask.clear();
-    String jwt = GetStorage().read('JWT');
+    jwt = GetStorage().read('JWT');
     print('1: ${isLoading.value}');
     isLoading.value = true;
     await getListTask();
@@ -62,11 +66,61 @@ class TaskOverallViewController extends BaseController {
         }
       }
 
-      list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+      // list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+      listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
+      filterChoose.value = '';
     }
     isLoading.value = false;
 
     print('co bao nhieu task cha ${listTask.length}');
+  }
+
+  filter(String value) {
+    filterChoose.value = value;
+    isLoading.value = true;
+    if (filterChoose.value.contains("Không chọn")) {
+      listTask.value = List.from(listTask)
+        ..sort((a, b) => a.endDate!.compareTo(b.endDate!));
+    } else if (filterChoose.value.contains("Ngày tạo (Tăng dần)")) {
+      listTask.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
+    } else if (filterChoose.value.contains("Ngày tạo (Giảm dần)")) {
+      listTask.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+    } else if (filterChoose.value.contains("Hạn hoàn thành (Tăng dần)")) {
+      listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
+    } else if (filterChoose.value.contains("Hạn hoàn thành (Giảm dần)")) {
+      listTask.sort((a, b) => b.endDate!.compareTo(a.endDate!));
+    } else if (filterChoose.value.contains("Mức độ ưu tiên (Tăng dần)")) {
+      listTask.sort((a, b) {
+        final priorityOrder = {
+          Priority.HIGH: 0,
+          Priority.MEDIUM: 1,
+          Priority.LOW: 2
+        };
+
+        final priorityA = priorityOrder[a.priority] ?? 2;
+        final priorityB = priorityOrder[b.priority] ?? 2;
+
+        return priorityA.compareTo(priorityB);
+      });
+    } else if (filterChoose.value.contains("Mức độ ưu tiên (Giảm dần)")) {
+      listTask.sort((a, b) {
+        final priorityOrder = {
+          Priority.LOW: 0,
+          Priority.MEDIUM: 1,
+          Priority.HIGH: 2
+        };
+
+        final priorityA = priorityOrder[a.priority] ?? 2;
+        final priorityB = priorityOrder[b.priority] ?? 2;
+        return priorityA.compareTo(priorityB);
+      });
+    } else if (filterChoose.value == '') {
+      listTask.value = List.from(listTask)
+        ..sort((a, b) => a.endDate!.compareTo(b.endDate!));
+    }
+    Future.delayed(const Duration(seconds: 1), () {
+      isLoading.value = false;
+    });
   }
 
   @override

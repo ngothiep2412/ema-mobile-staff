@@ -127,11 +127,14 @@ class TaskDetailViewController extends BaseController {
       if (creater.statusCode == 200 || creater.statusCode == 201) {
         taskModel.value.nameAssigner = creater.result!.fullName;
         taskModel.value.avatarAssigner = creater.result!.avatar;
-        quillController.value = QuillController(
-          document: Document.fromJson(jsonDecode(taskModel.value.description!)),
-          selection: const TextSelection.collapsed(offset: 0),
-        );
+      } else {
+        taskModel.value.nameAssigner = '';
+        taskModel.value.avatarAssigner = '';
       }
+      quillController.value = QuillController(
+        document: Document.fromJson(jsonDecode(taskModel.value.description!)),
+        selection: const TextSelection.collapsed(offset: 0),
+      );
       listComment.value =
           await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
       listComment.sort((comment1, comment2) {
