@@ -126,9 +126,9 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
                           ),
                         ),
                         child: controller.isLoading.value
-                            ? Center(
+                            ? const Center(
                                 child: CircularProgressIndicator(
-                                  color: ColorsManager.primary,
+                                  color: ColorsManager.backgroundWhite,
                                 ),
                               )
                             : Text(

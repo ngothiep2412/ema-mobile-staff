@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/task.dart';
-import 'package:hrea_mobile_staff/app/modules/task-overall-view/api/task-overall-api.dart';
+import 'package:hrea_mobile_staff/app/modules/task-overall-view/api/task_overall_api.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -35,7 +35,6 @@ class TaskOverallViewController extends BaseController {
   Future<void> refreshPage() async {
     listTask.clear();
     jwt = GetStorage().read('JWT');
-    print('1: ${isLoading.value}');
     isLoading.value = true;
     await getListTask();
     isLoading.value = false;
@@ -47,11 +46,8 @@ class TaskOverallViewController extends BaseController {
 
   Future<void> getListTask() async {
     String jwt = GetStorage().read('JWT');
-    print('JWT 123: $jwt');
     isLoading.value = true;
     Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
-    // listTask.value =
-    //     await TaskOverallApi.getTask(jwt, eventID, decodedToken['id']);
     listTask.clear();
     List<TaskModel> list = [];
     list = await TaskOverallApi.getTask(jwt, eventID);
@@ -65,14 +61,10 @@ class TaskOverallViewController extends BaseController {
           }
         }
       }
-
-      // list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
       listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
       filterChoose.value = '';
     }
     isLoading.value = false;
-
-    print('co bao nhieu task cha ${listTask.length}');
   }
 
   filter(String value) {
@@ -89,7 +81,7 @@ class TaskOverallViewController extends BaseController {
       listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
     } else if (filterChoose.value.contains("Hạn hoàn thành (Giảm dần)")) {
       listTask.sort((a, b) => b.endDate!.compareTo(a.endDate!));
-    } else if (filterChoose.value.contains("Mức độ ưu tiên (Tăng dần)")) {
+    } else if (filterChoose.value.contains("Mức độ ưu tiên (Giảm dần)")) {
       listTask.sort((a, b) {
         final priorityOrder = {
           Priority.HIGH: 0,
@@ -102,7 +94,7 @@ class TaskOverallViewController extends BaseController {
 
         return priorityA.compareTo(priorityB);
       });
-    } else if (filterChoose.value.contains("Mức độ ưu tiên (Giảm dần)")) {
+    } else if (filterChoose.value.contains("Mức độ ưu tiên (Tăng dần)")) {
       listTask.sort((a, b) {
         final priorityOrder = {
           Priority.LOW: 0,
@@ -127,46 +119,6 @@ class TaskOverallViewController extends BaseController {
   Future<void> onInit() async {
     super.onInit();
     await getListTask();
-    // listEventModel.value = [
-    //   TaskModel(
-    //       title:
-    //           'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book',
-    //       image:
-    //           'https://www.shutterstock.com/image-vector/events-colorful-typography-banner-260nw-1356206768.jpg',
-    //       startTime: DateTime.now(),
-    //       endTime: DateTime.now(),
-    //       isParent: true,
-    //       status: 'INPROGRESS',
-    //       totalTask: 3,
-    //       index: 0),
-    //   TaskModel(
-    //       title: 'Lorem Ipsum is simply dummy text',
-    //       image: '',
-    //       startTime: DateTime.now(),
-    //       status: 'DONE',
-    //       endTime: DateTime.now(),
-    //       isParent: false,
-    //       totalTask: 3,
-    //       index: 1),
-    //   TaskModel(
-    //       title: 'Lorem Ipsum is simply dummy text',
-    //       image: '',
-    //       startTime: null,
-    //       status: 'INPROGRESS',
-    //       endTime: null,
-    //       isParent: false,
-    //       totalTask: 3,
-    //       index: 2),
-    //   TaskModel(
-    //       title: 'Lorem Ipsum is simply dummy text',
-    //       image: '',
-    //       status: 'CANCEL',
-    //       startTime: DateTime.now(),
-    //       endTime: DateTime.now(),
-    //       isParent: false,
-    //       totalTask: 3,
-    //       index: 3),
-    // ];
   }
 
   @override

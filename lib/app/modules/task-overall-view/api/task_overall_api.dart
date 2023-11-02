@@ -15,7 +15,6 @@ class TaskOverallApi {
         'Authorization': 'Bearer $jwtToken',
       },
     );
-    print('abc task' + response.statusCode.toString());
     if (response.statusCode == 201 || response.statusCode == 200) {
       var jsonData = jsonDecode(response.body)["result"];
       List<TaskModel> listTask = [];
@@ -39,7 +38,6 @@ class TaskOverallApi {
         'Authorization': 'Bearer $jwtToken',
       },
     );
-    print('abc task' + response.statusCode.toString());
     if (response.statusCode == 201 || response.statusCode == 200) {
       var jsonData = jsonDecode(response.body)["result"];
       List<TaskModel> listTask = [];

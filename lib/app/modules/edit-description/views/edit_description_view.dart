@@ -17,7 +17,7 @@ class EditDescriptionView extends BaseView<EditDescriptionController> {
     return Scaffold(
       key: _scaffoldkey,
       appBar: _appBar(context),
-      backgroundColor: ColorsManager.backgroundBlackGrey,
+      backgroundColor: ColorsManager.backgroundContainer,
       body: Quil.QuillProvider(
         configurations: Quil.QuillConfigurations(
             controller: controller.quillController.value),
@@ -102,15 +102,15 @@ class EditDescriptionView extends BaseView<EditDescriptionController> {
 
   AppBar _appBar(BuildContext context) {
     return AppBar(
-      backgroundColor: ColorsManager.backgroundBlackGrey,
+      backgroundColor: ColorsManager.backgroundContainer,
       leading: IconButton(
         onPressed: () {
           Get.back();
           controller.onDelete();
         },
-        icon: const Icon(
+        icon: Icon(
           Icons.arrow_back_ios_new,
-          color: Colors.white,
+          color: ColorsManager.primary,
         ),
       ),
       actions: [
@@ -126,8 +126,8 @@ class EditDescriptionView extends BaseView<EditDescriptionController> {
               },
               child: Text(
                 "Lưu",
-                style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w600,
-                    ColorsManager.backgroundWhite),
+                style: GetTextStyle.getTextStyle(
+                    18, 'Roboto', FontWeight.w600, ColorsManager.primary),
               ),
             ),
             SizedBox(

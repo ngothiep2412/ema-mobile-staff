@@ -8,7 +8,6 @@ class ModelTestAttendance {
     required this.type,
     required this.number,
   });
-  
 
   ModelTestAttendance copyWith({
     String? type,
@@ -36,7 +35,8 @@ class ModelTestAttendance {
 
   String toJson() => json.encode(toMap());
 
-  factory ModelTestAttendance.fromJson(String source) => ModelTestAttendance.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory ModelTestAttendance.fromJson(String source) =>
+      ModelTestAttendance.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() => 'ModelTestAttendance(type: $type, number: $number)';
@@ -44,10 +44,8 @@ class ModelTestAttendance {
   @override
   bool operator ==(covariant ModelTestAttendance other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.type == type &&
-      other.number == number;
+
+    return other.type == type && other.number == number;
   }
 
   @override

@@ -15,14 +15,27 @@ class BaseLink {
   static const updateStatusTask = '/api/v1/task/updateTaskStatus';
   static const updateFileTask = '/api/v1/taskFile';
   static const updateTask = '/api/v1/task/updateTask';
+  static const updateTaskFile = '/api/v1/taskFile/';
   static const createSubTask = '/api/v1/task/createTask';
   static const createComment = '/api/v1/comment';
   static const getAllEmployee = '/api/v1/user';
   static const assignTask = '/api/v1/assign-task';
   static const getAllComment = '/api/v1/comment';
   static const deleteComment = '/api/v1/comment/';
+  static const updateCommentFile = '/api/v1/commentfile/';
+  static const updateComment = '/api/v1/comment/';
   static const createBudget = '/api/v1/budget';
   static const getAllBudget = '/api/v1/budget';
   static const updateBudget = '/api/v1/budget/';
+  static const deleteBudget = '/api/v1/budget/detail/';
   static const getBudgetDetail = '/api/v1/budget/detail/';
+  static const getEventDetail = '/api/v1/event/';
+  static const createLeaveRequest = '/api/v1/request';
+  static const getAllLeaveRequest = '/api/v1/request/filterRequest/';
+  static const getLeaveRequestDetail = '/api/v1/request/detail/';
+  static const updateLeaveRequest = '/api/v1/request/changeRequest/';
+  static const deleteLeaveRequest = '/api/v1/request/changeRequest/';
+  static const getAllNotification = '/api/v1/notification';
+  static const seenANotification = '/api/v1/notification/seen';
+  static const seenAllNotification = '/api/v1/notification/seen-all';
 }

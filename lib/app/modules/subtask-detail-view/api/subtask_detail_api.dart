@@ -4,6 +4,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:hrea_mobile_staff/app/modules/subtask-detail-view/model/employee_model.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/task.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/user_model.dart';
+import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/comment_model.dart';
+import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/file_model.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/uploadfile_model.dart';
 import 'package:hrea_mobile_staff/app/resources/base_link.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
@@ -53,6 +55,95 @@ class SubTaskDetailApi {
         body: jsonEncode(body));
 
     print('abc updateStatusTask' + response.statusCode.toString());
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      // TaskModel.fromJson(jsonDecode(jsonData));
+
+      return Future<ResponseApi>.value(
+          ResponseApi.fromJson(jsonDecode(response.body)));
+    } else if (response.statusCode == 400 || response.statusCode == 500) {
+      return Future<ResponseApi>.value(
+          ResponseApi.fromJson(jsonDecode(response.body)));
+    } else {
+      throw Exception('Exception');
+    }
+  }
+
+  static Future<ResponseApi> updateTaskFile(
+      String jwtToken, String taskID, List<TaskFile> listTaskFile) async {
+    print(taskID);
+
+    var response = await http.put(
+        Uri.parse('${BaseLink.localBaseLink}${BaseLink.updateTaskFile}$taskID'),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          'Authorization': 'Bearer $jwtToken',
+        },
+        body: jsonEncode(listTaskFile));
+
+    print('abc updateStatusTask' + response.statusCode.toString());
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      // TaskModel.fromJson(jsonDecode(jsonData));
+
+      return Future<ResponseApi>.value(
+          ResponseApi.fromJson(jsonDecode(response.body)));
+    } else if (response.statusCode == 400 || response.statusCode == 500) {
+      return Future<ResponseApi>.value(
+          ResponseApi.fromJson(jsonDecode(response.body)));
+    } else {
+      throw Exception('Exception');
+    }
+  }
+
+  static Future<ResponseApi> updateCommentFile(String jwtToken,
+      String commentID, List<CommentFile> listCommentFile) async {
+    print(commentID);
+
+    var response = await http.put(
+        Uri.parse(
+            '${BaseLink.localBaseLink}${BaseLink.updateCommentFile}$commentID'),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          'Authorization': 'Bearer $jwtToken',
+        },
+        body: jsonEncode(listCommentFile));
+
+    print('abc updateStatusTask' + response.statusCode.toString());
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      // TaskModel.fromJson(jsonDecode(jsonData));
+
+      return Future<ResponseApi>.value(
+          ResponseApi.fromJson(jsonDecode(response.body)));
+    } else if (response.statusCode == 400 || response.statusCode == 500) {
+      return Future<ResponseApi>.value(
+          ResponseApi.fromJson(jsonDecode(response.body)));
+    } else {
+      throw Exception('Exception');
+    }
+  }
+
+  static Future<ResponseApi> updateComment(String jwtToken, String commentID,
+      String content, List<CommentFile> listCommentFile) async {
+    Map<String, dynamic> body = {
+      "content": content,
+      "file": listCommentFile,
+    };
+
+    var response = await http.put(
+        Uri.parse(
+            '${BaseLink.localBaseLink}${BaseLink.updateComment}$commentID'),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          'Authorization': 'Bearer $jwtToken',
+        },
+        body: jsonEncode(body));
+
+    print('abc updateComment' + response.statusCode.toString());
 
     if (response.statusCode == 201 || response.statusCode == 200) {
       // TaskModel.fromJson(jsonDecode(jsonData));
@@ -378,15 +469,16 @@ class SubTaskDetailApi {
     }
   }
 
-  static Future<ResponseApi> createComment(
-      String jwtToken, String taskID, String content) async {
+  static Future<ResponseApi> createComment(String jwtToken, String taskID,
+      String content, List<FileModel> file) async {
     Map<String, dynamic> body = {
       "taskID": taskID,
       "content": content,
+      "file": file
     };
 
     var response = await http.post(
-        Uri.parse('${BaseLink.localBaseLink}${BaseLink.getTask}'),
+        Uri.parse('${BaseLink.localBaseLink}${BaseLink.createComment}'),
         headers: {
           "Accept": "application/json",
           "content-type": "application/json",
@@ -410,8 +502,67 @@ class SubTaskDetailApi {
     }
   }
 
+  static Future<ResponseApi> updateTitleTask(
+      String jwtToken, String taskID, String eventID, String title) async {
+    Map<String, String> body = {
+      "title": title,
+      "eventID": eventID,
+    };
+    print(taskID);
+
+    var response = await http.put(
+        Uri.parse(
+            '${BaseLink.localBaseLink}${BaseLink.updateTask}?taskID=$taskID'),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          'Authorization': 'Bearer $jwtToken',
+        },
+        body: jsonEncode(body));
+
+    print('abc updateStatusTask' + response.statusCode.toString());
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      // TaskModel.fromJson(jsonDecode(jsonData));
+
+      return Future<ResponseApi>.value(
+          ResponseApi.fromJson(jsonDecode(response.body)));
+    } else if (response.statusCode == 400 || response.statusCode == 500) {
+      return Future<ResponseApi>.value(
+          ResponseApi.fromJson(jsonDecode(response.body)));
+    } else {
+      throw Exception('Exception');
+    }
+  }
+
+  static Future<ResponseApi> deleteComment(
+      String jwtToken, String commentID) async {
+    var response = await http.delete(
+        Uri.parse(
+            '${BaseLink.localBaseLink}${BaseLink.deleteComment}$commentID'),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          'Authorization': 'Bearer $jwtToken',
+        });
+
+    print('abc updateStatusTask' + response.statusCode.toString());
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      // TaskModel.fromJson(jsonDecode(jsonData));
+
+      return Future<ResponseApi>.value(
+          ResponseApi.fromJson(jsonDecode(response.body)));
+    } else if (response.statusCode == 400 || response.statusCode == 500) {
+      return Future<ResponseApi>.value(
+          ResponseApi.fromJson(jsonDecode(response.body)));
+    } else {
+      throw Exception('Exception');
+    }
+  }
+
   static Future<UploadFileModel> uploadFile(
-      String jwtToken, File file, String extension) async {
+      String jwtToken, File file, String extension, String type) async {
     final uri = Uri.parse(BaseLink.localBaseLink + BaseLink.uploadFile);
     MediaType contentType = MediaType('', '');
     if (extension == 'doc' || extension == 'docx') {
@@ -435,7 +586,7 @@ class SubTaskDetailApi {
         contentType: contentType, filename: file.path.split('/').last);
     request.files.add(multipartFile);
     request.headers.addAll(_header(jwtToken));
-    request.fields['folderName'] = 'task';
+    request.fields['folderName'] = type;
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
     print(response.body);
@@ -445,6 +596,28 @@ class SubTaskDetailApi {
     } else if (response.statusCode == 500 || response.statusCode == 400) {
       return Future<UploadFileModel>.value(
           UploadFileModel.fromJson(jsonDecode(response.body)));
+    } else {
+      throw Exception('Exception');
+    }
+  }
+
+  static Future<List<CommentModel>> getAllComment(
+      String jwtToken, String taskID) async {
+    var response = await http.get(
+      Uri.parse('${BaseLink.localBaseLink}${BaseLink.getAllComment}/$taskID'),
+      headers: {
+        "Accept": "application/json",
+        "content-type": "application/json",
+        'Authorization': 'Bearer $jwtToken',
+      },
+    );
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body)["result"];
+      List<CommentModel> listComment = [];
+      listComment.addAll(jsonData
+          .map((events) => CommentModel.fromJson(events))
+          .cast<CommentModel>());
+      return listComment;
     } else {
       throw Exception('Exception');
     }

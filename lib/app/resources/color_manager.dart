@@ -16,9 +16,13 @@ class ColorsManager {
   static const Color backgroundContainer = Color(0xffF4F5F7);
   static const Color calendar = Color(0xffC2B280);
 
-  static Color green = const Color(0xff198754).withOpacity(0.8);
-  static Color red = const Color(0xffdc3545).withOpacity(0.8);
+  static Color purple = const Color(0xffA855F7);
+  static Color green = const Color(0xff22C55E);
+
+  static Color red = const Color(0xffEF4444);
   static Color yellow = const Color(0xffffc107).withOpacity(0.8);
+  static Color grey = const Color(0xff9CA3AF);
+  static Color blue = const Color(0xff60A5FA);
 }
 
 extension HexColor on Color {

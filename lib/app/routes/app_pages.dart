@@ -6,14 +6,14 @@ import '../modules/budget_detail/bindings/budget_detail_binding.dart';
 import '../modules/budget_detail/views/budget_detail_view.dart';
 import '../modules/create_budget/bindings/create_budget_binding.dart';
 import '../modules/create_budget/views/create_budget_view.dart';
-import '../modules/attendance/bindings/attendance_binding.dart';
-import '../modules/attendance/bindings/attendance_binding.dart';
-import '../modules/attendance/views/attendance_view.dart';
-import '../modules/attendance/views/attendance_view.dart';
+import '../modules/create_request/bindings/create_request_binding.dart';
+import '../modules/create_request/views/create_request_view.dart';
 import '../modules/edit-description/bindings/edit_description_binding.dart';
 import '../modules/edit-description/views/edit_description_view.dart';
 import '../modules/edit_budget/bindings/edit_budget_binding.dart';
 import '../modules/edit_budget/views/edit_budget_view.dart';
+import '../modules/edit_request/bindings/edit_request_binding.dart';
+import '../modules/edit_request/views/edit_request_view.dart';
 import '../modules/event_detail/bindings/event_detail_binding.dart';
 import '../modules/event_detail/views/event_detail_view.dart';
 import '../modules/forgot_password/bindings/forgot_password_binding.dart';
@@ -26,6 +26,8 @@ import '../modules/otp/bindings/otp_binding.dart';
 import '../modules/otp/views/otp_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
+import '../modules/request_detail/bindings/request_detail_binding.dart';
+import '../modules/request_detail/views/request_detail_view.dart';
 import '../modules/reset_password/bindings/reset_password_binding.dart';
 import '../modules/reset_password/views/reset_password_view.dart';
 import '../modules/reset_password_successfully/bindings/reset_password_successfully_binding.dart';
@@ -48,7 +50,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.SPLASH_SCREEN;
+  static const INITIAL = Routes.LOGIN;
 
   static final routes = [
     GetPage(
@@ -142,14 +144,24 @@ class AppPages {
       binding: EventDetailBinding(),
     ),
     GetPage(
-      name: _Paths.ATTENDANCE,
-      page: () => const AttendanceView(),
-      binding: AttendanceBinding(),
-    ),
-    GetPage(
       name: _Paths.TIME_SHEET,
       page: () => const TimeSheetView(),
       binding: TimeSheetBinding(),
+    ),
+    GetPage(
+      name: _Paths.CREATE_REQUEST,
+      page: () => const CreateRequestView(),
+      binding: CreateRequestBinding(),
+    ),
+    GetPage(
+      name: _Paths.REQUEST_DETAIL,
+      page: () => const RequestDetailView(),
+      binding: RequestDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_REQUEST,
+      page: () => const EditRequestView(),
+      binding: EditRequestBinding(),
     ),
   ];
 }

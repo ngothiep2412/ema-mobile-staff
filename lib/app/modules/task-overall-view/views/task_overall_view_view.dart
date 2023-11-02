@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:hrea_mobile_staff/app/base/base_view.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/task.dart';
@@ -10,7 +9,6 @@ import 'package:hrea_mobile_staff/app/resources/style_manager.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hrea_mobile_staff/app/utils/calculate_time_difference.dart';
-import 'package:line_icons/line_icons.dart';
 import '../controllers/task_overall_view_controller.dart';
 
 class TaskOverallViewView extends BaseView<TaskOverallViewController> {
@@ -25,7 +23,6 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                 ? Center(
                     child: SpinKitFadingCircle(
                       color: ColorsManager.primary,
-                      // size: 30.0,
                     ),
                   )
                 : Column(
@@ -230,14 +227,6 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
         borderRadius: BorderRadius.circular(
           UtilsReponsive.height(10, context),
         ),
-        // boxShadow: const [
-        //   BoxShadow(
-        //     color: Colors.grey.withOpacity(0.8),
-        //     blurRadius: 0.5,
-        //     // spreadRadius: 1.0,
-        //     // offset: Offset(0, 4),
-        //   ),
-        // ],
       ),
       child: Theme(
         data: ThemeData().copyWith(dividerColor: Colors.transparent),
@@ -298,10 +287,10 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                 Icon(
                   Icons.priority_high,
                   color: taskModel.priority! == Priority.LOW
-                      ? Colors.grey.withOpacity(0.8)
+                      ? ColorsManager.green
                       : taskModel.priority! == Priority.MEDIUM
-                          ? ColorsManager.orange
-                          : ColorsManager.green,
+                          ? ColorsManager.yellow
+                          : ColorsManager.red,
                   size: 20,
                 ),
                 SizedBox(
@@ -318,10 +307,10 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                         'Roboto',
                         FontWeight.w600,
                         taskModel.priority! == Priority.LOW
-                            ? Colors.grey.withOpacity(0.8).withOpacity(0.8)
+                            ? ColorsManager.green
                             : taskModel.priority! == Priority.MEDIUM
-                                ? ColorsManager.orange
-                                : ColorsManager.green)),
+                                ? ColorsManager.yellow
+                                : ColorsManager.red)),
                 SizedBox(
                   width: UtilsReponsive.width(15, context),
                 ),
@@ -333,14 +322,14 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                       child: Icon(
                         Icons.check_circle,
                         color: taskModel.status! == Status.PENDING
-                            ? Colors.grey.withOpacity(0.8)
+                            ? ColorsManager.grey
                             : taskModel.status! == Status.PROCESSING
-                                ? ColorsManager.primary
+                                ? ColorsManager.blue
                                 : taskModel.status! == Status.DONE
                                     ? ColorsManager.green
                                     : taskModel.status! == Status.OVERDUE
                                         ? ColorsManager.red
-                                        : Colors.purpleAccent,
+                                        : ColorsManager.purple,
                         size: 18,
                       ),
                     ),
@@ -349,7 +338,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                     ),
                     Text(
                         taskModel.status! == Status.PENDING
-                            ? "Đang kiểm thực"
+                            ? "Đang chuẩn bị"
                             : taskModel.status! == Status.PROCESSING
                                 ? "Đang thực hiện"
                                 : taskModel.status! == Status.DONE
@@ -362,14 +351,14 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                           'Roboto',
                           FontWeight.w600,
                           taskModel.status! == Status.PENDING
-                              ? Colors.grey.withOpacity(0.8)
+                              ? ColorsManager.grey
                               : taskModel.status! == Status.PROCESSING
-                                  ? ColorsManager.primary
+                                  ? ColorsManager.blue
                                   : taskModel.status! == Status.DONE
                                       ? ColorsManager.green
                                       : taskModel.status! == Status.OVERDUE
                                           ? ColorsManager.red
-                                          : Colors.purpleAccent,
+                                          : ColorsManager.purple,
                         ))
                   ],
                 ),
@@ -382,14 +371,14 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                   Icon(
                     Icons.calendar_month_rounded,
                     color: taskModel.status! == Status.PENDING
-                        ? Colors.grey.withOpacity(0.8)
+                        ? ColorsManager.grey
                         : taskModel.status! == Status.PROCESSING
-                            ? ColorsManager.primary
+                            ? ColorsManager.blue
                             : taskModel.status! == Status.DONE
                                 ? ColorsManager.green
                                 : taskModel.status! == Status.OVERDUE
                                     ? ColorsManager.red
-                                    : Colors.purpleAccent,
+                                    : ColorsManager.purple,
                     size: 20,
                   ),
                   SizedBox(
@@ -403,14 +392,14 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                             'Roboto',
                             FontWeight.w600,
                             taskModel.status! == Status.PENDING
-                                ? Colors.grey.withOpacity(0.8)
+                                ? ColorsManager.grey
                                 : taskModel.status! == Status.PROCESSING
-                                    ? ColorsManager.primary
+                                    ? ColorsManager.blue
                                     : taskModel.status! == Status.DONE
                                         ? ColorsManager.green
                                         : taskModel.status! == Status.OVERDUE
                                             ? ColorsManager.red
-                                            : Colors.purpleAccent,
+                                            : ColorsManager.purple,
                           ))
                       : const SizedBox(),
                 ],
@@ -466,14 +455,11 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
       child: Padding(
         padding: UtilsReponsive.paddingAll(context, padding: 10),
         child: Container(
-          // margin: EdgeInsets.only(bottom: UtilsReponsive.height(15, context)),
           width: double.infinity,
-          // height: double.infinity,
-          // padding: UtilsReponsive.paddingHorizontal(context, padding: 10),
           decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.8),
+                  color: ColorsManager.grey,
                   blurRadius: 2,
                 ),
               ],
@@ -495,32 +481,32 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                   boxShadow: [
                     BoxShadow(
                       color: taskModel.status! == Status.PENDING
-                          ? Colors.grey.withOpacity(0.8)
+                          ? ColorsManager.grey
                           : taskModel.status! == Status.PROCESSING
-                              ? ColorsManager.primary
+                              ? ColorsManager.blue
                               : taskModel.status! == Status.DONE
                                   ? ColorsManager.green
                                   : taskModel.status! == Status.OVERDUE
                                       ? ColorsManager.red
-                                      : Colors.purpleAccent,
+                                      : ColorsManager.purple,
                       spreadRadius: 0.5,
                       blurRadius: 0.5,
                     ),
                   ],
                   color: taskModel.status! == Status.PENDING
-                      ? Colors.grey.withOpacity(0.8)
+                      ? ColorsManager.grey
                       : taskModel.status! == Status.PROCESSING
-                          ? ColorsManager.primary
+                          ? ColorsManager.blue
                           : taskModel.status! == Status.DONE
                               ? ColorsManager.green
                               : taskModel.status! == Status.OVERDUE
                                   ? ColorsManager.red
-                                  : Colors.purpleAccent,
+                                  : ColorsManager.purple,
                 ),
                 child: Center(
                     child: Text(
                         taskModel.status! == Status.PENDING
-                            ? "Đang kiểm thực"
+                            ? "Đang chuẩn bị"
                             : taskModel.status! == Status.PROCESSING
                                 ? "Đang thực hiện"
                                 : taskModel.status! == Status.DONE
@@ -584,15 +570,15 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                               Icon(
                                 Icons.calendar_month_rounded,
                                 color: taskModel.status! == Status.PENDING
-                                    ? Colors.grey.withOpacity(0.8)
+                                    ? ColorsManager.grey
                                     : taskModel.status! == Status.PROCESSING
-                                        ? ColorsManager.primary
+                                        ? ColorsManager.blue
                                         : taskModel.status! == Status.DONE
                                             ? ColorsManager.green
                                             : taskModel.status! ==
                                                     Status.OVERDUE
                                                 ? ColorsManager.red
-                                                : Colors.purpleAccent,
+                                                : ColorsManager.purple,
                                 size: 20,
                               ),
                               SizedBox(
@@ -618,10 +604,10 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                             'Roboto',
                                             FontWeight.w600,
                                             taskModel.status! == Status.PENDING
-                                                ? Colors.grey.withOpacity(0.8)
+                                                ? ColorsManager.grey
                                                 : taskModel.status! ==
                                                         Status.PROCESSING
-                                                    ? ColorsManager.primary
+                                                    ? ColorsManager.blue
                                                     : taskModel.status! ==
                                                             Status.DONE
                                                         ? ColorsManager.green
@@ -642,11 +628,10 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                                 FontWeight.w600,
                                                 taskModel.status! ==
                                                         Status.PENDING
-                                                    ? Colors.grey
-                                                        .withOpacity(0.8)
+                                                    ? ColorsManager.grey
                                                     : taskModel.status! ==
                                                             Status.PROCESSING
-                                                        ? ColorsManager.primary
+                                                        ? ColorsManager.blue
                                                         : taskModel.status! ==
                                                                 Status.DONE
                                                             ? ColorsManager
@@ -671,8 +656,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                                     FontWeight.w600,
                                                     taskModel.status! ==
                                                             Status.PENDING
-                                                        ? Colors.grey
-                                                            .withOpacity(0.8)
+                                                        ? ColorsManager.grey
                                                         : taskModel.status! ==
                                                                 Status
                                                                     .PROCESSING
@@ -779,7 +763,6 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                   // fit: BoxFit.contain,
                                   imageUrl: taskModel
                                       .assignTasks![0].user!.profile!.avatar!,
-
                                   imageBuilder: (context, imageProvider) =>
                                       Container(
                                           width:

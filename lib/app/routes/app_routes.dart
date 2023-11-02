@@ -21,8 +21,10 @@ abstract class Routes {
   static const CREATE_BUDGET = _Paths.CREATE_BUDGET;
   static const EDIT_BUDGET = _Paths.EDIT_BUDGET;
   static const EVENT_DETAIL = _Paths.EVENT_DETAIL;
-  static const ATTENDANCE = _Paths.ATTENDANCE;
   static const TIME_SHEET = _Paths.TIME_SHEET;
+  static const CREATE_REQUEST = _Paths.CREATE_REQUEST;
+  static const REQUEST_DETAIL = _Paths.REQUEST_DETAIL;
+  static const EDIT_REQUEST = _Paths.EDIT_REQUEST;
 }
 
 abstract class _Paths {
@@ -45,6 +47,8 @@ abstract class _Paths {
   static const CREATE_BUDGET = '/create-budget';
   static const EDIT_BUDGET = '/edit-budget';
   static const EVENT_DETAIL = '/event-detail';
-  static const ATTENDANCE = '/attendance';
   static const TIME_SHEET = '/time-sheet';
+  static const CREATE_REQUEST = '/create-request';
+  static const REQUEST_DETAIL = '/request-detail';
+  static const EDIT_REQUEST = '/edit-request';
 }

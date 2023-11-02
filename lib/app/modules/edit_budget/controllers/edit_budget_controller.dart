@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
+import 'package:hrea_mobile_staff/app/modules/budget/controllers/budget_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/budget/model/budget_model.dart';
 import 'package:hrea_mobile_staff/app/modules/budget_detail/controllers/budget_detail_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/edit_budget/api/edit_budget_api.dart';
@@ -124,6 +125,7 @@ class EditBudgetController extends BaseController {
             if (responseApi!.statusCode == 200 ||
                 responseApi!.statusCode == 201) {
               errorUpdateBudget.value = false;
+              await Get.find<BudgetController>().getAllRequestBudget(1);
               await Get.find<BudgetDetailController>()
                   .getBudgetDetail(budget.value.id!);
             } else {
@@ -148,6 +150,7 @@ class EditBudgetController extends BaseController {
               if (responseApiv2.statusCode == 200 ||
                   responseApiv2.statusCode == 201) {
                 errorUpdateBudget.value = false;
+                await Get.find<BudgetController>().getAllRequestBudget(1);
                 await Get.find<BudgetDetailController>()
                     .getBudgetDetail(budget.value.id!);
               } else {

@@ -32,7 +32,7 @@ class BudgetController extends BaseController {
   RxList<BudgetModel> listBudget = <BudgetModel>[].obs;
 
   ScrollController scrollController = ScrollController();
-  var isMoreDataAvailable = true.obs;
+  var isMoreDataAvailable = false.obs;
   var page = 1;
   var isDataProcessing = false.obs;
 
@@ -71,17 +71,17 @@ class BudgetController extends BaseController {
   }
 
   Future<void> refreshPage() async {
-    listBudget.clear();
+    // listBudget.clear();
     page = 1;
     await getAllRequestBudget(page);
   }
 
   Future<void> getAllRequestBudget(var page) async {
     isLoading.value = true;
+    isMoreDataAvailable.value = false;
     try {
       checkToken();
       listBudget.clear();
-      List<BudgetModel> list = [];
       List<BudgetModel> listProcessing =
           await BudgetApi.getAllBudget(jwt, eventID, page, idUser, 1);
       List<BudgetModel> listNotProcessing =

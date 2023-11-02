@@ -44,6 +44,10 @@ class TaskDetailViewController extends BaseController {
   RxBool checkCommentFile = false.obs;
 
   final isLoadingFetchUser = false.obs;
+  final isLoadingDeleteComment = false.obs;
+
+  final isCheckEditComment = false.obs;
+
   RxList<String> listFind = <String>[].obs;
   Rx<QuillController> quillController = QuillController.basic().obs;
 
@@ -131,10 +135,10 @@ class TaskDetailViewController extends BaseController {
         taskModel.value.nameAssigner = '';
         taskModel.value.avatarAssigner = '';
       }
-      quillController.value = QuillController(
-        document: Document.fromJson(jsonDecode(taskModel.value.description!)),
-        selection: const TextSelection.collapsed(offset: 0),
-      );
+      // quillController.value = QuillController(
+      //   document: Document.fromJson(jsonDecode(taskModel.value.description!)),
+      //   selection: const TextSelection.collapsed(offset: 0),
+      // );
       listComment.value =
           await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
       listComment.sort((comment1, comment2) {
@@ -223,7 +227,7 @@ class TaskDetailViewController extends BaseController {
 
   Future<void> createComment() async {
     if (commentController.text.isEmpty) {
-      Get.snackbar('Lỗi', 'Phải nhập ít nhất 1 kí tự',
+      Get.snackbar('Thông báo', 'Bạn phải nhập ít nhất 1 kí tự',
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.transparent,
           colorText: ColorsManager.textColor);
@@ -235,7 +239,7 @@ class TaskDetailViewController extends BaseController {
           for (var item in filePicker) {
             File fileResult = File(item.path!);
             UploadFileModel responseApi = await TaskDetailApi.uploadFile(
-                jwt, fileResult, item.extension ?? '');
+                jwt, fileResult, item.extension ?? '', 'comment');
             if (responseApi.statusCode == 200 ||
                 responseApi.statusCode == 201) {
               listFile.add(FileModel(
@@ -402,16 +406,16 @@ class TaskDetailViewController extends BaseController {
             fileName: item.fileName, fileUrl: item.fileUrl, mode: 1));
       }
     }
-    if (listComment.isNotEmpty) {
-      for (var item in listComment) {
-        if (item.commentFiles!.isNotEmpty) {
-          for (var file in item.commentFiles!) {
-            list.add(AttachmentModel(
-                fileName: file.fileName, fileUrl: file.fileUrl, mode: 2));
-          }
-        }
-      }
-    }
+    // if (listComment.isNotEmpty) {
+    //   for (var item in listComment) {
+    //     if (item.commentFiles!.isNotEmpty) {
+    //       for (var file in item.commentFiles!) {
+    //         list.add(AttachmentModel(
+    //             fileName: file.fileName, fileUrl: file.fileUrl, mode: 2));
+    //       }
+    //     }
+    //   }
+    // }
 
     listAttachment.value = list;
   }
@@ -474,7 +478,7 @@ class TaskDetailViewController extends BaseController {
       //     snackPosition: SnackPosition.BOTTOM,
       //     backgroundColor: Colors.redAccent,
       //     colorText: Colors.white);
-      isLoading.value = false;
+      // isLoading.value = false;
       return;
     }
 
@@ -487,13 +491,76 @@ class TaskDetailViewController extends BaseController {
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.redAccent,
           colorText: Colors.white);
-      isLoading.value = false;
+      // isLoading.value = false;
       return;
     }
 
     // final newFile = await saveFilePermaently(file);
 
     filePicker.add(file);
+    // UploadFileModel responseApi =
+    //     await TaskDetailApi.uploadFile(jwt, fileResult, file.extension ?? '');
+    // if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+    //   String fileName = fileResult.path.split('/').last;
+    //   ResponseApi updateFileTask = await TaskDetailApi.updateFileTask(
+    //       jwt, taskID, responseApi.result!.downloadUrl!, fileName);
+    //   if (updateFileTask.statusCode == 200 ||
+    //       updateFileTask.statusCode == 201) {
+    //     await getTaskDetail();
+    //     errorUpdateTask.value = false;
+    //   } else {
+    //     errorUpdateTaskText.value = 'Có lỗi xảy ra';
+    //     errorUpdateTask.value = true;
+    //   }
+    // } else {
+    //   errorUpdateTask.value = true;
+    //   errorUpdateTaskText.value = 'Có lỗi xảy ra';
+    // }
+    // isLoading.value = false;
+    // } catch (e) {
+    // errorUpdateTask.value = true;
+    // print(e);
+    // errorUpdateTaskText.value = 'Có lỗi xảy ra';
+    // isLoading.value = false;
+    // }
+  }
+
+  Future selectFileInEditComment(
+      List<PlatformFile> filePickerEditCommentFile) async {
+    filePickerEditCommentFile.clear();
+    // isLoading.value = true;
+    // try {
+    // checkToken();
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'pdf', 'doc', 'xlsx', 'docx', 'png', 'jpeg'],
+      // allowedExtensions: ['pdf'],
+    );
+    if (result == null) {
+      // Get.snackbar('Lỗi', 'Không thể lấy tài liệu',
+      //     snackPosition: SnackPosition.BOTTOM,
+      //     backgroundColor: Colors.redAccent,
+      //     colorText: Colors.white);
+      // isLoading.value = false;
+      return;
+    }
+
+    final file = result.files.first;
+    // File fileResult = File(result.files[0].path!);
+    double fileLength = File(result.files[0].path!).lengthSync() / 1024 / 1024;
+
+    if (fileLength > 10) {
+      Get.snackbar('Lỗi', 'Không thể lấy tài liệu lớn hơn 10mb',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.redAccent,
+          colorText: Colors.white);
+      // isLoading.value = false;
+      return;
+    }
+
+    // final newFile = await saveFilePermaently(file);
+
+    filePickerEditCommentFile.add(file);
     // UploadFileModel responseApi =
     //     await TaskDetailApi.uploadFile(jwt, fileResult, file.extension ?? '');
     // if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
@@ -544,7 +611,7 @@ class TaskDetailViewController extends BaseController {
   }
 
   void deleteCommentFile(CommentFile commentFile) {
-    isLoading.value = true;
+    isLoadingDeleteComment.value = true;
     try {
       for (var item in listComment) {
         item.commentFiles!.removeWhere(
@@ -552,10 +619,10 @@ class TaskDetailViewController extends BaseController {
         );
       }
 
-      getAllAttachment();
-      isLoading.value = false;
+      // getAllAttachment();
+      isLoadingDeleteComment.value = false;
     } catch (e) {
-      isLoading.value = false;
+      isLoadingDeleteComment.value = false;
     }
   }
 
@@ -587,15 +654,73 @@ class TaskDetailViewController extends BaseController {
     }
   }
 
+  Future<void> cancel(String commentID) async {
+    // isLoadingDeleteComment.value = true;
+    try {
+      listComment.value =
+          await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+      listComment.sort((comment1, comment2) {
+        return comment2.createdAt!.compareTo(comment1.createdAt!);
+      });
+      // isLoadingDeleteComment.value = false;
+    } catch (e) {
+      // isLoadingDeleteComment.value = false;
+    }
+  }
+
   Future<void> updateEffort(String taskID, double effortInput) async {
     try {
       checkToken();
-
       ResponseApi responseApi = await TaskDetailApi.updateEffort(
           jwt, taskID, taskModel.value.eventId!, effortInput);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         effort.value = effortInput;
         effortController.text = effortInput.toString();
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> editComment(CommentModel commentModel, String content,
+      String commentID, List<PlatformFile> filePickerEditCommentFile) async {
+    try {
+      checkToken();
+      List<CommentFile> list = [];
+      for (var item in listComment) {
+        if (item.id == commentID) {
+          for (var files in item.commentFiles!) {
+            list.add(files);
+          }
+        }
+      }
+      List<FileModel> listFile = [];
+      if (filePickerEditCommentFile.isNotEmpty) {
+        for (var item in filePickerEditCommentFile) {
+          File fileResult = File(item.path!);
+          UploadFileModel responseApi = await TaskDetailApi.uploadFile(
+              jwt, fileResult, item.extension ?? '', 'comment');
+          if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+            listFile.add(FileModel(
+                fileName: responseApi.result!.fileName,
+                fileUrl: responseApi.result!.downloadUrl));
+          }
+        }
+        for (var fileNew in listFile) {
+          list.add(CommentFile(
+              fileName: fileNew.fileName, fileUrl: fileNew.fileUrl));
+        }
+      }
+
+      ResponseApi responseApi = await TaskDetailApi.updateComment(
+          jwt, commentModel.id!, content, list);
+      if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+        listComment.value =
+            await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+        listComment.sort((comment1, comment2) {
+          return comment2.createdAt!.compareTo(comment1.createdAt!);
+        });
+        // getAllAttachment();
       }
     } catch (e) {
       print(e);

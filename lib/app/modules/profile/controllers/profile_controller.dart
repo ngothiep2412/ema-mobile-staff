@@ -33,12 +33,12 @@ class ProfileController extends BaseController {
   RxString selectImagePath = ''.obs;
   RxString selectImageSize = ''.obs;
 
-  var selectedDate = DateTime.now().obs;
   // var user = GetStorage().read('user');
   RxBool errorUpdateProfile = false.obs;
   RxString errorUpdateProfileText = ''.obs;
   RxBool isLoading = false.obs;
 
+  var selectedDate = DateTime.now().obs;
   final genderList = ["Nam", "Nữ"];
   RxString selectedGenderVal = ''.obs;
 
@@ -105,10 +105,12 @@ class ProfileController extends BaseController {
         String? jwtToken = GetStorage().read('JWT');
         if (jwtToken != null) {
           if (imageFile == null) {
+            List<String> parts = dateController!.text.split('/');
+            String formattedDate = '${parts[2]}-${parts[1]}-${parts[0]}';
             responseApi = await ProfileApi.updateProfile(
                 phoneController!.text,
                 fullNameController!.text,
-                DateTime.parse(dateController!.text),
+                DateTime.parse(formattedDate),
                 addressController!.text,
                 imageUrl.value,
                 selectedGenderVal.value,

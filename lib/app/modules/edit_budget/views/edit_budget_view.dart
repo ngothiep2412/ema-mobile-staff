@@ -530,9 +530,9 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                           ),
                         ),
                         child: controller.isLoading.value
-                            ? Center(
+                            ? const Center(
                                 child: CircularProgressIndicator(
-                                  color: ColorsManager.primary,
+                                  color: ColorsManager.backgroundWhite,
                                 ),
                               )
                             : Text(

@@ -1,11 +1,12 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
+import 'package:hrea_mobile_staff/app/modules/budget/api/budget_api.dart';
+import 'package:hrea_mobile_staff/app/modules/budget/controllers/budget_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/budget/model/budget_model.dart';
 import 'package:hrea_mobile_staff/app/modules/budget_detail/api/budget_detail_api.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
-import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class BudgetDetailController extends BaseController {
@@ -75,14 +76,15 @@ class BudgetDetailController extends BaseController {
     }
   }
 
-  Future<void> deleteBudget(String status) async {
+  Future<void> deleteBudget() async {
     isLoading.value = true;
     try {
       checkToken();
       ResponseApi responseApi =
-          await BudgetDetailApi.deleteBudget(budgetView.value.id!, status, jwt);
+          await BudgetDetailApi.deleteBudget(budgetView.value.id!, jwt);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         errorUpdateBudget.value = false;
+        await Get.find<BudgetController>().getAllRequestBudget(1);
 
         Get.back();
       } else {

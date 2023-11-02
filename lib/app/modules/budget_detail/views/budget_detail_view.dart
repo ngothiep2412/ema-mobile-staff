@@ -1,12 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
 import 'package:get/get.dart';
 import 'package:hrea_mobile_staff/app/base/base_view.dart';
 import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
-import 'package:hrea_mobile_staff/app/resources/dev_utils.dart';
 import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_staff/app/resources/style_manager.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
@@ -33,6 +30,16 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                       ),
                     )
                   : Column(children: [
+                      Center(
+                        child: Text(
+                          'Thông tin khoản chi chi tiết',
+                          style: GetTextStyle.getTextStyle(20, 'Roboto',
+                              FontWeight.w600, ColorsManager.primary),
+                        ),
+                      ),
+                      SizedBox(
+                        height: UtilsReponsive.heightv2(context, 5),
+                      ),
                       Expanded(
                         child: Padding(
                           padding: UtilsReponsive.paddingHorizontal(context,
@@ -41,19 +48,6 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                             onRefresh: controller.refreshPage,
                             child: ListView(
                               children: [
-                                SizedBox(
-                                  height: UtilsReponsive.heightv2(context, 5),
-                                ),
-                                Center(
-                                  child: Text(
-                                    'Thông tin khoản chi chi tiết',
-                                    style: GetTextStyle.getTextStyle(
-                                        18,
-                                        'Roboto',
-                                        FontWeight.w600,
-                                        ColorsManager.primary),
-                                  ),
-                                ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 15),
                                 ),
@@ -81,7 +75,11 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                         : controller.budgetView.value.status! ==
                                                 "ACCEPT"
                                             ? "Chấp nhận"
-                                            : "Đang xử lí",
+                                            : controller.budgetView.value
+                                                        .status! ==
+                                                    "USED"
+                                                ? "Đã sử dụng"
+                                                : "Đang xử lí",
                                     style: GetTextStyle.getTextStyle(
                                         14,
                                         'Roboto',
@@ -442,7 +440,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                             actions: [
                               TextButton(
                                 onPressed: () async {
-                                  await controller.deleteBudget('CANCEL');
+                                  await controller.deleteBudget();
                                   Navigator.of(Get.context!).pop();
                                   controller.errorUpdateBudget.value
                                       ? _errorMessage(Get.context!)
@@ -524,7 +522,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                             actions: [
                               TextButton(
                                 onPressed: () async {
-                                  await controller.deleteBudget('CANCEL');
+                                  await controller.deleteBudget();
                                   Navigator.of(Get.context!).pop();
                                   controller.errorUpdateBudget.value
                                       ? _errorMessage(Get.context!)
@@ -581,7 +579,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                       PopupMenuItem<String>(
                         value: 'edit',
                         child: Text(
-                          'Chỉnh sửa đơn yêu cầu',
+                          'Chỉnh sửa thông tin thu chi',
                           style: TextStyle(
                               fontFamily: 'Roboto',
                               wordSpacing: 1.2,
@@ -628,7 +626,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                 ),
                 Spacer(),
                 Text(
-                  'Thay đổi thông tin cá nhân thành công',
+                  'Thay đổi thông tin thu chi thành công',
                   style: GetTextStyle.getTextStyle(
                       12, 'Roboto', FontWeight.w500, Colors.white),
                   maxLines: 2,

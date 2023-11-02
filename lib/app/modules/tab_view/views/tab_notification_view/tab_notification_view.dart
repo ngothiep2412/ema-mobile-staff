@@ -41,20 +41,20 @@ class TabNotificationView extends BaseView<TabNotificationController> {
                           ),
                         ),
                       ),
-                      const Icon(
-                        Icons.filter_alt_outlined,
-                        color: ColorsManager.backgroundWhite,
-                      ),
-                      SizedBox(
-                        width: UtilsReponsive.width(10, context),
-                      ),
+                      // Icon(
+                      //   Icons.filter_alt_outlined,
+                      //   color: ColorsManager.primary,
+                      // ),
+                      // SizedBox(
+                      //   width: UtilsReponsive.width(10, context),
+                      // ),
                       IconButton(
                         onPressed: () {
                           controller.markAllRead();
                         },
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.mark_as_unread_rounded,
-                          color: ColorsManager.backgroundWhite,
+                          color: ColorsManager.textColor2,
                         ),
                       )
                     ],
@@ -64,7 +64,7 @@ class TabNotificationView extends BaseView<TabNotificationController> {
                   ),
                   Expanded(
                     child: RefreshIndicator(
-                      onRefresh: controller.refreshpage,
+                      onRefresh: controller.refreshPage,
                       child: ListView.separated(
                           separatorBuilder: (context, index) => SizedBox(
                                 height: UtilsReponsive.height(20, context),

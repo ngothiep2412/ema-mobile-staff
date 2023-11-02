@@ -6,10 +6,9 @@ import 'package:hrea_mobile_staff/app/resources/base_link.dart';
 
 class BudgetDetailApi {
   static Future<ResponseApi> deleteBudget(
-      String budgetID, String status, String jwtToken) async {
-    var response = await http.put(
-        Uri.parse(
-            '${BaseLink.localBaseLink}${BaseLink.updateBudget}$budgetID/$status'),
+      String budgetID, String jwtToken) async {
+    var response = await http.delete(
+        Uri.parse('${BaseLink.localBaseLink}${BaseLink.deleteBudget}$budgetID'),
         headers: {
           "Accept": "application/json",
           "content-type": "application/json",
