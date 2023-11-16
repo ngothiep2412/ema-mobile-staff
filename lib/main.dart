@@ -9,8 +9,7 @@ import 'package:hrea_mobile_staff/app/utils/firebase_config.dart';
 import 'package:hrea_mobile_staff/app/utils/pushnotification_provider.dart';
 import 'app/routes/app_pages.dart';
 
-PushNotificationsProvider pushNotificationsProvider =
-    PushNotificationsProvider();
+PushNotificationsProvider pushNotificationsProvider = PushNotificationsProvider();
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -22,9 +21,12 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Initialize Firebase and wait for it to complete
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+  await firebaseMessaging.requestPermission(
+      alert: true, announcement: true, badge: true, carPlay: true, criticalAlert: false, provisional: false, sound: true);
   await GetStorage.init();
-  print('name ${Firebase.app().name}');
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   pushNotificationsProvider.initPushNotifications();
   pushNotificationsProvider.onMessageListener();

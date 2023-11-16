@@ -15,7 +15,6 @@ class BudgetApi {
         'Authorization': 'Bearer $jwtToken',
       },
     );
-    print('abc task' + response.statusCode.toString());
     if (response.statusCode == 201 || response.statusCode == 200) {
       var jsonData = jsonDecode(response.body)["result"]['data'];
       List<BudgetModel> listBudget = [];

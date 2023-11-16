@@ -1,14 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
-
-import 'package:flutter/gestures.dart';
-import 'package:get/get.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/uploadfile_model.dart';
 import 'package:hrea_mobile_staff/app/resources/base_link.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:http_parser/http_parser.dart'; // Import the MediaType class
+import 'package:http_parser/http_parser.dart';
 
 class EditBudgetApi {
   static Future<ResponseApi> updateBudget(

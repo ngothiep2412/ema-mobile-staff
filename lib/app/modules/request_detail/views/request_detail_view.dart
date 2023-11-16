@@ -30,14 +30,12 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                       Center(
                         child: Text(
                           'Thông tin đơn chi tiết',
-                          style: GetTextStyle.getTextStyle(20, 'Roboto',
-                              FontWeight.w600, ColorsManager.primary),
+                          style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w600, ColorsManager.primary),
                         ),
                       ),
                       Expanded(
                         child: Padding(
-                          padding: UtilsReponsive.paddingHorizontal(context,
-                              padding: 5),
+                          padding: UtilsReponsive.paddingHorizontal(context, padding: 5),
                           child: RefreshIndicator(
                             onRefresh: controller.refreshPage,
                             child: ListView(
@@ -47,15 +45,13 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                 ),
                                 Text(
                                   'Trạng thái',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto',
-                                      FontWeight.w600, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.textColor),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 10),
                                 ),
                                 Container(
-                                  padding: UtilsReponsive.paddingAll(context,
-                                      padding: 10),
+                                  padding: UtilsReponsive.paddingAll(context, padding: 10),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(
@@ -63,25 +59,18 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                     ),
                                   ),
                                   child: Text(
-                                    controller.requestModelView.value.status! ==
-                                            "REJECT"
+                                    controller.requestModelView.value.status! == "REJECT"
                                         ? "Từ chối"
-                                        : controller.requestModelView.value
-                                                    .status! ==
-                                                "ACCEPT"
+                                        : controller.requestModelView.value.status! == "ACCEPT"
                                             ? "Chấp nhận"
                                             : "Đang xử lí",
                                     style: GetTextStyle.getTextStyle(
                                         14,
                                         'Roboto',
                                         FontWeight.w700,
-                                        controller.requestModelView.value
-                                                    .status! ==
-                                                "REJECT"
+                                        controller.requestModelView.value.status! == "REJECT"
                                             ? ColorsManager.red
-                                            : controller.requestModelView.value
-                                                        .status! ==
-                                                    "ACCEPT"
+                                            : controller.requestModelView.value.status! == "ACCEPT"
                                                 ? ColorsManager.green
                                                 : ColorsManager.orange),
                                   ),
@@ -91,15 +80,13 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                 ),
                                 Text(
                                   'Tiêu đề',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto',
-                                      FontWeight.w600, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.textColor),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 10),
                                 ),
                                 Container(
-                                  padding: UtilsReponsive.paddingAll(context,
-                                      padding: 10),
+                                  padding: UtilsReponsive.paddingAll(context, padding: 10),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(
@@ -108,11 +95,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                   ),
                                   child: Text(
                                     controller.requestModelView.value.title!,
-                                    style: GetTextStyle.getTextStyle(
-                                        14,
-                                        'Roboto',
-                                        FontWeight.w700,
-                                        ColorsManager.textColor2),
+                                    style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor2),
                                   ),
                                 ),
                                 SizedBox(
@@ -120,15 +103,13 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                 ),
                                 Text(
                                   'Loại kiểu nghỉ',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto',
-                                      FontWeight.w600, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.textColor),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 10),
                                 ),
                                 Container(
-                                  padding: UtilsReponsive.paddingAll(context,
-                                      padding: 10),
+                                  padding: UtilsReponsive.paddingAll(context, padding: 10),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(
@@ -136,12 +117,9 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                     ),
                                   ),
                                   child: Text(
-                                    controller.requestModelView.value.type! ==
-                                            "A"
+                                    controller.requestModelView.value.type! == "A"
                                         ? "A: Nghỉ có lương"
-                                        : controller.requestModelView.value
-                                                    .type! ==
-                                                "L"
+                                        : controller.requestModelView.value.type! == "L"
                                             ? "L: Nghỉ không lương"
                                             : "M: Đi công tác",
                                     // 'hi',
@@ -149,13 +127,9 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                         14,
                                         'Roboto',
                                         FontWeight.w700,
-                                        controller.requestModelView.value
-                                                    .type! ==
-                                                "A"
+                                        controller.requestModelView.value.type! == "A"
                                             ? ColorsManager.purple
-                                            : controller.requestModelView.value
-                                                        .type! ==
-                                                    "L"
+                                            : controller.requestModelView.value.type! == "L"
                                                 ? ColorsManager.blue
                                                 : ColorsManager.red),
                                   ),
@@ -167,45 +141,28 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                   children: [
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             'Kiểu ngày nghỉ',
-                                            style: GetTextStyle.getTextStyle(
-                                                16,
-                                                'Roboto',
-                                                FontWeight.w600,
-                                                ColorsManager.textColor),
+                                            style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.textColor),
                                           ),
                                           SizedBox(
-                                            height: UtilsReponsive.heightv2(
-                                                context, 10),
+                                            height: UtilsReponsive.heightv2(context, 10),
                                           ),
                                           Container(
                                             width: 500,
-                                            padding: UtilsReponsive.paddingAll(
-                                                context,
-                                                padding: 10),
+                                            padding: UtilsReponsive.paddingAll(context, padding: 10),
                                             decoration: BoxDecoration(
                                               color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                UtilsReponsive.height(
-                                                    10, context),
+                                              borderRadius: BorderRadius.circular(
+                                                UtilsReponsive.height(10, context),
                                               ),
                                             ),
                                             child: Text(
-                                              controller.requestModelView.value
-                                                      .isFull!
-                                                  ? "Nguyên ngày"
-                                                  : "Nữa ngày",
+                                              controller.requestModelView.value.isFull! ? "Nguyên ngày" : "Nữa ngày",
                                               // 'hi',
-                                              style: GetTextStyle.getTextStyle(
-                                                  14,
-                                                  'Roboto',
-                                                  FontWeight.w700,
-                                                  ColorsManager.textColor2),
+                                              style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor2),
                                             ),
                                           ),
                                         ],
@@ -216,75 +173,43 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                     ),
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             'kiểu buổi nghỉ',
-                                            style: GetTextStyle.getTextStyle(
-                                                16,
-                                                'Roboto',
-                                                FontWeight.w600,
-                                                ColorsManager.textColor),
+                                            style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.textColor),
                                           ),
                                           SizedBox(
-                                            height: UtilsReponsive.heightv2(
-                                                context, 10),
+                                            height: UtilsReponsive.heightv2(context, 10),
                                           ),
                                           Obx(
-                                            () => !controller.requestModelView
-                                                    .value.isFull!
+                                            () => !controller.requestModelView.value.isFull!
                                                 ? Container(
                                                     width: 500,
-                                                    padding: UtilsReponsive
-                                                        .paddingAll(context,
-                                                            padding: 10),
+                                                    padding: UtilsReponsive.paddingAll(context, padding: 10),
                                                     decoration: BoxDecoration(
                                                       color: Colors.white,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                        UtilsReponsive.height(
-                                                            10, context),
+                                                      borderRadius: BorderRadius.circular(
+                                                        UtilsReponsive.height(10, context),
                                                       ),
                                                     ),
                                                     child: Text(
-                                                      controller
-                                                              .requestModelView
-                                                              .value
-                                                              .isPm!
-                                                          ? "PM"
-                                                          : "AM",
-                                                      style: GetTextStyle
-                                                          .getTextStyle(
-                                                              14,
-                                                              'Roboto',
-                                                              FontWeight.w700,
-                                                              ColorsManager
-                                                                  .textColor2),
+                                                      controller.requestModelView.value.isPm! ? "Buổi chiều" : "Buổi sáng",
+                                                      style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor2),
                                                     ),
                                                   )
                                                 : Container(
                                                     width: 500,
-                                                    padding: UtilsReponsive
-                                                        .paddingAll(context,
-                                                            padding: 10),
+                                                    padding: UtilsReponsive.paddingAll(context, padding: 10),
                                                     decoration: BoxDecoration(
                                                       color: Colors.white,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                        UtilsReponsive.height(
-                                                            10, context),
+                                                      borderRadius: BorderRadius.circular(
+                                                        UtilsReponsive.height(10, context),
                                                       ),
                                                     ),
                                                     child: Text(
                                                       "--",
-                                                      style: GetTextStyle
-                                                          .getTextStyle(
-                                                              14,
-                                                              'Roboto',
-                                                              FontWeight.w700,
-                                                              ColorsManager
-                                                                  .textColor2),
+                                                      style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor2),
                                                     ),
                                                   ),
                                           ),
@@ -298,15 +223,13 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                 ),
                                 Text(
                                   'Ngày bắt đầu',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto',
-                                      FontWeight.w600, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.textColor),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 10),
                                 ),
                                 Container(
-                                  padding: UtilsReponsive.paddingAll(context,
-                                      padding: 10),
+                                  padding: UtilsReponsive.paddingAll(context, padding: 10),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(
@@ -314,14 +237,9 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                     ),
                                   ),
                                   child: Text(
-                                    controller.dateFormat.format(controller
-                                        .requestModelView.value.startDate!),
+                                    controller.dateFormat.format(controller.requestModelView.value.startDate!),
                                     // 'hi',
-                                    style: GetTextStyle.getTextStyle(
-                                        14,
-                                        'Roboto',
-                                        FontWeight.w700,
-                                        ColorsManager.textColor2),
+                                    style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor2),
                                   ),
                                 ),
                                 SizedBox(
@@ -329,15 +247,13 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                 ),
                                 Text(
                                   'Ngày kết thúc',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto',
-                                      FontWeight.w600, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.textColor),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 10),
                                 ),
                                 Container(
-                                  padding: UtilsReponsive.paddingAll(context,
-                                      padding: 10),
+                                  padding: UtilsReponsive.paddingAll(context, padding: 10),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(
@@ -345,13 +261,8 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                     ),
                                   ),
                                   child: Text(
-                                    controller.dateFormat.format(controller
-                                        .requestModelView.value.endDate!),
-                                    style: GetTextStyle.getTextStyle(
-                                        14,
-                                        'Roboto',
-                                        FontWeight.w700,
-                                        ColorsManager.textColor2),
+                                    controller.dateFormat.format(controller.requestModelView.value.endDate!),
+                                    style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor2),
                                   ),
                                 ),
                                 SizedBox(
@@ -359,18 +270,14 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                 ),
                                 Text(
                                   'Nội dung',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto',
-                                      FontWeight.w600, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.textColor),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 10),
                                 ),
                                 Container(
-                                  constraints: BoxConstraints(
-                                      minHeight:
-                                          UtilsReponsive.width(150, context)),
-                                  padding: UtilsReponsive.paddingAll(context,
-                                      padding: 10),
+                                  constraints: BoxConstraints(minHeight: UtilsReponsive.width(150, context)),
+                                  padding: UtilsReponsive.paddingAll(context, padding: 10),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(
@@ -379,11 +286,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                   ),
                                   child: Text(
                                     controller.requestModelView.value.content!,
-                                    style: GetTextStyle.getTextStyle(
-                                        14,
-                                        'Roboto',
-                                        FontWeight.w700,
-                                        ColorsManager.textColor2),
+                                    style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor2),
                                   ),
                                 ),
                                 SizedBox(
@@ -415,8 +318,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
       ),
       actions: [
         Obx(
-          () => controller.requestModelView.value.status == "APPROVE" ||
-                  controller.requestModelView.value.status == "REJECT"
+          () => controller.requestModelView.value.status == "ACCEPT" || controller.requestModelView.value.status == "REJECT"
               ? PopupMenuButton<String>(
                   icon: Icon(
                     Icons.more_vert,
@@ -433,8 +335,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                     fontFamily: 'Roboto',
                                     wordSpacing: 1.2,
                                     color: ColorsManager.primary,
-                                    fontSize:
-                                        UtilsReponsive.height(20, context),
+                                    fontSize: UtilsReponsive.height(20, context),
                                     fontWeight: FontWeight.bold)),
                             content: Text(
                               'Bạn có muốn xóa đơn này?',
@@ -450,17 +351,14 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                 onPressed: () async {
                                   await controller.deleteLeaveRequest();
                                   Navigator.of(Get.context!).pop();
-                                  controller.errorUpdateBudget.value
-                                      ? _errorMessage(Get.context!)
-                                      : _successMessage(Get.context!);
+                                  controller.errorUpdateBudget.value ? _errorMessage(Get.context!) : _successMessage(Get.context!);
                                 },
                                 child: Text('Xóa',
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         wordSpacing: 1.2,
                                         color: ColorsManager.red,
-                                        fontSize:
-                                            UtilsReponsive.height(18, context),
+                                        fontSize: UtilsReponsive.height(18, context),
                                         fontWeight: FontWeight.bold)),
                               ),
                               TextButton(
@@ -472,8 +370,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                         fontFamily: 'Roboto',
                                         wordSpacing: 1.2,
                                         color: ColorsManager.primary,
-                                        fontSize:
-                                            UtilsReponsive.height(18, context),
+                                        fontSize: UtilsReponsive.height(18, context),
                                         fontWeight: FontWeight.bold)),
                               ),
                             ],
@@ -515,8 +412,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                     fontFamily: 'Roboto',
                                     wordSpacing: 1.2,
                                     color: ColorsManager.primary,
-                                    fontSize:
-                                        UtilsReponsive.height(20, context),
+                                    fontSize: UtilsReponsive.height(20, context),
                                     fontWeight: FontWeight.bold)),
                             content: Text(
                               'Bạn có muốn xóa đơn này?',
@@ -532,17 +428,14 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                 onPressed: () async {
                                   await controller.deleteLeaveRequest();
                                   Navigator.of(Get.context!).pop();
-                                  controller.errorUpdateBudget.value
-                                      ? _errorMessage(Get.context!)
-                                      : _successMessage(Get.context!);
+                                  controller.errorUpdateBudget.value ? _errorMessage(Get.context!) : _successMessage(Get.context!);
                                 },
                                 child: Text('Xóa',
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         wordSpacing: 1.2,
                                         color: ColorsManager.red,
-                                        fontSize:
-                                            UtilsReponsive.height(18, context),
+                                        fontSize: UtilsReponsive.height(18, context),
                                         fontWeight: FontWeight.bold)),
                               ),
                               TextButton(
@@ -554,8 +447,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                         fontFamily: 'Roboto',
                                         wordSpacing: 1.2,
                                         color: ColorsManager.primary,
-                                        fontSize:
-                                            UtilsReponsive.height(18, context),
+                                        fontSize: UtilsReponsive.height(18, context),
                                         fontWeight: FontWeight.bold)),
                               ),
                             ],
@@ -564,10 +456,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                       );
                     }
                     if (choice == 'edit') {
-                      Get.toNamed(Routes.EDIT_REQUEST, arguments: {
-                        "requestID": controller.requestID,
-                        "request": controller.requestModelView
-                      });
+                      Get.toNamed(Routes.EDIT_REQUEST, arguments: {"requestID": controller.requestID, "request": controller.requestModelView});
                     }
                   },
                   itemBuilder: (BuildContext context) {
@@ -611,9 +500,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.heightv2(context, 80),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 81, 146, 83),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 81, 146, 83), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.check_circle,
@@ -629,14 +516,12 @@ class RequestDetailView extends BaseView<RequestDetailController> {
               children: [
                 Text(
                   'Thành công',
-                  style: GetTextStyle.getTextStyle(
-                      18, 'Roboto', FontWeight.w800, Colors.white),
+                  style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
                 ),
                 Spacer(),
                 Text(
                   'Xóa đơn thành công',
-                  style: GetTextStyle.getTextStyle(
-                      12, 'Roboto', FontWeight.w500, Colors.white),
+                  style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -657,9 +542,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.heightv2(context, 80),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 219, 90, 90),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 219, 90, 90), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.error_outline,
@@ -675,15 +558,13 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                 children: [
                   Text(
                     'Thất bại',
-                    style: GetTextStyle.getTextStyle(
-                        18, 'Roboto', FontWeight.w800, Colors.white),
+                    style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
                   ),
                   const Spacer(),
                   Obx(
                     () => Text(
                       controller.errorUpdateBudgetText.value,
-                      style: GetTextStyle.getTextStyle(
-                          12, 'Roboto', FontWeight.w500, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

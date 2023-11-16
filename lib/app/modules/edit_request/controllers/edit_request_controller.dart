@@ -35,14 +35,10 @@ class EditRequestController extends BaseController {
   final dayType = ["Nữa ngày", "Nguyên ngày"];
   RxString selectedDayTypeVal = 'Nữa ngày'.obs;
 
-  final timeType = ["AM", "PM"];
-  RxString selectedTimeTypeVal = 'AM'.obs;
+  final timeType = ["Buổi sáng", "Buổi chiều"];
+  RxString selectedTimeTypeVal = 'Buổi sáng'.obs;
 
-  final leaveType = [
-    "A: Nghỉ có lương",
-    "L: Nghỉ không lương",
-    "M: Đi công tác"
-  ];
+  final leaveType = ["A: Nghỉ có lương", "L: Nghỉ không lương", "M: Đi công tác"];
   RxString selectedLeaveTypeVal = 'A: Nghỉ có lương'.obs;
 
   String jwt = '';
@@ -59,8 +55,7 @@ class EditRequestController extends BaseController {
         : requestModel.value.type == "L"
             ? "L: Nghỉ không lương"
             : "M: Đi công tác";
-    selectedDayTypeVal.value =
-        requestModel.value.isFull! ? "Nguyên ngày" : "Nữa ngày";
+    selectedDayTypeVal.value = requestModel.value.isFull! ? "Nguyên ngày" : "Nữa ngày";
     selectedTimeTypeVal.value = requestModel.value.isPm! ? "PM" : "AM";
     startDateController.text = dateFormat.format(requestModel.value.startDate!);
     endDateController.text = dateFormat.format(requestModel.value.endDate!);
@@ -145,13 +140,11 @@ class EditRequestController extends BaseController {
       isLoadingUpdate.value = false;
     } else if (isDateValid(startDateController.text) != true) {
       errorUpdateRequest.value = true;
-      errorUpdateRequestText.value =
-          "Ngày bắt đầu không hợp lệ, nhập đúng định dạng dd/mm/yyyy";
+      errorUpdateRequestText.value = "Ngày bắt đầu không hợp lệ, nhập đúng định dạng dd/mm/yyyy";
       isLoadingUpdate.value = false;
     } else if (isDateValid(endDateController.text) != true) {
       errorUpdateRequest.value = true;
-      errorUpdateRequestText.value =
-          "Ngày kết thúc không hợp lệ, nhập đúng định dạng dd/mm/yyyy";
+      errorUpdateRequestText.value = "Ngày kết thúc không hợp lệ, nhập đúng định dạng dd/mm/yyyy";
       isLoadingUpdate.value = false;
     } else {
       try {
@@ -162,33 +155,22 @@ class EditRequestController extends BaseController {
           isPM.value = false;
         } else {
           isFull.value = false;
-          if (selectedTimeTypeVal.value == "AM") {
+          if (selectedTimeTypeVal.value == "Buổi sáng") {
             isPM.value = false;
           } else {
             isPM.value = true;
           }
         }
         List<String> startDateparts = startDateController.text.split('/');
-        String formattedStartDate =
-            '${startDateparts[2]}-${startDateparts[1]}-${startDateparts[0]}';
+        String formattedStartDate = '${startDateparts[2]}-${startDateparts[1]}-${startDateparts[0]}';
         List<String> endDateparts = endDateController.text.split('/');
-        String formattedEndDate =
-            '${endDateparts[2]}-${endDateparts[1]}-${endDateparts[0]}';
-        ResponseApi responseApi = await EditRequestApi.updateRequest(
-            requestID,
-            titleController.text,
-            contentController.text,
-            DateTime.parse(formattedStartDate),
-            DateTime.parse(formattedEndDate),
-            isFull.value,
-            isPM.value,
-            selectedLeaveTypeVal.value[0],
-            jwt);
+        String formattedEndDate = '${endDateparts[2]}-${endDateparts[1]}-${endDateparts[0]}';
+        ResponseApi responseApi = await EditRequestApi.updateRequest(requestID, titleController.text, contentController.text,
+            DateTime.parse(formattedStartDate), DateTime.parse(formattedEndDate), isFull.value, isPM.value, selectedLeaveTypeVal.value[0], jwt);
         if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
           errorUpdateRequest.value = false;
           await Get.find<TabRequestController>().getAllLeaveRequest(1);
-          await Get.find<RequestDetailController>()
-              .getLeaveRequestDetail(requestID);
+          await Get.find<RequestDetailController>().getLeaveRequestDetail(requestID);
         } else {
           errorUpdateRequest.value = true;
           errorUpdateRequestText.value = "Không thể tạo đơn";

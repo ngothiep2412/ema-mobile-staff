@@ -27,7 +27,7 @@ class ForgotPasswordView extends BaseView<ForgotPasswordController> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: UtilsReponsive.width(20,context),
+                  horizontal: UtilsReponsive.width(20, context),
                 ),
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
@@ -40,8 +40,8 @@ class ForgotPasswordView extends BaseView<ForgotPasswordController> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: UtilsReponsive.width(20,context),
-                  vertical: UtilsReponsive.height(10,context),
+                  horizontal: UtilsReponsive.width(20, context),
+                  vertical: UtilsReponsive.height(10, context),
                 ),
                 child: Text(
                   'Hãy nhập email và chúng tôi sẽ gửi mã code cho bạn.',
@@ -54,7 +54,7 @@ class ForgotPasswordView extends BaseView<ForgotPasswordController> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: UtilsReponsive.width(20,context),
+                  horizontal: UtilsReponsive.width(20, context),
                 ),
                 child: TextFormField(
                   keyboardType: TextInputType.emailAddress,
@@ -80,7 +80,7 @@ class ForgotPasswordView extends BaseView<ForgotPasswordController> {
               Obx(
                 () => Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: UtilsReponsive.width(20,context),
+                    horizontal: UtilsReponsive.width(20, context),
                   ),
                   child: Container(
                     width: double.infinity,
@@ -92,8 +92,8 @@ class ForgotPasswordView extends BaseView<ForgotPasswordController> {
                       onPressed: () async {
                         await controller.sendOtp();
                         controller.errorForgotPassword.value
-                            ? _errorMessage(context)
-                            : _successMessage(context);
+                            ? _errorMessage(Get.context!)
+                            : _successMessage(Get.context!);
                       },
                       child: controller.isLoading.value
                           ? const Center(

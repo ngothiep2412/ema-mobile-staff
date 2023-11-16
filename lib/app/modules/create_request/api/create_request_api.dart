@@ -18,8 +18,8 @@ class CreateRequestApi {
       "content": content,
       "startDate": startDate.toString(),
       "endDate": endDate.toString(),
-      "isFull": isFull,
-      "isPM": isPM,
+      "isFull": isFull.toString(),
+      "isPM": isPM.toString(),
       "type": type,
     };
 

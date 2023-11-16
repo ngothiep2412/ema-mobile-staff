@@ -2102,7 +2102,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                     Status.CONFIRM
                                 ? ColorsManager.purple
                                 : ColorsManager.red,
-                fontSize: UtilsReponsive.height(17, context),
+                // fontSize: UtilsReponsive.height(5, context),
                 fontWeight: FontWeight.bold),
           ),
         )

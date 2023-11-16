@@ -36,8 +36,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                   Center(
                     child: Text(
                       "Chỉnh sửa thông tin khoản chi",
-                      style: GetTextStyle.getTextStyle(20, 'Roboto',
-                          FontWeight.w600, ColorsManager.textColor),
+                      style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w600, ColorsManager.textColor),
                     ),
                   ),
                   SizedBox(
@@ -45,66 +44,52 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                   ),
                   Text(
                     'Tên khoản chi',
-                    style: GetTextStyle.getTextStyle(
-                        16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
                   ),
-                  buildTextField(
-                      context,
-                      "Tên khoản chi",
-                      "Ví dụ: Tiền thuê mic",
-                      controller.budgetNameController),
+                  buildTextField(context, "Tên khoản chi", "Ví dụ: Tiền thuê mic", controller.budgetNameController),
                   Text(
                     'Chi phí ước tính (VNĐ)',
-                    style: GetTextStyle.getTextStyle(
-                        16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
                   ),
-                  buildWidgetmoney(context, "Chi phí ước tính",
-                      "Ví dụ: 100.000", controller.estExpenseController),
+                  buildWidgetmoney(context, "Chi phí ước tính", "Ví dụ: 100.000", controller.estExpenseController),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
                   ),
                   controller.budget.value.status == "ACCEPT"
                       ? Text(
                           'Chi phí thực tế (VNĐ)',
-                          style: GetTextStyle.getTextStyle(16, 'Roboto',
-                              FontWeight.w600, ColorsManager.primary),
+                          style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
                         )
                       : SizedBox(),
                   controller.budget.value.status == "ACCEPT"
-                      ? buildWidgetmoney(context, "Chi phí thực tế",
-                          "Ví dụ: 100.000", controller.realExpenseController)
+                      ? buildWidgetmoney(context, "Chi phí thực tế", "Ví dụ: 100.000", controller.realExpenseController)
                       : SizedBox(),
                   Text(
                     'Mô tả',
-                    style: GetTextStyle.getTextStyle(
-                        16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
                   ),
-                  buildTextarea(context, "Mô tả", "Ví dụ: Loại nhỏ",
-                      controller.descriptionController),
+                  buildTextarea(context, "Mô tả", "Ví dụ: Loại nhỏ", controller.descriptionController),
                   Text(
                     'Nhà cung cấp',
-                    style: GetTextStyle.getTextStyle(
-                        16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
                   ),
-                  buildTextField(context, "Nhà cung cấp",
-                      "Ví dụ: Saigon LED", controller.supplierController),
+                  buildTextField(context, "Nhà cung cấp", "Ví dụ: Saigon LED", controller.supplierController),
                   controller.budget.value.status == "ACCEPT"
                       ? Text(
                           'Hình ảnh hóa đơn',
-                          style: GetTextStyle.getTextStyle(16, 'Roboto',
-                              FontWeight.w600, ColorsManager.primary),
+                          style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
                         )
                       : SizedBox(),
                   SizedBox(
@@ -116,8 +101,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                           children: [
                             Obx(
                               () => Container(
-                                  child: controller
-                                          .selectImagePath.value.isEmpty
+                                  child: controller.selectImagePath.value.isEmpty
                                       ? controller.imageUrl.value == ''
                                           ? GestureDetector(
                                               onTap: () {
@@ -126,260 +110,154 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                                               child: Container(
                                                   decoration: BoxDecoration(
                                                     color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                      UtilsReponsive.height(
-                                                          15, context),
+                                                    borderRadius: BorderRadius.circular(
+                                                      UtilsReponsive.height(15, context),
                                                     ),
                                                     border: Border.all(
-                                                      color: Colors.grey
-                                                          .withOpacity(
-                                                              0.8), // Màu viền
-                                                      width:
-                                                          1.5, // Độ dày của viền
+                                                      color: Colors.grey.withOpacity(0.8), // Màu viền
+                                                      width: 1.5, // Độ dày của viền
                                                     ),
                                                   ),
-                                                  width: UtilsReponsive.width(
-                                                      150, context),
-                                                  height: UtilsReponsive.height(
-                                                      150, context),
+                                                  width: UtilsReponsive.width(150, context),
+                                                  height: UtilsReponsive.height(150, context),
                                                   child: Center(
                                                     child: Icon(
                                                       Icons.camera_alt_outlined,
                                                       size: 35,
-                                                      color: Colors.grey
-                                                          .withOpacity(0.8),
+                                                      color: Colors.grey.withOpacity(0.8),
                                                     ),
                                                   )),
                                             )
-                                          : Stack(
-                                              clipBehavior: Clip.none,
-                                              children: [
-                                                  CachedNetworkImage(
-                                                    // fit: BoxFit.contain,
-                                                    imageUrl: controller
-                                                        .budget.value.urlImage,
-                                                    // imageUrl:
-                                                    //     'https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg',
-                                                    imageBuilder: (context,
-                                                            imageProvider) =>
-                                                        GestureDetector(
-                                                      onTap: () async {
-                                                        final url = Uri.parse(
-                                                            controller
-                                                                .budget
-                                                                .value
-                                                                .urlImage);
-                                                        if (await canLaunchUrl(
-                                                            url)) {
-                                                          await launchUrl(url,
-                                                              mode: LaunchMode
-                                                                  .externalApplication);
-                                                        }
-                                                      },
-                                                      child: Container(
-                                                          width:
-                                                              UtilsReponsive.width(
-                                                                  150, context),
-                                                          height: UtilsReponsive
-                                                              .height(
-                                                                  150, context),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                    UtilsReponsive
-                                                                        .height(
-                                                                            15,
-                                                                            context),
-                                                                  ),
-                                                                  border: Border
-                                                                      .all(
-                                                                    color: Colors
-                                                                        .grey
-                                                                        .withOpacity(
-                                                                            0.8), // Màu viền
-                                                                    width:
-                                                                        1.5, // Độ dày của viền
-                                                                  ),
-                                                                  image: DecorationImage(
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                      image:
-                                                                          imageProvider))),
-                                                    ),
-                                                    progressIndicatorBuilder:
-                                                        (context, url,
-                                                                downloadProgress) =>
-                                                            Container(
-                                                      padding: EdgeInsets.all(
-                                                          UtilsReponsive.height(
-                                                              10, context)),
-                                                      height:
-                                                          UtilsReponsive.height(
-                                                              5, context),
-                                                      width:
-                                                          UtilsReponsive.height(
-                                                              5, context),
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        color: ColorsManager
-                                                            .primary,
-                                                      ),
-                                                    ),
-                                                    errorWidget: (context, url,
-                                                            error) =>
-                                                        const Icon(Icons.error),
+                                          : Stack(clipBehavior: Clip.none, children: [
+                                              CachedNetworkImage(
+                                                // fit: BoxFit.contain,
+                                                imageUrl: controller.budget.value.urlImage,
+                                                // imageUrl:
+                                                //     'https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg',
+                                                imageBuilder: (context, imageProvider) => GestureDetector(
+                                                  onTap: () async {
+                                                    final url = Uri.parse(controller.budget.value.urlImage);
+                                                    if (await canLaunchUrl(url)) {
+                                                      await launchUrl(url, mode: LaunchMode.externalApplication);
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                      width: UtilsReponsive.width(150, context),
+                                                      height: UtilsReponsive.height(150, context),
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius: BorderRadius.circular(
+                                                            UtilsReponsive.height(15, context),
+                                                          ),
+                                                          border: Border.all(
+                                                            color: Colors.grey.withOpacity(0.8), // Màu viền
+                                                            width: 1.5, // Độ dày của viền
+                                                          ),
+                                                          image: DecorationImage(fit: BoxFit.cover, image: imageProvider))),
+                                                ),
+                                                progressIndicatorBuilder: (context, url, downloadProgress) => Container(
+                                                  padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
+                                                  height: UtilsReponsive.height(5, context),
+                                                  width: UtilsReponsive.height(5, context),
+                                                  child: CircularProgressIndicator(
+                                                    color: ColorsManager.primary,
                                                   ),
-                                                  Positioned(
-                                                    top: -10,
-                                                    right: -12,
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        showDialog(
-                                                          context: context,
-                                                          builder: (BuildContext
-                                                              context) {
-                                                            return AlertDialog(
-                                                              title: Text(
-                                                                  'Xác nhận xóa',
-                                                                  style: TextStyle(
-                                                                      fontFamily:
-                                                                          'Roboto',
-                                                                      wordSpacing:
-                                                                          1.2,
-                                                                      color: ColorsManager
-                                                                          .primary,
-                                                                      fontSize:
-                                                                          UtilsReponsive.height(
-                                                                              20,
-                                                                              context),
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold)),
-                                                              content: Text(
-                                                                'Bạn có muốn xóa hình ảnh này?',
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Roboto',
-                                                                    wordSpacing:
-                                                                        1.2,
-                                                                    color: ColorsManager
-                                                                        .textColor2,
-                                                                    fontSize: UtilsReponsive
-                                                                        .height(
-                                                                            18,
-                                                                            context),
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                              ),
-                                                              actions: <Widget>[
-                                                                TextButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    controller
-                                                                        .imageUrl
-                                                                        .value = "";
+                                                ),
+                                                errorWidget: (context, url, error) => const Icon(Icons.error),
+                                              ),
+                                              Positioned(
+                                                top: -10,
+                                                right: -12,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) {
+                                                        return AlertDialog(
+                                                          title: Text('Xác nhận xóa',
+                                                              style: TextStyle(
+                                                                  fontFamily: 'Roboto',
+                                                                  wordSpacing: 1.2,
+                                                                  color: ColorsManager.primary,
+                                                                  fontSize: UtilsReponsive.height(20, context),
+                                                                  fontWeight: FontWeight.bold)),
+                                                          content: Text(
+                                                            'Bạn có muốn xóa hình ảnh này?',
+                                                            style: TextStyle(
+                                                                fontFamily: 'Roboto',
+                                                                wordSpacing: 1.2,
+                                                                color: ColorsManager.textColor2,
+                                                                fontSize: UtilsReponsive.height(18, context),
+                                                                fontWeight: FontWeight.bold),
+                                                          ),
+                                                          actions: <Widget>[
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                controller.imageUrl.value = "";
 
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .pop();
-                                                                  },
-                                                                  child: Text(
-                                                                      'Xóa',
-                                                                      style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Roboto',
-                                                                          wordSpacing:
-                                                                              1.2,
-                                                                          color: ColorsManager
-                                                                              .red,
-                                                                          fontSize: UtilsReponsive.height(
-                                                                              18,
-                                                                              context),
-                                                                          fontWeight:
-                                                                              FontWeight.bold)),
-                                                                ),
-                                                                TextButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .pop();
-                                                                  },
-                                                                  child: Text(
-                                                                      'Hủy',
-                                                                      style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Roboto',
-                                                                          wordSpacing:
-                                                                              1.2,
-                                                                          color: ColorsManager
-                                                                              .primary,
-                                                                          fontSize: UtilsReponsive.height(
-                                                                              18,
-                                                                              context),
-                                                                          fontWeight:
-                                                                              FontWeight.bold)),
-                                                                ),
-                                                              ],
-                                                            );
-                                                          },
+                                                                Navigator.of(context).pop();
+                                                              },
+                                                              child: Text('Xóa',
+                                                                  style: TextStyle(
+                                                                      fontFamily: 'Roboto',
+                                                                      wordSpacing: 1.2,
+                                                                      color: ColorsManager.red,
+                                                                      fontSize: UtilsReponsive.height(18, context),
+                                                                      fontWeight: FontWeight.bold)),
+                                                            ),
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                Navigator.of(context).pop();
+                                                              },
+                                                              child: Text('Hủy',
+                                                                  style: TextStyle(
+                                                                      fontFamily: 'Roboto',
+                                                                      wordSpacing: 1.2,
+                                                                      color: ColorsManager.primary,
+                                                                      fontSize: UtilsReponsive.height(18, context),
+                                                                      fontWeight: FontWeight.bold)),
+                                                            ),
+                                                          ],
                                                         );
                                                       },
-                                                      child: Container(
-                                                        padding: UtilsReponsive
-                                                            .paddingAll(context,
-                                                                padding: 5),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color:
-                                                              ColorsManager.red,
-                                                        ),
-                                                        child: const Icon(
-                                                          Icons.close,
-                                                          color: ColorsManager
-                                                              .backgroundWhite,
-                                                          size: 18,
-                                                        ),
-                                                      ),
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    padding: UtilsReponsive.paddingAll(context, padding: 5),
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: ColorsManager.red,
+                                                    ),
+                                                    child: const Icon(
+                                                      Icons.close,
+                                                      color: ColorsManager.backgroundWhite,
+                                                      size: 18,
                                                     ),
                                                   ),
-                                                ])
+                                                ),
+                                              ),
+                                            ])
                                       : Stack(
                                           clipBehavior: Clip.none,
                                           children: [
                                             GestureDetector(
                                               onTap: () {
-                                                controller.openFile(controller
-                                                    .selectImagePath.value);
+                                                controller.openFile(controller.selectImagePath.value);
                                               },
                                               child: Container(
                                                 decoration: BoxDecoration(
                                                   border: Border.all(
-                                                    color: Colors.grey
-                                                        .withOpacity(0.8),
+                                                    color: Colors.grey.withOpacity(0.8),
                                                     width: 1.0,
                                                   ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
+                                                  borderRadius: BorderRadius.circular(10),
                                                 ),
-                                                width: UtilsReponsive.width(
-                                                    150, context),
-                                                height: UtilsReponsive.height(
-                                                    150, context),
+                                                width: UtilsReponsive.width(150, context),
+                                                height: UtilsReponsive.height(150, context),
                                                 child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
+                                                  borderRadius: BorderRadius.circular(8),
                                                   child: Image.file(
-                                                    File(controller
-                                                        .selectImagePath.value),
+                                                    File(controller.selectImagePath.value),
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
@@ -392,92 +270,49 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                                                 onTap: () {
                                                   showDialog(
                                                     context: context,
-                                                    builder:
-                                                        (BuildContext context) {
+                                                    builder: (BuildContext context) {
                                                       return AlertDialog(
-                                                        title: Text(
-                                                            'Xác nhận xóa',
+                                                        title: Text('Xác nhận xóa',
                                                             style: TextStyle(
-                                                                fontFamily:
-                                                                    'Roboto',
-                                                                wordSpacing:
-                                                                    1.2,
-                                                                color:
-                                                                    ColorsManager
-                                                                        .primary,
-                                                                fontSize:
-                                                                    UtilsReponsive
-                                                                        .height(
-                                                                            20,
-                                                                            context),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                                fontFamily: 'Roboto',
+                                                                wordSpacing: 1.2,
+                                                                color: ColorsManager.primary,
+                                                                fontSize: UtilsReponsive.height(20, context),
+                                                                fontWeight: FontWeight.bold)),
                                                         content: Text(
                                                           'Bạn có muốn xóa hình ảnh này?',
                                                           style: TextStyle(
-                                                              fontFamily:
-                                                                  'Roboto',
+                                                              fontFamily: 'Roboto',
                                                               wordSpacing: 1.2,
-                                                              color: ColorsManager
-                                                                  .textColor2,
-                                                              fontSize:
-                                                                  UtilsReponsive
-                                                                      .height(
-                                                                          18,
-                                                                          context),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
+                                                              color: ColorsManager.textColor2,
+                                                              fontSize: UtilsReponsive.height(18, context),
+                                                              fontWeight: FontWeight.bold),
                                                         ),
                                                         actions: <Widget>[
                                                           TextButton(
                                                             onPressed: () {
-                                                              controller
-                                                                  .selectImagePath
-                                                                  .value = '';
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
+                                                              controller.selectImagePath.value = '';
+                                                              Navigator.of(context).pop();
                                                             },
                                                             child: Text('Xóa',
                                                                 style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Roboto',
-                                                                    wordSpacing:
-                                                                        1.2,
-                                                                    color:
-                                                                        ColorsManager
-                                                                            .red,
-                                                                    fontSize:
-                                                                        UtilsReponsive.height(
-                                                                            18,
-                                                                            context),
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                    fontFamily: 'Roboto',
+                                                                    wordSpacing: 1.2,
+                                                                    color: ColorsManager.red,
+                                                                    fontSize: UtilsReponsive.height(18, context),
+                                                                    fontWeight: FontWeight.bold)),
                                                           ),
                                                           TextButton(
                                                             onPressed: () {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
+                                                              Navigator.of(context).pop();
                                                             },
                                                             child: Text('Hủy',
                                                                 style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Roboto',
-                                                                    wordSpacing:
-                                                                        1.2,
-                                                                    color: ColorsManager
-                                                                        .primary,
-                                                                    fontSize: UtilsReponsive
-                                                                        .height(
-                                                                            18,
-                                                                            context),
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                    fontFamily: 'Roboto',
+                                                                    wordSpacing: 1.2,
+                                                                    color: ColorsManager.primary,
+                                                                    fontSize: UtilsReponsive.height(18, context),
+                                                                    fontWeight: FontWeight.bold)),
                                                           ),
                                                         ],
                                                       );
@@ -485,18 +320,14 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                                                   );
                                                 },
                                                 child: Container(
-                                                  padding:
-                                                      UtilsReponsive.paddingAll(
-                                                          context,
-                                                          padding: 5),
+                                                  padding: UtilsReponsive.paddingAll(context, padding: 5),
                                                   decoration: BoxDecoration(
                                                     shape: BoxShape.circle,
                                                     color: ColorsManager.red,
                                                   ),
                                                   child: const Icon(
                                                     Icons.close,
-                                                    color: ColorsManager
-                                                        .backgroundWhite,
+                                                    color: ColorsManager.backgroundWhite,
                                                     size: 18,
                                                   ),
                                                 ),
@@ -519,14 +350,11 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                       child: ElevatedButton(
                         onPressed: () async {
                           await controller.updateBudget();
-                          controller.errorUpdateBudget.value
-                              ? _errorMessage(Get.context!)
-                              : _successMessage(Get.context!);
+                          controller.errorUpdateBudget.value ? _errorMessage(Get.context!) : _successMessage(Get.context!);
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                5.0), // Đặt border radius theo mong muốn
+                            borderRadius: BorderRadius.circular(5.0), // Đặt border radius theo mong muốn
                           ),
                         ),
                         child: controller.isLoading.value
@@ -580,8 +408,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
           // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
-          hintStyle: GetTextStyle.getTextStyle(
-              14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+          hintStyle: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
         ),
       ),
     );
@@ -613,8 +440,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
           // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
-          hintStyle: GetTextStyle.getTextStyle(
-              14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+          hintStyle: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
         ),
       ),
     );
@@ -642,8 +468,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
           // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
-          hintStyle: GetTextStyle.getTextStyle(
-              14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+          hintStyle: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
         ),
       ),
     );
@@ -701,9 +526,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.heightv2(context, 80),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 81, 146, 83),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 81, 146, 83), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.check_circle,
@@ -719,14 +542,12 @@ class EditBudgetView extends BaseView<EditBudgetController> {
               children: [
                 Text(
                   'Thành công',
-                  style: GetTextStyle.getTextStyle(
-                      18, 'Roboto', FontWeight.w800, Colors.white),
+                  style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
                 ),
                 Spacer(),
                 Text(
                   'Thay đổi thông tin khoản chi thành công',
-                  style: GetTextStyle.getTextStyle(
-                      12, 'Roboto', FontWeight.w500, Colors.white),
+                  style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -747,9 +568,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.heightv2(context, 80),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 219, 90, 90),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 219, 90, 90), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.error_outline,
@@ -765,15 +584,13 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                 children: [
                   Text(
                     'Thất bại',
-                    style: GetTextStyle.getTextStyle(
-                        18, 'Roboto', FontWeight.w800, Colors.white),
+                    style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
                   ),
                   const Spacer(),
                   Obx(
                     () => Text(
                       controller.errorUpdateBudgetText.value,
-                      style: GetTextStyle.getTextStyle(
-                          12, 'Roboto', FontWeight.w500, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

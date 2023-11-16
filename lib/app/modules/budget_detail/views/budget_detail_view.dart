@@ -8,7 +8,6 @@ import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_staff/app/resources/style_manager.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../controllers/budget_detail_controller.dart';
 
 class BudgetDetailView extends BaseView<BudgetDetailController> {

@@ -7,7 +7,6 @@ import 'package:hrea_mobile_staff/app/modules/forgot_password/api/forgot_passwor
 import 'package:hrea_mobile_staff/app/modules/otp/api/otp_api.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class OtpController extends BaseController {
   RxString otpTxt = ''.obs;

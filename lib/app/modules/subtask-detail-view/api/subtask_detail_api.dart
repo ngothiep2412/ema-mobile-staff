@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:hrea_mobile_staff/app/modules/subtask-detail-view/model/employee_model.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/task.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/user_model.dart';
@@ -10,7 +9,6 @@ import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/uploadfile_
 import 'package:hrea_mobile_staff/app/resources/base_link.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 import 'package:http_parser/http_parser.dart';
 
 class SubTaskDetailApi {

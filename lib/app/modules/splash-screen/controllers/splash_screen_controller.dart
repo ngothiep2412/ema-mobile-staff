@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
-import 'package:http/http.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class SplashScreenController extends BaseController {

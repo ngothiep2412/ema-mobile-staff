@@ -3,7 +3,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrea_mobile_staff/app/base/base_view.dart';
-import 'package:hrea_mobile_staff/app/resources/assets_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_staff/app/resources/style_manager.dart';
@@ -17,7 +16,7 @@ class ProfileView extends BaseView<ProfileController> {
   @override
   Widget buildView(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorsManager.backgroundBlackGrey,
+      backgroundColor: ColorsManager.backgroundContainer,
       body: SafeArea(
         child: Column(children: [
           Expanded(
@@ -31,9 +30,9 @@ class ProfileView extends BaseView<ProfileController> {
                           Get.back(),
                           controller.onDelete(),
                         },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.arrow_back_ios_new,
-                      color: Colors.white,
+                      color: ColorsManager.primary,
                     )),
                 SizedBox(
                   width: UtilsReponsive.width(5, context),

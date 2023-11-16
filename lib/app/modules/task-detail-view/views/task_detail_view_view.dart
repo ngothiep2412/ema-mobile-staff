@@ -43,16 +43,12 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                         RefreshIndicator(
                           onRefresh: controller.refreshPage,
                           child: SingleChildScrollView(
-                            padding: EdgeInsets.all(
-                                UtilsReponsive.height(8, context)),
+                            padding: EdgeInsets.all(UtilsReponsive.height(8, context)),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Obx(
-                                  () => _header(
-                                      context: context,
-                                      objectTask:
-                                          controller.taskModel.value.title!),
+                                  () => _header(context: context, objectTask: controller.taskModel.value.title!),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.height(15, context),
@@ -60,25 +56,15 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                 Obx(
                                   () => _statusBuilder(
                                       context: context,
-                                      objectStatusTask:
-                                          controller.taskModel.value.status ==
-                                                  Status.PENDING
-                                              ? "Đang chuẩn bị"
-                                              : controller.taskModel.value
-                                                          .status! ==
-                                                      Status.PROCESSING
-                                                  ? "Đang thực hiện"
-                                                  : controller.taskModel.value
-                                                              .status! ==
-                                                          Status.DONE
-                                                      ? "Hoàn thành"
-                                                      : controller
-                                                                  .taskModel
-                                                                  .value
-                                                                  .status! ==
-                                                              Status.CONFIRM
-                                                          ? "Đã xác thực"
-                                                          : "Quá hạn",
+                                      objectStatusTask: controller.taskModel.value.status == Status.PENDING
+                                          ? "Đang chuẩn bị"
+                                          : controller.taskModel.value.status! == Status.PROCESSING
+                                              ? "Đang thực hiện"
+                                              : controller.taskModel.value.status! == Status.DONE
+                                                  ? "Hoàn thành"
+                                                  : controller.taskModel.value.status! == Status.CONFIRM
+                                                      ? "Đã xác thực"
+                                                      : "Quá hạn",
                                       taskID: controller.taskModel.value.id!),
                                 ),
                                 SizedBox(
@@ -89,29 +75,20 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                     children: [
                                       Icon(
                                         Icons.priority_high,
-                                        color: controller.taskModel.value
-                                                    .priority! ==
-                                                Priority.LOW
+                                        color: controller.taskModel.value.priority! == Priority.LOW
                                             ? ColorsManager.green
-                                            : controller.taskModel.value
-                                                        .priority! ==
-                                                    Priority.MEDIUM
+                                            : controller.taskModel.value.priority! == Priority.MEDIUM
                                                 ? ColorsManager.yellow
                                                 : ColorsManager.red,
                                       ),
                                       priorityBuilder(
                                           context: context,
-                                          objectStatusTask: controller.taskModel
-                                                      .value.priority! ==
-                                                  Priority.LOW
+                                          objectStatusTask: controller.taskModel.value.priority! == Priority.LOW
                                               ? "Thấp"
-                                              : controller.taskModel.value
-                                                          .priority! ==
-                                                      Priority.MEDIUM
+                                              : controller.taskModel.value.priority! == Priority.MEDIUM
                                                   ? "Trung bình"
                                                   : "Cao",
-                                          taskID:
-                                              controller.taskModel.value.id!)
+                                          taskID: controller.taskModel.value.id!)
                                     ],
                                   ),
                                 ),
@@ -121,21 +98,15 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                 Obx(
                                   () => Container(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal:
-                                            UtilsReponsive.height(5, context),
-                                        vertical:
-                                            UtilsReponsive.height(10, context)),
+                                        horizontal: UtilsReponsive.height(5, context), vertical: UtilsReponsive.height(10, context)),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8),
                                       color: Colors.white,
                                     ),
                                     child: _timeBuilder(
                                       context: context,
-                                      startTime: controller.dateFormat.format(
-                                          controller
-                                              .taskModel.value.startDate!),
-                                      endTime: controller.dateFormat.format(
-                                          controller.taskModel.value.endDate!),
+                                      startTime: controller.dateFormat.format(controller.taskModel.value.startDate!),
+                                      endTime: controller.dateFormat.format(controller.taskModel.value.endDate!),
                                     ),
                                   ),
                                 ),
@@ -145,8 +116,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                 Obx(
                                   () => Container(
                                     padding: EdgeInsets.symmetric(
-                                      horizontal:
-                                          UtilsReponsive.height(10, context),
+                                      horizontal: UtilsReponsive.height(10, context),
                                     ),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8),
@@ -156,152 +126,74 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                       children: [
                                         Row(children: [
                                           Text('Ước tính (giờ):',
-                                              style: GetTextStyle.getTextStyle(
-                                                  12,
-                                                  'Roboto',
-                                                  FontWeight.bold,
-                                                  ColorsManager.textColor)),
+                                              style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.bold, ColorsManager.textColor)),
                                           SizedBox(
-                                            width: UtilsReponsive.width(
-                                                5, context),
+                                            width: UtilsReponsive.width(5, context),
                                           ),
                                           TextButton(
                                             style: TextButton.styleFrom(
-                                                backgroundColor: ColorsManager
-                                                    .backgroundContainer,
-                                                side: const BorderSide(
-                                                    color: ColorsManager
-                                                        .backgroundGrey,
-                                                    width: 1)),
+                                                backgroundColor: ColorsManager.backgroundContainer,
+                                                side: const BorderSide(color: ColorsManager.backgroundGrey, width: 1)),
                                             onPressed: () {},
-                                            child: Text(
-                                                controller.est.toString(),
-                                                style:
-                                                    GetTextStyle.getTextStyle(
-                                                        12,
-                                                        'Roboto',
-                                                        FontWeight.w700,
-                                                        ColorsManager.primary)),
+                                            child: Text(controller.est.toString(),
+                                                style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w700, ColorsManager.primary)),
                                           )
                                         ]),
                                         SizedBox(
-                                          width:
-                                              UtilsReponsive.width(15, context),
+                                          width: UtilsReponsive.width(15, context),
                                         ),
                                         Row(
                                           children: [
                                             Text('Công sức (giờ):',
-                                                style:
-                                                    GetTextStyle.getTextStyle(
-                                                        12,
-                                                        'Roboto',
-                                                        FontWeight.bold,
-                                                        ColorsManager
-                                                            .textColor)),
+                                                style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.bold, ColorsManager.textColor)),
                                             SizedBox(
-                                              width: UtilsReponsive.width(
-                                                  5, context),
+                                              width: UtilsReponsive.width(5, context),
                                             ),
                                             TextButton(
                                                 style: TextButton.styleFrom(
-                                                  backgroundColor: ColorsManager
-                                                      .backgroundContainer,
-                                                  side: BorderSide(
-                                                      color:
-                                                          ColorsManager.primary,
-                                                      width: 1),
+                                                  backgroundColor: ColorsManager.backgroundContainer,
+                                                  side: BorderSide(color: ColorsManager.primary, width: 1),
                                                 ),
                                                 onPressed: () {
                                                   showDialog(
                                                       context: context,
-                                                      builder: (BuildContext
-                                                          context) {
+                                                      builder: (BuildContext context) {
                                                         return AlertDialog(
-                                                          title: Text(
-                                                              'Nhập con số công sức',
-                                                              style: GetTextStyle
-                                                                  .getTextStyle(
-                                                                      18,
-                                                                      'Roboto',
-                                                                      FontWeight
-                                                                          .w500,
-                                                                      ColorsManager
-                                                                          .primary)),
+                                                          title: Text('Nhập con số công sức',
+                                                              style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w500, ColorsManager.primary)),
                                                           content: TextField(
-                                                            keyboardType:
-                                                                const TextInputType
-                                                                    .numberWithOptions(
-                                                                    decimal:
-                                                                        true),
+                                                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                                             inputFormatters: <TextInputFormatter>[
-                                                              FilteringTextInputFormatter
-                                                                  .allow(RegExp(
-                                                                      r'^\d*\.?\d*')),
+                                                              FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
                                                             ],
-                                                            onChanged:
-                                                                (value) => {
-                                                              controller
-                                                                  .effortController
-                                                                  .text = value
-                                                            },
-                                                            controller: controller
-                                                                .effortController,
+                                                            onChanged: (value) => {controller.effortController.text = value},
+                                                            controller: controller.effortController,
                                                           ),
                                                           actions: [
                                                             TextButton(
-                                                              child: Text(
-                                                                  'Hủy',
+                                                              child: Text('Hủy',
                                                                   style: GetTextStyle.getTextStyle(
-                                                                      16,
-                                                                      'Roboto',
-                                                                      FontWeight
-                                                                          .w500,
-                                                                      ColorsManager
-                                                                          .textColor2)),
+                                                                      16, 'Roboto', FontWeight.w500, ColorsManager.textColor2)),
                                                               onPressed: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
+                                                                Navigator.of(context).pop();
                                                               },
                                                             ),
                                                             TextButton(
                                                               child: Text('Lưu',
                                                                   style: GetTextStyle.getTextStyle(
-                                                                      16,
-                                                                      'Roboto',
-                                                                      FontWeight
-                                                                          .w500,
-                                                                      ColorsManager
-                                                                          .primary)),
-                                                              onPressed:
-                                                                  () async {
+                                                                      16, 'Roboto', FontWeight.w500, ColorsManager.primary)),
+                                                              onPressed: () async {
                                                                 await controller.updateEffort(
-                                                                    controller
-                                                                        .taskModel
-                                                                        .value
-                                                                        .id!,
-                                                                    double.parse(controller
-                                                                        .effortController
-                                                                        .text));
-                                                                Navigator.of(Get
-                                                                        .context!)
-                                                                    .pop();
+                                                                    controller.taskModel.value.id!, double.parse(controller.effortController.text));
+                                                                Navigator.of(Get.context!).pop();
                                                               },
                                                             ),
                                                           ],
                                                         );
                                                       });
                                                 },
-                                                child: Text(
-                                                    controller.effort
-                                                        .toString(),
-                                                    style: GetTextStyle
-                                                        .getTextStyle(
-                                                            12,
-                                                            'Roboto',
-                                                            FontWeight.w700,
-                                                            ColorsManager
-                                                                .primary))),
+                                                child: Text(controller.effort.toString(),
+                                                    style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w700, ColorsManager.primary))),
                                           ],
                                         ),
                                       ],
@@ -314,10 +206,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                 Obx(
                                   () => Container(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal:
-                                            UtilsReponsive.height(5, context),
-                                        vertical:
-                                            UtilsReponsive.height(10, context)),
+                                        horizontal: UtilsReponsive.height(5, context), vertical: UtilsReponsive.height(10, context)),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8),
                                       color: Colors.white,
@@ -325,82 +214,50 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                     child: Row(
                                       children: [
                                         CachedNetworkImage(
-                                          imageUrl: controller
-                                              .taskModel.value.avatarAssigner!,
-                                          imageBuilder: (context,
-                                                  imageProvider) =>
-                                              Container(
-                                                  width: UtilsReponsive.width(
-                                                      40, context),
-                                                  height: UtilsReponsive.height(
-                                                      45, context),
-                                                  decoration: BoxDecoration(
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          spreadRadius: 0.5,
-                                                          blurRadius: 0.5,
-                                                          color: Colors.black
-                                                              .withOpacity(0.1),
-                                                        )
-                                                      ],
-                                                      shape: BoxShape.circle,
-                                                      image: DecorationImage(
-                                                          fit: BoxFit.cover,
-                                                          image:
-                                                              imageProvider))),
-                                          progressIndicatorBuilder: (context,
-                                                  url, downloadProgress) =>
-                                              Container(
-                                            padding: EdgeInsets.all(
-                                                UtilsReponsive.height(
-                                                    10, context)),
-                                            height: UtilsReponsive.height(
-                                                5, context),
-                                            width: UtilsReponsive.height(
-                                                5, context),
+                                          imageUrl: controller.taskModel.value.avatarAssigner!,
+                                          imageBuilder: (context, imageProvider) => Container(
+                                              width: UtilsReponsive.width(40, context),
+                                              height: UtilsReponsive.height(45, context),
+                                              decoration: BoxDecoration(boxShadow: [
+                                                BoxShadow(
+                                                  spreadRadius: 0.5,
+                                                  blurRadius: 0.5,
+                                                  color: Colors.black.withOpacity(0.1),
+                                                )
+                                              ], shape: BoxShape.circle, image: DecorationImage(fit: BoxFit.cover, image: imageProvider))),
+                                          progressIndicatorBuilder: (context, url, downloadProgress) => Container(
+                                            padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
+                                            height: UtilsReponsive.height(5, context),
+                                            width: UtilsReponsive.height(5, context),
                                             child: CircularProgressIndicator(
                                               color: ColorsManager.primary,
                                             ),
                                           ),
-                                          errorWidget: (context, url, error) =>
-                                              CircleAvatar(
-                                            radius: UtilsReponsive.height(
-                                                20, context),
+                                          errorWidget: (context, url, error) => CircleAvatar(
+                                            radius: UtilsReponsive.height(20, context),
                                             child: Text(
-                                              getTheAbbreviation(controller
-                                                  .taskModel
-                                                  .value
-                                                  .nameAssigner!),
+                                              getTheAbbreviation(controller.taskModel.value.nameAssigner!),
                                               style: TextStyle(
                                                   letterSpacing: 1.5,
-                                                  color:
-                                                      ColorsManager.textColor,
-                                                  fontSize:
-                                                      UtilsReponsive.height(
-                                                          17, context),
+                                                  color: ColorsManager.textColor,
+                                                  fontSize: UtilsReponsive.height(17, context),
                                                   fontWeight: FontWeight.bold),
                                             ),
                                           ),
                                         ),
                                         SizedBox(
-                                          width:
-                                              UtilsReponsive.width(10, context),
+                                          width: UtilsReponsive.width(10, context),
                                         ),
                                         Column(
                                           mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              controller.taskModel.value
-                                                  .nameAssigner!,
+                                              controller.taskModel.value.nameAssigner!,
                                               style: TextStyle(
                                                   fontFamily: 'Roboto',
-                                                  color:
-                                                      ColorsManager.textColor,
-                                                  fontSize:
-                                                      UtilsReponsive.height(
-                                                          17, context),
+                                                  color: ColorsManager.textColor,
+                                                  fontSize: UtilsReponsive.height(17, context),
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             Text(
@@ -408,9 +265,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                               style: TextStyle(
                                                   fontFamily: 'Roboto',
                                                   color: ColorsManager.primary,
-                                                  fontSize:
-                                                      UtilsReponsive.height(
-                                                          16, context),
+                                                  fontSize: UtilsReponsive.height(16, context),
                                                   fontWeight: FontWeight.w600),
                                             ),
                                           ],
@@ -424,128 +279,70 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                 ),
                                 Container(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal:
-                                          UtilsReponsive.height(5, context),
-                                      vertical:
-                                          UtilsReponsive.height(10, context)),
+                                      horizontal: UtilsReponsive.height(5, context), vertical: UtilsReponsive.height(10, context)),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                     color: Colors.white,
                                   ),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         children: [
                                           CachedNetworkImage(
-                                            imageUrl: controller
-                                                .taskModel
-                                                .value
-                                                .assignTasks![0]
-                                                .user!
-                                                .profile!
-                                                .avatar!,
-                                            imageBuilder: (context,
-                                                    imageProvider) =>
-                                                Container(
-                                                    width: UtilsReponsive.width(
-                                                        40, context),
-                                                    height:
-                                                        UtilsReponsive.height(
-                                                            45, context),
-                                                    decoration: BoxDecoration(
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                            spreadRadius: 0.5,
-                                                            blurRadius: 0.5,
-                                                            color: Colors.black
-                                                                .withOpacity(
-                                                                    0.1),
-                                                          )
-                                                        ],
-                                                        shape: BoxShape.circle,
-                                                        image: DecorationImage(
-                                                            fit: BoxFit.cover,
-                                                            image:
-                                                                imageProvider))),
-                                            progressIndicatorBuilder: (context,
-                                                    url, downloadProgress) =>
-                                                Container(
-                                              padding: EdgeInsets.all(
-                                                  UtilsReponsive.height(
-                                                      10, context)),
-                                              height: UtilsReponsive.height(
-                                                  5, context),
-                                              width: UtilsReponsive.height(
-                                                  5, context),
+                                            imageUrl: controller.taskModel.value.assignTasks![0].user!.profile!.avatar!,
+                                            imageBuilder: (context, imageProvider) => Container(
+                                                width: UtilsReponsive.width(40, context),
+                                                height: UtilsReponsive.height(45, context),
+                                                decoration: BoxDecoration(boxShadow: [
+                                                  BoxShadow(
+                                                    spreadRadius: 0.5,
+                                                    blurRadius: 0.5,
+                                                    color: Colors.black.withOpacity(0.1),
+                                                  )
+                                                ], shape: BoxShape.circle, image: DecorationImage(fit: BoxFit.cover, image: imageProvider))),
+                                            progressIndicatorBuilder: (context, url, downloadProgress) => Container(
+                                              padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
+                                              height: UtilsReponsive.height(5, context),
+                                              width: UtilsReponsive.height(5, context),
                                               child: CircularProgressIndicator(
                                                 color: ColorsManager.primary,
                                               ),
                                             ),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    CircleAvatar(
-                                              radius: UtilsReponsive.height(
-                                                  20, context),
+                                            errorWidget: (context, url, error) => CircleAvatar(
+                                              radius: UtilsReponsive.height(20, context),
                                               child: Text(
-                                                getTheAbbreviation(controller
-                                                    .taskModel
-                                                    .value
-                                                    .assignTasks![0]
-                                                    .user!
-                                                    .profile!
-                                                    .fullName!),
+                                                getTheAbbreviation(controller.taskModel.value.assignTasks![0].user!.profile!.fullName!),
                                                 style: TextStyle(
                                                     letterSpacing: 1.5,
-                                                    color:
-                                                        ColorsManager.primary,
-                                                    fontSize:
-                                                        UtilsReponsive.height(
-                                                            17, context),
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                                    color: ColorsManager.primary,
+                                                    fontSize: UtilsReponsive.height(17, context),
+                                                    fontWeight: FontWeight.bold),
                                               ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: UtilsReponsive.width(
-                                                10, context),
+                                            width: UtilsReponsive.width(10, context),
                                           ),
                                           Column(
                                             mainAxisSize: MainAxisSize.min,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                controller
-                                                    .taskModel
-                                                    .value
-                                                    .assignTasks![0]
-                                                    .user!
-                                                    .profile!
-                                                    .fullName!,
+                                                controller.taskModel.value.assignTasks![0].user!.profile!.fullName!,
                                                 style: TextStyle(
                                                     fontFamily: 'Roboto',
-                                                    color:
-                                                        ColorsManager.textColor,
-                                                    fontSize:
-                                                        UtilsReponsive.height(
-                                                            18, context),
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                                    color: ColorsManager.textColor,
+                                                    fontSize: UtilsReponsive.height(18, context),
+                                                    fontWeight: FontWeight.bold),
                                               ),
                                               Text(
                                                 'Người chịu trách nhiệm',
                                                 style: TextStyle(
                                                     fontFamily: 'Roboto',
-                                                    color:
-                                                        ColorsManager.primary,
-                                                    fontSize:
-                                                        UtilsReponsive.height(
-                                                            17, context),
-                                                    fontWeight:
-                                                        FontWeight.w600),
+                                                    color: ColorsManager.primary,
+                                                    fontSize: UtilsReponsive.height(17, context),
+                                                    fontWeight: FontWeight.w600),
                                               ),
                                             ],
                                           ),
@@ -573,8 +370,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                 Obx(
                                   () => SizedBox(
                                     height: controller.filePicker.isNotEmpty
-                                        ? UtilsReponsive.height(
-                                            70 + 200, context)
+                                        ? UtilsReponsive.height(70 + 200, context)
                                         : UtilsReponsive.height(70, context),
                                   ),
                                 ),
@@ -595,8 +391,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                             decoration: const BoxDecoration(
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color:
-                                                      ColorsManager.textColor,
+                                                  color: ColorsManager.textColor,
                                                   blurRadius: 1.0,
                                                 ),
                                               ],
@@ -605,80 +400,46 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                             child: Column(
                                               children: [
                                                 Container(
-                                                  height: UtilsReponsive.height(
-                                                      170, context),
-                                                  padding: EdgeInsets.all(
-                                                      UtilsReponsive.height(
-                                                          10, context)),
+                                                  height: UtilsReponsive.height(170, context),
+                                                  padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
                                                   child: ListView.separated(
-                                                    scrollDirection:
-                                                        Axis.horizontal,
-                                                    itemCount: controller
-                                                        .filePicker.length,
-                                                    separatorBuilder: (context,
-                                                            index) =>
-                                                        SizedBox(
-                                                            width: UtilsReponsive
-                                                                .width(15,
-                                                                    context)),
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      return attchFileComment(
-                                                          controller.filePicker[
-                                                              index],
-                                                          context,
-                                                          index);
+                                                    scrollDirection: Axis.horizontal,
+                                                    itemCount: controller.filePicker.length,
+                                                    separatorBuilder: (context, index) => SizedBox(width: UtilsReponsive.width(15, context)),
+                                                    itemBuilder: (context, index) {
+                                                      return attchFileComment(controller.filePicker[index], context, index);
                                                     },
                                                   ),
                                                 ),
                                                 TextField(
-                                                  onChanged: (value) => {
-                                                    controller.commentController
-                                                        .text = value
-                                                  },
-                                                  controller: controller
-                                                      .commentController,
-                                                  focusNode: controller
-                                                      .focusNodeComment,
-                                                  keyboardType:
-                                                      TextInputType.text,
+                                                  onChanged: (value) => {controller.commentController.text = value},
+                                                  controller: controller.commentController,
+                                                  focusNode: controller.focusNodeComment,
+                                                  keyboardType: TextInputType.text,
                                                   maxLines: 5,
                                                   minLines: 1,
                                                   cursorColor: Colors.black,
                                                   decoration: InputDecoration(
                                                     prefixIcon: IconButton(
                                                         onPressed: () async {
-                                                          await controller
-                                                              .selectFile();
+                                                          await controller.selectFile();
                                                         },
                                                         icon: const Icon(
-                                                          Icons
-                                                              .attach_file_outlined,
+                                                          Icons.attach_file_outlined,
                                                         )),
                                                     suffixIcon: IconButton(
                                                         onPressed: () async {
-                                                          await controller
-                                                              .createComment();
+                                                          await controller.createComment();
                                                         },
-                                                        icon: const Icon(Icons
-                                                            .double_arrow_sharp)),
-                                                    contentPadding:
-                                                        EdgeInsets.all(
-                                                            UtilsReponsive
-                                                                .width(15,
-                                                                    context)),
+                                                        icon: const Icon(Icons.double_arrow_sharp)),
+                                                    contentPadding: EdgeInsets.all(UtilsReponsive.width(15, context)),
                                                     hintText: 'Nhập bình luận',
-                                                    focusedBorder:
-                                                        UnderlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: ColorsManager
-                                                              .grey),
+                                                    focusedBorder: UnderlineInputBorder(
+                                                      borderSide: BorderSide(color: ColorsManager.grey),
                                                     ),
-                                                    enabledBorder:
-                                                        UnderlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: ColorsManager
-                                                              .grey), // Màu gạch dưới khi TextField không được chọn
+                                                    enabledBorder: UnderlineInputBorder(
+                                                      borderSide:
+                                                          BorderSide(color: ColorsManager.grey), // Màu gạch dưới khi TextField không được chọn
                                                     ),
                                                   ),
                                                 ),
@@ -689,8 +450,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                             decoration: const BoxDecoration(
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color:
-                                                      ColorsManager.textColor,
+                                                  color: ColorsManager.textColor,
                                                   blurRadius: 1.0,
                                                 ),
                                               ],
@@ -699,53 +459,34 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                             child: Column(
                                               children: [
                                                 TextField(
-                                                  onChanged: (value) => {
-                                                    controller.commentController
-                                                        .text = value
-                                                  },
-                                                  controller: controller
-                                                      .commentController,
-                                                  focusNode: controller
-                                                      .focusNodeComment,
-                                                  keyboardType:
-                                                      TextInputType.text,
+                                                  onChanged: (value) => {controller.commentController.text = value},
+                                                  controller: controller.commentController,
+                                                  focusNode: controller.focusNodeComment,
+                                                  keyboardType: TextInputType.text,
                                                   maxLines: 5,
                                                   minLines: 1,
                                                   cursorColor: Colors.black,
                                                   decoration: InputDecoration(
                                                     prefixIcon: IconButton(
                                                         onPressed: () async {
-                                                          await controller
-                                                              .selectFile();
+                                                          await controller.selectFile();
                                                         },
                                                         icon: const Icon(
-                                                          Icons
-                                                              .attach_file_outlined,
+                                                          Icons.attach_file_outlined,
                                                         )),
                                                     suffixIcon: IconButton(
                                                         onPressed: () async {
-                                                          await controller
-                                                              .createComment();
+                                                          await controller.createComment();
                                                         },
-                                                        icon: const Icon(Icons
-                                                            .double_arrow_sharp)),
-                                                    contentPadding:
-                                                        EdgeInsets.all(
-                                                            UtilsReponsive
-                                                                .width(15,
-                                                                    context)),
+                                                        icon: const Icon(Icons.double_arrow_sharp)),
+                                                    contentPadding: EdgeInsets.all(UtilsReponsive.width(15, context)),
                                                     hintText: 'Nhập bình luận',
-                                                    focusedBorder:
-                                                        UnderlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: ColorsManager
-                                                              .grey), // Màu gạch dưới khi TextField được chọn
+                                                    focusedBorder: UnderlineInputBorder(
+                                                      borderSide: BorderSide(color: ColorsManager.grey), // Màu gạch dưới khi TextField được chọn
                                                     ),
-                                                    enabledBorder:
-                                                        UnderlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: ColorsManager
-                                                              .grey), // Màu gạch dưới khi TextField không được chọn
+                                                    enabledBorder: UnderlineInputBorder(
+                                                      borderSide:
+                                                          BorderSide(color: ColorsManager.grey), // Màu gạch dưới khi TextField không được chọn
                                                     ),
                                                   ),
                                                 ),
@@ -763,10 +504,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         ));
   }
 
-  Row _timeBuilder(
-      {required BuildContext context,
-      required String startTime,
-      required String endTime}) {
+  Row _timeBuilder({required BuildContext context, required String startTime, required String endTime}) {
     return Row(
       children: [
         Icon(
@@ -795,11 +533,10 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                         ? ColorsManager.blue
                         : controller.taskModel.value.status! == Status.DONE
                             ? ColorsManager.green
-                            : controller.taskModel.value.status! ==
-                                    Status.CONFIRM
+                            : controller.taskModel.value.status! == Status.CONFIRM
                                 ? ColorsManager.purple
                                 : ColorsManager.red,
-                fontSize: UtilsReponsive.height(17, context),
+                // fontSize: UtilsReponsive.height(17, context),
                 fontWeight: FontWeight.bold),
           ),
         )
@@ -811,11 +548,9 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
     Get.bottomSheet(Container(
       decoration: const BoxDecoration(
         color: ColorsManager.backgroundGrey,
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
       ),
-      constraints:
-          BoxConstraints(maxHeight: UtilsReponsive.width(400, context)),
+      constraints: BoxConstraints(maxHeight: UtilsReponsive.width(400, context)),
       child: ListView(
         shrinkWrap: true,
         children: [
@@ -862,10 +597,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                       : ColorsManager.red,
                       child: Text(e[0],
                           style: TextStyle(
-                              letterSpacing: 1.5,
-                              color: Colors.white,
-                              fontSize: UtilsReponsive.height(16, context),
-                              fontWeight: FontWeight.bold)),
+                              letterSpacing: 1.5, color: Colors.white, fontSize: UtilsReponsive.height(16, context), fontWeight: FontWeight.bold)),
                     ),
                     title: Text(
                       e,
@@ -889,11 +621,9 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
     Get.bottomSheet(Container(
       decoration: const BoxDecoration(
         color: ColorsManager.backgroundContainer,
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
       ),
-      constraints:
-          BoxConstraints(maxHeight: UtilsReponsive.width(400, context)),
+      constraints: BoxConstraints(maxHeight: UtilsReponsive.width(400, context)),
       child: ListView(
         shrinkWrap: true,
         children: [
@@ -934,10 +664,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                   : ColorsManager.red,
                       child: Text(e[0],
                           style: TextStyle(
-                              letterSpacing: 1.5,
-                              color: Colors.white,
-                              fontSize: UtilsReponsive.height(16, context),
-                              fontWeight: FontWeight.bold)),
+                              letterSpacing: 1.5, color: Colors.white, fontSize: UtilsReponsive.height(16, context), fontWeight: FontWeight.bold)),
                     ),
                     title: Text(
                       e,
@@ -957,10 +684,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
     ));
   }
 
-  Widget _statusBuilder(
-      {required BuildContext context,
-      required String objectStatusTask,
-      required String taskID}) {
+  Widget _statusBuilder({required BuildContext context, required String objectStatusTask, required String taskID}) {
     return GestureDetector(
       onTap: () {
         if (controller.taskModel.value.status != Status.CONFIRM) {
@@ -968,9 +692,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         }
       },
       child: Container(
-        padding: EdgeInsets.symmetric(
-            horizontal: UtilsReponsive.width(10, context),
-            vertical: UtilsReponsive.width(5, context)),
+        padding: EdgeInsets.symmetric(horizontal: UtilsReponsive.width(10, context), vertical: UtilsReponsive.width(5, context)),
         decoration: BoxDecoration(
           color: controller.taskModel.value.status == Status.PENDING
               ? ColorsManager.grey
@@ -981,19 +703,14 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                       : controller.taskModel.value.status! == Status.CONFIRM
                           ? ColorsManager.purple
                           : ColorsManager.red,
-          borderRadius:
-              BorderRadius.circular(UtilsReponsive.height(10, context)),
+          borderRadius: BorderRadius.circular(UtilsReponsive.height(10, context)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               objectStatusTask,
-              style: TextStyle(
-                  letterSpacing: 1,
-                  color: Colors.white,
-                  fontSize: UtilsReponsive.height(14, context),
-                  fontWeight: FontWeight.bold),
+              style: TextStyle(letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(14, context), fontWeight: FontWeight.bold),
             ),
             const Icon(
               Icons.arrow_drop_down_rounded,
@@ -1005,10 +722,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
     );
   }
 
-  Widget priorityBuilder(
-      {required BuildContext context,
-      required String objectStatusTask,
-      required String taskID}) {
+  Widget priorityBuilder({required BuildContext context, required String objectStatusTask, required String taskID}) {
     return GestureDetector(
       onTap: () {},
       child: Container(
@@ -1021,8 +735,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                     fontFamily: 'Roboto',
                     color: controller.taskModel.value.priority! == Priority.LOW
                         ? ColorsManager.green
-                        : controller.taskModel.value.priority! ==
-                                Priority.MEDIUM
+                        : controller.taskModel.value.priority! == Priority.MEDIUM
                             ? ColorsManager.yellow
                             : ColorsManager.red,
                     fontSize: UtilsReponsive.height(16, context),
@@ -1041,8 +754,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
     );
   }
 
-  Container _header(
-      {required BuildContext context, required String objectTask}) {
+  Container _header({required BuildContext context, required String objectTask}) {
     return Container(
       padding: UtilsReponsive.paddingAll(context, padding: 5),
       child: Row(
@@ -1076,16 +788,179 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
           color: ColorsManager.primary,
         ),
       ),
+      actions: [
+        Obx(
+          () => controller.isCheckin.value == false
+              ? IconButton(
+                  onPressed: () {
+                    if (controller.taskModel.value.startDate!.year == controller.taskModel.value.endDate!.year) {
+                      DateTime startDate = controller.taskModel.value.startDate!;
+                      DateTime adjustedTime = startDate.subtract(const Duration(minutes: 15));
+                      if (DateTime.now().toLocal().add(const Duration(hours: 7)).isAfter(adjustedTime) &&
+                          DateTime.now().toLocal().add(const Duration(hours: 7)).isBefore(controller.taskModel.value.endDate!)) {
+                        Get.toNamed(Routes.CHECK_IN);
+                      } else if (DateTime.now().toLocal().add(const Duration(hours: 7)).isAfter(controller.taskModel.value.endDate!)) {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Thông báo',
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      wordSpacing: 1.2,
+                                      color: ColorsManager.primary,
+                                      fontSize: UtilsReponsive.height(20, context),
+                                      fontWeight: FontWeight.bold)),
+                              content: Text(
+                                'Bạn đã bị quá giờ để check in',
+                                style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    wordSpacing: 1.2,
+                                    color: ColorsManager.red,
+                                    fontSize: UtilsReponsive.height(18, context),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Đồng ý',
+                                      style: TextStyle(
+                                          fontFamily: 'Roboto',
+                                          wordSpacing: 1.2,
+                                          color: ColorsManager.primary,
+                                          fontSize: UtilsReponsive.height(18, context),
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Thông báo',
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      wordSpacing: 1.2,
+                                      color: ColorsManager.primary,
+                                      fontSize: UtilsReponsive.height(20, context),
+                                      fontWeight: FontWeight.bold)),
+                              content: Text(
+                                'Bạn chưa thể check in tại thời điểm lúc này',
+                                style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    wordSpacing: 1.2,
+                                    color: ColorsManager.textColor2,
+                                    fontSize: UtilsReponsive.height(18, context),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Đồng ý',
+                                      style: TextStyle(
+                                          fontFamily: 'Roboto',
+                                          wordSpacing: 1.2,
+                                          color: ColorsManager.primary,
+                                          fontSize: UtilsReponsive.height(18, context),
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    } else {
+                      print('task Created At: ${controller.taskModel.value.startDate}');
+                      print('task Created At: ${DateTime.now().toLocal().add(const Duration(hours: 7))}');
+                      DateTime startDate = controller.taskModel.value.startDate!;
+                      DateTime adjustedTime = startDate.subtract(const Duration(minutes: 15));
+                      if (DateTime.now().toLocal().add(const Duration(hours: 7)).isAfter(adjustedTime)) {
+                        Get.toNamed(Routes.CHECK_IN);
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Thông báo',
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      wordSpacing: 1.2,
+                                      color: ColorsManager.primary,
+                                      fontSize: UtilsReponsive.height(20, context),
+                                      fontWeight: FontWeight.bold)),
+                              content: Text(
+                                'Bạn chưa thể check in tại thời điểm lúc này',
+                                style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    wordSpacing: 1.2,
+                                    color: ColorsManager.textColor2,
+                                    fontSize: UtilsReponsive.height(18, context),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Đồng ý',
+                                      style: TextStyle(
+                                          fontFamily: 'Roboto',
+                                          wordSpacing: 1.2,
+                                          color: ColorsManager.primary,
+                                          fontSize: UtilsReponsive.height(18, context),
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    }
+                  },
+                  icon: Icon(
+                    Icons.qr_code_scanner,
+                    color: ColorsManager.primary,
+                  ),
+                )
+              : Row(
+                  children: [
+                    Icon(
+                      Icons.check_circle,
+                      color: ColorsManager.green,
+                    ),
+                    SizedBox(
+                      width: UtilsReponsive.width(10, context),
+                    ),
+                    Text(
+                      'Bạn đã Check In',
+                      style: TextStyle(
+                          fontFamily: 'Roboto',
+                          wordSpacing: 1.2,
+                          color: ColorsManager.green,
+                          fontSize: UtilsReponsive.height(18, context),
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      width: UtilsReponsive.width(10, context),
+                    ),
+                  ],
+                ),
+        ),
+      ],
     );
   }
 
   Container _commentList(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius:
-              BorderRadius.circular(UtilsReponsive.height(10, context))),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(UtilsReponsive.height(10, context))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1105,25 +980,20 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
           Obx(
             () => controller.listComment.isNotEmpty
                 ? Container(
-                    padding: EdgeInsets.only(
-                        left: UtilsReponsive.height(10, context)),
-                    margin: EdgeInsets.only(
-                        top: UtilsReponsive.height(10, context)),
+                    padding: EdgeInsets.only(left: UtilsReponsive.height(10, context)),
+                    margin: EdgeInsets.only(top: UtilsReponsive.height(10, context)),
                     child: ListView.separated(
                         primary: false,
                         shrinkWrap: true,
                         itemCount: controller.listComment.length,
-                        separatorBuilder: (context, index) => SizedBox(
-                            height: UtilsReponsive.height(30, context)),
+                        separatorBuilder: (context, index) => SizedBox(height: UtilsReponsive.height(30, context)),
                         itemBuilder: (context, index) {
-                          return comment(
-                              controller.listComment[index], context);
+                          return comment(controller.listComment[index], context);
                         }),
                   )
                 : GestureDetector(
                     onTap: () {
-                      FocusScope.of(context)
-                          .requestFocus(controller.focusNodeComment);
+                      FocusScope.of(context).requestFocus(controller.focusNodeComment);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -1141,8 +1011,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                             ),
                             Text(
                               'Để lại bình luận đầu tiên',
-                              style: GetTextStyle.getTextStyle(14, 'Roboto',
-                                  FontWeight.w500, ColorsManager.primary),
+                              style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.primary),
                             ),
                           ],
                         ),
@@ -1157,8 +1026,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
 
   StatefulBuilder comment(CommentModel commentModel, BuildContext context) {
     bool isEditComment = false;
-    TextEditingController commentTextController =
-        TextEditingController(text: commentModel.text);
+    TextEditingController commentTextController = TextEditingController(text: commentModel.text);
     List<PlatformFile> filePickerEditCommentFile = [];
     return StatefulBuilder(builder: (context, setStateX) {
       return SizedBox(
@@ -1169,10 +1037,8 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               children: [
                 CircleAvatar(
                     radius: UtilsReponsive.height(20, context),
-                    backgroundColor:
-                        Colors.transparent, // Đảm bảo nền trong suốt
-                    child: commentModel.user!.profile!.avatar == null ||
-                            commentModel.user!.profile!.avatar == ''
+                    backgroundColor: Colors.transparent, // Đảm bảo nền trong suốt
+                    child: commentModel.user!.profile!.avatar == null || commentModel.user!.profile!.avatar == ''
                         ? ClipOval(
                             child: Image.network(
                               "https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.webp",
@@ -1204,8 +1070,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                     ),
                     SizedBox(height: UtilsReponsive.width(5, context)),
                     Text(
-                      calculateTimeDifference(
-                          commentModel.createdAt.toString()),
+                      calculateTimeDifference(commentModel.createdAt.toString()),
                       style: TextStyle(
                           fontFamily: 'Roboto',
                           letterSpacing: 1,
@@ -1226,14 +1091,12 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                     )
                   : commentModel.commentFiles!.isNotEmpty
                       ? Container(
-                          margin: EdgeInsets.only(
-                              top: UtilsReponsive.height(8, context)),
+                          margin: EdgeInsets.only(top: UtilsReponsive.height(8, context)),
                           height: UtilsReponsive.height(150, context),
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
                             itemCount: commentModel.commentFiles!.length,
-                            separatorBuilder: (context, index) => SizedBox(
-                                width: UtilsReponsive.width(15, context)),
+                            separatorBuilder: (context, index) => SizedBox(width: UtilsReponsive.width(15, context)),
                             itemBuilder: (context, index) {
                               return _filesComment(
                                 commentModel.commentFiles![index],
@@ -1262,22 +1125,15 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                             fontWeight: FontWeight.w500),
                       ),
                       Container(
-                        margin: EdgeInsets.only(
-                            top: UtilsReponsive.height(8, context)),
+                        margin: EdgeInsets.only(top: UtilsReponsive.height(8, context)),
                         height: UtilsReponsive.height(150, context),
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemCount: filePickerEditCommentFile.length,
-                          separatorBuilder: (context, index) => SizedBox(
-                              width: UtilsReponsive.width(15, context)),
+                          separatorBuilder: (context, index) => SizedBox(width: UtilsReponsive.width(15, context)),
                           itemBuilder: (context, index) {
                             return editFileComment(
-                                filePickerEditCommentFile[index],
-                                context,
-                                index,
-                                isEditComment,
-                                setStateX,
-                                filePickerEditCommentFile);
+                                filePickerEditCommentFile[index], context, index, isEditComment, setStateX, filePickerEditCommentFile);
                           },
                         ),
                       ),
@@ -1287,9 +1143,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
             SizedBox(height: UtilsReponsive.height(10, context)),
             isEditComment == true
                 ? Container(
-                    constraints: BoxConstraints(
-                        maxHeight: UtilsReponsive.height(300, context),
-                        minHeight: UtilsReponsive.height(100, context)),
+                    constraints: BoxConstraints(maxHeight: UtilsReponsive.height(300, context), minHeight: UtilsReponsive.height(100, context)),
                     child: FormFieldWidget(
                       setValueFunc: (value) {
                         commentTextController.text = value;
@@ -1323,11 +1177,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     'Chỉnh sửa',
-                                    style: GetTextStyle.getTextStyle(
-                                        14,
-                                        'Roboto',
-                                        FontWeight.w500,
-                                        ColorsManager.primary),
+                                    style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.primary),
                                   ))
                               : const SizedBox()),
                       SizedBox(
@@ -1342,29 +1192,17 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                       return AlertDialog(
                                         title: Text(
                                           'Xác nhận xóa bình luận',
-                                          style: GetTextStyle.getTextStyle(
-                                              16,
-                                              'Roboto',
-                                              FontWeight.w500,
-                                              ColorsManager.primary),
+                                          style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.primary),
                                         ),
                                         content: Text(
                                           'Bạn có chắc chắn muốn xóa bình luận này không?',
-                                          style: GetTextStyle.getTextStyle(
-                                              14,
-                                              'Roboto',
-                                              FontWeight.w500,
-                                              ColorsManager.textColor2),
+                                          style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.textColor2),
                                         ),
                                         actions: [
                                           TextButton(
                                             child: Text(
                                               'Không',
-                                              style: GetTextStyle.getTextStyle(
-                                                  16,
-                                                  'Roboto',
-                                                  FontWeight.w500,
-                                                  ColorsManager.primary),
+                                              style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.primary),
                                             ),
                                             onPressed: () {
                                               Navigator.of(context).pop();
@@ -1373,15 +1211,10 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                           TextButton(
                                             child: Text(
                                               'Có',
-                                              style: GetTextStyle.getTextStyle(
-                                                  16,
-                                                  'Roboto',
-                                                  FontWeight.w500,
-                                                  ColorsManager.red),
+                                              style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.red),
                                             ),
                                             onPressed: () {
-                                              controller
-                                                  .deleteComment(commentModel);
+                                              controller.deleteComment(commentModel);
                                               setStateX(() {
                                                 isEditComment = true;
                                               });
@@ -1396,11 +1229,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     'Xóa',
-                                    style: GetTextStyle.getTextStyle(
-                                        14,
-                                        'Roboto',
-                                        FontWeight.w500,
-                                        ColorsManager.red),
+                                    style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.red),
                                   )))
                           : const SizedBox(),
                     ],
@@ -1414,18 +1243,13 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                 'Thông báo',
                                 'Bạn phải nhập ít nhất 1 kí tự',
                                 snackPosition: SnackPosition.TOP,
-                                margin: UtilsReponsive.paddingAll(Get.context!,
-                                    padding: 10),
+                                margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
                                 backgroundColor: ColorsManager.backgroundGrey,
                                 colorText: ColorsManager.textColor2,
                                 duration: const Duration(seconds: 4),
                               );
                             } else {
-                              await controller.editComment(
-                                  commentModel,
-                                  commentTextController.text,
-                                  commentModel.id!,
-                                  filePickerEditCommentFile);
+                              await controller.editComment(commentModel, commentTextController.text, commentModel.id!, filePickerEditCommentFile);
                               setStateX(() {
                                 isEditComment = false;
                               });
@@ -1436,8 +1260,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Lưu',
-                                style: GetTextStyle.getTextStyle(14, 'Roboto',
-                                    FontWeight.w500, ColorsManager.primary),
+                                style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.primary),
                               ))),
                       SizedBox(
                         width: UtilsReponsive.width(10, context),
@@ -1455,8 +1278,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Hủy',
-                                style: GetTextStyle.getTextStyle(14, 'Roboto',
-                                    FontWeight.w500, ColorsManager.red),
+                                style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.red),
                               ))),
                       SizedBox(
                         width: UtilsReponsive.width(10, context),
@@ -1465,31 +1287,17 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                           onTap: () async {
                             final result = await FilePicker.platform.pickFiles(
                               type: FileType.custom,
-                              allowedExtensions: [
-                                'jpg',
-                                'pdf',
-                                'doc',
-                                'xlsx',
-                                'docx',
-                                'png',
-                                'jpeg'
-                              ],
+                              allowedExtensions: ['jpg', 'pdf', 'doc', 'xlsx', 'docx', 'png', 'jpeg'],
                             );
                             if (result == null) {
                               return;
                             }
 
                             final file = result.files.first;
-                            double fileLength =
-                                File(result.files[0].path!).lengthSync() /
-                                    1024 /
-                                    1024;
+                            double fileLength = File(result.files[0].path!).lengthSync() / 1024 / 1024;
                             if (fileLength > 10) {
-                              Get.snackbar('Lỗi',
-                                  'Không thể lấy tài liệu lớn hơn 10mb',
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  backgroundColor: Colors.redAccent,
-                                  colorText: Colors.white);
+                              Get.snackbar('Lỗi', 'Không thể lấy tài liệu lớn hơn 10mb',
+                                  snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.redAccent, colorText: Colors.white);
 
                               return;
                             }
@@ -1501,8 +1309,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Thêm tệp',
-                                style: GetTextStyle.getTextStyle(14, 'Roboto',
-                                    FontWeight.w500, ColorsManager.textColor2),
+                                style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.textColor2),
                               ))),
                       SizedBox(
                         width: UtilsReponsive.width(10, context),
@@ -1522,17 +1329,12 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
           controller.isExpanded.value = !controller.isExpanded.value;
         },
         child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius:
-                  BorderRadius.circular(UtilsReponsive.height(10, context))),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(UtilsReponsive.height(10, context))),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(
-                    left: UtilsReponsive.height(15, context),
-                    right: UtilsReponsive.height(5, context)),
+                padding: EdgeInsets.only(left: UtilsReponsive.height(15, context), right: UtilsReponsive.height(5, context)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1550,23 +1352,15 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                         SizedBox(
                           width: UtilsReponsive.width(5, context),
                         ),
-                        controller.taskModel.value.subTask!
-                                .where((element) =>
-                                    element.status != Status.CANCEL)
-                                .isNotEmpty
+                        controller.taskModel.value.subTask!.where((element) => element.status != Status.CANCEL).isNotEmpty
                             ? CircleAvatar(
                                 radius: UtilsReponsive.height(10, context),
                                 child: Text(
-                                  controller.taskModel.value.subTask!
-                                      .where((element) =>
-                                          element.status != Status.CANCEL)
-                                      .length
-                                      .toString(),
+                                  controller.taskModel.value.subTask!.where((element) => element.status != Status.CANCEL).length.toString(),
                                   style: TextStyle(
                                       letterSpacing: 1.5,
                                       color: ColorsManager.backgroundWhite,
-                                      fontSize:
-                                          UtilsReponsive.height(15, context),
+                                      fontSize: UtilsReponsive.height(15, context),
                                       fontWeight: FontWeight.bold),
                                 ),
                               )
@@ -1576,9 +1370,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                     ExpandIcon(
                       isExpanded: controller.isExpanded.value,
                       size: 25,
-                      color: controller.isExpanded.value
-                          ? ColorsManager.primary
-                          : ColorsManager.textColor2,
+                      color: controller.isExpanded.value ? ColorsManager.primary : ColorsManager.textColor2,
                       onPressed: (bool isExpanded) {
                         controller.isExpanded.value = !isExpanded;
                       },
@@ -1590,23 +1382,19 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                 height: UtilsReponsive.height(10, context),
               ),
               Container(
-                margin: EdgeInsets.only(
-                    left: UtilsReponsive.height(15, context),
-                    right: UtilsReponsive.height(15, context)),
+                margin: EdgeInsets.only(left: UtilsReponsive.height(15, context), right: UtilsReponsive.height(15, context)),
                 clipBehavior: Clip.hardEdge,
                 height: UtilsReponsive.height(10, context),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: ColorsManager.grey,
-                  borderRadius:
-                      BorderRadius.circular(UtilsReponsive.height(5, context)),
+                  borderRadius: BorderRadius.circular(UtilsReponsive.height(5, context)),
                 ),
                 child: Row(
                   children: [
                     Container(
                       height: double.infinity,
-                      width: MediaQuery.of(context).size.width *
-                          controller.progressSubTaskDone.value,
+                      width: MediaQuery.of(context).size.width * controller.progressSubTaskDone.value,
                       color: Colors.green,
                     ),
                   ],
@@ -1632,49 +1420,27 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     title: Text('Thêm công việc con',
-                                        style: GetTextStyle.getTextStyle(
-                                            18,
-                                            'Roboto',
-                                            FontWeight.w500,
-                                            ColorsManager.primary)),
+                                        style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w500, ColorsManager.primary)),
                                     content: TextField(
-                                      onChanged: (value) => {
-                                        controller.titleSubTaskController.text =
-                                            value
-                                      },
-                                      controller:
-                                          controller.titleSubTaskController,
+                                      onChanged: (value) => {controller.titleSubTaskController.text = value},
+                                      controller: controller.titleSubTaskController,
                                     ),
                                     actions: [
                                       TextButton(
-                                        child: Text('Hủy',
-                                            style: GetTextStyle.getTextStyle(
-                                                16,
-                                                'Roboto',
-                                                FontWeight.w500,
-                                                ColorsManager.textColor2)),
+                                        child:
+                                            Text('Hủy', style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.textColor2)),
                                         onPressed: () {
-                                          controller
-                                              .titleSubTaskController.text = '';
+                                          controller.titleSubTaskController.text = '';
                                           Navigator.of(context).pop();
                                         },
                                       ),
                                       TextButton(
-                                        child: Text('Lưu',
-                                            style: GetTextStyle.getTextStyle(
-                                                16,
-                                                'Roboto',
-                                                FontWeight.w500,
-                                                ColorsManager.primary)),
+                                        child: Text('Lưu', style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.primary)),
                                         onPressed: () {
                                           controller.createSubTask();
-                                          controller.errorUpdateTask.value ==
-                                                  true
-                                              ? _errorMessage(context)
-                                              : _successMessage(context);
+                                          controller.errorUpdateTask.value == true ? _errorMessage(context) : _successMessage(context);
                                           Navigator.of(context).pop();
-                                          controller
-                                              .titleSubTaskController.text = '';
+                                          controller.titleSubTaskController.text = '';
                                         },
                                       ),
                                     ],
@@ -1684,8 +1450,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                             },
                             child: Text(
                               '+  Thêm công việc con',
-                              style: GetTextStyle.getTextStyle(15, 'Roboto',
-                                  FontWeight.w500, ColorsManager.primary),
+                              style: GetTextStyle.getTextStyle(15, 'Roboto', FontWeight.w500, ColorsManager.primary),
                             ),
                           ),
                         ],
@@ -1693,186 +1458,106 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                       SizedBox(
                         height: UtilsReponsive.height(10, context),
                       ),
-                      controller.taskModel.value.subTask!
-                              .where(
-                                  (element) => element.status != Status.CANCEL)
-                              .isEmpty
+                      controller.taskModel.value.subTask!.where((element) => element.status != Status.CANCEL).isEmpty
                           ? const SizedBox()
                           : Column(
                               children: controller.taskModel.value.subTask!
-                                  .where((element) =>
-                                      element.status != Status.CANCEL)
+                                  .where((element) => element.status != Status.CANCEL)
                                   .map((e) => GestureDetector(
                                         onTap: () {
-                                          Get.toNamed(
-                                              Routes.SUBTASK_DETAIL_VIEW,
-                                              arguments: {
-                                                "taskID": e.id,
-                                                "isNavigateDetail": true,
-                                                "endDate": controller
-                                                    .taskModel.value.endDate,
-                                                "startDate": controller
-                                                    .taskModel.value.startDate,
-                                              });
+                                          Get.toNamed(Routes.SUBTASK_DETAIL_VIEW, arguments: {
+                                            "taskID": e.id,
+                                            "isNavigateDetail": true,
+                                            "endDate": controller.taskModel.value.endDate,
+                                            "startDate": controller.taskModel.value.startDate,
+                                          });
                                         },
                                         child: Card(
                                           child: Container(
                                             padding: EdgeInsets.only(
-                                              top: UtilsReponsive.height(
-                                                  5, context),
-                                              bottom: UtilsReponsive.height(
-                                                  5, context),
-                                              left: UtilsReponsive.height(
-                                                  5, context),
-                                              right: UtilsReponsive.height(
-                                                  5, context),
+                                              top: UtilsReponsive.height(5, context),
+                                              bottom: UtilsReponsive.height(5, context),
+                                              left: UtilsReponsive.height(5, context),
+                                              right: UtilsReponsive.height(5, context),
                                             ),
                                             width: double.infinity,
-                                            height: UtilsReponsive.height(
-                                                60, context),
+                                            height: UtilsReponsive.height(60, context),
                                             child: Row(
                                               children: [
                                                 Expanded(
                                                     flex: 6,
-                                                    child: e.status ==
-                                                                Status.DONE ||
-                                                            e.status ==
-                                                                Status.CONFIRM
+                                                    child: e.status == Status.DONE || e.status == Status.CONFIRM
                                                         ? Text(
-                                                            e.title!.length > 20
-                                                                ? '${e.title!.substring(0, 20)}...'
-                                                                : e.title!,
+                                                            e.title!.length > 20 ? '${e.title!.substring(0, 20)}...' : e.title!,
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'Roboto',
-                                                              letterSpacing:
-                                                                  1.5,
-                                                              color:
-                                                                  ColorsManager
-                                                                      .textColor,
-                                                              fontSize:
-                                                                  UtilsReponsive
-                                                                      .height(
-                                                                          16,
-                                                                          context),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .lineThrough,
+                                                              fontFamily: 'Roboto',
+                                                              letterSpacing: 1.5,
+                                                              color: ColorsManager.textColor,
+                                                              fontSize: UtilsReponsive.height(16, context),
+                                                              fontWeight: FontWeight.bold,
+                                                              decoration: TextDecoration.lineThrough,
                                                             ),
                                                           )
                                                         : Text(
-                                                            e.title!.length > 20
-                                                                ? '${e.title!.substring(0, 20)}...'
-                                                                : e.title!,
+                                                            e.title!.length > 20 ? '${e.title!.substring(0, 20)}...' : e.title!,
                                                             style: TextStyle(
-                                                                fontFamily:
-                                                                    'Roboto',
-                                                                letterSpacing:
-                                                                    1.5,
-                                                                color: ColorsManager
-                                                                    .textColor,
-                                                                fontSize:
-                                                                    UtilsReponsive
-                                                                        .height(
-                                                                            16,
-                                                                            context),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
+                                                                fontFamily: 'Roboto',
+                                                                letterSpacing: 1.5,
+                                                                color: ColorsManager.textColor,
+                                                                fontSize: UtilsReponsive.height(16, context),
+                                                                fontWeight: FontWeight.bold),
                                                           )),
                                                 SizedBox(
-                                                  width: UtilsReponsive.width(
-                                                      10, context),
+                                                  width: UtilsReponsive.width(10, context),
                                                 ),
                                                 Expanded(
                                                   flex: 5,
                                                   child: GestureDetector(
                                                     onTap: () {
-                                                      _showBottomSheetStatusSubtask(
-                                                          context, e.id!);
+                                                      _showBottomSheetStatusSubtask(context, e.id!);
                                                     },
                                                     child: Container(
-                                                      padding: EdgeInsets.symmetric(
-                                                          horizontal:
-                                                              UtilsReponsive
-                                                                  .height(5,
-                                                                      context)),
-                                                      height:
-                                                          UtilsReponsive.height(
-                                                              40, context),
+                                                      padding: EdgeInsets.symmetric(horizontal: UtilsReponsive.height(5, context)),
+                                                      height: UtilsReponsive.height(40, context),
                                                       decoration: BoxDecoration(
-                                                        color: e.status ==
-                                                                Status.PENDING
+                                                        color: e.status == Status.PENDING
                                                             ? ColorsManager.grey
-                                                            : e.status ==
-                                                                    Status
-                                                                        .PROCESSING
-                                                                ? ColorsManager
-                                                                    .blue
-                                                                : e.status ==
-                                                                        Status
-                                                                            .DONE
-                                                                    ? ColorsManager
-                                                                        .green
-                                                                    : e.status ==
-                                                                            Status
-                                                                                .CONFIRM
-                                                                        ? Colors
-                                                                            .purpleAccent
-                                                                        : ColorsManager
-                                                                            .red,
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                UtilsReponsive
-                                                                    .height(5,
-                                                                        context)),
+                                                            : e.status == Status.PROCESSING
+                                                                ? ColorsManager.blue
+                                                                : e.status == Status.DONE
+                                                                    ? ColorsManager.green
+                                                                    : e.status == Status.CONFIRM
+                                                                        ? Colors.purpleAccent
+                                                                        : ColorsManager.red,
+                                                        borderRadius: BorderRadius.circular(UtilsReponsive.height(5, context)),
                                                       ),
                                                       child: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
+                                                        mainAxisSize: MainAxisSize.min,
                                                         children: [
                                                           Expanded(
                                                             flex: 3,
                                                             child: Text(
-                                                              e.status ==
-                                                                      Status
-                                                                          .PENDING
+                                                              e.status == Status.PENDING
                                                                   ? "Đang chuẩn bị"
-                                                                  : e.status ==
-                                                                          Status
-                                                                              .PROCESSING
+                                                                  : e.status == Status.PROCESSING
                                                                       ? "Đang thực hiện"
-                                                                      : e.status ==
-                                                                              Status.DONE
+                                                                      : e.status == Status.DONE
                                                                           ? "Hoàn thành"
                                                                           : e.status == Status.CONFIRM
                                                                               ? "Đã xác thực"
                                                                               : "Quá hạn",
                                                               style: TextStyle(
-                                                                  fontFamily:
-                                                                      'Roboto',
-                                                                  letterSpacing:
-                                                                      1.5,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: UtilsReponsive
-                                                                      .height(
-                                                                          14,
-                                                                          context),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
+                                                                  fontFamily: 'Roboto',
+                                                                  letterSpacing: 1.5,
+                                                                  color: Colors.white,
+                                                                  fontSize: UtilsReponsive.height(14, context),
+                                                                  fontWeight: FontWeight.bold),
                                                             ),
                                                           ),
                                                           const Expanded(
                                                             child: Icon(
-                                                              Icons
-                                                                  .arrow_drop_down_rounded,
-                                                              color:
-                                                                  Colors.white,
+                                                              Icons.arrow_drop_down_rounded,
+                                                              color: Colors.white,
                                                             ),
                                                           )
                                                         ],
@@ -1900,10 +1585,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
   Obx _documentV2(BuildContext context) {
     return Obx(
       () => Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius:
-                  BorderRadius.circular(UtilsReponsive.height(10, context))),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(UtilsReponsive.height(10, context))),
           child: Theme(
             data: ThemeData().copyWith(dividerColor: Colors.transparent),
             child: ExpansionTile(
@@ -1947,11 +1629,9 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                           primary: true,
                           scrollDirection: Axis.horizontal,
                           itemCount: controller.listAttachment.length,
-                          separatorBuilder: (context, index) => SizedBox(
-                              width: UtilsReponsive.width(10, context)),
+                          separatorBuilder: (context, index) => SizedBox(width: UtilsReponsive.width(10, context)),
                           itemBuilder: (context, index) {
-                            return _files(
-                                controller.listAttachment[index], context);
+                            return _files(controller.listAttachment[index], context);
                           },
                         ),
                       ),
@@ -1961,8 +1641,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
     );
   }
 
-  void _showOptionsFileCommentPopup(
-      BuildContext context, CommentFile commentFile) {
+  void _showOptionsFileCommentPopup(BuildContext context, CommentFile commentFile) {
     BuildContext popupContext = context;
     showDialog(
       context: context,
@@ -1970,11 +1649,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Tùy chọn",
-            style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -1982,15 +1657,10 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               ListTile(
                 title: Text(
                   'Xóa',
-                  style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                      color: ColorsManager.red),
+                  style: TextStyle(fontFamily: 'Roboto', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
                 ),
                 onTap: () {
-                  _showDeleteFileCommentConfirmation(
-                      context, commentFile, popupContext);
+                  _showDeleteFileCommentConfirmation(context, commentFile, popupContext);
                 },
               ),
             ],
@@ -2000,27 +1670,18 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
     );
   }
 
-  void _showDeleteFileCommentConfirmation(BuildContext context,
-      CommentFile commentFile, BuildContext popupContext) {
+  void _showDeleteFileCommentConfirmation(BuildContext context, CommentFile commentFile, BuildContext popupContext) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(
             "Xóa tệp này?",
-            style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Roboto', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: const Text(
             "Một khi nó đã mất, thì nó đã mất.",
-            style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Roboto', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           actions: <Widget>[
             TextButton(
@@ -2029,11 +1690,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               },
               child: Text(
                 "Hủy",
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: ColorsManager.primary),
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
               ),
             ),
             TextButton(
@@ -2044,11 +1701,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               },
               child: Text(
                 "Xóa",
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: ColorsManager.red),
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
               ),
             ),
           ],
@@ -2065,11 +1718,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Tùy chọn",
-            style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -2077,15 +1726,10 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               ListTile(
                 title: Text(
                   'Xóa',
-                  style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                      color: ColorsManager.red),
+                  style: TextStyle(fontFamily: 'Roboto', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
                 ),
                 onTap: () {
-                  _showDeleteAttachmentCommentConfirmation(
-                      context, index, popupContext);
+                  _showDeleteAttachmentCommentConfirmation(context, index, popupContext);
                 },
               ),
             ],
@@ -2095,8 +1739,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
     );
   }
 
-  void _showOptionsAttachmentCommentPopupV2(BuildContext context, int index,
-      setStateX, List<PlatformFile> filePickerEditCommentFile) {
+  void _showOptionsAttachmentCommentPopupV2(BuildContext context, int index, setStateX, List<PlatformFile> filePickerEditCommentFile) {
     BuildContext popupContext = context;
     showDialog(
       context: context,
@@ -2104,11 +1747,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Tùy chọn",
-            style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -2116,15 +1755,10 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               ListTile(
                 title: Text(
                   'Xóa',
-                  style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                      color: ColorsManager.red),
+                  style: TextStyle(fontFamily: 'Roboto', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
                 ),
                 onTap: () {
-                  _showDeleteAttachmentCommentConfirmationV2(context, index,
-                      popupContext, setStateX, filePickerEditCommentFile);
+                  _showDeleteAttachmentCommentConfirmationV2(context, index, popupContext, setStateX, filePickerEditCommentFile);
                 },
               ),
             ],
@@ -2134,27 +1768,18 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
     );
   }
 
-  void _showDeleteAttachmentCommentConfirmation(
-      BuildContext context, int index, BuildContext popupContext) {
+  void _showDeleteAttachmentCommentConfirmation(BuildContext context, int index, BuildContext popupContext) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(
             "Xóa tệp này?",
-            style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Roboto', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: const Text(
             "Một khi nó đã mất, thì nó đã mất.",
-            style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Roboto', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           actions: <Widget>[
             TextButton(
@@ -2163,11 +1788,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               },
               child: Text(
                 "Hủy",
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: ColorsManager.primary),
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
               ),
             ),
             TextButton(
@@ -2178,11 +1799,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               },
               child: Text(
                 "Xóa",
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: ColorsManager.red),
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
               ),
             ),
           ],
@@ -2192,30 +1809,18 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
   }
 
   void _showDeleteAttachmentCommentConfirmationV2(
-      BuildContext context,
-      int index,
-      BuildContext popupContext,
-      setStateX,
-      List<PlatformFile> filePickerEditCommentFile) {
+      BuildContext context, int index, BuildContext popupContext, setStateX, List<PlatformFile> filePickerEditCommentFile) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(
             "Xóa tệp này?",
-            style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Roboto', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: const Text(
             "Một khi nó đã mất, thì nó đã mất.",
-            style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Roboto', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           actions: <Widget>[
             TextButton(
@@ -2224,11 +1829,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               },
               child: Text(
                 "Hủy",
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: ColorsManager.primary),
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
               ),
             ),
             TextButton(
@@ -2239,11 +1840,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               },
               child: Text(
                 "Xóa",
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: ColorsManager.red),
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
               ),
             ),
           ],
@@ -2252,13 +1849,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
     );
   }
 
-  InkWell attchFileComment(
-      PlatformFile attachCommentFile, BuildContext context, int index) {
+  InkWell attchFileComment(PlatformFile attachCommentFile, BuildContext context, int index) {
     final fileName = attachCommentFile.path!.split('/').last;
     final kb = attachCommentFile.size / 1024;
     final mb = kb / 1024;
-    final fileSize =
-        mb >= 1 ? '${mb.toStringAsFixed(2)} MB' : '${kb.toStringAsFixed(2)} KB';
+    final fileSize = mb >= 1 ? '${mb.toStringAsFixed(2)} MB' : '${kb.toStringAsFixed(2)} KB';
     final extension = attachCommentFile.extension;
     return InkWell(
       onTap: () {
@@ -2288,59 +1883,36 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                 color: ColorsManager.backgroundGrey,
               ),
               width: UtilsReponsive.width(125, context),
-              padding: UtilsReponsive.paddingOnly(context,
-                  top: 10, left: 10, bottom: 5, right: 10),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 4,
-                      child: fileName.length > 35
-                          ? Text(
-                              fileName.length > 35
-                                  ? '${fileName.substring(0, 35)}...'
-                                  : fileName,
-                              style: const TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: ColorsManager.textColor),
-                            )
-                          : Text(
-                              fileName,
-                              style: const TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: ColorsManager.textColor),
-                            ),
-                    ),
-                    Expanded(
-                        child: Text(
-                      fileSize,
-                      style: const TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: ColorsManager.textColor2),
-                    )),
-                  ]),
+              padding: UtilsReponsive.paddingOnly(context, top: 10, left: 10, bottom: 5, right: 10),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Expanded(
+                  flex: 4,
+                  child: fileName.length > 35
+                      ? Text(
+                          fileName.length > 35 ? '${fileName.substring(0, 35)}...' : fileName,
+                          style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                        )
+                      : Text(
+                          fileName,
+                          style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                        ),
+                ),
+                Expanded(
+                    child: Text(
+                  fileSize,
+                  style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
+                )),
+              ]),
             ),
     );
   }
 
   InkWell editFileComment(
-      PlatformFile attachCommentFile,
-      BuildContext context,
-      int index,
-      bool isEditComment,
-      setStateX,
-      List<PlatformFile> filePickerEditCommentFile) {
+      PlatformFile attachCommentFile, BuildContext context, int index, bool isEditComment, setStateX, List<PlatformFile> filePickerEditCommentFile) {
     final fileName = attachCommentFile.path!.split('/').last;
     final kb = attachCommentFile.size / 1024;
     final mb = kb / 1024;
-    final fileSize =
-        mb >= 1 ? '${mb.toStringAsFixed(2)} MB' : '${kb.toStringAsFixed(2)} KB';
+    final fileSize = mb >= 1 ? '${mb.toStringAsFixed(2)} MB' : '${kb.toStringAsFixed(2)} KB';
     final extension = attachCommentFile.extension;
     return InkWell(
       onTap: () {
@@ -2348,8 +1920,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
       },
       onLongPress: () {
         if (isEditComment) {
-          _showOptionsAttachmentCommentPopupV2(
-              context, index, setStateX, filePickerEditCommentFile);
+          _showOptionsAttachmentCommentPopupV2(context, index, setStateX, filePickerEditCommentFile);
         }
       },
       child: extension == 'jpg' || extension == 'png' || extension == 'jpeg'
@@ -2373,49 +1944,31 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                 color: ColorsManager.backgroundGrey,
               ),
               width: UtilsReponsive.width(125, context),
-              padding: UtilsReponsive.paddingOnly(context,
-                  top: 10, left: 10, bottom: 5, right: 10),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 4,
-                      child: fileName.length > 35
-                          ? Text(
-                              fileName.length > 35
-                                  ? '${fileName.substring(0, 35)}...'
-                                  : fileName,
-                              style: const TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: ColorsManager.textColor),
-                            )
-                          : Text(
-                              fileName,
-                              style: const TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: ColorsManager.textColor),
-                            ),
-                    ),
-                    Expanded(
-                        child: Text(
-                      fileSize,
-                      style: const TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: ColorsManager.textColor2),
-                    )),
-                  ]),
+              padding: UtilsReponsive.paddingOnly(context, top: 10, left: 10, bottom: 5, right: 10),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Expanded(
+                  flex: 4,
+                  child: fileName.length > 35
+                      ? Text(
+                          fileName.length > 35 ? '${fileName.substring(0, 35)}...' : fileName,
+                          style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                        )
+                      : Text(
+                          fileName,
+                          style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                        ),
+                ),
+                Expanded(
+                    child: Text(
+                  fileSize,
+                  style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
+                )),
+              ]),
             ),
     );
   }
 
-  InkWell _filesComment(
-      CommentFile commentFile, BuildContext context, bool isEditComment) {
+  InkWell _filesComment(CommentFile commentFile, BuildContext context, bool isEditComment) {
     return InkWell(
       onTap: () async {
         final url = Uri.parse(commentFile.fileUrl!);
@@ -2433,10 +1986,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         imageBuilder: (context, imageProvider) => Container(
             width: UtilsReponsive.width(110, context),
             padding: UtilsReponsive.paddingAll(context, padding: 5),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image:
-                    DecorationImage(fit: BoxFit.cover, image: imageProvider))),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: DecorationImage(fit: BoxFit.cover, image: imageProvider))),
         progressIndicatorBuilder: (context, url, downloadProgress) => Container(
           padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
           height: UtilsReponsive.height(5, context),
@@ -2451,29 +2001,17 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
             color: ColorsManager.backgroundGrey,
           ),
           width: UtilsReponsive.width(120, context),
-          padding: UtilsReponsive.paddingOnly(context,
-              top: 10, left: 10, bottom: 5, right: 10),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          padding: UtilsReponsive.paddingOnly(context, top: 10, left: 10, bottom: 5, right: 10),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Expanded(
               child: commentFile.fileName!.length > 35
                   ? Text(
-                      commentFile.fileName!.length > 35
-                          ? '${commentFile.fileName!.substring(0, 35)}...'
-                          : commentFile.fileName!,
-                      style: const TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: ColorsManager.textColor),
+                      commentFile.fileName!.length > 35 ? '${commentFile.fileName!.substring(0, 35)}...' : commentFile.fileName!,
+                      style: const TextStyle(fontFamily: 'Roboto', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                     )
                   : Text(
                       commentFile.fileName!,
-                      style: const TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: ColorsManager.textColor),
+                      style: const TextStyle(fontFamily: 'Roboto', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                     ),
             ),
             const Expanded(
@@ -2482,11 +2020,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                 children: [
                   Text(
                     'Kích thước',
-                    style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: ColorsManager.textColor2),
+                    style: TextStyle(fontFamily: 'Roboto', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
                   ),
                 ],
               ),
@@ -2510,10 +2044,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         imageBuilder: (context, imageProvider) => Container(
             width: UtilsReponsive.width(110, context),
             padding: UtilsReponsive.paddingAll(context, padding: 5),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image:
-                    DecorationImage(fit: BoxFit.cover, image: imageProvider))),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: DecorationImage(fit: BoxFit.cover, image: imageProvider))),
         progressIndicatorBuilder: (context, url, downloadProgress) => Container(
           padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
           height: UtilsReponsive.height(5, context),
@@ -2528,30 +2059,18 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
             color: ColorsManager.backgroundGrey,
           ),
           width: UtilsReponsive.width(110, context),
-          padding: UtilsReponsive.paddingOnly(context,
-              top: 10, left: 10, bottom: 5, right: 10),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          padding: UtilsReponsive.paddingOnly(context, top: 10, left: 10, bottom: 5, right: 10),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Expanded(
               flex: 2,
               child: attachmentModel.fileName!.length > 35
                   ? Text(
-                      attachmentModel.fileName!.length > 35
-                          ? '${attachmentModel.fileName!.substring(0, 35)}...'
-                          : attachmentModel.fileName!,
-                      style: const TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 11,
-                          fontWeight: FontWeight.w500,
-                          color: ColorsManager.textColor),
+                      attachmentModel.fileName!.length > 35 ? '${attachmentModel.fileName!.substring(0, 35)}...' : attachmentModel.fileName!,
+                      style: const TextStyle(fontFamily: 'Roboto', fontSize: 11, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                     )
                   : Text(
                       attachmentModel.fileName!,
-                      style: const TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 11,
-                          fontWeight: FontWeight.w500,
-                          color: ColorsManager.textColor),
+                      style: const TextStyle(fontFamily: 'Roboto', fontSize: 11, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                     ),
             ),
             const Expanded(
@@ -2560,11 +2079,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                 children: [
                   Text(
                     'Kích thước',
-                    style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: ColorsManager.textColor2),
+                    style: TextStyle(fontFamily: 'Roboto', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
                   ),
                 ],
               ),
@@ -2577,8 +2092,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
 
   Quil.QuillProvider _description(BuildContext context) {
     return Quil.QuillProvider(
-      configurations: Quil.QuillConfigurations(
-          controller: controller.quillController.value),
+      configurations: Quil.QuillConfigurations(controller: controller.quillController.value),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -2601,31 +2115,26 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
             children: [
               controller.taskModel.value.description != null &&
                       controller.taskModel.value.description != '' &&
-                      controller.taskModel.value.description!.trim() !=
-                          '[{\"insert\":\"\\n\"}]'
+                      controller.taskModel.value.description!.trim() != '[{\"insert\":\"\\n\"}]'
                   ? Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: UtilsReponsive.height(20, context)),
+                      padding: EdgeInsets.symmetric(horizontal: UtilsReponsive.height(20, context)),
                       child: IgnorePointer(
                         ignoring: true,
                         child: Quil.QuillEditor.basic(
                           // controller: controller,
-                          configurations: const Quil.QuillEditorConfigurations(
-                              autoFocus: false, readOnly: false),
+                          configurations: const Quil.QuillEditorConfigurations(autoFocus: false, readOnly: false),
 
                           // embedBuilders: FlutterQuillEmbeds.builders(),
                         ),
                       ),
                     )
                   : Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: UtilsReponsive.height(20, context)),
+                      padding: EdgeInsets.symmetric(horizontal: UtilsReponsive.height(20, context)),
                       child: Row(
                         children: [
                           Text(
                             'Thêm mô tả...',
-                            style: GetTextStyle.getTextStyle(15, 'Roboto',
-                                FontWeight.w500, ColorsManager.textColor2),
+                            style: GetTextStyle.getTextStyle(15, 'Roboto', FontWeight.w500, ColorsManager.textColor2),
                           ),
                         ],
                       ),
@@ -2644,9 +2153,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.heightv2(context, 80),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 81, 146, 83),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 81, 146, 83), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.check_circle,
@@ -2662,14 +2169,12 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               children: [
                 Text(
                   'Thành công',
-                  style: GetTextStyle.getTextStyle(
-                      18, 'Roboto', FontWeight.w800, Colors.white),
+                  style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
                 ),
                 const Spacer(),
                 Text(
                   'Thay đổi thông tin công việc thành công',
-                  style: GetTextStyle.getTextStyle(
-                      12, 'Roboto', FontWeight.w500, Colors.white),
+                  style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -2690,9 +2195,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.heightv2(context, 80),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 219, 90, 90),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 219, 90, 90), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.error_outline,
@@ -2708,15 +2211,13 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                 children: [
                   Text(
                     'Thất bại',
-                    style: GetTextStyle.getTextStyle(
-                        18, 'Roboto', FontWeight.w800, Colors.white),
+                    style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
                   ),
                   const Spacer(),
                   Obx(
                     () => Text(
                       controller.errorUpdateTaskText.value,
-                      style: GetTextStyle.getTextStyle(
-                          12, 'Roboto', FontWeight.w500, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
 
-class TimeSheetController extends BaseController {
-  //TODO: Implement TimeSheetController
+class PolicyController extends BaseController {
+  //TODO: Implement PolicyController
 
   final count = 0.obs;
   @override

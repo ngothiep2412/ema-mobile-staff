@@ -4,6 +4,12 @@ import '../modules/budget/bindings/budget_binding.dart';
 import '../modules/budget/views/budget_view.dart';
 import '../modules/budget_detail/bindings/budget_detail_binding.dart';
 import '../modules/budget_detail/views/budget_detail_view.dart';
+import '../modules/change_password/bindings/change_password_binding.dart';
+import '../modules/change_password/views/change_password_view.dart';
+import '../modules/check_in/bindings/check_in_binding.dart';
+import '../modules/check_in/views/check_in_view.dart';
+import '../modules/check_in_detail/bindings/check_in_detail_binding.dart';
+import '../modules/check_in_detail/views/check_in_detail_view.dart';
 import '../modules/create_budget/bindings/create_budget_binding.dart';
 import '../modules/create_budget/views/create_budget_view.dart';
 import '../modules/create_request/bindings/create_request_binding.dart';
@@ -24,6 +30,8 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/otp/bindings/otp_binding.dart';
 import '../modules/otp/views/otp_view.dart';
+import '../modules/policy/bindings/policy_binding.dart';
+import '../modules/policy/views/policy_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/request_detail/bindings/request_detail_binding.dart';
@@ -42,8 +50,6 @@ import '../modules/task-detail-view/bindings/task_detail_view_binding.dart';
 import '../modules/task-detail-view/views/task_detail_view_view.dart';
 import '../modules/task-overall-view/bindings/task_overall_view_binding.dart';
 import '../modules/task-overall-view/views/task_overall_view_view.dart';
-import '../modules/time-sheet/bindings/time_sheet_binding.dart';
-import '../modules/time-sheet/views/time_sheet_view.dart';
 
 part 'app_routes.dart';
 
@@ -144,11 +150,6 @@ class AppPages {
       binding: EventDetailBinding(),
     ),
     GetPage(
-      name: _Paths.TIME_SHEET,
-      page: () => const TimeSheetView(),
-      binding: TimeSheetBinding(),
-    ),
-    GetPage(
       name: _Paths.CREATE_REQUEST,
       page: () => const CreateRequestView(),
       binding: CreateRequestBinding(),
@@ -162,6 +163,26 @@ class AppPages {
       name: _Paths.EDIT_REQUEST,
       page: () => const EditRequestView(),
       binding: EditRequestBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHANGE_PASSWORD,
+      page: () => const ChangePasswordView(),
+      binding: ChangePasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.POLICY,
+      page: () => const PolicyView(),
+      binding: PolicyBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHECK_IN,
+      page: () => CheckInView(),
+      binding: CheckInBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHECK_IN_DETAIL,
+      page: () => const CheckInDetailView(),
+      binding: CheckInDetailBinding(),
     ),
   ];
 }

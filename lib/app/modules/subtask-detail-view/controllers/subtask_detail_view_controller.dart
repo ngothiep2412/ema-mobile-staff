@@ -13,7 +13,6 @@ import 'package:hrea_mobile_staff/app/modules/subtask-detail-view/model/attachme
 import 'package:hrea_mobile_staff/app/modules/subtask-detail-view/model/employee_model.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/task.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/user_model.dart';
-import 'package:hrea_mobile_staff/app/modules/task-detail-view/api/task_detail_api.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/controllers/task_detail_view_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/comment_model.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/file_model.dart';
@@ -23,7 +22,6 @@ import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:hrea_mobile_staff/app/utils/check_vietnamese.dart';
-import 'dart:math' as math;
 
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';

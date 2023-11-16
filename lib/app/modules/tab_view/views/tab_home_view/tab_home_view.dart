@@ -32,40 +32,49 @@ class TabHomeView extends BaseView<TabHomeController> {
                 children: [
                   Row(
                     children: [
-                      IconButton(
-                        onPressed: () {
-                          showSearch(
+                      Container(
+                        width: UtilsReponsive.width(40, context),
+                        height: UtilsReponsive.width(40, context),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: ColorsManager.primary,
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            showSearch(
                               context: context,
                               delegate: CustomSearch(
-                                  listEvent: controller.listEvent));
-                        },
-                        icon: const Icon(Icons.search),
-                        color: ColorsManager.primary,
+                                listEvent: controller.listEvent,
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.search),
+                          color: ColorsManager.backgroundWhite,
+                        ),
                       ),
                       SizedBox(
                         width: UtilsReponsive.width(20, context),
                       ),
                       Text(
                         'Sự kiện',
-                        style: GetTextStyle.getTextStyle(22, 'Roboto',
-                            FontWeight.w600, ColorsManager.textColor2),
+                        style: GetTextStyle.getTextStyle(22, 'Roboto', FontWeight.w600, ColorsManager.primary),
                       ),
                     ],
                   ),
                   SizedBox(
                     height: UtilsReponsive.height(10, context),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const SizedBox(),
-                      Text(
-                        'Xem báo cáo',
-                        style: GetTextStyle.getTextStyle(
-                            15, 'Roboto', FontWeight.w500, Colors.blue),
-                      )
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     const SizedBox(),
+                  //     Text(
+                  //       'Xem báo cáo',
+                  //       style: GetTextStyle.getTextStyle(
+                  //           15, 'Roboto', FontWeight.w500, Colors.blue),
+                  //     )
+                  //   ],
+                  // ),
                   SizedBox(
                     height: UtilsReponsive.height(10, context),
                   ),
@@ -75,19 +84,15 @@ class TabHomeView extends BaseView<TabHomeController> {
                         onRefresh: controller.refreshpage,
                         child: Container(
                           // height: MediaQuery.of(context).size.height / 1.38,
-                          padding:
-                              EdgeInsets.all(UtilsReponsive.width(8, context)),
+                          padding: EdgeInsets.all(UtilsReponsive.width(8, context)),
                           child: GridView.builder(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             itemCount: controller.listEvent.length,
                             itemBuilder: (context, index) {
-                              return _itemEvent(
-                                  context: context,
-                                  eventModel: controller.listEvent[index]);
+                              return _itemEvent(context: context, eventModel: controller.listEvent[index]);
                             },
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               mainAxisSpacing: 20,
                               crossAxisSpacing: 10,
@@ -104,20 +109,15 @@ class TabHomeView extends BaseView<TabHomeController> {
     ));
   }
 
-  Widget _itemEvent(
-      {required BuildContext context, required EventModel eventModel}) {
+  Widget _itemEvent({required BuildContext context, required EventModel eventModel}) {
     return GestureDetector(
       onTap: () {
-        controller.onTapEvent(
-            eventID: eventModel.id!, eventName: eventModel.eventName!);
+        controller.onTapEvent(eventID: eventModel.id!, eventName: eventModel.eventName!);
       },
       child: Container(
         height: UtilsReponsive.height(50, context),
         width: UtilsReponsive.width(150, context),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius:
-                BorderRadius.circular(UtilsReponsive.height(15, context))),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(UtilsReponsive.height(15, context))),
         child: Padding(
           padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
           child: Column(
@@ -145,13 +145,9 @@ class TabHomeView extends BaseView<TabHomeController> {
                           borderRadius: BorderRadius.circular(
                             UtilsReponsive.height(15, context),
                           ),
-                          border: Border.all(
-                              width: 1.5,
-                              color: Theme.of(context).scaffoldBackgroundColor),
-                          image: DecorationImage(
-                              fit: BoxFit.contain, image: imageProvider))),
-                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                      Container(
+                          border: Border.all(width: 1.5, color: Theme.of(context).scaffoldBackgroundColor),
+                          image: DecorationImage(fit: BoxFit.contain, image: imageProvider))),
+                  progressIndicatorBuilder: (context, url, downloadProgress) => Container(
                     padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
                     height: UtilsReponsive.height(20, context),
                     width: UtilsReponsive.height(20, context),
@@ -168,8 +164,7 @@ class TabHomeView extends BaseView<TabHomeController> {
               Expanded(
                 child: Text(
                   eventModel.eventName!,
-                  style: GetTextStyle.getTextStyle(
-                      12, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                  style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w600, ColorsManager.textColor),
                 ),
               ),
               Expanded(
@@ -177,13 +172,11 @@ class TabHomeView extends BaseView<TabHomeController> {
                   children: [
                     Text(
                       'Ngày bắt đầu: ',
-                      style: GetTextStyle.getTextStyle(11, 'Roboto',
-                          FontWeight.w400, ColorsManager.textColor2),
+                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
                     ),
                     Text(
                       DateFormat('dd-MM-yyyy').format(eventModel.startDate!),
-                      style: GetTextStyle.getTextStyle(11, 'Roboto',
-                          FontWeight.w500, ColorsManager.textColor),
+                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w500, ColorsManager.textColor),
                     ),
                   ],
                 ),
@@ -193,13 +186,11 @@ class TabHomeView extends BaseView<TabHomeController> {
                   children: [
                     Text(
                       'Ngày Kết thúc: ',
-                      style: GetTextStyle.getTextStyle(11, 'Roboto',
-                          FontWeight.w400, ColorsManager.textColor2),
+                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
                     ),
                     Text(
                       DateFormat('dd-MM-yyyy').format(eventModel.endDate!),
-                      style: GetTextStyle.getTextStyle(11, 'Roboto',
-                          FontWeight.w500, ColorsManager.textColor),
+                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w500, ColorsManager.textColor),
                     ),
                   ],
                 ),
@@ -210,7 +201,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                   children: [
                     Text(
                       eventModel.status == "PENDING"
-                          ? "Chưa diễn ra"
+                          ? "Đang chuẩn bị"
                           : eventModel.status == "PROCESSING"
                               ? "Đang diễn ra"
                               : "Đã kết thúc",
@@ -270,8 +261,7 @@ class CustomSearch extends SearchDelegate {
   Widget buildSuggestions(BuildContext context) {
     RxList<EventModel> matchQuery = <EventModel>[].obs;
     for (var item in listEvent) {
-      final normalizedEventName =
-          removeVietnameseAccent(item.eventName!.toLowerCase());
+      final normalizedEventName = removeVietnameseAccent(item.eventName!.toLowerCase());
       final normalizedQuery = removeVietnameseAccent(query.toLowerCase());
       if (normalizedEventName.contains(normalizedQuery)) {
         matchQuery.add(item);
@@ -287,10 +277,7 @@ class CustomSearch extends SearchDelegate {
         var result = matchQuery[index];
         return GestureDetector(
           onTap: () {
-            Get.toNamed(Routes.TASK_OVERALL_VIEW, arguments: {
-              "eventID": result.id,
-              "eventName": result.eventName
-            });
+            Get.toNamed(Routes.TASK_OVERALL_VIEW, arguments: {"eventID": result.id, "eventName": result.eventName});
           },
           child: ListTile(
               title: Row(
@@ -299,15 +286,13 @@ class CustomSearch extends SearchDelegate {
                   ? Image.asset(
                       ImageAssets.errorImage,
                       fit: BoxFit.cover,
-                      width: UtilsReponsive.widthv2(
-                          context, 45), // Kích thước của hình ảnh
+                      width: UtilsReponsive.widthv2(context, 45), // Kích thước của hình ảnh
                       height: UtilsReponsive.heightv2(context, 50),
                     )
                   : Image.network(
                       result.coverUrl!,
                       fit: BoxFit.cover,
-                      width: UtilsReponsive.widthv2(
-                          context, 45), // Kích thước của hình ảnh
+                      width: UtilsReponsive.widthv2(context, 45), // Kích thước của hình ảnh
                       height: UtilsReponsive.heightv2(context, 50),
                     ),
               SizedBox(
@@ -315,8 +300,7 @@ class CustomSearch extends SearchDelegate {
               ),
               Text(
                 result.eventName!,
-                style: GetTextStyle.getTextStyle(
-                    18, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w600, ColorsManager.textColor),
               ),
             ],
           )),

@@ -8,7 +8,7 @@ class TabRequestApi {
       String jwtToken, String requestor, int page) async {
     var response = await http.get(
       Uri.parse(
-          '${BaseLink.localBaseLink}${BaseLink.getAllLeaveRequest}$page/5?requestor=$requestor'),
+          '${BaseLink.localBaseLink}${BaseLink.getAllLeaveRequest}$page/10?requestor=$requestor'),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",
@@ -17,7 +17,7 @@ class TabRequestApi {
     );
     print('abc task' + response.statusCode.toString());
     if (response.statusCode == 201 || response.statusCode == 200) {
-      var jsonData = jsonDecode(response.body)["result"];
+      var jsonData = jsonDecode(response.body)["result"]["data"];
       List<RequestModel> listLeaveRequest = [];
       listLeaveRequest.addAll(jsonData
           .map((listLeaveRequest) => RequestModel.fromJson(listLeaveRequest))
@@ -36,7 +36,7 @@ class TabRequestApi {
       String type) async {
     var response = await http.get(
       Uri.parse(
-          '${BaseLink.localBaseLink}${BaseLink.getAllLeaveRequest}$page/5?requestor=$requestor&status=$status&type=$type'),
+          '${BaseLink.localBaseLink}${BaseLink.getAllLeaveRequest}$page/10?requestor=$requestor&status=$status&type=$type'),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",
@@ -45,7 +45,7 @@ class TabRequestApi {
     );
     print('abc task' + response.statusCode.toString());
     if (response.statusCode == 201 || response.statusCode == 200) {
-      var jsonData = jsonDecode(response.body)["result"];
+      var jsonData = jsonDecode(response.body)["result"]["data"];
       List<RequestModel> listLeaveRequest = [];
       listLeaveRequest.addAll(jsonData
           .map((listLeaveRequest) => RequestModel.fromJson(listLeaveRequest))
@@ -60,7 +60,7 @@ class TabRequestApi {
       String jwtToken, String requestor, int page, String status) async {
     var response = await http.get(
       Uri.parse(
-          '${BaseLink.localBaseLink}${BaseLink.getAllLeaveRequest}$page/5?requestor=$requestor&status=$status'),
+          '${BaseLink.localBaseLink}${BaseLink.getAllLeaveRequest}$page/10?requestor=$requestor&status=$status'),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",
@@ -69,7 +69,7 @@ class TabRequestApi {
     );
     print('abc task' + response.statusCode.toString());
     if (response.statusCode == 201 || response.statusCode == 200) {
-      var jsonData = jsonDecode(response.body)["result"];
+      var jsonData = jsonDecode(response.body)["result"]["data"];
       List<RequestModel> listLeaveRequest = [];
       listLeaveRequest.addAll(jsonData
           .map((listLeaveRequest) => RequestModel.fromJson(listLeaveRequest))
@@ -84,7 +84,7 @@ class TabRequestApi {
       String jwtToken, String requestor, int page, String type) async {
     var response = await http.get(
       Uri.parse(
-          '${BaseLink.localBaseLink}${BaseLink.getAllLeaveRequest}$page/5?requestor=$requestor&type=$type'),
+          '${BaseLink.localBaseLink}${BaseLink.getAllLeaveRequest}$page/10?requestor=$requestor&type=$type'),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",
@@ -93,7 +93,7 @@ class TabRequestApi {
     );
     print('abc task' + response.statusCode.toString());
     if (response.statusCode == 201 || response.statusCode == 200) {
-      var jsonData = jsonDecode(response.body)["result"];
+      var jsonData = jsonDecode(response.body)["result"]["data"];
       List<RequestModel> listLeaveRequest = [];
       listLeaveRequest.addAll(jsonData
           .map((listLeaveRequest) => RequestModel.fromJson(listLeaveRequest))

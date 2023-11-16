@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:developer';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -77,8 +75,9 @@ class LoginController extends BaseController {
             prefs.setString('JWT', loginReponseApi!.accessToken!);
             GetStorage().write('JWT', loginReponseApi!.accessToken!);
             print('JWT: ${loginReponseApi!.accessToken!}');
+            // await FirebaseMessaging.instance.requestPermission();
             final token = await FirebaseMessaging.instance.getToken();
-            print('JWT: $token');
+            print('token Firebase: $token');
             if (token != null || token != '') {
               ResponseApi storeDeviceReponseApi =
                   await LoginApi.storeDeviceToken(

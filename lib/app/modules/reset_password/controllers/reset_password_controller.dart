@@ -1,13 +1,10 @@
 import 'dart:developer';
-
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/reset_password/api/reset_password.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ResetPasswordController extends BaseController {
   RxBool passwordObscured = true.obs;

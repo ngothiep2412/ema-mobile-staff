@@ -8,7 +8,10 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
+import 'package:hrea_mobile_staff/app/modules/check_in_detail/model/timesheet_model.dart';
 import 'package:hrea_mobile_staff/app/modules/subtask-detail-view/model/attachment_model.dart';
+import 'package:hrea_mobile_staff/app/modules/tab_view/api/tab_timehseet_api/tab_timesheet_api.dart';
+import 'package:hrea_mobile_staff/app/modules/tab_view/model/notification.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/task.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/user_model.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/api/task_detail_api.dart';
@@ -85,6 +88,8 @@ class TaskDetailViewController extends BaseController {
   RxDouble effort = 0.0.obs;
   RxDouble est = 0.0.obs;
 
+  RxBool isCheckin = false.obs;
+
   // late IO.Socket socket;
 
   Socket socket = io('API_URL', <String, dynamic>{
@@ -103,6 +108,7 @@ class TaskDetailViewController extends BaseController {
 
   Future<void> getTaskDetail() async {
     isLoading.value = true;
+    isDateCheckIn();
     try {
       checkToken();
 
@@ -126,8 +132,7 @@ class TaskDetailViewController extends BaseController {
       //   print('filePicker ${filePicker.length}');
       // }
 
-      UserModel creater = await TaskDetailApi.getAssignerDetail(
-          jwt, taskModel.value.createdBy!);
+      UserModel creater = await TaskDetailApi.getAssignerDetail(jwt, taskModel.value.createdBy!);
       if (creater.statusCode == 200 || creater.statusCode == 201) {
         taskModel.value.nameAssigner = creater.result!.fullName;
         taskModel.value.avatarAssigner = creater.result!.avatar;
@@ -139,8 +144,7 @@ class TaskDetailViewController extends BaseController {
       //   document: Document.fromJson(jsonDecode(taskModel.value.description!)),
       //   selection: const TextSelection.collapsed(offset: 0),
       // );
-      listComment.value =
-          await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+      listComment.value = await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
       listComment.sort((comment1, comment2) {
         return comment2.createdAt!.compareTo(comment1.createdAt!);
       });
@@ -177,6 +181,29 @@ class TaskDetailViewController extends BaseController {
     }
   }
 
+  Future<void> isDateCheckIn() async {
+    checkToken();
+    try {
+      print('task Created At: ${taskModel.value.startDate}');
+      print('task Created At: ${DateTime.now().toLocal().add(const Duration(hours: 7))}');
+      if (DateTime.now().toLocal().add(Duration(hours: 7)).difference(taskModel.value.startDate!).inMinutes > 2) {
+        print('aaaa');
+      }
+
+      // List<TimesheetModel> listCheckIn =
+      //     await TabTimeSheetApi.getTimeSheet(jwt, taskModel.value.eventId!, DateTime.now().toLocal().add(const Duration(hours: 7)).toString());
+      // if (listCheckIn.isEmpty) {
+      //   if (DateTime.now().toLocal().add(const Duration(hours: 7)).difference(taskModel.value.startDate!).inMinutes > 2) {
+      //     isCheckin.value = false;
+      //   }
+      // } else {
+      //   isCheckin.value = true;
+      // }
+    } catch (e) {
+      log('Lỗi');
+    }
+  }
+
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -187,8 +214,7 @@ class TaskDetailViewController extends BaseController {
     // descriptionString.value =
     //     '[{"insert": "The Two Towers\\n"}, {"insert": "Aragorn sped on up the hill.\\n"}]';
 
-    if (taskModel.value.description != "" &&
-        taskModel.value.description != null) {
+    if (taskModel.value.description != "" && taskModel.value.description != null) {
       var myJSON = jsonDecode(taskModel.value.description!);
       quillController.value = QuillController(
         document: Document.fromJson(myJSON),
@@ -228,9 +254,7 @@ class TaskDetailViewController extends BaseController {
   Future<void> createComment() async {
     if (commentController.text.isEmpty) {
       Get.snackbar('Thông báo', 'Bạn phải nhập ít nhất 1 kí tự',
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.transparent,
-          colorText: ColorsManager.textColor);
+          snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
     } else {
       try {
         checkToken();
@@ -238,31 +262,23 @@ class TaskDetailViewController extends BaseController {
         if (filePicker.isNotEmpty) {
           for (var item in filePicker) {
             File fileResult = File(item.path!);
-            UploadFileModel responseApi = await TaskDetailApi.uploadFile(
-                jwt, fileResult, item.extension ?? '', 'comment');
-            if (responseApi.statusCode == 200 ||
-                responseApi.statusCode == 201) {
-              listFile.add(FileModel(
-                  fileName: responseApi.result!.fileName,
-                  fileUrl: responseApi.result!.downloadUrl));
+            UploadFileModel responseApi = await TaskDetailApi.uploadFile(jwt, fileResult, item.extension ?? '', 'comment');
+            if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+              listFile.add(FileModel(fileName: responseApi.result!.fileName, fileUrl: responseApi.result!.downloadUrl));
             }
           }
-          ResponseApi responseApi = await TaskDetailApi.createComment(
-              jwt, taskID, commentController.text, listFile);
+          ResponseApi responseApi = await TaskDetailApi.createComment(jwt, taskID, commentController.text, listFile);
           if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-            listComment.value =
-                await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+            listComment.value = await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
             listComment.sort((comment1, comment2) {
               return comment2.createdAt!.compareTo(comment1.createdAt!);
             });
             getAllAttachment();
           }
         } else {
-          ResponseApi responseApi = await TaskDetailApi.createComment(
-              jwt, taskID, commentController.text, listFile);
+          ResponseApi responseApi = await TaskDetailApi.createComment(jwt, taskID, commentController.text, listFile);
           if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-            listComment.value =
-                await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+            listComment.value = await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
             listComment.sort((comment1, comment2) {
               return comment2.createdAt!.compareTo(comment1.createdAt!);
             });
@@ -366,8 +382,7 @@ class TaskDetailViewController extends BaseController {
     isLoading.value = true;
     try {
       checkToken();
-      ResponseApi responseApi =
-          await TaskDetailApi.updateStatusTask(jwt, taskID, status);
+      ResponseApi responseApi = await TaskDetailApi.updateStatusTask(jwt, taskID, status);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
         // UserModel assigner = await TaskDetailApi.getAssignerDetail(
@@ -402,8 +417,7 @@ class TaskDetailViewController extends BaseController {
         return taskFile2.createdAt!.compareTo(taskFile1.createdAt!);
       });
       for (var item in taskModel.value.taskFiles!) {
-        list.add(AttachmentModel(
-            fileName: item.fileName, fileUrl: item.fileUrl, mode: 1));
+        list.add(AttachmentModel(fileName: item.fileName, fileUrl: item.fileUrl, mode: 1));
       }
     }
     // if (listComment.isNotEmpty) {
@@ -433,11 +447,7 @@ class TaskDetailViewController extends BaseController {
       isLoading.value = false;
     } else {
       try {
-        ResponseApi responseApi = await TaskDetailApi.createSubTask(
-            jwt,
-            titleSubTaskController.text,
-            taskModel.value.eventId!,
-            taskModel.value.id!);
+        ResponseApi responseApi = await TaskDetailApi.createSubTask(jwt, titleSubTaskController.text, taskModel.value.eventId!, taskModel.value.id!);
         if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
           // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
           // UserModel assigner = await TaskDetailApi.getAssignerDetail(
@@ -488,9 +498,7 @@ class TaskDetailViewController extends BaseController {
 
     if (fileLength > 10) {
       Get.snackbar('Lỗi', 'Không thể lấy tài liệu lớn hơn 10mb',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.redAccent,
-          colorText: Colors.white);
+          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.redAccent, colorText: Colors.white);
       // isLoading.value = false;
       return;
     }
@@ -525,8 +533,7 @@ class TaskDetailViewController extends BaseController {
     // }
   }
 
-  Future selectFileInEditComment(
-      List<PlatformFile> filePickerEditCommentFile) async {
+  Future selectFileInEditComment(List<PlatformFile> filePickerEditCommentFile) async {
     filePickerEditCommentFile.clear();
     // isLoading.value = true;
     // try {
@@ -551,9 +558,7 @@ class TaskDetailViewController extends BaseController {
 
     if (fileLength > 10) {
       Get.snackbar('Lỗi', 'Không thể lấy tài liệu lớn hơn 10mb',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.redAccent,
-          colorText: Colors.white);
+          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.redAccent, colorText: Colors.white);
       // isLoading.value = false;
       return;
     }
@@ -639,11 +644,9 @@ class TaskDetailViewController extends BaseController {
   Future<void> deleteComment(CommentModel commentModel) async {
     try {
       checkToken();
-      ResponseApi responseApi =
-          await TaskDetailApi.deleteComment(jwt, commentModel.id!);
+      ResponseApi responseApi = await TaskDetailApi.deleteComment(jwt, commentModel.id!);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-        listComment.value =
-            await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+        listComment.value = await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
         listComment.sort((comment1, comment2) {
           return comment2.createdAt!.compareTo(comment1.createdAt!);
         });
@@ -657,8 +660,7 @@ class TaskDetailViewController extends BaseController {
   Future<void> cancel(String commentID) async {
     // isLoadingDeleteComment.value = true;
     try {
-      listComment.value =
-          await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+      listComment.value = await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
       listComment.sort((comment1, comment2) {
         return comment2.createdAt!.compareTo(comment1.createdAt!);
       });
@@ -671,8 +673,7 @@ class TaskDetailViewController extends BaseController {
   Future<void> updateEffort(String taskID, double effortInput) async {
     try {
       checkToken();
-      ResponseApi responseApi = await TaskDetailApi.updateEffort(
-          jwt, taskID, taskModel.value.eventId!, effortInput);
+      ResponseApi responseApi = await TaskDetailApi.updateEffort(jwt, taskID, taskModel.value.eventId!, effortInput);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         effort.value = effortInput;
         effortController.text = effortInput.toString();
@@ -682,8 +683,7 @@ class TaskDetailViewController extends BaseController {
     }
   }
 
-  Future<void> editComment(CommentModel commentModel, String content,
-      String commentID, List<PlatformFile> filePickerEditCommentFile) async {
+  Future<void> editComment(CommentModel commentModel, String content, String commentID, List<PlatformFile> filePickerEditCommentFile) async {
     try {
       checkToken();
       List<CommentFile> list = [];
@@ -698,25 +698,19 @@ class TaskDetailViewController extends BaseController {
       if (filePickerEditCommentFile.isNotEmpty) {
         for (var item in filePickerEditCommentFile) {
           File fileResult = File(item.path!);
-          UploadFileModel responseApi = await TaskDetailApi.uploadFile(
-              jwt, fileResult, item.extension ?? '', 'comment');
+          UploadFileModel responseApi = await TaskDetailApi.uploadFile(jwt, fileResult, item.extension ?? '', 'comment');
           if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-            listFile.add(FileModel(
-                fileName: responseApi.result!.fileName,
-                fileUrl: responseApi.result!.downloadUrl));
+            listFile.add(FileModel(fileName: responseApi.result!.fileName, fileUrl: responseApi.result!.downloadUrl));
           }
         }
         for (var fileNew in listFile) {
-          list.add(CommentFile(
-              fileName: fileNew.fileName, fileUrl: fileNew.fileUrl));
+          list.add(CommentFile(fileName: fileNew.fileName, fileUrl: fileNew.fileUrl));
         }
       }
 
-      ResponseApi responseApi = await TaskDetailApi.updateComment(
-          jwt, commentModel.id!, content, list);
+      ResponseApi responseApi = await TaskDetailApi.updateComment(jwt, commentModel.id!, content, list);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-        listComment.value =
-            await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+        listComment.value = await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
         listComment.sort((comment1, comment2) {
           return comment2.createdAt!.compareTo(comment1.createdAt!);
         });

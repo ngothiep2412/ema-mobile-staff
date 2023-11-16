@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:hrea_mobile_staff/app/modules/tab_view/model/user_model.dart';
 import 'package:hrea_mobile_staff/app/resources/login_model.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:http/http.dart' as http;
@@ -7,7 +6,6 @@ import 'package:hrea_mobile_staff/app/resources/base_link.dart';
 
 class LoginApi {
   static Future<LoginReponseApi> login(String email, String password) async {
-    print('email ${email} password ${password}');
     Map<String, String> body = {
       "email": email,
       "password": password,

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -8,7 +7,6 @@ import 'package:hrea_mobile_staff/app/modules/create_request/api/create_request_
 import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_request_controller/tab_request_controller.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
-import 'package:intl/intl.dart';
 
 class CreateRequestController extends BaseController {
   final count = 0.obs;
@@ -28,14 +26,10 @@ class CreateRequestController extends BaseController {
   final dayType = ["Nữa ngày", "Nguyên ngày"];
   RxString selectedDayTypeVal = 'Nữa ngày'.obs;
 
-  final timeType = ["AM", "PM"];
-  RxString selectedTimeTypeVal = 'AM'.obs;
+  final timeType = ["Buổi sáng", "Buổi chiều"];
+  RxString selectedTimeTypeVal = 'Buổi sáng'.obs;
 
-  final leaveType = [
-    "A: Nghỉ có lương",
-    "L: Nghỉ không lương",
-    "M: Đi công tác"
-  ];
+  final leaveType = ["A: Nghỉ có lương", "L: Nghỉ không lương", "M: Đi công tác"];
   RxString selectedLeaveTypeVal = 'A: Nghỉ có lương'.obs;
 
   String jwt = '';
@@ -126,13 +120,11 @@ class CreateRequestController extends BaseController {
       isLoading.value = false;
     } else if (isDateValid(startDateController.text) != true) {
       errorCreateRequest.value = true;
-      errorCreateRequestText.value =
-          "Ngày bắt đầu không hợp lệ, nhập đúng định dạng dd/mm/yyyy";
+      errorCreateRequestText.value = "Ngày bắt đầu không hợp lệ, nhập đúng định dạng dd/mm/yyyy";
       isLoading.value = false;
     } else if (isDateValid(endDateController.text) != true) {
       errorCreateRequest.value = true;
-      errorCreateRequestText.value =
-          "Ngày kết thúc không hợp lệ, nhập đúng định dạng dd/mm/yyyy";
+      errorCreateRequestText.value = "Ngày kết thúc không hợp lệ, nhập đúng định dạng dd/mm/yyyy";
       isLoading.value = false;
     } else {
       try {
@@ -143,27 +135,18 @@ class CreateRequestController extends BaseController {
           isPM.value = false;
         } else {
           isFull.value = false;
-          if (selectedTimeTypeVal.value == "AM") {
+          if (selectedTimeTypeVal.value == "Buổi sáng") {
             isPM.value = false;
           } else {
             isPM.value = true;
           }
         }
         List<String> startDateparts = startDateController!.text.split('/');
-        String formattedStartDate =
-            '${startDateparts[2]}-${startDateparts[1]}-${startDateparts[0]}';
+        String formattedStartDate = '${startDateparts[2]}-${startDateparts[1]}-${startDateparts[0]}';
         List<String> endDateparts = endDateController!.text.split('/');
-        String formattedEndDate =
-            '${endDateparts[2]}-${endDateparts[1]}-${endDateparts[0]}';
-        ResponseApi responseApi = await CreateRequestApi.createLeaveRequest(
-            titleController.text,
-            contentController.text,
-            DateTime.parse(formattedStartDate),
-            DateTime.parse(formattedEndDate),
-            isFull.value,
-            isPM.value,
-            selectedLeaveTypeVal.value[0],
-            jwt);
+        String formattedEndDate = '${endDateparts[2]}-${endDateparts[1]}-${endDateparts[0]}';
+        ResponseApi responseApi = await CreateRequestApi.createLeaveRequest(titleController.text, contentController.text,
+            DateTime.parse(formattedStartDate), DateTime.parse(formattedEndDate), isFull.value, isPM.value, selectedLeaveTypeVal.value[0], jwt);
         if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
           errorCreateRequest.value = false;
           await Get.find<TabRequestController>().getAllLeaveRequest(1);

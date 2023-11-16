@@ -1,0 +1,6 @@
+{
+  "diffEditor.wordWrap": "on",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.jsxSingleQuote": true,
+  "editor.wordWrap": "on"
+}

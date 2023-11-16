@@ -11,7 +11,7 @@ import 'package:flutter_quill/flutter_quill.dart' as Quil;
 class EditDescriptionView extends BaseView<EditDescriptionController> {
   EditDescriptionView({Key? key}) : super(key: key);
 
-  final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   @override
   Widget buildView(BuildContext context) {
     return Scaffold(

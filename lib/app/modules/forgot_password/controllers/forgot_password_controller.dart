@@ -6,7 +6,6 @@ import 'package:hrea_mobile_staff/app/base/base_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/forgot_password/api/forgot_password_api.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ForgotPasswordController extends BaseController {
   RxString emailTxt = ''.obs;

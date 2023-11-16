@@ -26,7 +26,7 @@ class ResetPasswordView extends BaseView<ResetPasswordController> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: UtilsReponsive.width(20,context),
+                  horizontal: UtilsReponsive.width(20, context),
                 ),
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,

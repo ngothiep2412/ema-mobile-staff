@@ -224,7 +224,7 @@ class TabRequestController extends BaseController {
   }
 
   Future<void> refreshPage() async {
-    // listBudget.clear();
+    isMoreDataAvailable.value = false;
     page = 1;
     List<RequestModel> list = [];
     if (leaveStatus.value == 'Tất cả' && status.value == 'Tất cả') {
@@ -272,11 +272,12 @@ class TabRequestController extends BaseController {
       list = await TabRequestApi.getLeaveRequestByStatusAndType(
           jwt, idUser, page, statusRequest, typeRequest);
     }
-    if (list.isNotEmpty) {
-      isMoreDataAvailable(true);
-    } else {
-      isMoreDataAvailable(false);
-    }
+    // if (list.isNotEmpty) {
+    //   isMoreDataAvailable(true);
+    // } else {
+    //   isMoreDataAvailable(false);
+    // }
+    listRequest.clear();
     list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
     listRequest.addAll(list);
@@ -578,6 +579,7 @@ class TabRequestController extends BaseController {
     selectedTimeTypeVal.value = 'Tất cả';
     List<RequestModel> list = [];
     isLoading.value = true;
+    page = 1;
     try {
       list = await TabRequestApi.getAllLeaveRequest(jwt, idUser, page);
       list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));

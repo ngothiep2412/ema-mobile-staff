@@ -2,11 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_view.dart';
-import 'package:hrea_mobile_staff/app/modules/login/views/login_view.dart';
-import 'package:hrea_mobile_staff/app/modules/tab_view/views/tab_view_view.dart';
 import 'package:hrea_mobile_staff/app/resources/assets_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';

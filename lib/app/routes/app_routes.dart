@@ -25,6 +25,10 @@ abstract class Routes {
   static const CREATE_REQUEST = _Paths.CREATE_REQUEST;
   static const REQUEST_DETAIL = _Paths.REQUEST_DETAIL;
   static const EDIT_REQUEST = _Paths.EDIT_REQUEST;
+  static const CHANGE_PASSWORD = _Paths.CHANGE_PASSWORD;
+  static const POLICY = _Paths.POLICY;
+  static const CHECK_IN = _Paths.CHECK_IN;
+  static const CHECK_IN_DETAIL = _Paths.CHECK_IN_DETAIL;
 }
 
 abstract class _Paths {
@@ -51,4 +55,8 @@ abstract class _Paths {
   static const CREATE_REQUEST = '/create-request';
   static const REQUEST_DETAIL = '/request-detail';
   static const EDIT_REQUEST = '/edit-request';
+  static const CHANGE_PASSWORD = '/change-password';
+  static const POLICY = '/policy';
+  static const CHECK_IN = '/check-in';
+  static const CHECK_IN_DETAIL = '/check-in-detail';
 }

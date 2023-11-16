@@ -420,6 +420,7 @@ class TabRequestView extends BaseView<TabRequestController> {
                     height: UtilsReponsive.height(20, context),
                   ),
                   Expanded(
+                    flex: 2,
                     child: RefreshIndicator(
                       onRefresh: controller.refreshPage,
                       child: controller.listRequest.isEmpty

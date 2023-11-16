@@ -1,54 +1,80 @@
 import 'dart:async';
+import 'dart:developer';
 
-import 'package:geolocator/geolocator.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
-import 'package:hrea_mobile_staff/app/modules/tab_view/model/modal_attendance.dart';
-import 'package:intl/intl.dart';
-import 'package:safe_device/safe_device.dart';
+import 'package:hrea_mobile_staff/app/modules/tab_view/api/tab_home_api/tab_home_api.dart';
+import 'package:hrea_mobile_staff/app/modules/tab_view/model/event.dart';
+import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class TabTimeKeepingController extends BaseController {
-  final isRangeDate = true.obs;
-  RxList<ModelTestAttendance> listAttendanceSum = <ModelTestAttendance>[
-    ModelTestAttendance(type: "Tổng", number: 15),
-    ModelTestAttendance(type: "Có mặt", number: 7),
-    ModelTestAttendance(type: "Trễ", number: 4),
-    ModelTestAttendance(type: "Vắng mặt", number: 4),
-  ].obs;
+  ScrollController scrollController = ScrollController();
+  var isMoreDataAvailable = true.obs;
 
-  Rx<DateTime> startDate = DateTime.now().obs;
-  Rx<DateTime> endDate = DateTime.now().obs;
-  DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'vi');
-  RxList<DateTime?> listDateTime = <DateTime?>[
-    DateTime.now(),
-  ].obs;
-  Rx<DateTime> currentTime = Rx<DateTime>(DateTime.now());
-  final isCheckedIn = false.obs;
-  final isLoading = true.obs;
-  Position? currentPossion;
-  double latCompany = 10.8428;
-  double lngCompany = 106.8287;
+  List<String> timeType = ["Tất cả"];
+  RxString selectedTimeTypeVal = 'Tất cả'.obs;
 
-  RxString vietNamTime = ''.obs;
+  final count = 0.obs;
+  RxList<EventModel> listEvent = <EventModel>[].obs;
+  RxBool isLoading = false.obs;
+  String jwt = '';
 
-  String convertUtcToVietnamTime(DateTime dateTime) {
-    final vietnamTimeDate = dateTime.toLocal().add(Duration(hours: 7));
-    final formatter = DateFormat('HH:mm:ss');
-    return formatter.format(vietnamTimeDate);
+  Future<void> refreshpage() async {
+    listEvent.clear();
+    print('1: ${isLoading.value}');
+    isLoading.value = true;
+    listEvent.value = await TabHomeApi.getEvent(jwt);
+    isLoading.value = false;
+  }
+
+  void checkToken() {
+    if (GetStorage().read('JWT') != null) {
+      jwt = GetStorage().read('JWT');
+      if (JwtDecoder.isExpired(jwt)) {
+        Get.offAllNamed(Routes.LOGIN);
+        return;
+      }
+    } else {
+      Get.offAllNamed(Routes.LOGIN);
+      return;
+    }
+  }
+
+  Future<void> getEvent() async {
+    checkToken();
+    print('JWT 123: $jwt');
+    isLoading.value = true;
+
+    listEvent.value = await TabHomeApi.getEvent(jwt);
+    isLoading.value = false;
+    List<DateTime?> createdAtList = listEvent.map((e) => e.createdAt).toList();
+
+    int smallestYear = createdAtList.fold(DateTime.now().year,
+        (year, date) => date!.year < year ? date.year : year);
+    int largestYear = createdAtList.fold(
+        0, (year, date) => date!.year > year ? date.year : year);
+
+    List<String> listYear = ['Tất cả'];
+
+    for (int year = smallestYear; year <= largestYear; year++) {
+      listYear.add(year.toString());
+    }
+
+    timeType = listYear;
   }
 
   @override
   Future<void> onInit() async {
     super.onInit();
+    await getEvent();
 
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      final now = DateTime.now().toUtc();
-      currentTime.value = now;
-      vietNamTime.value = convertUtcToVietnamTime(now);
-    });
-    await getCurrrentPossion();
-
-    isLoading(false);
+    // listEvent.value = [
+    //   EventModel(id:'1',image: 'https://www.shutterstock.com/image-vector/events-colorful-typography-banner-260nw-1356206768.jpg',title: 'Công việc cá nhân'),
+    //   EventModel(id:'2',image: 'https://www.adobe.com/content/dam/www/us/en/events/overview-page/eventshub_evergreen_opengraph_1200x630_2x.jpg',title: 'Lễ kỉ niệm 10 năm')
+    // ];
   }
 
   @override
@@ -61,72 +87,12 @@ class TabTimeKeepingController extends BaseController {
     super.onClose();
   }
 
-  void saveTime() {}
-  void getTimeRange(List<DateTime?> listTime) {
-    listDateTime(listTime);
+  void onTapEvent({required String eventID, required String eventName}) {
+    Get.toNamed(Routes.CHECK_IN_DETAIL, arguments: {"eventID": eventID});
   }
 
-  changeTypeChooseDate(bool value) {
-    listDateTime([DateTime.now()]);
-    isRangeDate(value);
-  }
-
-  getCurrrentPossion() async {
-    try {
-      currentPossion = await _determinePosition();
-      if (currentPossion!.isMocked) {
-        Get.snackbar("Thông báo", "Vị trí giả");
-      }
-    } catch (e) {
-      Get.snackbar('Thông báo', 'Chưa lấy được vị trí');
-    }
-  }
-
-  Future<void> checkInOut() async {
-    //check real phone
-    bool isRealDevice = await SafeDevice.isRealDevice;
-    currentPossion = await _determinePosition();
-    //  if(isRealDevice){
-    if (Geolocator.distanceBetween(latCompany, lngCompany,
-            currentPossion!.latitude, currentPossion!.longitude) <
-        100) {
-      //Check In
-      //kiểm 1 số logic nữa để dêtect checkout
-      isCheckedIn(true);
-      Get.snackbar("Thông báo", "Check in thành công");
-    } else {
-      Get.snackbar("Thông báo", "Chưa đủ gần để check in/out");
-    }
-    //  }else{
-    //     Get.snackbar("Thông báo", "Thiết bị không phù hợp");
-    //  }
-  }
-
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Quyền vị trí bị từ chối');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Quyền vị trí bị từ chối vĩnh viễn, chúng tôi không thể yêu cầu quyền.');
-    }
-
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
+  Future<void> setTimeType(String value) async {
+    selectedTimeTypeVal.value = value;
+    isLoading.value = true;
   }
 }
