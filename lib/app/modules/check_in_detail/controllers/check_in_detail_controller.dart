@@ -7,8 +7,10 @@ import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class CheckInDetailController extends BaseController {
-  CheckInDetailController({required this.eventID});
+  CheckInDetailController({required this.eventID, required this.eventName});
   String eventID = '';
+  String eventName = '';
+
   String jwt = '';
   String idUser = '';
 
@@ -17,8 +19,9 @@ class CheckInDetailController extends BaseController {
 
   final count = 0.obs;
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
+    await getCheckInDetail();
   }
 
   @override
@@ -43,18 +46,22 @@ class CheckInDetailController extends BaseController {
     }
   }
 
-  Future<void> getEventDetail() async {
+  Future<void> getCheckInDetail() async {
     isLoading.value = true;
     try {
       checkToken();
 
-      listTimesheet.value =
-          await CheckInDetailApi.getListTimeSheet(jwt, eventID);
+      listTimesheet.value = await CheckInDetailApi.getListTimeSheet(jwt, eventID);
 
       isLoading.value = false;
     } catch (e) {
       isLoading.value = false;
       print(e);
     }
+  }
+
+  Future<void> refreshPage() async {
+    listTimesheet.clear();
+    await getCheckInDetail();
   }
 }

@@ -4,8 +4,7 @@
 
 import 'dart:convert';
 
-TimesheetModel timesheetModelFromJson(String str) =>
-    TimesheetModel.fromJson(json.decode(str));
+TimesheetModel timesheetModelFromJson(String str) => TimesheetModel.fromJson(json.decode(str));
 
 String timesheetModelToJson(TimesheetModel data) => json.encode(data.toJson());
 
@@ -13,7 +12,7 @@ class TimesheetModel {
   String? id;
   DateTime? createdAt;
   DateTime? updatedAt;
-  DateTime? date;
+  String? date;
   String? checkinTime;
   dynamic checkinLocation;
   Event? event;
@@ -30,13 +29,9 @@ class TimesheetModel {
 
   factory TimesheetModel.fromJson(Map<String, dynamic> json) => TimesheetModel(
         id: json["id"],
-        createdAt: json["createdAt"] == null
-            ? null
-            : DateTime.parse(json["createdAt"]),
-        updatedAt: json["updatedAt"] == null
-            ? null
-            : DateTime.parse(json["updatedAt"]),
-        date: json["date"] == null ? null : DateTime.parse(json["date"]),
+        createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
+        updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
+        date: json["date"],
         checkinTime: json["checkinTime"],
         checkinLocation: json["checkinLocation"],
         event: json["event"] == null ? null : Event.fromJson(json["event"]),
@@ -46,8 +41,7 @@ class TimesheetModel {
         "id": id,
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
-        "date":
-            "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
+        "date": date,
         "checkinTime": checkinTime,
         "checkinLocation": checkinLocation,
         "event": event?.toJson(),
@@ -91,21 +85,12 @@ class Event {
 
   factory Event.fromJson(Map<String, dynamic> json) => Event(
         id: json["id"],
-        createdAt: json["createdAt"] == null
-            ? null
-            : DateTime.parse(json["createdAt"]),
-        updatedAt: json["updatedAt"] == null
-            ? null
-            : DateTime.parse(json["updatedAt"]),
+        createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
+        updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
         eventName: json["eventName"],
-        startDate: json["startDate"] == null
-            ? null
-            : DateTime.parse(json["startDate"]),
-        processingDate: json["processingDate"] == null
-            ? null
-            : DateTime.parse(json["processingDate"]),
-        endDate:
-            json["endDate"] == null ? null : DateTime.parse(json["endDate"]),
+        startDate: json["startDate"] == null ? null : DateTime.parse(json["startDate"]),
+        processingDate: json["processingDate"] == null ? null : DateTime.parse(json["processingDate"]),
+        endDate: json["endDate"] == null ? null : DateTime.parse(json["endDate"]),
         location: json["location"],
         description: json["description"],
         coverUrl: json["coverUrl"],

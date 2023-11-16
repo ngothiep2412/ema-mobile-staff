@@ -52,10 +52,8 @@ class TabTimeKeepingController extends BaseController {
     isLoading.value = false;
     List<DateTime?> createdAtList = listEvent.map((e) => e.createdAt).toList();
 
-    int smallestYear = createdAtList.fold(DateTime.now().year,
-        (year, date) => date!.year < year ? date.year : year);
-    int largestYear = createdAtList.fold(
-        0, (year, date) => date!.year > year ? date.year : year);
+    int smallestYear = createdAtList.fold(DateTime.now().year, (year, date) => date!.year < year ? date.year : year);
+    int largestYear = createdAtList.fold(0, (year, date) => date!.year > year ? date.year : year);
 
     List<String> listYear = ['Tất cả'];
 
@@ -88,11 +86,30 @@ class TabTimeKeepingController extends BaseController {
   }
 
   void onTapEvent({required String eventID, required String eventName}) {
-    Get.toNamed(Routes.CHECK_IN_DETAIL, arguments: {"eventID": eventID});
+    Get.toNamed(Routes.CHECK_IN_DETAIL, arguments: {"eventID": eventID, "eventName": eventName});
   }
 
   Future<void> setTimeType(String value) async {
+    listEvent.clear();
+    isLoading.value = false;
     selectedTimeTypeVal.value = value;
-    isLoading.value = true;
+    try {
+      List<EventModel> list = [];
+      list = await TabHomeApi.getEvent(jwt);
+      if (selectedTimeTypeVal.value == 'Tất cả') {
+        listEvent.value = list;
+      } else {
+        if (list.isNotEmpty) {
+          for (var item in list) {
+            if (item.startDate!.year.toString() == selectedTimeTypeVal.value || item.endDate!.year.toString() == selectedTimeTypeVal.value) {
+              listEvent.add(item);
+            }
+          }
+        }
+      }
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+    }
   }
 }

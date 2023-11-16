@@ -238,7 +238,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                             child: Text(
                                               getTheAbbreviation(controller.taskModel.value.nameAssigner!),
                                               style: TextStyle(
-                                                  letterSpacing: 1.5,
+                                                  letterSpacing: 1,
                                                   color: ColorsManager.textColor,
                                                   fontSize: UtilsReponsive.height(17, context),
                                                   fontWeight: FontWeight.bold),
@@ -314,7 +314,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                               child: Text(
                                                 getTheAbbreviation(controller.taskModel.value.assignTasks![0].user!.profile!.fullName!),
                                                 style: TextStyle(
-                                                    letterSpacing: 1.5,
+                                                    letterSpacing: 1,
                                                     color: ColorsManager.primary,
                                                     fontSize: UtilsReponsive.height(17, context),
                                                     fontWeight: FontWeight.bold),
@@ -525,7 +525,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
           child: Text(
             '$startTime ${getCurrentTime(controller.taskModel.value.startDate!)} - $endTime ${getCurrentTime(controller.taskModel.value.endDate!)}',
             style: TextStyle(
-                letterSpacing: 1.5,
+                letterSpacing: 1,
                 fontFamily: 'Roboto',
                 color: controller.taskModel.value.status == Status.PENDING
                     ? ColorsManager.grey
@@ -597,13 +597,13 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                       : ColorsManager.red,
                       child: Text(e[0],
                           style: TextStyle(
-                              letterSpacing: 1.5, color: Colors.white, fontSize: UtilsReponsive.height(16, context), fontWeight: FontWeight.bold)),
+                              letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(16, context), fontWeight: FontWeight.bold)),
                     ),
                     title: Text(
                       e,
                       style: TextStyle(
                           fontFamily: 'Roboto',
-                          letterSpacing: 1.5,
+                          letterSpacing: 1,
                           color: ColorsManager.textColor,
                           fontSize: UtilsReponsive.height(16, context),
                           fontWeight: FontWeight.w600),
@@ -664,13 +664,13 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                   : ColorsManager.red,
                       child: Text(e[0],
                           style: TextStyle(
-                              letterSpacing: 1.5, color: Colors.white, fontSize: UtilsReponsive.height(16, context), fontWeight: FontWeight.bold)),
+                              letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(16, context), fontWeight: FontWeight.bold)),
                     ),
                     title: Text(
                       e,
                       style: TextStyle(
                           fontFamily: 'Roboto',
-                          letterSpacing: 1.5,
+                          letterSpacing: 1,
                           color: ColorsManager.textColor2,
                           fontSize: UtilsReponsive.height(16, context),
                           fontWeight: FontWeight.w600),
@@ -1063,7 +1063,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                       commentModel.user!.profile!.fullName!,
                       style: TextStyle(
                           fontFamily: 'Roboto',
-                          letterSpacing: 1.5,
+                          letterSpacing: 1,
                           color: ColorsManager.textColor,
                           fontSize: UtilsReponsive.height(17, context),
                           fontWeight: FontWeight.bold),
@@ -1358,7 +1358,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                 child: Text(
                                   controller.taskModel.value.subTask!.where((element) => element.status != Status.CANCEL).length.toString(),
                                   style: TextStyle(
-                                      letterSpacing: 1.5,
+                                      letterSpacing: 1,
                                       color: ColorsManager.backgroundWhite,
                                       fontSize: UtilsReponsive.height(15, context),
                                       fontWeight: FontWeight.bold),
@@ -1491,7 +1491,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                             e.title!.length > 20 ? '${e.title!.substring(0, 20)}...' : e.title!,
                                                             style: TextStyle(
                                                               fontFamily: 'Roboto',
-                                                              letterSpacing: 1.5,
+                                                              letterSpacing: 1,
                                                               color: ColorsManager.textColor,
                                                               fontSize: UtilsReponsive.height(16, context),
                                                               fontWeight: FontWeight.bold,
@@ -1502,7 +1502,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                             e.title!.length > 20 ? '${e.title!.substring(0, 20)}...' : e.title!,
                                                             style: TextStyle(
                                                                 fontFamily: 'Roboto',
-                                                                letterSpacing: 1.5,
+                                                                letterSpacing: 1,
                                                                 color: ColorsManager.textColor,
                                                                 fontSize: UtilsReponsive.height(16, context),
                                                                 fontWeight: FontWeight.bold),
@@ -1548,7 +1548,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                                               : "Quá hạn",
                                                               style: TextStyle(
                                                                   fontFamily: 'Roboto',
-                                                                  letterSpacing: 1.5,
+                                                                  letterSpacing: 1,
                                                                   color: Colors.white,
                                                                   fontSize: UtilsReponsive.height(14, context),
                                                                   fontWeight: FontWeight.bold),
@@ -1607,7 +1607,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                           child: Text(
                             controller.listAttachment.length.toString(),
                             style: TextStyle(
-                                letterSpacing: 1.5,
+                                letterSpacing: 1,
                                 color: ColorsManager.backgroundWhite,
                                 fontSize: UtilsReponsive.height(15, context),
                                 fontWeight: FontWeight.bold),

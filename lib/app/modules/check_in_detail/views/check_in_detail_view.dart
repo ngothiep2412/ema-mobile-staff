@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:get/get.dart';
 import 'package:hrea_mobile_staff/app/base/base_view.dart';
+import 'package:hrea_mobile_staff/app/modules/check_in_detail/model/timesheet_model.dart';
+import 'package:hrea_mobile_staff/app/resources/assets_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_staff/app/resources/style_manager.dart';
@@ -15,45 +18,80 @@ class CheckInDetailView extends BaseView<CheckInDetailController> {
     return Scaffold(
       appBar: _appBar(context),
       backgroundColor: ColorsManager.backgroundContainer,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: UtilsReponsive.height(20, context)),
-          child: Column(children: [
-            SizedBox(
-              height: UtilsReponsive.height(20, context),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  'event name',
-                  style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+      body: Obx(
+        () => controller.isLoading.value
+            ? Center(
+                child: SpinKitFadingCircle(
+                  color: ColorsManager.primary,
                 ),
-              ],
-            ),
-            Expanded(
-                child: ListView.separated(
-                    padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
-                    itemBuilder: (context, index) => _itemData(context),
-                    separatorBuilder: (context, index) => SizedBox(
-                          height: UtilsReponsive.height(10, context),
+              )
+            : SafeArea(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: UtilsReponsive.height(20, context)),
+                  child: Column(children: [
+                    SizedBox(
+                      height: UtilsReponsive.height(20, context),
+                    ),
+                    Text(
+                      'Lịch sử check in',
+                      style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    ),
+                    SizedBox(
+                      height: UtilsReponsive.height(20, context),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          controller.eventName,
+                          style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w600, ColorsManager.textColor),
                         ),
-                    itemCount: 100))
-          ]),
-        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: UtilsReponsive.height(10, context),
+                    ),
+                    Expanded(
+                        child: RefreshIndicator(
+                      onRefresh: controller.refreshPage,
+                      child: controller.listTimesheet.isEmpty
+                          ? Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                              Image.asset(
+                                ImageAssets.noCheckIn,
+                                height: 150,
+                              ),
+                              SizedBox(
+                                height: UtilsReponsive.height(20, context),
+                              ),
+                              Text(
+                                'Bạn chưa check in ở sự kiện này này',
+                                style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                              ),
+                            ])
+                          : ListView.separated(
+                              padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
+                              itemBuilder: (context, index) => _itemData(controller.listTimesheet[index], context),
+                              separatorBuilder: (context, index) => SizedBox(
+                                    height: UtilsReponsive.height(10, context),
+                                  ),
+                              itemCount: controller.listTimesheet.length),
+                    ))
+                  ]),
+                ),
+              ),
       ),
     );
   }
 
-  Card _itemData(BuildContext context) {
+  Card _itemData(TimesheetModel timeSheetModel, BuildContext context) {
     return Card(
       child: Container(
           padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
-          height: UtilsReponsive.height(60, context),
+          // height: UtilsReponsive.height(60, context),
           width: double.infinity,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -63,16 +101,19 @@ class CheckInDetailView extends BaseView<CheckInDetailController> {
                     style: TextStyle(
                         letterSpacing: 1.5,
                         fontFamily: 'Roboto',
-                        color: Colors.black,
+                        color: ColorsManager.textColor,
                         fontSize: UtilsReponsive.height(16, context),
-                        fontWeight: FontWeight.w300),
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: UtilsReponsive.height(10, context),
                   ),
                   Text(
-                    "9:00:00",
+                    timeSheetModel.date.toString(),
                     style: TextStyle(
                         letterSpacing: 1.5,
                         fontFamily: 'Roboto',
-                        color: Colors.black,
+                        color: ColorsManager.primary,
                         fontSize: UtilsReponsive.height(16, context),
                         fontWeight: FontWeight.bold),
                   )
@@ -86,22 +127,24 @@ class CheckInDetailView extends BaseView<CheckInDetailController> {
                     style: TextStyle(
                         letterSpacing: 1.5,
                         fontFamily: 'Roboto',
-                        color: Colors.black,
+                        color: ColorsManager.textColor,
                         fontSize: UtilsReponsive.height(16, context),
-                        fontWeight: FontWeight.w300),
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: UtilsReponsive.height(10, context),
                   ),
                   Text(
-                    "17:00:00",
+                    timeSheetModel.checkinTime!,
                     style: TextStyle(
                         letterSpacing: 1.5,
                         fontFamily: 'Roboto',
-                        color: Colors.black,
+                        color: ColorsManager.primary,
                         fontSize: UtilsReponsive.height(16, context),
                         fontWeight: FontWeight.bold),
                   )
                 ],
               ),
-              SizedBox()
             ],
           )),
     );
@@ -120,6 +163,18 @@ class CheckInDetailView extends BaseView<CheckInDetailController> {
           color: ColorsManager.primary,
         ),
       ),
+      actions: [
+        IconButton(
+          onPressed: () async {
+            await controller.refreshPage();
+          },
+          icon: const Icon(
+            Icons.refresh,
+            // Icons.notification_add_outlined,
+            color: ColorsManager.textColor2,
+          ),
+        ),
+      ],
     );
   }
 }
