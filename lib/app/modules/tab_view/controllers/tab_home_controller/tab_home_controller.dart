@@ -14,14 +14,19 @@ class TabHomeController extends BaseController {
 
   final count = 0.obs;
   RxList<EventModel> listEvent = <EventModel>[].obs;
+  RxList<EventModel> listEventToday = <EventModel>[].obs;
+
   RxBool isLoading = false.obs;
   String jwt = '';
 
   Future<void> refreshpage() async {
     listEvent.clear();
+    listEventToday.clear();
     print('1: ${isLoading.value}');
     isLoading.value = true;
     listEvent.value = await TabHomeApi.getEvent(jwt);
+    listEventToday.value = await TabHomeApi.getEventToday(jwt);
+
     isLoading.value = false;
   }
 
@@ -46,6 +51,8 @@ class TabHomeController extends BaseController {
     isLoading.value = true;
 
     listEvent.value = await TabHomeApi.getEvent(jwt);
+    listEventToday.value = await TabHomeApi.getEventToday(jwt);
+
     isLoading.value = false;
     print('2: ${isLoading.value}');
   }
@@ -72,7 +79,6 @@ class TabHomeController extends BaseController {
   }
 
   void onTapEvent({required String eventID, required String eventName}) {
-    Get.toNamed(Routes.TASK_OVERALL_VIEW,
-        arguments: {"eventID": eventID, "eventName": eventName});
+    Get.toNamed(Routes.TASK_OVERALL_VIEW, arguments: {"eventID": eventID, "eventName": eventName});
   }
 }

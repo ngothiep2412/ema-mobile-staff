@@ -132,6 +132,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                   ],
                                 ),
                               ),
+
                               SizedBox(
                                 height: UtilsReponsive.height(15, context),
                               ),
@@ -173,150 +174,150 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               SizedBox(
                                 height: UtilsReponsive.width(10, context),
                               ),
-                              Obx(
-                                () => Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: UtilsReponsive.height(10, context),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: Colors.white,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text('Ước tính (giờ):',
-                                              style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.bold, ColorsManager.textColor)),
-                                          SizedBox(
-                                            width: UtilsReponsive.width(5, context),
-                                          ),
-                                          TextButton(
-                                              style: TextButton.styleFrom(
-                                                backgroundColor: ColorsManager.backgroundContainer,
-                                                side: BorderSide(color: ColorsManager.primary, width: 1),
-                                              ),
-                                              onPressed: () {
-                                                showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext context) {
-                                                      return AlertDialog(
-                                                        title: Text('Nhập con số thời gian ước tính',
-                                                            style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w500, ColorsManager.primary)),
-                                                        content: TextField(
-                                                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                                          inputFormatters: <TextInputFormatter>[
-                                                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-                                                          ],
-                                                          onChanged: (value) => {controller.estController.text = value},
-                                                          controller: controller.estController,
-                                                        ),
-                                                        actions: [
-                                                          TextButton(
-                                                            child: Text('Hủy',
-                                                                style: GetTextStyle.getTextStyle(
-                                                                    16, 'Roboto', FontWeight.w500, ColorsManager.textColor2)),
-                                                            onPressed: () {
-                                                              Navigator.of(context).pop();
-                                                            },
-                                                          ),
-                                                          TextButton(
-                                                            child: Text('Lưu',
-                                                                style:
-                                                                    GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.primary)),
-                                                            onPressed: () async {
-                                                              if (controller.estController.text.isEmpty) {
-                                                                Get.snackbar('Lỗi', 'Không được để trống thời gian ước lượng',
-                                                                    snackPosition: SnackPosition.TOP,
-                                                                    backgroundColor: Colors.transparent,
-                                                                    colorText: ColorsManager.textColor);
-                                                              } else {
-                                                                await controller.updateEstimateTime(
-                                                                    controller.taskModel.value.id!, double.parse(controller.estController.text));
-                                                                Navigator.of(Get.context!).pop();
-                                                              }
-                                                            },
-                                                          ),
-                                                        ],
-                                                      );
-                                                    });
-                                              },
-                                              child: Text(controller.est.toString(),
-                                                  style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w700, ColorsManager.primary))),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        width: UtilsReponsive.width(10, context),
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text('Công sức (giờ):',
-                                              style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.bold, ColorsManager.textColor)),
-                                          SizedBox(
-                                            width: UtilsReponsive.width(5, context),
-                                          ),
-                                          TextButton(
-                                              style: TextButton.styleFrom(
-                                                backgroundColor: ColorsManager.backgroundContainer,
-                                                side: BorderSide(color: ColorsManager.primary, width: 1),
-                                              ),
-                                              onPressed: () {
-                                                showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext context) {
-                                                      return AlertDialog(
-                                                        title: Text('Nhập con số thời gian công sức',
-                                                            style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w500, ColorsManager.primary)),
-                                                        content: TextField(
-                                                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                                          inputFormatters: <TextInputFormatter>[
-                                                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-                                                          ],
-                                                          onChanged: (value) => {controller.effortController.text = value},
-                                                          controller: controller.effortController,
-                                                        ),
-                                                        actions: [
-                                                          TextButton(
-                                                            child: Text('Hủy',
-                                                                style: GetTextStyle.getTextStyle(
-                                                                    16, 'Roboto', FontWeight.w500, ColorsManager.textColor2)),
-                                                            onPressed: () {
-                                                              Navigator.of(context).pop();
-                                                            },
-                                                          ),
-                                                          TextButton(
-                                                            child: Text('Lưu',
-                                                                style:
-                                                                    GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.primary)),
-                                                            onPressed: () async {
-                                                              if (controller.effortController.text.isEmpty) {
-                                                                Get.snackbar('Lỗi', 'Không được để trống thời gian công sức',
-                                                                    snackPosition: SnackPosition.TOP,
-                                                                    backgroundColor: Colors.transparent,
-                                                                    colorText: ColorsManager.textColor);
-                                                              } else {
-                                                                await controller.updateEffort(
-                                                                    controller.taskModel.value.id!, double.parse(controller.effortController.text));
+                              // Obx(
+                              //   () => Container(
+                              //     padding: EdgeInsets.symmetric(
+                              //       horizontal: UtilsReponsive.height(10, context),
+                              //     ),
+                              //     decoration: BoxDecoration(
+                              //       borderRadius: BorderRadius.circular(8),
+                              //       color: Colors.white,
+                              //     ),
+                              //     child: Row(
+                              //       children: [
+                              //         Row(
+                              //           children: [
+                              //             Text('Ước tính (giờ):',
+                              //                 style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.bold, ColorsManager.textColor)),
+                              //             SizedBox(
+                              //               width: UtilsReponsive.width(5, context),
+                              //             ),
+                              //             TextButton(
+                              //                 style: TextButton.styleFrom(
+                              //                   backgroundColor: ColorsManager.backgroundContainer,
+                              //                   side: BorderSide(color: ColorsManager.primary, width: 1),
+                              //                 ),
+                              //                 onPressed: () {
+                              //                   showDialog(
+                              //                       context: context,
+                              //                       builder: (BuildContext context) {
+                              //                         return AlertDialog(
+                              //                           title: Text('Nhập con số thời gian ước tính',
+                              //                               style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w500, ColorsManager.primary)),
+                              //                           content: TextField(
+                              //                             keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                              //                             inputFormatters: <TextInputFormatter>[
+                              //                               FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                              //                             ],
+                              //                             onChanged: (value) => {controller.estController.text = value},
+                              //                             controller: controller.estController,
+                              //                           ),
+                              //                           actions: [
+                              //                             TextButton(
+                              //                               child: Text('Hủy',
+                              //                                   style: GetTextStyle.getTextStyle(
+                              //                                       16, 'Roboto', FontWeight.w500, ColorsManager.textColor2)),
+                              //                               onPressed: () {
+                              //                                 Navigator.of(context).pop();
+                              //                               },
+                              //                             ),
+                              //                             TextButton(
+                              //                               child: Text('Lưu',
+                              //                                   style:
+                              //                                       GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.primary)),
+                              //                               onPressed: () async {
+                              //                                 if (controller.estController.text.isEmpty) {
+                              //                                   Get.snackbar('Lỗi', 'Không được để trống thời gian ước lượng',
+                              //                                       snackPosition: SnackPosition.TOP,
+                              //                                       backgroundColor: Colors.transparent,
+                              //                                       colorText: ColorsManager.textColor);
+                              //                                 } else {
+                              //                                   await controller.updateEstimateTime(
+                              //                                       controller.taskModel.value.id!, double.parse(controller.estController.text));
+                              //                                   Navigator.of(Get.context!).pop();
+                              //                                 }
+                              //                               },
+                              //                             ),
+                              //                           ],
+                              //                         );
+                              //                       });
+                              //                 },
+                              //                 child: Text(controller.est.toString(),
+                              //                     style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w700, ColorsManager.primary))),
+                              //           ],
+                              //         ),
+                              //         SizedBox(
+                              //           width: UtilsReponsive.width(10, context),
+                              //         ),
+                              //         Row(
+                              //           children: [
+                              //             Text('Công sức (giờ):',
+                              //                 style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.bold, ColorsManager.textColor)),
+                              //             SizedBox(
+                              //               width: UtilsReponsive.width(5, context),
+                              //             ),
+                              //             TextButton(
+                              //                 style: TextButton.styleFrom(
+                              //                   backgroundColor: ColorsManager.backgroundContainer,
+                              //                   side: BorderSide(color: ColorsManager.primary, width: 1),
+                              //                 ),
+                              //                 onPressed: () {
+                              //                   showDialog(
+                              //                       context: context,
+                              //                       builder: (BuildContext context) {
+                              //                         return AlertDialog(
+                              //                           title: Text('Nhập con số thời gian công sức',
+                              //                               style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w500, ColorsManager.primary)),
+                              //                           content: TextField(
+                              //                             keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                              //                             inputFormatters: <TextInputFormatter>[
+                              //                               FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                              //                             ],
+                              //                             onChanged: (value) => {controller.effortController.text = value},
+                              //                             controller: controller.effortController,
+                              //                           ),
+                              //                           actions: [
+                              //                             TextButton(
+                              //                               child: Text('Hủy',
+                              //                                   style: GetTextStyle.getTextStyle(
+                              //                                       16, 'Roboto', FontWeight.w500, ColorsManager.textColor2)),
+                              //                               onPressed: () {
+                              //                                 Navigator.of(context).pop();
+                              //                               },
+                              //                             ),
+                              //                             TextButton(
+                              //                               child: Text('Lưu',
+                              //                                   style:
+                              //                                       GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.primary)),
+                              //                               onPressed: () async {
+                              //                                 if (controller.effortController.text.isEmpty) {
+                              //                                   Get.snackbar('Lỗi', 'Không được để trống thời gian công sức',
+                              //                                       snackPosition: SnackPosition.TOP,
+                              //                                       backgroundColor: Colors.transparent,
+                              //                                       colorText: ColorsManager.textColor);
+                              //                                 } else {
+                              //                                   await controller.updateEffort(
+                              //                                       controller.taskModel.value.id!, double.parse(controller.effortController.text));
 
-                                                                Navigator.of(Get.context!).pop();
-                                                              }
-                                                            },
-                                                          ),
-                                                        ],
-                                                      );
-                                                    });
-                                              },
-                                              child: Text(controller.effort.toString(),
-                                                  style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w700, ColorsManager.primary))),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: UtilsReponsive.width(10, context),
-                              ),
+                              //                                   Navigator.of(Get.context!).pop();
+                              //                                 }
+                              //                               },
+                              //                             ),
+                              //                           ],
+                              //                         );
+                              //                       });
+                              //                 },
+                              //                 child: Text(controller.effort.toString(),
+                              //                     style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w700, ColorsManager.primary))),
+                              //           ],
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ),
+                              // ),
+                              // SizedBox(
+                              //   height: UtilsReponsive.width(10, context),
+                              // ),
                               Container(
                                 padding:
                                     EdgeInsets.symmetric(horizontal: UtilsReponsive.height(5, context), vertical: UtilsReponsive.height(10, context)),
@@ -2088,10 +2089,27 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                   );
                 },
               );
+            } else if (choice == 'progress') {
+              controller.progressView.value = controller.progress.value;
+              _showProgress(context: context);
             }
           },
           itemBuilder: (BuildContext context) {
             return <PopupMenuEntry<String>>[
+              PopupMenuItem<String>(
+                value: 'progress',
+                child: Obx(
+                  () => Text(
+                    'Tiến độ ${controller.progress.value}',
+                    style: TextStyle(
+                        fontFamily: 'Roboto',
+                        wordSpacing: 1.2,
+                        color: ColorsManager.textColor2,
+                        fontSize: UtilsReponsive.height(18, context),
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ),
               PopupMenuItem<String>(
                 value: 'delete',
                 child: Text(
@@ -2110,6 +2128,92 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         ),
       ],
     );
+  }
+
+  _showProgress({required BuildContext context}) {
+    Get.bottomSheet(Container(
+      height: UtilsReponsive.height(200, context),
+      constraints: BoxConstraints(maxHeight: UtilsReponsive.width(200, context)),
+      padding: EdgeInsetsDirectional.symmetric(horizontal: UtilsReponsive.width(15, context), vertical: UtilsReponsive.height(20, context)),
+      decoration: BoxDecoration(
+        color: ColorsManager.backgroundWhite,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(UtilsReponsive.height(20, context)), topRight: Radius.circular(UtilsReponsive.height(20, context))),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Obx(() {
+            // controller.listEmployee;
+            return Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: UtilsReponsive.height(10, context),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyle(
+                            fontFamily: 'Roboto',
+                            wordSpacing: 1.2,
+                            fontSize: UtilsReponsive.height(24, context),
+                            fontWeight: FontWeight.w500,
+                          ),
+                          children: [
+                            const TextSpan(
+                              text: 'Tiến độ: ',
+                              style: TextStyle(
+                                color: ColorsManager.textColor,
+                              ),
+                            ),
+                            TextSpan(
+                              text: '${controller.progressView.value} %',
+                              style: TextStyle(
+                                color: ColorsManager.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          controller.updateProgress(controller.progressView.value);
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          'Lưu',
+                          style: TextStyle(
+                              fontFamily: 'Roboto',
+                              wordSpacing: 1.2,
+                              color: ColorsManager.primary,
+                              fontSize: UtilsReponsive.height(24, context),
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: UtilsReponsive.height(10, context),
+                  ),
+                  Slider(
+                      value: controller.progressView.value,
+                      max: 100,
+                      divisions: 10,
+                      label: controller.progressView.value.round().toString(),
+                      onChanged: (value) {
+                        controller.progressView.value = value;
+                      }),
+                ],
+              ),
+            );
+          })
+        ],
+      ),
+    ));
   }
 
   Container _commentList(BuildContext context) {

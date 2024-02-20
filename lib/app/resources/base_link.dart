@@ -12,6 +12,7 @@ class BaseLink {
   static const updateProfile = '/api/v1/user/profile';
   static const uploadFile = '/api/v1/file/upload';
   static const getEvent = '/api/v1/event/division';
+  static const getEventToday = '/api/v1/event/today';
   static const getTask = '/api/v1/task';
   static const getTaskBySelf = '/api/v1/task/filterByAssignee';
   static const getAssignerInformation = '/api/v1/user/';

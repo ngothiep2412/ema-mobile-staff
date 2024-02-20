@@ -106,6 +106,7 @@ class TabNotificationController extends BaseController {
         list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
         listNotifications.value = list;
+        Get.find<TabViewController>().checkAllNotiSeen.value = true;
       } else {}
     } catch (e) {
       log(e.toString());
@@ -126,6 +127,18 @@ class TabNotificationController extends BaseController {
         list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
         listNotifications.value = list;
+        bool allRead = true;
+        for (var item in list) {
+          if (item.readFlag == 0) {
+            allRead = false;
+            break;
+          }
+        }
+        if (allRead) {
+          Get.find<TabViewController>().checkAllNotiSeen.value = true;
+        } else {
+          Get.find<TabViewController>().checkAllNotiSeen.value = false;
+        }
       } else {}
     } catch (e) {
       log(e.toString());

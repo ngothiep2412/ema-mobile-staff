@@ -113,96 +113,96 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                 SizedBox(
                                   height: UtilsReponsive.width(10, context),
                                 ),
-                                Obx(
-                                  () => Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: UtilsReponsive.height(10, context),
-                                    ),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      color: Colors.white,
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Row(children: [
-                                          Text('Ước tính (giờ):',
-                                              style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.bold, ColorsManager.textColor)),
-                                          SizedBox(
-                                            width: UtilsReponsive.width(5, context),
-                                          ),
-                                          TextButton(
-                                            style: TextButton.styleFrom(
-                                                backgroundColor: ColorsManager.backgroundContainer,
-                                                side: const BorderSide(color: ColorsManager.backgroundGrey, width: 1)),
-                                            onPressed: () {},
-                                            child: Text(controller.est.toString(),
-                                                style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w700, ColorsManager.primary)),
-                                          )
-                                        ]),
-                                        SizedBox(
-                                          width: UtilsReponsive.width(15, context),
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text('Công sức (giờ):',
-                                                style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.bold, ColorsManager.textColor)),
-                                            SizedBox(
-                                              width: UtilsReponsive.width(5, context),
-                                            ),
-                                            TextButton(
-                                                style: TextButton.styleFrom(
-                                                  backgroundColor: ColorsManager.backgroundContainer,
-                                                  side: BorderSide(color: ColorsManager.primary, width: 1),
-                                                ),
-                                                onPressed: () {
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext context) {
-                                                        return AlertDialog(
-                                                          title: Text('Nhập con số công sức',
-                                                              style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w500, ColorsManager.primary)),
-                                                          content: TextField(
-                                                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                                            inputFormatters: <TextInputFormatter>[
-                                                              FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-                                                            ],
-                                                            onChanged: (value) => {controller.effortController.text = value},
-                                                            controller: controller.effortController,
-                                                          ),
-                                                          actions: [
-                                                            TextButton(
-                                                              child: Text('Hủy',
-                                                                  style: GetTextStyle.getTextStyle(
-                                                                      16, 'Roboto', FontWeight.w500, ColorsManager.textColor2)),
-                                                              onPressed: () {
-                                                                Navigator.of(context).pop();
-                                                              },
-                                                            ),
-                                                            TextButton(
-                                                              child: Text('Lưu',
-                                                                  style: GetTextStyle.getTextStyle(
-                                                                      16, 'Roboto', FontWeight.w500, ColorsManager.primary)),
-                                                              onPressed: () async {
-                                                                await controller.updateEffort(
-                                                                    controller.taskModel.value.id!, double.parse(controller.effortController.text));
-                                                                Navigator.of(Get.context!).pop();
-                                                              },
-                                                            ),
-                                                          ],
-                                                        );
-                                                      });
-                                                },
-                                                child: Text(controller.effort.toString(),
-                                                    style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w700, ColorsManager.primary))),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: UtilsReponsive.width(10, context),
-                                ),
+                                // Obx(
+                                //   () => Container(
+                                //     padding: EdgeInsets.symmetric(
+                                //       horizontal: UtilsReponsive.height(10, context),
+                                //     ),
+                                //     decoration: BoxDecoration(
+                                //       borderRadius: BorderRadius.circular(8),
+                                //       color: Colors.white,
+                                //     ),
+                                //     child: Row(
+                                //       children: [
+                                //         Row(children: [
+                                //           Text('Ước tính (giờ):',
+                                //               style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.bold, ColorsManager.textColor)),
+                                //           SizedBox(
+                                //             width: UtilsReponsive.width(5, context),
+                                //           ),
+                                //           TextButton(
+                                //             style: TextButton.styleFrom(
+                                //                 backgroundColor: ColorsManager.backgroundContainer,
+                                //                 side: const BorderSide(color: ColorsManager.backgroundGrey, width: 1)),
+                                //             onPressed: () {},
+                                //             child: Text(controller.est.toString(),
+                                //                 style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w700, ColorsManager.primary)),
+                                //           )
+                                //         ]),
+                                //         SizedBox(
+                                //           width: UtilsReponsive.width(15, context),
+                                //         ),
+                                //         Row(
+                                //           children: [
+                                //             Text('Công sức (giờ):',
+                                //                 style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.bold, ColorsManager.textColor)),
+                                //             SizedBox(
+                                //               width: UtilsReponsive.width(5, context),
+                                //             ),
+                                //             TextButton(
+                                //                 style: TextButton.styleFrom(
+                                //                   backgroundColor: ColorsManager.backgroundContainer,
+                                //                   side: BorderSide(color: ColorsManager.primary, width: 1),
+                                //                 ),
+                                //                 onPressed: () {
+                                //                   showDialog(
+                                //                       context: context,
+                                //                       builder: (BuildContext context) {
+                                //                         return AlertDialog(
+                                //                           title: Text('Nhập con số công sức',
+                                //                               style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w500, ColorsManager.primary)),
+                                //                           content: TextField(
+                                //                             keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                //                             inputFormatters: <TextInputFormatter>[
+                                //                               FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                                //                             ],
+                                //                             onChanged: (value) => {controller.effortController.text = value},
+                                //                             controller: controller.effortController,
+                                //                           ),
+                                //                           actions: [
+                                //                             TextButton(
+                                //                               child: Text('Hủy',
+                                //                                   style: GetTextStyle.getTextStyle(
+                                //                                       16, 'Roboto', FontWeight.w500, ColorsManager.textColor2)),
+                                //                               onPressed: () {
+                                //                                 Navigator.of(context).pop();
+                                //                               },
+                                //                             ),
+                                //                             TextButton(
+                                //                               child: Text('Lưu',
+                                //                                   style: GetTextStyle.getTextStyle(
+                                //                                       16, 'Roboto', FontWeight.w500, ColorsManager.primary)),
+                                //                               onPressed: () async {
+                                //                                 await controller.updateEffort(
+                                //                                     controller.taskModel.value.id!, double.parse(controller.effortController.text));
+                                //                                 Navigator.of(Get.context!).pop();
+                                //                               },
+                                //                             ),
+                                //                           ],
+                                //                         );
+                                //                       });
+                                //                 },
+                                //                 child: Text(controller.effort.toString(),
+                                //                     style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w700, ColorsManager.primary))),
+                                //           ],
+                                //         ),
+                                //       ],
+                                //     ),
+                                //   ),
+                                // ),
+                                // SizedBox(
+                                //   height: UtilsReponsive.width(10, context),
+                                // ),
                                 Obx(
                                   () => Container(
                                     padding: EdgeInsets.symmetric(
@@ -1390,14 +1390,18 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                   color: ColorsManager.grey,
                   borderRadius: BorderRadius.circular(UtilsReponsive.height(5, context)),
                 ),
-                child: Row(
-                  children: [
-                    Container(
-                      height: double.infinity,
-                      width: MediaQuery.of(context).size.width * controller.progressSubTaskDone.value,
-                      color: Colors.green,
-                    ),
-                  ],
+                child: Obx(
+                  () => Row(
+                    children: [
+                      Expanded(
+                        child: LinearProgressIndicator(
+                          backgroundColor: ColorsManager.grey,
+                          value: controller.progressSubTaskDone.value,
+                          color: ColorsManager.green,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(

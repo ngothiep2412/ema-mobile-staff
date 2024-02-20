@@ -28,82 +28,117 @@ class TabHomeView extends BaseView<TabHomeController> {
                   // size: 50.0,
                 ),
               )
-            : Column(
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: UtilsReponsive.width(40, context),
-                        height: UtilsReponsive.width(40, context),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: ColorsManager.primary,
-                        ),
-                        child: IconButton(
-                          onPressed: () {
-                            showSearch(
-                              context: context,
-                              delegate: CustomSearch(
-                                listEvent: controller.listEvent,
+            : RefreshIndicator(
+                onRefresh: controller.refreshpage,
+                child: SingleChildScrollView(
+                  child: Container(
+                    constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height, maxWidth: MediaQuery.of(context).size.width),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              width: UtilsReponsive.width(40, context),
+                              height: UtilsReponsive.width(40, context),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: ColorsManager.primary,
                               ),
-                            );
-                          },
-                          icon: const Icon(Icons.search),
-                          color: ColorsManager.backgroundWhite,
+                              child: IconButton(
+                                onPressed: () {
+                                  showSearch(
+                                    context: context,
+                                    delegate: CustomSearch(
+                                      listEvent: controller.listEvent,
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons.search),
+                                color: ColorsManager.backgroundWhite,
+                              ),
+                            ),
+                            SizedBox(
+                              width: UtilsReponsive.width(20, context),
+                            ),
+                            Text(
+                              'Sự kiện',
+                              style: GetTextStyle.getTextStyle(22, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                            ),
+                          ],
                         ),
-                      ),
-                      SizedBox(
-                        width: UtilsReponsive.width(20, context),
-                      ),
-                      Text(
-                        'Sự kiện',
-                        style: GetTextStyle.getTextStyle(22, 'Roboto', FontWeight.w600, ColorsManager.primary),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: UtilsReponsive.height(10, context),
-                  ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     const SizedBox(),
-                  //     Text(
-                  //       'Xem báo cáo',
-                  //       style: GetTextStyle.getTextStyle(
-                  //           15, 'Roboto', FontWeight.w500, Colors.blue),
-                  //     )
-                  //   ],
-                  // ),
-                  SizedBox(
-                    height: UtilsReponsive.height(10, context),
-                  ),
-                  Obx(
-                    () => Expanded(
-                      child: RefreshIndicator(
-                        onRefresh: controller.refreshpage,
-                        child: Container(
-                          // height: MediaQuery.of(context).size.height / 1.38,
-                          padding: EdgeInsets.all(UtilsReponsive.width(8, context)),
-                          child: GridView.builder(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: controller.listEvent.length,
-                            itemBuilder: (context, index) {
-                              return _itemEvent(context: context, eventModel: controller.listEvent[index]);
-                            },
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 20,
-                              crossAxisSpacing: 10,
-                              childAspectRatio: 1,
+                        SizedBox(
+                          height: UtilsReponsive.height(30, context),
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'Sự kiện có công việc hôm nay',
+                            style: GetTextStyle.getTextStyle(22, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                          ),
+                        ),
+                        SizedBox(
+                          height: UtilsReponsive.height(10, context),
+                        ),
+                        Obx(
+                          () => Expanded(
+                            child: Container(
+                              padding: EdgeInsets.all(UtilsReponsive.width(8, context)),
+                              child: GridView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: controller.listEventToday.length,
+                                itemBuilder: (context, index) {
+                                  return _itemEvent(context: context, eventModel: controller.listEventToday[index]);
+                                },
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 1,
+                                  mainAxisSpacing: 10,
+                                  crossAxisSpacing: 10,
+                                  childAspectRatio: 1,
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
+                        SizedBox(
+                          height: UtilsReponsive.height(10, context),
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'Sự kiện khác',
+                            style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                          ),
+                        ),
+                        SizedBox(
+                          height: UtilsReponsive.height(10, context),
+                        ),
+                        Obx(
+                          () => Expanded(
+                            child: Container(
+                              // height: MediaQuery.of(context).size.height / 1.38,
+                              padding: EdgeInsets.all(UtilsReponsive.width(8, context)),
+                              child: GridView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: controller.listEvent.length,
+                                itemBuilder: (context, index) {
+                                  return _itemEvent(context: context, eventModel: controller.listEvent[index]);
+                                },
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 1,
+                                  mainAxisSpacing: 10,
+                                  crossAxisSpacing: 10,
+                                  childAspectRatio: 1,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                ),
               ),
       ),
     ));
@@ -123,7 +158,7 @@ class TabHomeView extends BaseView<TabHomeController> {
           child: Column(
             children: [
               Container(
-                height: UtilsReponsive.height(80, context),
+                height: UtilsReponsive.height(150, context),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -139,7 +174,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                   // fit: BoxFit.contain,
                   imageUrl: eventModel.coverUrl!,
                   imageBuilder: (context, imageProvider) => Container(
-                      height: UtilsReponsive.height(50, context),
+                      height: UtilsReponsive.height(150, context),
                       width: UtilsReponsive.width(150, context),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(
@@ -164,7 +199,7 @@ class TabHomeView extends BaseView<TabHomeController> {
               Expanded(
                 child: Text(
                   eventModel.eventName!,
-                  style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                  style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.textColor),
                 ),
               ),
               Expanded(
@@ -172,25 +207,39 @@ class TabHomeView extends BaseView<TabHomeController> {
                   children: [
                     Text(
                       'Ngày bắt đầu: ',
-                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+                      style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
                     ),
                     Text(
                       DateFormat('dd-MM-yyyy').format(eventModel.startDate!),
-                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w500, ColorsManager.textColor),
+                      style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.textColor),
                     ),
                   ],
                 ),
               ),
+              //  Expanded(
+              //   child: Row(
+              //     children: [
+              //       Text(
+              //         'Ngày diễn ra: ',
+              //         style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+              //       ),
+              //       Text(
+              //         DateFormat('dd-MM-yyyy').format(eventModel.processingDate!),
+              //         style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.textColor),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Expanded(
                 child: Row(
                   children: [
                     Text(
                       'Ngày Kết thúc: ',
-                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+                      style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
                     ),
                     Text(
                       DateFormat('dd-MM-yyyy').format(eventModel.endDate!),
-                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w500, ColorsManager.textColor),
+                      style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.textColor),
                     ),
                   ],
                 ),
@@ -208,7 +257,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                       style: TextStyle(
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.w500,
-                        fontSize: UtilsReponsive.height(16, context),
+                        fontSize: UtilsReponsive.height(18, context),
                         color: eventModel.status == "PENDING"
                             ? ColorsManager.primary
                             : eventModel.status == "PROCESSING"

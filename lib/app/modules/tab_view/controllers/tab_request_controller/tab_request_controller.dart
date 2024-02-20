@@ -75,8 +75,7 @@ class TabRequestController extends BaseController {
         List<RequestModel> list = [];
         if (leaveStatus.value == 'Tất cả' && status.value == 'Tất cả') {
           list = await TabRequestApi.getAllLeaveRequest(jwt, idUser, page);
-        } else if (leaveStatus.value == 'Tất cả' &&
-            status.value != 'Tất cả') {
+        } else if (leaveStatus.value == 'Tất cả' && status.value != 'Tất cả') {
           String statusRequest = '';
           if (status.value == 'Đang xử lí') {
             statusRequest = 'PENDING';
@@ -85,10 +84,8 @@ class TabRequestController extends BaseController {
           } else if (status.value == 'Từ chối') {
             statusRequest = 'REJECT';
           }
-          list = await TabRequestApi.getLeaveRequestByStatus(
-              jwt, idUser, page, statusRequest);
-        } else if (leaveStatus.value != 'Tất cả' &&
-            status.value == 'Tất cả') {
+          list = await TabRequestApi.getLeaveRequestByStatus(jwt, idUser, page, statusRequest);
+        } else if (leaveStatus.value != 'Tất cả' && status.value == 'Tất cả') {
           String typeRequest = '';
           if (leaveStatus.value == 'Nghỉ có lương') {
             typeRequest = 'A';
@@ -97,10 +94,8 @@ class TabRequestController extends BaseController {
           } else if (leaveStatus.value == 'Đi công tác') {
             typeRequest = 'M';
           }
-          list = await TabRequestApi.getLeaveRequestByType(
-              jwt, idUser, page, typeRequest);
-        } else if (leaveStatus.value != 'Tất cả' &&
-            status.value != 'Tất cả') {
+          list = await TabRequestApi.getLeaveRequestByType(jwt, idUser, page, typeRequest);
+        } else if (leaveStatus.value != 'Tất cả' && status.value != 'Tất cả') {
           String statusRequest = '';
           if (status.value == 'Đang xử lí') {
             statusRequest = 'PENDING';
@@ -118,16 +113,14 @@ class TabRequestController extends BaseController {
             typeRequest = 'M';
           }
 
-          list = await TabRequestApi.getLeaveRequestByStatusAndType(
-              jwt, idUser, page, statusRequest, typeRequest);
+          list = await TabRequestApi.getLeaveRequestByStatusAndType(jwt, idUser, page, statusRequest, typeRequest);
         }
 
         list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
         listRequest.value = list;
 
-        listRequest.value =
-            listRequest.where((e) => e.status != "CANCEL").toList();
+        listRequest.value = listRequest.where((e) => e.status != "CANCEL").toList();
 
         isLoading.value = false;
       } catch (e) {
@@ -143,8 +136,7 @@ class TabRequestController extends BaseController {
         List<RequestModel> list = [];
         if (leaveStatus.value == 'Tất cả' && status.value == 'Tất cả') {
           list = await TabRequestApi.getAllLeaveRequest(jwt, idUser, page);
-        } else if (leaveStatus.value == 'Tất cả' &&
-            status.value != 'Tất cả') {
+        } else if (leaveStatus.value == 'Tất cả' && status.value != 'Tất cả') {
           String statusRequest = '';
           if (status.value == 'Đang xử lí') {
             statusRequest = 'PENDING';
@@ -153,10 +145,8 @@ class TabRequestController extends BaseController {
           } else if (status.value == 'Từ chối') {
             statusRequest = 'REJECT';
           }
-          list = await TabRequestApi.getLeaveRequestByStatus(
-              jwt, idUser, page, statusRequest);
-        } else if (leaveStatus.value != 'Tất cả' &&
-            status.value == 'Tất cả') {
+          list = await TabRequestApi.getLeaveRequestByStatus(jwt, idUser, page, statusRequest);
+        } else if (leaveStatus.value != 'Tất cả' && status.value == 'Tất cả') {
           String typeRequest = '';
           if (leaveStatus.value == 'Nghỉ có lương') {
             typeRequest = 'A';
@@ -165,10 +155,8 @@ class TabRequestController extends BaseController {
           } else if (leaveStatus.value == 'Đi công tác') {
             typeRequest = 'M';
           }
-          list = await TabRequestApi.getLeaveRequestByType(
-              jwt, idUser, page, typeRequest);
-        } else if (leaveStatus.value != 'Tất cả' &&
-            status.value != 'Tất cả') {
+          list = await TabRequestApi.getLeaveRequestByType(jwt, idUser, page, typeRequest);
+        } else if (leaveStatus.value != 'Tất cả' && status.value != 'Tất cả') {
           String statusRequest = '';
           if (status.value == 'Đang xử lí') {
             statusRequest = 'PENDING';
@@ -186,18 +174,14 @@ class TabRequestController extends BaseController {
             typeRequest = 'M';
           }
 
-          list = await TabRequestApi.getLeaveRequestByStatusAndType(
-              jwt, idUser, page, statusRequest, typeRequest);
+          list = await TabRequestApi.getLeaveRequestByStatusAndType(jwt, idUser, page, statusRequest, typeRequest);
         }
 
         list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
         listRequest.value = list;
 
-        listRequest.value = listRequest
-            .where((e) =>
-                e.status != "CANCEL" && e.createdAt!.year.toString() == value)
-            .toList();
+        listRequest.value = listRequest.where((e) => e.status != "CANCEL" && e.createdAt!.year.toString() == value).toList();
 
         isLoading.value = false;
       } catch (e) {
@@ -238,8 +222,7 @@ class TabRequestController extends BaseController {
       } else if (status.value == 'Từ chối') {
         statusRequest = 'REJECT';
       }
-      list = await TabRequestApi.getLeaveRequestByStatus(
-          jwt, idUser, page, statusRequest);
+      list = await TabRequestApi.getLeaveRequestByStatus(jwt, idUser, page, statusRequest);
     } else if (leaveStatus.value != 'Tất cả' && status.value == 'Tất cả') {
       String typeRequest = '';
       if (leaveStatus.value == 'Nghỉ có lương') {
@@ -249,8 +232,7 @@ class TabRequestController extends BaseController {
       } else if (leaveStatus.value == 'Đi công tác') {
         typeRequest = 'M';
       }
-      list = await TabRequestApi.getLeaveRequestByType(
-          jwt, idUser, page, typeRequest);
+      list = await TabRequestApi.getLeaveRequestByType(jwt, idUser, page, typeRequest);
     } else if (leaveStatus.value != 'Tất cả' && status.value != 'Tất cả') {
       String statusRequest = '';
       if (status.value == 'Đang xử lí') {
@@ -269,8 +251,7 @@ class TabRequestController extends BaseController {
         typeRequest = 'M';
       }
 
-      list = await TabRequestApi.getLeaveRequestByStatusAndType(
-          jwt, idUser, page, statusRequest, typeRequest);
+      list = await TabRequestApi.getLeaveRequestByStatusAndType(jwt, idUser, page, statusRequest, typeRequest);
     }
     // if (list.isNotEmpty) {
     //   isMoreDataAvailable(true);
@@ -278,19 +259,14 @@ class TabRequestController extends BaseController {
     //   isMoreDataAvailable(false);
     // }
     listRequest.clear();
-    list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
     listRequest.addAll(list);
     if (selectedTimeTypeVal.value == 'Tất cả') {
-      listRequest.value =
-          listRequest.where((e) => e.status != "CANCEL").toList();
+      listRequest.value = listRequest.where((e) => e.status != "CANCEL").toList();
     } else {
-      listRequest.value = listRequest
-          .where((e) =>
-              e.status != "CANCEL" &&
-              e.createdAt!.year.toString() == selectedTimeTypeVal.value)
-          .toList();
+      listRequest.value = listRequest.where((e) => e.status != "CANCEL" && e.createdAt!.year.toString() == selectedTimeTypeVal.value).toList();
     }
+    listRequest.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
   }
 
   Future<void> getAllLeaveRequest(var page) async {
@@ -299,23 +275,18 @@ class TabRequestController extends BaseController {
     try {
       checkToken();
       listRequest.clear();
-      List<RequestModel> list =
-          await TabRequestApi.getAllLeaveRequest(jwt, idUser, page);
+      List<RequestModel> list = await TabRequestApi.getAllLeaveRequest(jwt, idUser, page);
 
       list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
       listRequest.value = list;
 
-      listRequest.value =
-          listRequest.where((e) => e.status != "CANCEL").toList();
+      listRequest.value = listRequest.where((e) => e.status != "CANCEL").toList();
 
-      List<DateTime?> createdAtList =
-          listRequest.map((e) => e.createdAt).toList();
+      List<DateTime?> createdAtList = listRequest.map((e) => e.createdAt).toList();
 
-      int smallestYear = createdAtList.fold(DateTime.now().year,
-          (year, date) => date!.year < year ? date.year : year);
-      int largestYear = createdAtList.fold(
-          0, (year, date) => date!.year > year ? date.year : year);
+      int smallestYear = createdAtList.fold(DateTime.now().year, (year, date) => date!.year < year ? date.year : year);
+      int largestYear = createdAtList.fold(0, (year, date) => date!.year > year ? date.year : year);
 
       List<String> listYear = ['Tất cả'];
 
@@ -336,8 +307,7 @@ class TabRequestController extends BaseController {
 
   void paginateBudget() {
     scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
+      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
         print('reached end');
         page++;
         getMoreBudget(page);
@@ -350,8 +320,7 @@ class TabRequestController extends BaseController {
       List<RequestModel> list = [];
       if (leaveStatus.value == 'Tất cả' && status.value == 'Tất cả') {
         list = await TabRequestApi.getAllLeaveRequest(jwt, idUser, page);
-      } else if (leaveStatus.value == 'Tất cả' &&
-          status.value != 'Tất cả') {
+      } else if (leaveStatus.value == 'Tất cả' && status.value != 'Tất cả') {
         String statusRequest = '';
         if (status.value == 'Đang xử lí') {
           statusRequest = 'PENDING';
@@ -360,10 +329,8 @@ class TabRequestController extends BaseController {
         } else if (status.value == 'Từ chối') {
           statusRequest = 'REJECT';
         }
-        list = await TabRequestApi.getLeaveRequestByStatus(
-            jwt, idUser, page, statusRequest);
-      } else if (leaveStatus.value != 'Tất cả' &&
-          status.value == 'Tất cả') {
+        list = await TabRequestApi.getLeaveRequestByStatus(jwt, idUser, page, statusRequest);
+      } else if (leaveStatus.value != 'Tất cả' && status.value == 'Tất cả') {
         String typeRequest = '';
         if (leaveStatus.value == 'Nghỉ có lương') {
           typeRequest = 'A';
@@ -372,10 +339,8 @@ class TabRequestController extends BaseController {
         } else if (leaveStatus.value == 'Đi công tác') {
           typeRequest = 'M';
         }
-        list = await TabRequestApi.getLeaveRequestByType(
-            jwt, idUser, page, typeRequest);
-      } else if (leaveStatus.value != 'Tất cả' &&
-          status.value != 'Tất cả') {
+        list = await TabRequestApi.getLeaveRequestByType(jwt, idUser, page, typeRequest);
+      } else if (leaveStatus.value != 'Tất cả' && status.value != 'Tất cả') {
         String statusRequest = '';
         if (status.value == 'Đang xử lí') {
           statusRequest = 'PENDING';
@@ -393,8 +358,7 @@ class TabRequestController extends BaseController {
           typeRequest = 'M';
         }
 
-        list = await TabRequestApi.getLeaveRequestByStatusAndType(
-            jwt, idUser, page, statusRequest, typeRequest);
+        list = await TabRequestApi.getLeaveRequestByStatusAndType(jwt, idUser, page, statusRequest, typeRequest);
       }
 
       if (list.isNotEmpty) {
@@ -405,14 +369,9 @@ class TabRequestController extends BaseController {
       list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
       listRequest.addAll(list);
       if (selectedTimeTypeVal.value == 'Tất cả') {
-        listRequest.value =
-            listRequest.where((e) => e.status != "CANCEL").toList();
+        listRequest.value = listRequest.where((e) => e.status != "CANCEL").toList();
       } else {
-        listRequest.value = listRequest
-            .where((e) =>
-                e.status != "CANCEL" &&
-                e.createdAt!.year.toString() == selectedTimeTypeVal.value)
-            .toList();
+        listRequest.value = listRequest.where((e) => e.status != "CANCEL" && e.createdAt!.year.toString() == selectedTimeTypeVal.value).toList();
       }
       isLoading.value = false;
     } catch (e) {
@@ -445,8 +404,7 @@ class TabRequestController extends BaseController {
           } else if (value == 'Từ chối') {
             status = 'REJECT';
           }
-          list = await TabRequestApi.getLeaveRequestByStatus(
-              jwt, idUser, page, status);
+          list = await TabRequestApi.getLeaveRequestByStatus(jwt, idUser, page, status);
         }
       } else {
         String type = '';
@@ -458,8 +416,7 @@ class TabRequestController extends BaseController {
           type = 'M';
         }
         if (value == 'Tất cả') {
-          list = await TabRequestApi.getLeaveRequestByType(
-              jwt, idUser, page, type);
+          list = await TabRequestApi.getLeaveRequestByType(jwt, idUser, page, type);
         } else {
           String status = '';
           checkToken();
@@ -471,21 +428,15 @@ class TabRequestController extends BaseController {
           } else if (value == 'Từ chối') {
             status = 'REJECT';
           }
-          list = await TabRequestApi.getLeaveRequestByStatusAndType(
-              jwt, idUser, page, status, type);
+          list = await TabRequestApi.getLeaveRequestByStatusAndType(jwt, idUser, page, status, type);
         }
       }
       list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
       listRequest.value = list;
       if (selectedTimeTypeVal.value == 'Tất cả') {
-        listRequest.value =
-            listRequest.where((e) => e.status != "CANCEL").toList();
+        listRequest.value = listRequest.where((e) => e.status != "CANCEL").toList();
       } else {
-        listRequest.value = listRequest
-            .where((e) =>
-                e.status != "CANCEL" &&
-                e.createdAt!.year.toString() == selectedTimeTypeVal.value)
-            .toList();
+        listRequest.value = listRequest.where((e) => e.status != "CANCEL" && e.createdAt!.year.toString() == selectedTimeTypeVal.value).toList();
       }
 
       isLoading.value = false;
@@ -520,8 +471,7 @@ class TabRequestController extends BaseController {
           } else if (value == 'Đi công tác') {
             type = 'M';
           }
-          list = await TabRequestApi.getLeaveRequestByType(
-              jwt, idUser, page, type);
+          list = await TabRequestApi.getLeaveRequestByType(jwt, idUser, page, type);
         }
       } else {
         String leaveStatus = '';
@@ -533,8 +483,7 @@ class TabRequestController extends BaseController {
           leaveStatus = 'REJECT';
         }
         if (value == 'Tất cả') {
-          list = await TabRequestApi.getLeaveRequestByStatus(
-              jwt, idUser, page, leaveStatus);
+          list = await TabRequestApi.getLeaveRequestByStatus(jwt, idUser, page, leaveStatus);
         } else {
           String type = '';
           checkToken();
@@ -547,21 +496,15 @@ class TabRequestController extends BaseController {
             type = 'M';
           }
 
-          list = await TabRequestApi.getLeaveRequestByStatusAndType(
-              jwt, idUser, page, leaveStatus, type);
+          list = await TabRequestApi.getLeaveRequestByStatusAndType(jwt, idUser, page, leaveStatus, type);
         }
       }
       list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
       listRequest.value = list;
       if (selectedTimeTypeVal.value == 'Tất cả') {
-        listRequest.value =
-            listRequest.where((e) => e.status != "CANCEL").toList();
+        listRequest.value = listRequest.where((e) => e.status != "CANCEL").toList();
       } else {
-        listRequest.value = listRequest
-            .where((e) =>
-                e.status != "CANCEL" &&
-                e.createdAt!.year.toString() == selectedTimeTypeVal.value)
-            .toList();
+        listRequest.value = listRequest.where((e) => e.status != "CANCEL" && e.createdAt!.year.toString() == selectedTimeTypeVal.value).toList();
       }
 
       isLoading.value = false;
@@ -584,8 +527,7 @@ class TabRequestController extends BaseController {
       list = await TabRequestApi.getAllLeaveRequest(jwt, idUser, page);
       list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
       listRequest.value = list;
-      listRequest.value =
-          listRequest.where((e) => e.status != "CANCEL").toList();
+      listRequest.value = listRequest.where((e) => e.status != "CANCEL").toList();
       isLoading.value = false;
     } catch (e) {
       log(e.toString());

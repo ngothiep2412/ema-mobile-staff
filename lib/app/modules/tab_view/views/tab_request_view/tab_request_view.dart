@@ -360,7 +360,9 @@ class TabRequestView extends BaseView<TabRequestController> {
                                               SizedBox(
                                                 height: UtilsReponsive.height(10, context),
                                               ),
-                                              Text(controller.vietnameseDateFormat.format(controller.listRequest[index].createdAt!),
+                                              Text(
+                                                  controller.vietnameseDateFormat
+                                                      .format(controller.listRequest[index].createdAt!.toUtc().add(Duration(hours: 7))),
                                                   style: GetTextStyle.getTextStyle(15, 'Roboto', FontWeight.bold, ColorsManager.textColor)),
                                               SizedBox(
                                                 height: UtilsReponsive.height(10, context),

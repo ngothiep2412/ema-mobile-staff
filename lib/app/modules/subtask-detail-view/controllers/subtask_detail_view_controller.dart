@@ -30,10 +30,7 @@ import 'package:path_provider/path_provider.dart';
 
 class SubtaskDetailViewController extends BaseController {
   SubtaskDetailViewController(
-      {required this.taskID,
-      required this.isNavigateDetail,
-      required this.endDateTaskParent,
-      required this.startDateTaskParent});
+      {required this.taskID, required this.isNavigateDetail, required this.endDateTaskParent, required this.startDateTaskParent});
   String taskID = '';
   Rx<TaskModel> taskModel = TaskModel().obs;
   bool isNavigateDetail = false;
@@ -72,19 +69,14 @@ class SubtaskDetailViewController extends BaseController {
 
   RxList<PlatformFile> filePicker = <PlatformFile>[].obs;
 
-  Rx<DateTime> startDate =
-      DateTime.now().toUtc().add(const Duration(hours: 7)).obs;
-  Rx<DateTime> endDate =
-      DateTime.now().toUtc().add(const Duration(hours: 7)).obs;
+  Rx<DateTime> startDate = DateTime.now().toUtc().add(const Duration(hours: 7)).obs;
+  Rx<DateTime> endDate = DateTime.now().toUtc().add(const Duration(hours: 7)).obs;
   DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'vi');
 
   DateTime endDateTaskParent;
   DateTime startDateTaskParent;
 
-  List<DateTime?> listChange = [
-    DateTime.now().toUtc().add(const Duration(hours: 7)),
-    DateTime.now().toUtc().add(const Duration(hours: 7))
-  ];
+  List<DateTime?> listChange = [DateTime.now().toUtc().add(const Duration(hours: 7)), DateTime.now().toUtc().add(const Duration(hours: 7))];
 
   FocusNode focusNodeDetail = FocusNode();
   FocusNode focusNodeComment = FocusNode();
@@ -101,6 +93,9 @@ class SubtaskDetailViewController extends BaseController {
 
   RxDouble est = 0.0.obs;
   RxDouble effort = 0.0.obs;
+
+  RxDouble progress = 0.0.obs;
+  RxDouble progressView = 0.0.obs;
 
   // RxBool isEditComment = false.obs;
 
@@ -122,8 +117,7 @@ class SubtaskDetailViewController extends BaseController {
 
       listChange = listDateTime;
 
-      if (taskModel.value.assignTasks != null &&
-          taskModel.value.assignTasks!.isNotEmpty) {
+      if (taskModel.value.assignTasks != null && taskModel.value.assignTasks!.isNotEmpty) {
         // for (int index = 0;
         //     index < taskModel.value.assignTasks!.length;
         //     index++) {
@@ -132,14 +126,12 @@ class SubtaskDetailViewController extends BaseController {
       } else {
         employeeLeader.value = EmployeeModel();
       }
-      UserModel assigner = await SubTaskDetailApi.getAssignerDetail(
-          jwt, taskModel.value.createdBy!);
+      UserModel assigner = await SubTaskDetailApi.getAssignerDetail(jwt, taskModel.value.createdBy!);
       if (assigner.statusCode == 200 || assigner.statusCode == 201) {
         taskModel.value.nameAssigner = assigner.result!.fullName;
         taskModel.value.avatarAssigner = assigner.result!.avatar;
       }
-      if (taskModel.value.description == null ||
-          taskModel.value.description == '') {
+      if (taskModel.value.description == null || taskModel.value.description == '') {
         quillController.value = QuillController(
           document: Document(),
           selection: const TextSelection.collapsed(offset: 0),
@@ -151,8 +143,7 @@ class SubtaskDetailViewController extends BaseController {
         );
       }
 
-      listComment.value =
-          await SubTaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+      listComment.value = await SubTaskDetailApi.getAllComment(jwt, taskModel.value.id!);
       if (listComment.isNotEmpty) {
         listComment.sort((comment1, comment2) {
           return comment2.createdAt!.compareTo(comment1.createdAt!);
@@ -172,11 +163,38 @@ class SubtaskDetailViewController extends BaseController {
         effortController.text = '0.0';
       }
 
+      progress.value = double.parse(taskModel.value.progress.toString());
+      progressView.value = double.parse(taskModel.value.progress.toString());
+
       getAllAttachment();
 
       isLoading.value = false;
     } catch (e) {
       isLoading.value = false;
+      print(e);
+    }
+  }
+
+  Future<void> updateProgress(double value) async {
+    try {
+      checkToken();
+
+      ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, value);
+      if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+        progress.value = value;
+        if (value == 100) {
+          await updateStatusTask('DONE', taskID);
+        } else {
+          if (taskModel.value.startDate!.day == taskModel.value.endDate!.day && DateTime.now().toLocal().isAfter(taskModel.value.startDate!)) {
+            await updateStatusTask('OVERDUE', taskID);
+          } else if (taskModel.value.startDate!.day != taskModel.value.endDate!.day && DateTime.now().toLocal().isAfter(taskModel.value.endDate!)) {
+            await updateStatusTask('OVERDUE', taskID);
+          } else {
+            await updateStatusTask('PROCESSING', taskID);
+          }
+        }
+      }
+    } catch (e) {
       print(e);
     }
   }
@@ -189,11 +207,7 @@ class SubtaskDetailViewController extends BaseController {
         return taskFile2.createdAt!.compareTo(taskFile1.createdAt!);
       });
       for (var item in taskModel.value.taskFiles!) {
-        list.add(AttachmentModel(
-            id: item.id,
-            fileName: item.fileName,
-            fileUrl: item.fileUrl,
-            mode: 1));
+        list.add(AttachmentModel(id: item.id, fileName: item.fileName, fileUrl: item.fileUrl, mode: 1));
       }
     }
     // if (listComment.isNotEmpty) {
@@ -228,11 +242,9 @@ class SubtaskDetailViewController extends BaseController {
     try {
       checkToken();
       Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
-      listEmployee.value = await SubTaskDetailApi.getAllEmployee(
-          jwt, decodedToken['divisionID']);
+      listEmployee.value = await SubTaskDetailApi.getAllEmployee(jwt, decodedToken['divisionID']);
 
-      if (taskModel.value.assignTasks != null &&
-          taskModel.value.assignTasks!.isNotEmpty) {
+      if (taskModel.value.assignTasks != null && taskModel.value.assignTasks!.isNotEmpty) {
         // for (int index = 0;
         //     index < taskModel.value.assignTasks!.length;
         //     index++) {
@@ -284,14 +296,10 @@ class SubtaskDetailViewController extends BaseController {
     try {
       checkToken();
       Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
-      listEmployee.value = await SubTaskDetailApi.getAllEmployee(
-          jwt, decodedToken['divisionID']);
+      listEmployee.value = await SubTaskDetailApi.getAllEmployee(jwt, decodedToken['divisionID']);
       List<EmployeeModel> list = [];
-      if (taskModel.value.assignTasks != null &&
-          taskModel.value.assignTasks!.isNotEmpty) {
-        for (int index = 1;
-            index < taskModel.value.assignTasks!.length;
-            index++) {
+      if (taskModel.value.assignTasks != null && taskModel.value.assignTasks!.isNotEmpty) {
+        for (int index = 1; index < taskModel.value.assignTasks!.length; index++) {
           String assignTaskId = taskModel.value.assignTasks![index].user!.id!;
 
           for (int i = 0; i < listEmployee.length; i++) {
@@ -324,16 +332,11 @@ class SubtaskDetailViewController extends BaseController {
     try {
       checkToken();
       Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
-      listEmployee.value = await SubTaskDetailApi.getAllEmployee(
-          jwt, decodedToken['divisionID']);
+      listEmployee.value = await SubTaskDetailApi.getAllEmployee(jwt, decodedToken['divisionID']);
       List<EmployeeModel> list = [];
-      if (taskModel.value.assignTasks != null &&
-          taskModel.value.assignTasks!.length > 1) {
-        listEmployee.removeWhere((employee) =>
-            employee.id == taskModel.value.assignTasks![0].user!.id!);
-        for (int index = 1;
-            index < taskModel.value.assignTasks!.length;
-            index++) {
+      if (taskModel.value.assignTasks != null && taskModel.value.assignTasks!.length > 1) {
+        listEmployee.removeWhere((employee) => employee.id == taskModel.value.assignTasks![0].user!.id!);
+        for (int index = 1; index < taskModel.value.assignTasks!.length; index++) {
           String assignTaskId = taskModel.value.assignTasks![index].user!.id!;
           if (taskModel.value.assignTasks!.isNotEmpty) {
             for (int i = 0; i < listEmployee.length; i++) {
@@ -357,8 +360,7 @@ class SubtaskDetailViewController extends BaseController {
           }
         }
         listEmployeeChoose.value = list;
-      } else if (taskModel.value.assignTasks != null &&
-          taskModel.value.assignTasks!.length == 1) {
+      } else if (taskModel.value.assignTasks != null && taskModel.value.assignTasks!.length == 1) {
         String assignTaskId = taskModel.value.assignTasks![0].user!.id!;
         listEmployee.removeWhere((employee) => employee.id == assignTaskId);
       }
@@ -391,8 +393,7 @@ class SubtaskDetailViewController extends BaseController {
 
     // var myJSON = jsonDecode(
     //     r'[{"insert": "The Two Towers"}, {"insert": "\n", "attributes": {"header": 1}}, {"insert": "Aragorn sped on up the hill.\n"}]');
-    if (taskModel.value.description != null &&
-        taskModel.value.description != "") {
+    if (taskModel.value.description != null && taskModel.value.description != "") {
       var myJSON = jsonDecode(taskModel.value.description!);
       quillController.value = QuillController(
         document: Document.fromJson(myJSON),
@@ -440,21 +441,16 @@ class SubtaskDetailViewController extends BaseController {
     try {
       checkToken();
       Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
-      listEmployee.value = await SubTaskDetailApi.getAllEmployee(
-          jwt, decodedToken['divisionID']);
+      listEmployee.value = await SubTaskDetailApi.getAllEmployee(jwt, decodedToken['divisionID']);
       originalList = listEmployee;
       if (value.isEmpty) {
-        listEmployee.value = await SubTaskDetailApi.getAllEmployee(
-            jwt, decodedToken['divisionID']);
+        listEmployee.value = await SubTaskDetailApi.getAllEmployee(jwt, decodedToken['divisionID']);
       } else {
         listEmployee.value = originalList
-            .where((employee) =>
-                removeVietnameseAccent(employee.fullName!.toLowerCase())
-                    .contains(removeVietnameseAccent(value.toLowerCase())))
+            .where((employee) => removeVietnameseAccent(employee.fullName!.toLowerCase()).contains(removeVietnameseAccent(value.toLowerCase())))
             .toList();
       }
-      if (taskModel.value.assignTasks != null &&
-          taskModel.value.assignTasks!.isNotEmpty) {
+      if (taskModel.value.assignTasks != null && taskModel.value.assignTasks!.isNotEmpty) {
         if (taskModel.value.assignTasks!.isNotEmpty) {
           for (int i = 0; i < listEmployee.length; i++) {
             String assignTaskId = taskModel.value.assignTasks![0].user!.id!;
@@ -482,17 +478,12 @@ class SubtaskDetailViewController extends BaseController {
     try {
       checkToken();
       Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
-      listEmployee.value = await SubTaskDetailApi.getAllEmployee(
-          jwt, decodedToken['divisionID']);
+      listEmployee.value = await SubTaskDetailApi.getAllEmployee(jwt, decodedToken['divisionID']);
       originalList = listEmployee;
       if (value.isEmpty) {
-        if (taskModel.value.assignTasks != null &&
-            taskModel.value.assignTasks!.length > 1) {
-          listEmployee.removeWhere((employee) =>
-              employee.id == taskModel.value.assignTasks![0].user!.id!);
-          for (int index = 1;
-              index < taskModel.value.assignTasks!.length;
-              index++) {
+        if (taskModel.value.assignTasks != null && taskModel.value.assignTasks!.length > 1) {
+          listEmployee.removeWhere((employee) => employee.id == taskModel.value.assignTasks![0].user!.id!);
+          for (int index = 1; index < taskModel.value.assignTasks!.length; index++) {
             String assignTaskId = taskModel.value.assignTasks![index].user!.id!;
             if (taskModel.value.assignTasks!.isNotEmpty) {
               for (int i = 0; i < listEmployee.length; i++) {
@@ -515,25 +506,18 @@ class SubtaskDetailViewController extends BaseController {
               // }
             }
           }
-        } else if (taskModel.value.assignTasks != null &&
-            taskModel.value.assignTasks!.length == 1) {
+        } else if (taskModel.value.assignTasks != null && taskModel.value.assignTasks!.length == 1) {
           String assignTaskId = taskModel.value.assignTasks![0].user!.id!;
           listEmployee.removeWhere((employee) => employee.id == assignTaskId);
         }
       } else {
         listEmployee.value = originalList
-            .where((employee) =>
-                removeVietnameseAccent(employee.fullName!.toLowerCase())
-                    .contains(removeVietnameseAccent(value.toLowerCase())))
+            .where((employee) => removeVietnameseAccent(employee.fullName!.toLowerCase()).contains(removeVietnameseAccent(value.toLowerCase())))
             .toList();
       }
-      if (taskModel.value.assignTasks != null &&
-          taskModel.value.assignTasks!.length > 1) {
-        listEmployee.removeWhere((employee) =>
-            employee.id == taskModel.value.assignTasks![0].user!.id!);
-        for (int index = 1;
-            index < taskModel.value.assignTasks!.length;
-            index++) {
+      if (taskModel.value.assignTasks != null && taskModel.value.assignTasks!.length > 1) {
+        listEmployee.removeWhere((employee) => employee.id == taskModel.value.assignTasks![0].user!.id!);
+        for (int index = 1; index < taskModel.value.assignTasks!.length; index++) {
           String assignTaskId = taskModel.value.assignTasks![index].user!.id!;
           if (taskModel.value.assignTasks!.isNotEmpty) {
             for (int i = 0; i < listEmployee.length; i++) {
@@ -556,8 +540,7 @@ class SubtaskDetailViewController extends BaseController {
             // }
           }
         }
-      } else if (taskModel.value.assignTasks != null &&
-          taskModel.value.assignTasks!.length == 1) {
+      } else if (taskModel.value.assignTasks != null && taskModel.value.assignTasks!.length == 1) {
         String assignTaskId = taskModel.value.assignTasks![0].user!.id!;
         listEmployee.removeWhere((employee) => employee.id == assignTaskId);
       }
@@ -618,8 +601,7 @@ class SubtaskDetailViewController extends BaseController {
 
       checkToken();
 
-      ResponseApi responseApi =
-          await SubTaskDetailApi.updateStatusTask(jwt, taskID, status);
+      ResponseApi responseApi = await SubTaskDetailApi.updateStatusTask(jwt, taskID, status);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
         // UserModel assigner = await TaskDetailApi.getAssignerDetail(
@@ -654,8 +636,7 @@ class SubtaskDetailViewController extends BaseController {
 
       checkToken();
 
-      ResponseApi responseApi =
-          await SubTaskDetailApi.updateStatusTask(jwt, taskID, status);
+      ResponseApi responseApi = await SubTaskDetailApi.updateStatusTask(jwt, taskID, status);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
         // UserModel assigner = await TaskDetailApi.getAssignerDetail(
@@ -691,8 +672,7 @@ class SubtaskDetailViewController extends BaseController {
 
       checkToken();
 
-      ResponseApi responseApi = await SubTaskDetailApi.updatePriority(
-          jwt, taskID, taskModel.value.eventId!, priority);
+      ResponseApi responseApi = await SubTaskDetailApi.updatePriority(jwt, taskID, taskModel.value.eventId!, priority);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
         // UserModel assigner = await TaskDetailApi.getAssignerDetail(
@@ -727,8 +707,7 @@ class SubtaskDetailViewController extends BaseController {
 
       checkToken();
 
-      ResponseApi responseApi = await SubTaskDetailApi.updateTitleTask(
-          jwt, taskID, taskModel.value.eventId!, title);
+      ResponseApi responseApi = await SubTaskDetailApi.updateTitleTask(jwt, taskID, taskModel.value.eventId!, title);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
         // UserModel assigner = await TaskDetailApi.getAssignerDetail(
@@ -776,19 +755,16 @@ class SubtaskDetailViewController extends BaseController {
     // endDate.value = endDate.value.copyWith(minute: 0);
     if (startDate.isAfter(endDate)) {
       errorUpdateSubTask.value = true;
-      errorUpdateSubTaskText.value =
-          'Ngày kết thúc phải nhỏ hơn ngày bắt đầu';
+      errorUpdateSubTaskText.value = 'Ngày kết thúc phải nhỏ hơn ngày bắt đầu';
       isLoading.value = false;
     } else {
       try {
         checkToken();
         // SharedPreferences prefs = await SharedPreferences.getInstance();
         if (endDate.difference(startDate).inMinutes / 60.0 < est.value) {
-          await SubTaskDetailApi.updateEstimationTime(
-              jwt, taskID, taskModel.value.eventId!, est.value);
+          await SubTaskDetailApi.updateEstimationTime(jwt, taskID, taskModel.value.eventId!, est.value);
         }
-        ResponseApi responseApi = await SubTaskDetailApi.updateDateTimeTask(
-            jwt, taskID, startDate, endDate, taskModel.value.eventId!);
+        ResponseApi responseApi = await SubTaskDetailApi.updateDateTimeTask(jwt, taskID, startDate, endDate, taskModel.value.eventId!);
         if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
           // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
           // UserModel assigner = await TaskDetailApi.getAssignerDetail(
@@ -818,20 +794,15 @@ class SubtaskDetailViewController extends BaseController {
   }
 
   Future<void> updateEstimateTime(String taskID, double estimateTime) async {
-    if (endDate.value.difference(startDate.value).inMinutes / 60.0 <
-        estimateTime) {
-      Get.snackbar('Lỗi',
-          'Phải nhập thời gian ước lượng trong khoảng hạn của công việc',
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.transparent,
-          colorText: ColorsManager.textColor);
+    if (endDate.value.difference(startDate.value).inMinutes / 60.0 < estimateTime) {
+      Get.snackbar('Lỗi', 'Phải nhập thời gian ước lượng trong khoảng hạn của công việc',
+          snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
       estController.text = est.value.toString();
     } else {
       try {
         checkToken();
 
-        ResponseApi responseApi = await SubTaskDetailApi.updateEstimationTime(
-            jwt, taskID, taskModel.value.eventId!, estimateTime);
+        ResponseApi responseApi = await SubTaskDetailApi.updateEstimationTime(jwt, taskID, taskModel.value.eventId!, estimateTime);
         if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
           est.value = estimateTime;
           estController.text = estimateTime.toString();
@@ -846,8 +817,7 @@ class SubtaskDetailViewController extends BaseController {
     try {
       checkToken();
 
-      ResponseApi responseApi = await SubTaskDetailApi.updateEffort(
-          jwt, taskID, taskModel.value.eventId!, effortInput);
+      ResponseApi responseApi = await SubTaskDetailApi.updateEffort(jwt, taskID, taskModel.value.eventId!, effortInput);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         effort.value = effortInput;
         effortController.text = effortInput.toString();
@@ -888,8 +858,7 @@ class SubtaskDetailViewController extends BaseController {
     isLoading.value = false;
   }
 
-  Future<void> assignLeader(
-      String taskID, EmployeeModel employeeLeader, String leaderID) async {
+  Future<void> assignLeader(String taskID, EmployeeModel employeeLeader, String leaderID) async {
     isLoading.value = true;
     try {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -900,8 +869,7 @@ class SubtaskDetailViewController extends BaseController {
       //   assignee.add(item.id!);
       // }
       assignee.add(employeeLeader.id!);
-      ResponseApi responseApi = await SubTaskDetailApi.updateAssigneeLeader(
-          jwt, taskID, assignee, leaderID);
+      ResponseApi responseApi = await SubTaskDetailApi.updateAssigneeLeader(jwt, taskID, assignee, leaderID);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
         // UserModel assigner = await TaskDetailApi.getAssignerDetail(
@@ -929,8 +897,7 @@ class SubtaskDetailViewController extends BaseController {
     }
   }
 
-  Future<void> assignSupporter(
-      String taskID, List<EmployeeModel> listSupporter, String leaderID) async {
+  Future<void> assignSupporter(String taskID, List<EmployeeModel> listSupporter, String leaderID) async {
     isLoading.value = true;
     try {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -950,8 +917,7 @@ class SubtaskDetailViewController extends BaseController {
         }
       }
 
-      ResponseApi responseApi = await SubTaskDetailApi.updateAssigneeLeader(
-          jwt, taskID, assignee, leaderID);
+      ResponseApi responseApi = await SubTaskDetailApi.updateAssigneeLeader(jwt, taskID, assignee, leaderID);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
         // UserModel assigner = await TaskDetailApi.getAssignerDetail(
@@ -992,24 +958,18 @@ class SubtaskDetailViewController extends BaseController {
       }
       final file = result.files.first;
       File fileResult = File(result.files[0].path!);
-      double fileLength =
-          File(result.files[0].path!).lengthSync() / 1024 / 1024;
+      double fileLength = File(result.files[0].path!).lengthSync() / 1024 / 1024;
 
       if (fileLength > 10) {
         Get.snackbar('Lỗi', 'Không thể lấy tài liệu lớn hơn 10mb',
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.transparent,
-            colorText: Colors.white);
+            snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.transparent, colorText: Colors.white);
         return;
       }
-      UploadFileModel responseApi = await SubTaskDetailApi.uploadFile(
-          jwt, fileResult, file.extension ?? '', 'task');
+      UploadFileModel responseApi = await SubTaskDetailApi.uploadFile(jwt, fileResult, file.extension ?? '', 'task');
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         String fileName = fileResult.path.split('/').last;
-        ResponseApi updateFileTask = await SubTaskDetailApi.updateFileTask(
-            jwt, taskID, responseApi.result!.downloadUrl!, fileName);
-        if (updateFileTask.statusCode == 200 ||
-            updateFileTask.statusCode == 201) {
+        ResponseApi updateFileTask = await SubTaskDetailApi.updateFileTask(jwt, taskID, responseApi.result!.downloadUrl!, fileName);
+        if (updateFileTask.statusCode == 200 || updateFileTask.statusCode == 201) {
           TaskModel subTask = TaskModel();
           subTask = await SubTaskDetailApi.getTaskDetail(jwt, taskID);
           List<AttachmentModel> list = [];
@@ -1019,22 +979,14 @@ class SubtaskDetailViewController extends BaseController {
               return taskFile2.createdAt!.compareTo(taskFile1.createdAt!);
             });
             for (var item in subTask.taskFiles!) {
-              list.add(AttachmentModel(
-                  id: item.id,
-                  fileName: item.fileName,
-                  fileUrl: item.fileUrl,
-                  mode: 1));
+              list.add(AttachmentModel(id: item.id, fileName: item.fileName, fileUrl: item.fileUrl, mode: 1));
             }
           }
           if (listComment.isNotEmpty) {
             for (var item in listComment) {
               if (item.commentFiles!.isNotEmpty) {
                 for (var file in item.commentFiles!) {
-                  list.add(AttachmentModel(
-                      id: file.id,
-                      fileName: file.fileName,
-                      fileUrl: file.fileUrl,
-                      mode: 2));
+                  list.add(AttachmentModel(id: file.id, fileName: file.fileName, fileUrl: file.fileUrl, mode: 2));
                 }
               }
             }
@@ -1061,9 +1013,7 @@ class SubtaskDetailViewController extends BaseController {
     double fileLength = File(result.files[0].path!).lengthSync() / 1024 / 1024;
     if (fileLength > 10) {
       Get.snackbar('Lỗi', 'Không thể lấy tài liệu lớn hơn 10mb',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.transparent,
-          colorText: Colors.white);
+          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.transparent, colorText: Colors.white);
       isLoading.value = false;
       return;
     }
@@ -1081,9 +1031,7 @@ class SubtaskDetailViewController extends BaseController {
   Future<void> createComment() async {
     if (commentController.text.isEmpty) {
       Get.snackbar('Thông báo', 'Bạn phải nhập ít nhất 1 kí tự',
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.transparent,
-          colorText: ColorsManager.textColor);
+          snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
     } else {
       try {
         checkToken();
@@ -1091,31 +1039,23 @@ class SubtaskDetailViewController extends BaseController {
         if (filePicker.isNotEmpty) {
           for (var item in filePicker) {
             File fileResult = File(item.path!);
-            UploadFileModel responseApi = await SubTaskDetailApi.uploadFile(
-                jwt, fileResult, item.extension ?? '', 'comment');
-            if (responseApi.statusCode == 200 ||
-                responseApi.statusCode == 201) {
-              listFile.add(FileModel(
-                  fileName: responseApi.result!.fileName,
-                  fileUrl: responseApi.result!.downloadUrl));
+            UploadFileModel responseApi = await SubTaskDetailApi.uploadFile(jwt, fileResult, item.extension ?? '', 'comment');
+            if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+              listFile.add(FileModel(fileName: responseApi.result!.fileName, fileUrl: responseApi.result!.downloadUrl));
             }
           }
-          ResponseApi responseApi = await SubTaskDetailApi.createComment(
-              jwt, taskID, commentController.text, listFile);
+          ResponseApi responseApi = await SubTaskDetailApi.createComment(jwt, taskID, commentController.text, listFile);
           if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-            listComment.value =
-                await SubTaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+            listComment.value = await SubTaskDetailApi.getAllComment(jwt, taskModel.value.id!);
             listComment.sort((comment1, comment2) {
               return comment2.createdAt!.compareTo(comment1.createdAt!);
             });
             getAllAttachment();
           }
         } else {
-          ResponseApi responseApi = await SubTaskDetailApi.createComment(
-              jwt, taskID, commentController.text, listFile);
+          ResponseApi responseApi = await SubTaskDetailApi.createComment(jwt, taskID, commentController.text, listFile);
           if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-            listComment.value =
-                await SubTaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+            listComment.value = await SubTaskDetailApi.getAllComment(jwt, taskModel.value.id!);
             listComment.sort((comment1, comment2) {
               return comment2.createdAt!.compareTo(comment1.createdAt!);
             });
@@ -1138,18 +1078,15 @@ class SubtaskDetailViewController extends BaseController {
     // isLoading.value = true;
     try {
       if (attachmentModel.mode == 1) {
-        listAttachment
-            .removeWhere((element) => element.id == attachmentModel.id);
+        listAttachment.removeWhere((element) => element.id == attachmentModel.id);
         List<TaskFile> list = [];
         for (var item in listAttachment) {
           if (item.mode == 1) {
             list.add(TaskFile(fileName: item.fileName, fileUrl: item.fileUrl));
           }
         }
-        ResponseApi deleteFileTask =
-            await SubTaskDetailApi.updateTaskFile(jwt, taskID, list);
-        if (deleteFileTask.statusCode == 200 ||
-            deleteFileTask.statusCode == 201) {
+        ResponseApi deleteFileTask = await SubTaskDetailApi.updateTaskFile(jwt, taskID, list);
+        if (deleteFileTask.statusCode == 200 || deleteFileTask.statusCode == 201) {
         } else {}
         // } else {
         //   listAttachment
@@ -1194,8 +1131,7 @@ class SubtaskDetailViewController extends BaseController {
   Future<void> cancel(String commentID) async {
     // isLoadingDeleteComment.value = true;
     try {
-      listComment.value =
-          await SubTaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+      listComment.value = await SubTaskDetailApi.getAllComment(jwt, taskModel.value.id!);
       listComment.sort((comment1, comment2) {
         return comment2.createdAt!.compareTo(comment1.createdAt!);
       });
@@ -1218,11 +1154,9 @@ class SubtaskDetailViewController extends BaseController {
   Future<void> deleteComment(CommentModel commentModel) async {
     try {
       checkToken();
-      ResponseApi responseApi =
-          await SubTaskDetailApi.deleteComment(jwt, commentModel.id!);
+      ResponseApi responseApi = await SubTaskDetailApi.deleteComment(jwt, commentModel.id!);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-        listComment.value =
-            await SubTaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+        listComment.value = await SubTaskDetailApi.getAllComment(jwt, taskModel.value.id!);
         listComment.sort((comment1, comment2) {
           return comment2.createdAt!.compareTo(comment1.createdAt!);
         });
@@ -1233,8 +1167,7 @@ class SubtaskDetailViewController extends BaseController {
     }
   }
 
-  Future<void> editComment(CommentModel commentModel, String content,
-      String commentID, List<PlatformFile> filePickerEditCommentFile) async {
+  Future<void> editComment(CommentModel commentModel, String content, String commentID, List<PlatformFile> filePickerEditCommentFile) async {
     try {
       checkToken();
       List<CommentFile> list = [];
@@ -1249,25 +1182,19 @@ class SubtaskDetailViewController extends BaseController {
       if (filePickerEditCommentFile.isNotEmpty) {
         for (var item in filePickerEditCommentFile) {
           File fileResult = File(item.path!);
-          UploadFileModel responseApi = await SubTaskDetailApi.uploadFile(
-              jwt, fileResult, item.extension ?? '', 'comment');
+          UploadFileModel responseApi = await SubTaskDetailApi.uploadFile(jwt, fileResult, item.extension ?? '', 'comment');
           if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-            listFile.add(FileModel(
-                fileName: responseApi.result!.fileName,
-                fileUrl: responseApi.result!.downloadUrl));
+            listFile.add(FileModel(fileName: responseApi.result!.fileName, fileUrl: responseApi.result!.downloadUrl));
           }
         }
         for (var fileNew in listFile) {
-          list.add(CommentFile(
-              fileName: fileNew.fileName, fileUrl: fileNew.fileUrl));
+          list.add(CommentFile(fileName: fileNew.fileName, fileUrl: fileNew.fileUrl));
         }
       }
 
-      ResponseApi responseApi = await SubTaskDetailApi.updateComment(
-          jwt, commentModel.id!, content, list);
+      ResponseApi responseApi = await SubTaskDetailApi.updateComment(jwt, commentModel.id!, content, list);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-        listComment.value =
-            await SubTaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+        listComment.value = await SubTaskDetailApi.getAllComment(jwt, taskModel.value.id!);
         listComment.sort((comment1, comment2) {
           return comment2.createdAt!.compareTo(comment1.createdAt!);
         });

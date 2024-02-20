@@ -124,6 +124,17 @@ class TaskDetailViewController extends BaseController {
         progressSubTaskDone.value = count / taskModel.value.subTask!.length;
       }
       count.value = 0;
+      if (progressSubTaskDone.value == 1) {
+        await updateStatusTask('DONE', taskID);
+      } else {
+        if (taskModel.value.startDate!.day == taskModel.value.endDate!.day && DateTime.now().toLocal().isAfter(taskModel.value.startDate!)) {
+          await updateStatusTask('OVERDUE', taskID);
+        } else if (taskModel.value.startDate!.day != taskModel.value.endDate!.day && DateTime.now().toLocal().isAfter(taskModel.value.endDate!)) {
+          await updateStatusTask('OVERDUE', taskID);
+        } else {
+          await updateStatusTask('PROCESSING', taskID);
+        }
+      }
 
       // for (var item in taskModel.value.taskFiles!) {
       //   final ref = FirebaseStorage.instance.ref().child(item.fileUrl!);

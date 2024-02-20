@@ -17,9 +17,27 @@ class TabHomeApi {
     if (response.statusCode == 201 || response.statusCode == 200) {
       var jsonData = jsonDecode(response.body)["result"];
       List<EventModel> listEvent = [];
-      listEvent.addAll(jsonData
-          .map((events) => EventModel.fromJson(events))
-          .cast<EventModel>());
+      listEvent.addAll(jsonData.map((events) => EventModel.fromJson(events)).cast<EventModel>());
+      return listEvent;
+    } else {
+      throw Exception('Exception');
+    }
+  }
+
+  static Future<List<EventModel>> getEventToday(String jwtToken) async {
+    var response = await http.get(
+      Uri.parse(BaseLink.localBaseLink + BaseLink.getEvent),
+      headers: {
+        "Accept": "application/json",
+        "content-type": "application/json",
+        'Authorization': 'Bearer $jwtToken',
+      },
+    );
+    print('abc event' + response.statusCode.toString());
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body)["result"];
+      List<EventModel> listEvent = [];
+      listEvent.addAll(jsonData.map((events) => EventModel.fromJson(events)).cast<EventModel>());
       return listEvent;
     } else {
       throw Exception('Exception');

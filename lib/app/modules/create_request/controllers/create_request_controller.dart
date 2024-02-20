@@ -149,9 +149,18 @@ class CreateRequestController extends BaseController {
             DateTime.parse(formattedStartDate), DateTime.parse(formattedEndDate), isFull.value, isPM.value, selectedLeaveTypeVal.value[0], jwt);
         if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
           errorCreateRequest.value = false;
+          contentController.text = '';
+          titleController.text = '';
+          startDateController.text = '';
+          endDateController.text = '';
+          selectedLeaveTypeVal.value = 'A: Nghỉ có lương';
+          selectedDayTypeVal.value = 'Nữa ngày';
+
+          selectedTimeTypeVal.value = 'Buổi sáng';
           await Get.find<TabRequestController>().getAllLeaveRequest(1);
         } else {
           errorCreateRequest.value = true;
+
           errorCreateRequestText.value = "Không thể tạo đơn";
         }
 
