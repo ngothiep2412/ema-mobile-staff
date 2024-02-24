@@ -7,8 +7,7 @@ import 'package:lottie/lottie.dart';
 
 import '../controllers/reset_password_successfully_controller.dart';
 
-class ResetPasswordSuccessfullyView
-    extends BaseView<ResetPasswordSuccessfullyController> {
+class ResetPasswordSuccessfullyView extends BaseView<ResetPasswordSuccessfullyController> {
   const ResetPasswordSuccessfullyView({Key? key}) : super(key: key);
   @override
   Widget buildView(BuildContext context) {
@@ -18,11 +17,7 @@ class ResetPasswordSuccessfullyView
         elevation: 0,
       ),
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Lottie.asset('animations/successfully.json',
-            height: UtilsReponsive.height(300, context),
-            reverse: true,
-            repeat: true,
-            fit: BoxFit.cover),
+        Lottie.asset('animations/successfully.json', height: UtilsReponsive.height(300, context), reverse: true, repeat: true, fit: BoxFit.cover),
         SizedBox(
           height: UtilsReponsive.height(30, context),
         ),
@@ -42,8 +37,7 @@ class ResetPasswordSuccessfullyView
               },
               child: Text(
                 "Trở về đăng nhập",
-                style: GetTextStyle.getTextStyle(
-                    18, 'Roboto', FontWeight.w500, Colors.white),
+                style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w500, Colors.white),
               ),
             ),
           ),

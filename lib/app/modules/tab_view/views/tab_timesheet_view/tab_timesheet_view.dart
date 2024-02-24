@@ -34,7 +34,7 @@ class TabTimeKeepingView extends BaseView<TabTimeKeepingController> {
                       ),
                       Text(
                         'Danh sách sự kiện',
-                        style: GetTextStyle.getTextStyle(22, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                        style: GetTextStyle.getTextStyle(22, 'Nunito', FontWeight.w600, ColorsManager.primary),
                       ),
                     ],
                   ),
@@ -50,7 +50,7 @@ class TabTimeKeepingView extends BaseView<TabTimeKeepingController> {
                             children: [
                               Text(
                                 'Năm',
-                                style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor),
+                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor),
                               ),
                               SizedBox(
                                 height: UtilsReponsive.height(10, context),
@@ -61,7 +61,7 @@ class TabTimeKeepingView extends BaseView<TabTimeKeepingController> {
                                           value: e,
                                           child: Text(
                                             e,
-                                            style: GetTextStyle.getTextStyle(15, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                                            style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                                           ),
                                         ))
                                     .toList(),
@@ -179,7 +179,7 @@ class TabTimeKeepingView extends BaseView<TabTimeKeepingController> {
               Expanded(
                 child: Text(
                   eventModel.eventName!,
-                  style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                 ),
               ),
               Expanded(
@@ -187,11 +187,11 @@ class TabTimeKeepingView extends BaseView<TabTimeKeepingController> {
                   children: [
                     Text(
                       'Ngày bắt đầu: ',
-                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+                      style: GetTextStyle.getTextStyle(11, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
                     ),
                     Text(
                       DateFormat('dd-MM-yyyy').format(eventModel.startDate!),
-                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w500, ColorsManager.textColor),
+                      style: GetTextStyle.getTextStyle(11, 'Nunito', FontWeight.w500, ColorsManager.textColor),
                     ),
                   ],
                 ),
@@ -201,11 +201,11 @@ class TabTimeKeepingView extends BaseView<TabTimeKeepingController> {
                   children: [
                     Text(
                       'Ngày Kết thúc: ',
-                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+                      style: GetTextStyle.getTextStyle(11, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
                     ),
                     Text(
                       DateFormat('dd-MM-yyyy').format(eventModel.endDate!),
-                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w500, ColorsManager.textColor),
+                      style: GetTextStyle.getTextStyle(11, 'Nunito', FontWeight.w500, ColorsManager.textColor),
                     ),
                   ],
                 ),
@@ -221,7 +221,7 @@ class TabTimeKeepingView extends BaseView<TabTimeKeepingController> {
                               ? "Đang diễn ra"
                               : "Đã kết thúc",
                       style: TextStyle(
-                        fontFamily: 'Roboto',
+                        fontFamily: 'Nunito',
                         fontWeight: FontWeight.w500,
                         fontSize: UtilsReponsive.height(16, context),
                         color: eventModel.status == "PENDING"

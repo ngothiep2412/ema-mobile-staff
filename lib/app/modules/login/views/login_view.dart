@@ -13,9 +13,7 @@ class LoginView extends BaseView<LoginController> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height,
-              maxWidth: MediaQuery.of(context).size.width),
+          constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height, maxWidth: MediaQuery.of(context).size.width),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -33,25 +31,21 @@ class LoginView extends BaseView<LoginController> {
               Expanded(
                 flex: 2,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: UtilsReponsive.height(36, context),
-                      horizontal: UtilsReponsive.width(24, context)),
+                  padding: EdgeInsets.symmetric(vertical: UtilsReponsive.height(36, context), horizontal: UtilsReponsive.width(24, context)),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'HREA',
-                        style: GetTextStyle.getTextStyle(
-                            46, 'Roboto', FontWeight.w800, Colors.white),
+                        'EMA',
+                        style: GetTextStyle.getTextStyle(46, 'Nunito', FontWeight.w800, Colors.white),
                       ),
                       SizedBox(
                         height: UtilsReponsive.height(10, context),
                       ),
                       Text(
                         'Đăng nhập',
-                        style: GetTextStyle.getTextStyle(
-                            20, 'Roboto', FontWeight.w400, Colors.white),
+                        style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w400, Colors.white),
                       ),
                     ],
                   ),
@@ -62,10 +56,7 @@ class LoginView extends BaseView<LoginController> {
                 child: Container(
                   width: double.infinity,
                   decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(40))),
+                      color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(40))),
                   child: Padding(
                     padding: UtilsReponsive.paddingAll(context, padding: 24),
                     child: Obx(
@@ -110,19 +101,15 @@ class LoginView extends BaseView<LoginController> {
                               ),
                               suffixIcon: IconButton(
                                 onPressed: () {
-                                  controller.passwordObscured.value =
-                                      !controller.passwordObscured.value;
+                                  controller.passwordObscured.value = !controller.passwordObscured.value;
                                 },
                                 icon: Icon(
-                                  controller.passwordObscured.value
-                                      ? Icons.visibility_off
-                                      : Icons.visibility,
+                                  controller.passwordObscured.value ? Icons.visibility_off : Icons.visibility,
                                   color: Colors.grey[600]!,
                                 ),
                               ),
                             ),
-                            onChanged: (value) =>
-                                {controller.setPassword(value)},
+                            onChanged: (value) => {controller.setPassword(value)},
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -133,8 +120,7 @@ class LoginView extends BaseView<LoginController> {
                                 },
                                 child: Text(
                                   "Quên mật khẩu?",
-                                  style: GetTextStyle.getTextStyle(15, 'Roboto',
-                                      FontWeight.w400, ColorsManager.primary),
+                                  style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w600, ColorsManager.primary),
                                 ),
                               )
                             ],
@@ -151,9 +137,7 @@ class LoginView extends BaseView<LoginController> {
                             child: MaterialButton(
                               onPressed: () async {
                                 await controller.login();
-                                controller.errorLogin.value
-                                    ? _errorMessage(context)
-                                    : null;
+                                controller.errorLogin.value ? _errorMessage(context) : null;
                                 // : _successMessage(context);
                               },
                               child: controller.isLoading.value
@@ -164,11 +148,7 @@ class LoginView extends BaseView<LoginController> {
                                     )
                                   : Text(
                                       "Đăng nhập",
-                                      style: GetTextStyle.getTextStyle(
-                                          20,
-                                          'Roboto',
-                                          FontWeight.w400,
-                                          Colors.white),
+                                      style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w600, Colors.white),
                                     ),
                             ),
                           ),
@@ -211,13 +191,13 @@ class LoginView extends BaseView<LoginController> {
   //               Text(
   //                 'Thành công',
   //                 style: GetTextStyle.getTextStyle(
-  //                     18, 'Roboto', FontWeight.w800, Colors.white),
+  //                     18, 'Nunito', FontWeight.w800, Colors.white),
   //               ),
   //               Spacer(),
   //               Text(
   //                 'Đăng nhập thành công',
   //                 style: GetTextStyle.getTextStyle(
-  //                     12, 'Roboto', FontWeight.w500, Colors.white),
+  //                     12, 'Nunito', FontWeight.w500, Colors.white),
   //                 maxLines: 2,
   //                 overflow: TextOverflow.ellipsis,
   //               )
@@ -238,9 +218,7 @@ class LoginView extends BaseView<LoginController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.height(80, context),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 219, 90, 90),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 219, 90, 90), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.error_outline,
@@ -256,15 +234,13 @@ class LoginView extends BaseView<LoginController> {
                 children: [
                   Text(
                     'Thất bại',
-                    style: GetTextStyle.getTextStyle(
-                        18, 'Roboto', FontWeight.w800, Colors.white),
+                    style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                   ),
                   const Spacer(),
                   Obx(
                     () => Text(
                       controller.errorLoginText.value,
-                      style: GetTextStyle.getTextStyle(
-                          12, 'Roboto', FontWeight.w500, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

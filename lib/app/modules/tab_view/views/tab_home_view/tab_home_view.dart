@@ -28,60 +28,104 @@ class TabHomeView extends BaseView<TabHomeController> {
                   // size: 50.0,
                 ),
               )
-            : RefreshIndicator(
-                onRefresh: controller.refreshpage,
-                child: SingleChildScrollView(
-                  child: Container(
-                    constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height, maxWidth: MediaQuery.of(context).size.width),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              width: UtilsReponsive.width(40, context),
-                              height: UtilsReponsive.width(40, context),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: ColorsManager.primary,
+            : Column(
+                children: [
+                  Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: controller.refreshpage,
+                      child: ListView(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Trang chủ',
+                                style: GetTextStyle.getTextStyle(22, 'Nunito', FontWeight.w800, ColorsManager.primary),
                               ),
-                              child: IconButton(
-                                onPressed: () {
-                                  showSearch(
-                                    context: context,
-                                    delegate: CustomSearch(
-                                      listEvent: controller.listEvent,
-                                    ),
-                                  );
-                                },
-                                icon: const Icon(Icons.search),
-                                color: ColorsManager.backgroundWhite,
+                              Container(
+                                width: UtilsReponsive.width(40, context),
+                                height: UtilsReponsive.width(40, context),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: ColorsManager.primary,
+                                ),
+                                child: IconButton(
+                                  onPressed: () {
+                                    // showSearch(
+                                    //   context: context,
+                                    //   delegate: CustomSearch(
+                                    //     listEvent: controller.listEvent,
+                                    //   ),
+                                    // );
+                                    Get.toNamed('/task-schedule');
+                                  },
+                                  icon: const Icon(Icons.calendar_month_outlined),
+                                  color: ColorsManager.backgroundWhite,
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              width: UtilsReponsive.width(20, context),
-                            ),
-                            Text(
-                              'Sự kiện',
-                              style: GetTextStyle.getTextStyle(22, 'Roboto', FontWeight.w600, ColorsManager.primary),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: UtilsReponsive.height(30, context),
-                        ),
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Sự kiện có công việc hôm nay',
-                            style: GetTextStyle.getTextStyle(22, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          height: UtilsReponsive.height(10, context),
-                        ),
-                        Obx(
-                          () => Expanded(
-                            child: Container(
+                          SizedBox(
+                            height: UtilsReponsive.height(30, context),
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(20),
+                              // boxShadow: [
+                              //   BoxShadow(
+                              //     color: Colors.grey.withOpacity(0.5),
+                              //     blurRadius: 5,
+                              //     spreadRadius: 2,
+                              //     offset: Offset(0, 3),
+                              //   )
+                              // ],
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.search,
+                                  color: Color(0xFF113953),
+                                ),
+                                Container(
+                                  width: 200,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 10),
+                                    child: TextFormField(
+                                      decoration: const InputDecoration(
+                                        hintText: "Tìm kiếm",
+                                        border: InputBorder.none,
+                                      ),
+                                      onTap: () => showSearch(
+                                        context: context,
+                                        delegate: CustomSearch(
+                                          listEvent: controller.listEvent,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: UtilsReponsive.height(30, context),
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              'Các sự kiện ngày hôm nay',
+                              style: GetTextStyle.getTextStyle(19, 'Nunito', FontWeight.w700, Color(0xffA7A7A7)),
+                            ),
+                          ),
+                          SizedBox(
+                            height: UtilsReponsive.height(10, context),
+                          ),
+                          Obx(
+                            () => Container(
+                              height: 330,
                               padding: EdgeInsets.all(UtilsReponsive.width(8, context)),
                               child: GridView.builder(
                                 scrollDirection: Axis.horizontal,
@@ -99,23 +143,22 @@ class TabHomeView extends BaseView<TabHomeController> {
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: UtilsReponsive.height(10, context),
-                        ),
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Sự kiện khác',
-                            style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                          SizedBox(
+                            height: UtilsReponsive.height(10, context),
                           ),
-                        ),
-                        SizedBox(
-                          height: UtilsReponsive.height(10, context),
-                        ),
-                        Obx(
-                          () => Expanded(
-                            child: Container(
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              'Các sự kiện sắp tới',
+                              style: GetTextStyle.getTextStyle(19, 'Nunito', FontWeight.w700, Color(0xffA7A7A7)),
+                            ),
+                          ),
+                          SizedBox(
+                            height: UtilsReponsive.height(10, context),
+                          ),
+                          Obx(
+                            () => Container(
+                              height: 330,
                               // height: MediaQuery.of(context).size.height / 1.38,
                               padding: EdgeInsets.all(UtilsReponsive.width(8, context)),
                               child: GridView.builder(
@@ -134,11 +177,11 @@ class TabHomeView extends BaseView<TabHomeController> {
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
       ),
     ));
@@ -150,15 +193,27 @@ class TabHomeView extends BaseView<TabHomeController> {
         controller.onTapEvent(eventID: eventModel.id!, eventName: eventModel.eventName!);
       },
       child: Container(
-        height: UtilsReponsive.height(50, context),
-        width: UtilsReponsive.width(150, context),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(UtilsReponsive.height(15, context))),
+        margin: EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(
+            UtilsReponsive.height(15, context),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5), // Màu của shadow và độ mờ
+              spreadRadius: 2, // Độ lan rộng của shadow
+              blurRadius: 5, // Độ mờ của shadow
+              offset: const Offset(0, 1), // Độ dịch chuyển của shadow
+            ),
+          ],
+        ),
         child: Padding(
           padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
           child: Column(
             children: [
               Container(
-                height: UtilsReponsive.height(150, context),
+                height: UtilsReponsive.height(220, context),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -171,17 +226,15 @@ class TabHomeView extends BaseView<TabHomeController> {
                   ),
                 ),
                 child: CachedNetworkImage(
-                  // fit: BoxFit.contain,
+                  fit: BoxFit.fill,
                   imageUrl: eventModel.coverUrl!,
                   imageBuilder: (context, imageProvider) => Container(
-                      height: UtilsReponsive.height(150, context),
-                      width: UtilsReponsive.width(150, context),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(
                             UtilsReponsive.height(15, context),
                           ),
                           border: Border.all(width: 1.5, color: Theme.of(context).scaffoldBackgroundColor),
-                          image: DecorationImage(fit: BoxFit.contain, image: imageProvider))),
+                          image: DecorationImage(fit: BoxFit.cover, image: imageProvider))),
                   progressIndicatorBuilder: (context, url, downloadProgress) => Container(
                     padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
                     height: UtilsReponsive.height(20, context),
@@ -197,9 +250,14 @@ class TabHomeView extends BaseView<TabHomeController> {
                 height: UtilsReponsive.height(10, context),
               ),
               Expanded(
-                child: Text(
-                  eventModel.eventName!,
-                  style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      eventModel.eventName!,
+                      style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w800, ColorsManager.textColor),
+                    ),
+                  ],
                 ),
               ),
               Expanded(
@@ -207,11 +265,11 @@ class TabHomeView extends BaseView<TabHomeController> {
                   children: [
                     Text(
                       'Ngày bắt đầu: ',
-                      style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+                      style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w600, ColorsManager.textColor2),
                     ),
                     Text(
                       DateFormat('dd-MM-yyyy').format(eventModel.startDate!),
-                      style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.textColor),
+                      style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w800, ColorsManager.textColor),
                     ),
                   ],
                 ),
@@ -221,11 +279,11 @@ class TabHomeView extends BaseView<TabHomeController> {
               //     children: [
               //       Text(
               //         'Ngày diễn ra: ',
-              //         style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+              //         style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
               //       ),
               //       Text(
               //         DateFormat('dd-MM-yyyy').format(eventModel.processingDate!),
-              //         style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.textColor),
+              //         style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.textColor),
               //       ),
               //     ],
               //   ),
@@ -235,11 +293,11 @@ class TabHomeView extends BaseView<TabHomeController> {
                   children: [
                     Text(
                       'Ngày Kết thúc: ',
-                      style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+                      style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w600, ColorsManager.textColor2),
                     ),
                     Text(
                       DateFormat('dd-MM-yyyy').format(eventModel.endDate!),
-                      style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.textColor),
+                      style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w800, ColorsManager.textColor),
                     ),
                   ],
                 ),
@@ -248,23 +306,26 @@ class TabHomeView extends BaseView<TabHomeController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      eventModel.status == "PENDING"
-                          ? "Đang chuẩn bị"
-                          : eventModel.status == "PROCESSING"
-                              ? "Đang diễn ra"
-                              : "Đã kết thúc",
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w500,
-                        fontSize: UtilsReponsive.height(18, context),
+                    Container(
+                      padding: const EdgeInsets.all(3.0), // Thêm padding cho khoảng cách giữa văn bản và viền của Container
+                      decoration: BoxDecoration(
                         color: eventModel.status == "PENDING"
                             ? ColorsManager.primary
                             : eventModel.status == "PROCESSING"
                                 ? Colors.orangeAccent
-                                : Colors.greenAccent,
+                                : Colors.greenAccent, // Đặt màu nền của Container là màu trắng
+                        borderRadius: BorderRadius.circular(10.0), // Đặt bo tròn cho viền của Container
                       ),
-                    ),
+                      child: Text(
+                        eventModel.status == "PENDING"
+                            ? "Đang chuẩn bị"
+                            : eventModel.status == "PROCESSING"
+                                ? "Đang diễn ra"
+                                : "Đã kết thúc",
+                        style: TextStyle(
+                            fontFamily: 'Nunito', fontWeight: FontWeight.w800, fontSize: UtilsReponsive.height(18, context), color: Colors.white),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -349,7 +410,7 @@ class CustomSearch extends SearchDelegate {
               ),
               Text(
                 result.eventName!,
-                style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, ColorsManager.textColor),
               ),
             ],
           )),

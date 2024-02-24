@@ -32,47 +32,34 @@ class EditRequestView extends BaseView<EditRequestController> {
                   Expanded(
                     child: Text(
                       "Chỉnh sửa thông tin đơn",
-                      style: GetTextStyle.getTextStyle(20, 'Roboto',
-                          FontWeight.w600, ColorsManager.textColor),
+                      style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                     ),
                   ),
                   Expanded(
                     flex: 10,
                     child: Padding(
-                      padding: UtilsReponsive.paddingHorizontal(context,
-                          padding: 20),
+                      padding: UtilsReponsive.paddingHorizontal(context, padding: 20),
                       child: ListView(
                         children: [
                           Text(
                             'Tiêu đề',
-                            style: GetTextStyle.getTextStyle(16, 'Roboto',
-                                FontWeight.w600, ColorsManager.primary),
+                            style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                           ),
                           SizedBox(
                             height: UtilsReponsive.heightv2(context, 10),
                           ),
-                          buildTextField(
-                              context,
-                              "Tiêu đề",
-                              "Ví dụ: Xin nghỉ phép",
-                              controller.titleController),
+                          buildTextField(context, "Tiêu đề", "Ví dụ: Xin nghỉ phép", controller.titleController),
                           Text(
                             'Nội dung',
-                            style: GetTextStyle.getTextStyle(16, 'Roboto',
-                                FontWeight.w600, ColorsManager.primary),
+                            style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                           ),
                           SizedBox(
                             height: UtilsReponsive.heightv2(context, 10),
                           ),
-                          buildTextField(
-                              context,
-                              "Nội dung",
-                              "Ví dụ: Bị bệnh",
-                              controller.contentController),
+                          buildTextField(context, "Nội dung", "Ví dụ: Bị bệnh", controller.contentController),
                           Text(
                             'Loại kiểu nghỉ',
-                            style: GetTextStyle.getTextStyle(16, 'Roboto',
-                                FontWeight.w600, ColorsManager.primary),
+                            style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                           ),
                           DropdownButtonFormField(
                             items: controller.leaveType
@@ -81,11 +68,7 @@ class EditRequestView extends BaseView<EditRequestController> {
                                     value: e,
                                     child: Text(
                                       e,
-                                      style: GetTextStyle.getTextStyle(
-                                          16,
-                                          'Roboto',
-                                          FontWeight.w400,
-                                          ColorsManager.textColor),
+                                      style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w400, ColorsManager.textColor),
                                     ),
                                   ),
                                 )
@@ -118,11 +101,7 @@ class EditRequestView extends BaseView<EditRequestController> {
                                   children: [
                                     Text(
                                       'Kiểu ngày nghỉ',
-                                      style: GetTextStyle.getTextStyle(
-                                          16,
-                                          'Roboto',
-                                          FontWeight.w600,
-                                          ColorsManager.primary),
+                                      style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                                     ),
                                     DropdownButtonFormField(
                                       items: controller.dayType
@@ -130,21 +109,14 @@ class EditRequestView extends BaseView<EditRequestController> {
                                                 value: e,
                                                 child: Text(
                                                   e,
-                                                  style:
-                                                      GetTextStyle.getTextStyle(
-                                                          16,
-                                                          'Roboto',
-                                                          FontWeight.w400,
-                                                          ColorsManager
-                                                              .textColor),
+                                                  style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w400, ColorsManager.textColor),
                                                 ),
                                               ))
                                           .toList(),
                                       onChanged: (value) {
                                         controller.setDayType(value as String);
                                       },
-                                      value:
-                                          controller.selectedDayTypeVal.value,
+                                      value: controller.selectedDayTypeVal.value,
                                       icon: Icon(
                                         Icons.arrow_drop_down_circle,
                                         color: ColorsManager.primary,
@@ -166,20 +138,14 @@ class EditRequestView extends BaseView<EditRequestController> {
                               ),
                               Expanded(
                                 child: Obx(
-                                  () => controller.selectedDayTypeVal.value ==
-                                          'Nguyên ngày'
+                                  () => controller.selectedDayTypeVal.value == 'Nguyên ngày'
                                       ? SizedBox()
                                       : Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               'Kiểu buổi nghỉ',
-                                              style: GetTextStyle.getTextStyle(
-                                                  16,
-                                                  'Roboto',
-                                                  FontWeight.w600,
-                                                  ColorsManager.primary),
+                                              style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                                             ),
                                             DropdownButtonFormField(
                                               items: controller.timeType
@@ -187,23 +153,14 @@ class EditRequestView extends BaseView<EditRequestController> {
                                                         value: e,
                                                         child: Text(
                                                           e,
-                                                          style: GetTextStyle
-                                                              .getTextStyle(
-                                                                  16,
-                                                                  'Roboto',
-                                                                  FontWeight
-                                                                      .w400,
-                                                                  ColorsManager
-                                                                      .textColor),
+                                                          style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w400, ColorsManager.textColor),
                                                         ),
                                                       ))
                                                   .toList(),
                                               onChanged: (value) {
-                                                controller.setTimeType(
-                                                    value as String);
+                                                controller.setTimeType(value as String);
                                               },
-                                              value: controller
-                                                  .selectedTimeTypeVal.value,
+                                              value: controller.selectedTimeTypeVal.value,
                                               icon: Icon(
                                                 Icons.arrow_drop_down_circle,
                                                 color: ColorsManager.primary,
@@ -214,8 +171,7 @@ class EditRequestView extends BaseView<EditRequestController> {
                                                   border: OutlineInputBorder(
                                                     borderSide: BorderSide.none,
                                                   ),
-                                                  fillColor:
-                                                      ColorsManager.textInput,
+                                                  fillColor: ColorsManager.textInput,
                                                   filled: true),
                                             ),
                                           ],
@@ -229,27 +185,23 @@ class EditRequestView extends BaseView<EditRequestController> {
                           ),
                           Text(
                             'Ngày bắt đầu',
-                            style: GetTextStyle.getTextStyle(16, 'Roboto',
-                                FontWeight.w600, ColorsManager.primary),
+                            style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                           ),
                           SizedBox(
                             height: UtilsReponsive.heightv2(context, 10),
                           ),
-                          buildTextFieldDate(context, "Ngày bắt đầu",
-                              "Ví dụ: 2001/24/12", true),
+                          buildTextFieldDate(context, "Ngày bắt đầu", "Ví dụ: 2001/24/12", true),
                           SizedBox(
                             height: UtilsReponsive.heightv2(context, 10),
                           ),
                           Text(
                             'Ngày kết thúc',
-                            style: GetTextStyle.getTextStyle(16, 'Roboto',
-                                FontWeight.w600, ColorsManager.primary),
+                            style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                           ),
                           SizedBox(
                             height: UtilsReponsive.heightv2(context, 10),
                           ),
-                          buildTextFieldDate(context, "Ngày kết thúc",
-                              "Ví dụ: 2001/24/12", false),
+                          buildTextFieldDate(context, "Ngày kết thúc", "Ví dụ: 2001/24/12", false),
                           SizedBox(
                             height: UtilsReponsive.heightv2(context, 10),
                           ),
@@ -262,9 +214,7 @@ class EditRequestView extends BaseView<EditRequestController> {
                               child: ElevatedButton(
                                 onPressed: () async {
                                   await controller.updateLeaveRequest();
-                                  controller.errorUpdateRequest.value
-                                      ? _errorMessage(Get.context!)
-                                      : _successMessage(Get.context!);
+                                  controller.errorUpdateRequest.value ? _errorMessage(Get.context!) : _successMessage(Get.context!);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
@@ -281,7 +231,7 @@ class EditRequestView extends BaseView<EditRequestController> {
                                         "Cập nhật đơn",
                                         style: GetTextStyle.getTextStyle(
                                           14,
-                                          'Roboto',
+                                          'Nunito',
                                           FontWeight.w800,
                                           ColorsManager.backgroundWhite,
                                         ),
@@ -323,8 +273,7 @@ class EditRequestView extends BaseView<EditRequestController> {
           // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
-          hintStyle: GetTextStyle.getTextStyle(
-              14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+          hintStyle: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
         ),
       ),
     );
@@ -339,9 +288,7 @@ class EditRequestView extends BaseView<EditRequestController> {
     return Padding(
       padding: UtilsReponsive.paddingOnly(context, bottom: 10),
       child: TextField(
-        controller: isStartDate
-            ? controller.startDateController
-            : controller.endDateController,
+        controller: isStartDate ? controller.startDateController : controller.endDateController,
         decoration: InputDecoration(
           errorBorder: InputBorder.none,
           border: const OutlineInputBorder(
@@ -366,8 +313,7 @@ class EditRequestView extends BaseView<EditRequestController> {
           // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
-          hintStyle: GetTextStyle.getTextStyle(
-              14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+          hintStyle: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
         ),
       ),
     );
@@ -389,24 +335,17 @@ class EditRequestView extends BaseView<EditRequestController> {
       fieldLabelText: 'Ngày Bắt Đầu',
       fieldHintText: 'Ngày/Tháng/Năm',
     );
-    if (pickedDate != null &&
-        pickedDate != controller.selectedStartDate.value) {
+    if (pickedDate != null && pickedDate != controller.selectedStartDate.value) {
       if (pickedDate.year > controller.selectedEndDate.value.year ||
-          (pickedDate.year == controller.selectedEndDate.value.year &&
-              pickedDate.month > controller.selectedEndDate.value.month) ||
+          (pickedDate.year == controller.selectedEndDate.value.year && pickedDate.month > controller.selectedEndDate.value.month) ||
           (pickedDate.year == controller.selectedEndDate.value.year &&
               pickedDate.month == controller.selectedEndDate.value.month &&
               pickedDate.day > controller.selectedEndDate.value.day)) {
-        Get.snackbar(
-            'Lỗi', 'Ngày bắt đầu không được chọn trước ngày kết thúc',
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.transparent,
-            colorText: ColorsManager.textColor);
+        Get.snackbar('Lỗi', 'Ngày bắt đầu không được chọn trước ngày kết thúc',
+            snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
       } else {
         controller.selectedStartDate.value = pickedDate;
-        controller.startDateController.text = DateFormat('dd/MM/yyyy')
-            .format(controller.selectedStartDate.value)
-            .toString();
+        controller.startDateController.text = DateFormat('dd/MM/yyyy').format(controller.selectedStartDate.value).toString();
         print(' dateController!.text ${controller.startDateController.text}');
       }
     }
@@ -430,25 +369,18 @@ class EditRequestView extends BaseView<EditRequestController> {
     );
     if (pickedDate != null && pickedDate != controller.selectedEndDate.value) {
       print('pickedDate ${pickedDate}');
-      print(
-          'controller.selectedStartDate.value ${controller.selectedStartDate.value}');
+      print('controller.selectedStartDate.value ${controller.selectedStartDate.value}');
 
       if (pickedDate.year < controller.selectedStartDate.value.year ||
-          (pickedDate.year == controller.selectedStartDate.value.year &&
-              pickedDate.month < controller.selectedStartDate.value.month) ||
+          (pickedDate.year == controller.selectedStartDate.value.year && pickedDate.month < controller.selectedStartDate.value.month) ||
           (pickedDate.year == controller.selectedStartDate.value.year &&
               pickedDate.month == controller.selectedStartDate.value.month &&
               pickedDate.day < controller.selectedStartDate.value.day)) {
-        Get.snackbar(
-            'Lỗi', 'Ngày kết thúc không được chọn sau ngày bắt đầu',
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.transparent,
-            colorText: ColorsManager.textColor);
+        Get.snackbar('Lỗi', 'Ngày kết thúc không được chọn sau ngày bắt đầu',
+            snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
       } else {
         controller.selectedEndDate.value = pickedDate;
-        controller.endDateController.text = DateFormat('dd/MM/yyyy')
-            .format(controller.selectedEndDate.value)
-            .toString();
+        controller.endDateController.text = DateFormat('dd/MM/yyyy').format(controller.selectedEndDate.value).toString();
         print(' dateController!.text ${controller.endDateController.text}');
       }
     }
@@ -461,9 +393,7 @@ class EditRequestView extends BaseView<EditRequestController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.heightv2(context, 80),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 81, 146, 83),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 81, 146, 83), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.check_circle,
@@ -479,14 +409,12 @@ class EditRequestView extends BaseView<EditRequestController> {
               children: [
                 Text(
                   'Thành công',
-                  style: GetTextStyle.getTextStyle(
-                      18, 'Roboto', FontWeight.w800, Colors.white),
+                  style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                 ),
                 Spacer(),
                 Text(
                   'Thay đổi thông tin đơn thành công',
-                  style: GetTextStyle.getTextStyle(
-                      12, 'Roboto', FontWeight.w500, Colors.white),
+                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -507,9 +435,7 @@ class EditRequestView extends BaseView<EditRequestController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.heightv2(context, 80),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 219, 90, 90),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 219, 90, 90), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.error_outline,
@@ -525,15 +451,13 @@ class EditRequestView extends BaseView<EditRequestController> {
                 children: [
                   Text(
                     'Thất bại',
-                    style: GetTextStyle.getTextStyle(
-                        18, 'Roboto', FontWeight.w800, Colors.white),
+                    style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                   ),
                   const Spacer(),
                   Obx(
                     () => Text(
                       controller.errorUpdateRequestText.value,
-                      style: GetTextStyle.getTextStyle(
-                          12, 'Roboto', FontWeight.w500, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

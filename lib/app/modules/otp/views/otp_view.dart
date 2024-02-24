@@ -55,8 +55,7 @@ class OtpView extends BaseView<OtpController> {
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: Text(
                     'Xác thực CODE',
-                    style: GetTextStyle.getTextStyle(
-                        30, 'Roboto', FontWeight.w700, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(30, 'Nunito', FontWeight.w700, ColorsManager.primary),
                   ),
                 ),
               ),
@@ -67,8 +66,7 @@ class OtpView extends BaseView<OtpController> {
                 ),
                 child: Text(
                   'Hãy nhập code xác thực mà chúng tôi vừa gửi cho bạn qua email.',
-                  style: GetTextStyle.getTextStyle(
-                      16, 'Roboto', FontWeight.w500, ColorsManager.colorIcon),
+                  style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.colorIcon),
                 ),
               ),
               SizedBox(height: UtilsReponsive.height(20, context)),
@@ -97,9 +95,7 @@ class OtpView extends BaseView<OtpController> {
                     () => MaterialButton(
                       onPressed: () async {
                         await controller.verifyCode();
-                        controller.errorVerifyCode.value
-                            ? _errorMessage(context)
-                            : _successMessage(context);
+                        controller.errorVerifyCode.value ? _errorMessage(context) : _successMessage(context);
                       },
                       child: controller.isLoading.value
                           ? const Center(
@@ -109,8 +105,7 @@ class OtpView extends BaseView<OtpController> {
                             )
                           : Text(
                               "Xác thực",
-                              style: GetTextStyle.getTextStyle(
-                                  20, 'Roboto', FontWeight.w400, Colors.white),
+                              style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w400, Colors.white),
                             ),
                     ),
                   ),
@@ -124,20 +119,16 @@ class OtpView extends BaseView<OtpController> {
                 children: [
                   Text(
                     "Không nhận được mã code? ",
-                    style: GetTextStyle.getTextStyle(
-                        16, 'Roboto', FontWeight.w500, Colors.black),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, Colors.black),
                   ),
                   GestureDetector(
                     onTap: () async {
                       await controller.sendOtp();
-                      controller.errorVerifyCode.value
-                          ? _errorMessage(context)
-                          : _successMessageBySentOtp(context);
+                      controller.errorVerifyCode.value ? _errorMessage(context) : _successMessageBySentOtp(context);
                     },
                     child: Text(
                       "Gửi lại",
-                      style: GetTextStyle.getTextStyle(
-                          16, 'Roboto', FontWeight.w700, ColorsManager.primary),
+                      style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.primary),
                     ),
                   ),
                 ],
@@ -154,9 +145,7 @@ class OtpView extends BaseView<OtpController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.height(80, context),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 81, 146, 83),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 81, 146, 83), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.check_circle,
@@ -172,14 +161,12 @@ class OtpView extends BaseView<OtpController> {
               children: [
                 Text(
                   'Thành công',
-                  style: GetTextStyle.getTextStyle(
-                      18, 'Roboto', FontWeight.w800, Colors.white),
+                  style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                 ),
                 Spacer(),
                 Text(
                   'Xác thực mã code thành công',
-                  style: GetTextStyle.getTextStyle(
-                      12, 'Roboto', FontWeight.w500, Colors.white),
+                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -200,9 +187,7 @@ class OtpView extends BaseView<OtpController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.height(80, context),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 81, 146, 83),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 81, 146, 83), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.check_circle,
@@ -218,14 +203,12 @@ class OtpView extends BaseView<OtpController> {
               children: [
                 Text(
                   'Thành công',
-                  style: GetTextStyle.getTextStyle(
-                      18, 'Roboto', FontWeight.w800, Colors.white),
+                  style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                 ),
                 Spacer(),
                 Text(
                   'Đã gửi mã thành công',
-                  style: GetTextStyle.getTextStyle(
-                      12, 'Roboto', FontWeight.w500, Colors.white),
+                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -246,9 +229,7 @@ class OtpView extends BaseView<OtpController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.height(80, context),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 219, 90, 90),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 219, 90, 90), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.error_outline,
@@ -264,15 +245,13 @@ class OtpView extends BaseView<OtpController> {
                 children: [
                   Text(
                     'Thất bại',
-                    style: GetTextStyle.getTextStyle(
-                        18, 'Roboto', FontWeight.w800, Colors.white),
+                    style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                   ),
                   const Spacer(),
                   Obx(
                     () => Text(
                       controller.errorVerifyCodeText.value,
-                      style: GetTextStyle.getTextStyle(
-                          12, 'Roboto', FontWeight.w500, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

@@ -113,7 +113,7 @@ class EventDetailView extends BaseView<EventDetailController> {
                   Text(
                     controller.eventDetail.value.eventName!,
                     style: TextStyle(
-                        fontFamily: 'Roboto',
+                        fontFamily: 'Nunito',
                         wordSpacing: 1.2,
                         color: ColorsManager.primary,
                         fontSize: UtilsReponsive.height(24, context),
@@ -147,7 +147,7 @@ class EventDetailView extends BaseView<EventDetailController> {
                           '${controller.dateFormat.format(controller.eventDetail.value.startDate!)}- ${controller.dateFormat.format(controller.eventDetail.value.endDate!)}',
                           style: TextStyle(
                               letterSpacing: 1.5,
-                              fontFamily: 'Roboto',
+                              fontFamily: 'Nunito',
                               color: controller.eventDetail.value.status == "PENDING"
                                   ? Colors.grey.withOpacity(0.8)
                                   : controller.eventDetail.value.status! == "PROCESSING"
@@ -176,7 +176,7 @@ class EventDetailView extends BaseView<EventDetailController> {
                           ? Text(
                               '---',
                               style: TextStyle(
-                                  fontFamily: 'Roboto',
+                                  fontFamily: 'Nunito',
                                   wordSpacing: 1.2,
                                   color: ColorsManager.primary,
                                   fontSize: UtilsReponsive.height(20, context),
@@ -185,7 +185,7 @@ class EventDetailView extends BaseView<EventDetailController> {
                           : Text(
                               controller.eventDetail.value.location!,
                               style: TextStyle(
-                                  fontFamily: 'Roboto',
+                                  fontFamily: 'Nunito',
                                   wordSpacing: 1.2,
                                   color: ColorsManager.primary,
                                   fontSize: UtilsReponsive.height(20, context),
@@ -210,7 +210,7 @@ class EventDetailView extends BaseView<EventDetailController> {
                           ? Text(
                               '---',
                               style: TextStyle(
-                                  fontFamily: 'Roboto',
+                                  fontFamily: 'Nunito',
                                   wordSpacing: 1.2,
                                   color: ColorsManager.primary,
                                   fontSize: UtilsReponsive.height(20, context),
@@ -219,7 +219,7 @@ class EventDetailView extends BaseView<EventDetailController> {
                           : Text(
                               controller.formatCurrency(controller.eventDetail.value.estBudget!),
                               style: TextStyle(
-                                  fontFamily: 'Roboto',
+                                  fontFamily: 'Nunito',
                                   wordSpacing: 1.2,
                                   color: ColorsManager.primary,
                                   fontSize: UtilsReponsive.height(20, context),
@@ -245,7 +245,7 @@ class EventDetailView extends BaseView<EventDetailController> {
                           Text(
                             'Mô tả',
                             style: TextStyle(
-                                fontFamily: 'Roboto',
+                                fontFamily: 'Nunito',
                                 wordSpacing: 1.2,
                                 color: ColorsManager.textColor2,
                                 fontSize: UtilsReponsive.height(20, context),

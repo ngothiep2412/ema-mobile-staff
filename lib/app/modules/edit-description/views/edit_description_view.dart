@@ -19,8 +19,7 @@ class EditDescriptionView extends BaseView<EditDescriptionController> {
       appBar: _appBar(context),
       backgroundColor: ColorsManager.backgroundContainer,
       body: Quil.QuillProvider(
-        configurations: Quil.QuillConfigurations(
-            controller: controller.quillController.value),
+        configurations: Quil.QuillConfigurations(controller: controller.quillController.value),
         child: SafeArea(
           child: Container(
             color: Colors.white,
@@ -75,11 +74,7 @@ class EditDescriptionView extends BaseView<EditDescriptionController> {
                       Stack(
                         children: [
                           Quil.QuillEditor.basic(
-                            configurations: Quil.QuillEditorConfigurations(
-                                autoFocus: false,
-                                expands: false,
-                                editorKey: GlobalKey(),
-                                readOnly: false),
+                            configurations: Quil.QuillEditorConfigurations(autoFocus: false, expands: false, editorKey: GlobalKey(), readOnly: false),
                             focusNode: controller.focusNodeDetail,
 
                             // embedBuilders: FlutterQuillEmbeds.builders(),
@@ -119,15 +114,12 @@ class EditDescriptionView extends BaseView<EditDescriptionController> {
             GestureDetector(
               onTap: () {
                 controller.saveDescription();
-                controller.errorUpdateTask.value == true
-                    ? _errorMessage(context)
-                    : _successMessage(context);
+                controller.errorUpdateTask.value == true ? _errorMessage(context) : _successMessage(context);
                 controller.onDelete();
               },
               child: Text(
                 "Lưu",
-                style: GetTextStyle.getTextStyle(
-                    18, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w600, ColorsManager.primary),
               ),
             ),
             SizedBox(
@@ -146,9 +138,7 @@ class EditDescriptionView extends BaseView<EditDescriptionController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.heightv2(context, 80),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 81, 146, 83),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 81, 146, 83), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.check_circle,
@@ -164,14 +154,12 @@ class EditDescriptionView extends BaseView<EditDescriptionController> {
               children: [
                 Text(
                   'Thành công',
-                  style: GetTextStyle.getTextStyle(
-                      18, 'Roboto', FontWeight.w800, Colors.white),
+                  style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                 ),
                 Spacer(),
                 Text(
                   'Thay đổi mô tả công việc thành công',
-                  style: GetTextStyle.getTextStyle(
-                      12, 'Roboto', FontWeight.w500, Colors.white),
+                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -192,9 +180,7 @@ class EditDescriptionView extends BaseView<EditDescriptionController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.heightv2(context, 80),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 219, 90, 90),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 219, 90, 90), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.error_outline,
@@ -210,15 +196,13 @@ class EditDescriptionView extends BaseView<EditDescriptionController> {
                 children: [
                   Text(
                     'Thất bại',
-                    style: GetTextStyle.getTextStyle(
-                        18, 'Roboto', FontWeight.w800, Colors.white),
+                    style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                   ),
                   const Spacer(),
                   Obx(
                     () => Text(
                       controller.errorUpdateTaskText.value,
-                      style: GetTextStyle.getTextStyle(
-                          12, 'Roboto', FontWeight.w500, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

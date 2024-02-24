@@ -32,8 +32,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                       Center(
                         child: Text(
                           'Thông tin khoản chi chi tiết',
-                          style: GetTextStyle.getTextStyle(20, 'Roboto',
-                              FontWeight.w600, ColorsManager.primary),
+                          style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w600, ColorsManager.primary),
                         ),
                       ),
                       SizedBox(
@@ -41,8 +40,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                       ),
                       Expanded(
                         child: Padding(
-                          padding: UtilsReponsive.paddingHorizontal(context,
-                              padding: 5),
+                          padding: UtilsReponsive.paddingHorizontal(context, padding: 5),
                           child: RefreshIndicator(
                             onRefresh: controller.refreshPage,
                             child: ListView(
@@ -52,15 +50,13 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                 ),
                                 Text(
                                   'Trạng thái',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto',
-                                      FontWeight.w600, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 10),
                                 ),
                                 Container(
-                                  padding: UtilsReponsive.paddingAll(context,
-                                      padding: 10),
+                                  padding: UtilsReponsive.paddingAll(context, padding: 10),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(
@@ -68,31 +64,22 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                     ),
                                   ),
                                   child: Text(
-                                    controller.budgetView.value.status! ==
-                                            "REJECT"
+                                    controller.budgetView.value.status! == "REJECT"
                                         ? "Từ chối"
-                                        : controller.budgetView.value.status! ==
-                                                "ACCEPT"
+                                        : controller.budgetView.value.status! == "ACCEPT"
                                             ? "Chấp nhận"
-                                            : controller.budgetView.value
-                                                        .status! ==
-                                                    "USED"
+                                            : controller.budgetView.value.status! == "USED"
                                                 ? "Đã sử dụng"
                                                 : "Đang xử lí",
                                     style: GetTextStyle.getTextStyle(
                                         14,
-                                        'Roboto',
+                                        'Nunito',
                                         FontWeight.w700,
-                                        controller.budgetView.value.status! ==
-                                                "REJECT"
+                                        controller.budgetView.value.status! == "REJECT"
                                             ? ColorsManager.red
-                                            : controller.budgetView.value
-                                                        .status! ==
-                                                    "ACCEPT"
+                                            : controller.budgetView.value.status! == "ACCEPT"
                                                 ? ColorsManager.green
-                                                : controller.budgetView.value
-                                                            .status! ==
-                                                        "PROCESSING"
+                                                : controller.budgetView.value.status! == "PROCESSING"
                                                     ? ColorsManager.orange
                                                     : ColorsManager.primary),
                                   ),
@@ -102,15 +89,13 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                 ),
                                 Text(
                                   'Tên khoản chi',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto',
-                                      FontWeight.w600, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 10),
                                 ),
                                 Container(
-                                  padding: UtilsReponsive.paddingAll(context,
-                                      padding: 10),
+                                  padding: UtilsReponsive.paddingAll(context, padding: 10),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(
@@ -119,11 +104,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                   ),
                                   child: Text(
                                     controller.budgetView.value.budgetName!,
-                                    style: GetTextStyle.getTextStyle(
-                                        14,
-                                        'Roboto',
-                                        FontWeight.w700,
-                                        ColorsManager.textColor2),
+                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                                   ),
                                 ),
                                 SizedBox(
@@ -131,15 +112,13 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                 ),
                                 Text(
                                   'Chi phí ước tính (VNĐ)',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto',
-                                      FontWeight.w600, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 10),
                                 ),
                                 Container(
-                                  padding: UtilsReponsive.paddingAll(context,
-                                      padding: 10),
+                                  padding: UtilsReponsive.paddingAll(context, padding: 10),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(
@@ -147,13 +126,8 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                     ),
                                   ),
                                   child: Text(
-                                    controller.formatCurrency(controller
-                                        .budgetView.value.estExpense!),
-                                    style: GetTextStyle.getTextStyle(
-                                        14,
-                                        'Roboto',
-                                        FontWeight.w700,
-                                        ColorsManager.textColor2),
+                                    controller.formatCurrency(controller.budgetView.value.estExpense!),
+                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                                   ),
                                 ),
                                 SizedBox(
@@ -161,40 +135,27 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                 ),
                                 Text(
                                   'Chi phí thực tế (VNĐ)',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto',
-                                      FontWeight.w600, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 10),
                                 ),
                                 Container(
-                                  padding: UtilsReponsive.paddingAll(context,
-                                      padding: 10),
+                                  padding: UtilsReponsive.paddingAll(context, padding: 10),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(
                                       UtilsReponsive.height(10, context),
                                     ),
                                   ),
-                                  child: controller
-                                              .budgetView.value.realExpense ==
-                                          null
+                                  child: controller.budgetView.value.realExpense == null
                                       ? Text(
                                           '--',
-                                          style: GetTextStyle.getTextStyle(
-                                              14,
-                                              'Roboto',
-                                              FontWeight.w700,
-                                              ColorsManager.textColor2),
+                                          style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                                         )
                                       : Text(
-                                          controller.formatCurrency(controller
-                                              .budgetView.value.realExpense!),
-                                          style: GetTextStyle.getTextStyle(
-                                              14,
-                                              'Roboto',
-                                              FontWeight.w700,
-                                              ColorsManager.textColor2),
+                                          controller.formatCurrency(controller.budgetView.value.realExpense!),
+                                          style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                                         ),
                                 ),
                                 SizedBox(
@@ -202,18 +163,14 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                 ),
                                 Text(
                                   'Mô tả',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto',
-                                      FontWeight.w600, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 10),
                                 ),
                                 Container(
-                                  constraints: BoxConstraints(
-                                      minHeight:
-                                          UtilsReponsive.width(150, context)),
-                                  padding: UtilsReponsive.paddingAll(context,
-                                      padding: 10),
+                                  constraints: BoxConstraints(minHeight: UtilsReponsive.width(150, context)),
+                                  padding: UtilsReponsive.paddingAll(context, padding: 10),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(
@@ -222,11 +179,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                   ),
                                   child: Text(
                                     controller.budgetView.value.description!,
-                                    style: GetTextStyle.getTextStyle(
-                                        14,
-                                        'Roboto',
-                                        FontWeight.w700,
-                                        ColorsManager.textColor2),
+                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                                   ),
                                 ),
                                 SizedBox(
@@ -234,15 +187,13 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                 ),
                                 Text(
                                   'Nhà cung cấp',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto',
-                                      FontWeight.w600, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 10),
                                 ),
                                 Container(
-                                  padding: UtilsReponsive.paddingAll(context,
-                                      padding: 10),
+                                  padding: UtilsReponsive.paddingAll(context, padding: 10),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(
@@ -251,11 +202,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                   ),
                                   child: Text(
                                     controller.budgetView.value.supplier!,
-                                    style: GetTextStyle.getTextStyle(
-                                        14,
-                                        'Roboto',
-                                        FontWeight.w700,
-                                        ColorsManager.textColor2),
+                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                                   ),
                                 ),
                                 SizedBox(
@@ -263,116 +210,71 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                 ),
                                 Text(
                                   'Hình ảnh hóa đơn',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto',
-                                      FontWeight.w600, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 10),
                                 ),
                                 Stack(children: [
                                   Obx(
-                                    () => controller.budgetView.value
-                                                    .urlImage ==
-                                                '' ||
-                                            controller.budgetView.value
-                                                    .urlImage ==
-                                                null
+                                    () => controller.budgetView.value.urlImage == '' || controller.budgetView.value.urlImage == null
                                         ? Container(
                                             decoration: BoxDecoration(
                                                 border: Border.all(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.8),
+                                                  color: Colors.grey.withOpacity(0.8),
                                                   width: 1.0,
                                                 ),
-                                                borderRadius:
-                                                    BorderRadius.circular(8)),
-                                            width: UtilsReponsive
-                                                .width(150, context),
-                                            height: UtilsReponsive.height(
-                                                150, context),
+                                                borderRadius: BorderRadius.circular(8)),
+                                            width: UtilsReponsive.width(150, context),
+                                            height: UtilsReponsive.height(150, context),
                                             child: Center(
                                               child: Icon(
                                                 Icons.camera_alt_outlined,
                                                 size: 35,
-                                                color: Colors.grey
-                                                    .withOpacity(0.8),
+                                                color: Colors.grey.withOpacity(0.8),
                                               ),
                                             ))
                                         : Container(
-                                            height: UtilsReponsive.height(
-                                                150, context),
-                                            width: UtilsReponsive.height(
-                                                200, context),
+                                            height: UtilsReponsive.height(150, context),
+                                            width: UtilsReponsive.height(200, context),
                                             decoration: BoxDecoration(
                                               color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                UtilsReponsive.height(
-                                                    15, context),
+                                              borderRadius: BorderRadius.circular(
+                                                UtilsReponsive.height(15, context),
                                               ),
                                               border: Border.all(
-                                                color: Colors.grey.withOpacity(
-                                                    0.8), // Màu viền
+                                                color: Colors.grey.withOpacity(0.8), // Màu viền
                                                 width: 1.5, // Độ dày của viền
                                               ),
                                             ),
                                             child: CachedNetworkImage(
                                               // fit: BoxFit.contain,
-                                              imageUrl: controller
-                                                  .budgetView.value.urlImage!,
-                                              imageBuilder:
-                                                  (context, imageProvider) =>
-                                                      GestureDetector(
+                                              imageUrl: controller.budgetView.value.urlImage!,
+                                              imageBuilder: (context, imageProvider) => GestureDetector(
                                                 onTap: () async {
-                                                  final url = Uri.parse(
-                                                      controller
-                                                          .budget.urlImage);
+                                                  final url = Uri.parse(controller.budget.urlImage);
                                                   if (await canLaunchUrl(url)) {
-                                                    await launchUrl(url,
-                                                        mode: LaunchMode
-                                                            .externalApplication);
+                                                    await launchUrl(url, mode: LaunchMode.externalApplication);
                                                   }
                                                 },
                                                 child: Container(
-                                                    height:
-                                                        UtilsReponsive.height(
-                                                            30, context),
+                                                    height: UtilsReponsive.height(30, context),
                                                     decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                          UtilsReponsive.height(
-                                                              15, context),
+                                                        borderRadius: BorderRadius.circular(
+                                                          UtilsReponsive.height(15, context),
                                                         ),
-                                                        border: Border.all(
-                                                            width: 1.5,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .scaffoldBackgroundColor),
-                                                        image: DecorationImage(
-                                                            fit: BoxFit.cover,
-                                                            image:
-                                                                imageProvider))),
+                                                        border: Border.all(width: 1.5, color: Theme.of(context).scaffoldBackgroundColor),
+                                                        image: DecorationImage(fit: BoxFit.cover, image: imageProvider))),
                                               ),
-                                              progressIndicatorBuilder:
-                                                  (context, url,
-                                                          downloadProgress) =>
-                                                      Container(
-                                                padding: EdgeInsets.all(
-                                                    UtilsReponsive.height(
-                                                        10, context)),
-                                                height: UtilsReponsive.height(
-                                                    20, context),
-                                                width: UtilsReponsive.height(
-                                                    20, context),
-                                                child:
-                                                    CircularProgressIndicator(
+                                              progressIndicatorBuilder: (context, url, downloadProgress) => Container(
+                                                padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
+                                                height: UtilsReponsive.height(20, context),
+                                                width: UtilsReponsive.height(20, context),
+                                                child: CircularProgressIndicator(
                                                   color: ColorsManager.primary,
                                                 ),
                                               ),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      const Icon(Icons.error),
+                                              errorWidget: (context, url, error) => const Icon(Icons.error),
                                             ),
                                           ),
                                   ),
@@ -406,8 +308,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
       ),
       actions: [
         Obx(
-          () => controller.budgetView.value.status == "USED" ||
-                  controller.budgetView.value.status == "REJECT"
+          () => controller.budgetView.value.status == "USED" || controller.budgetView.value.status == "REJECT"
               ? PopupMenuButton<String>(
                   icon: Icon(
                     Icons.more_vert,
@@ -421,16 +322,15 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                           return AlertDialog(
                             title: Text('Xác nhận xóa',
                                 style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                    fontFamily: 'Nunito',
                                     wordSpacing: 1.2,
                                     color: ColorsManager.primary,
-                                    fontSize:
-                                        UtilsReponsive.height(20, context),
+                                    fontSize: UtilsReponsive.height(20, context),
                                     fontWeight: FontWeight.bold)),
                             content: Text(
                               'Bạn có muốn xóa đơn thu chi này?',
                               style: TextStyle(
-                                  fontFamily: 'Roboto',
+                                  fontFamily: 'Nunito',
                                   wordSpacing: 1.2,
                                   color: ColorsManager.textColor2,
                                   fontSize: UtilsReponsive.height(18, context),
@@ -441,17 +341,14 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                 onPressed: () async {
                                   await controller.deleteBudget();
                                   Navigator.of(Get.context!).pop();
-                                  controller.errorUpdateBudget.value
-                                      ? _errorMessage(Get.context!)
-                                      : _successMessage(Get.context!);
+                                  controller.errorUpdateBudget.value ? _errorMessage(Get.context!) : _successMessage(Get.context!);
                                 },
                                 child: Text('Xóa',
                                     style: TextStyle(
-                                        fontFamily: 'Roboto',
+                                        fontFamily: 'Nunito',
                                         wordSpacing: 1.2,
                                         color: ColorsManager.red,
-                                        fontSize:
-                                            UtilsReponsive.height(18, context),
+                                        fontSize: UtilsReponsive.height(18, context),
                                         fontWeight: FontWeight.bold)),
                               ),
                               TextButton(
@@ -460,11 +357,10 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                 },
                                 child: Text('Hủy',
                                     style: TextStyle(
-                                        fontFamily: 'Roboto',
+                                        fontFamily: 'Nunito',
                                         wordSpacing: 1.2,
                                         color: ColorsManager.primary,
-                                        fontSize:
-                                            UtilsReponsive.height(18, context),
+                                        fontSize: UtilsReponsive.height(18, context),
                                         fontWeight: FontWeight.bold)),
                               ),
                             ],
@@ -480,7 +376,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                         child: Text(
                           'Xóa đơn thu chi này',
                           style: TextStyle(
-                              fontFamily: 'Roboto',
+                              fontFamily: 'Nunito',
                               wordSpacing: 1.2,
                               color: ColorsManager.textColor2,
                               fontSize: UtilsReponsive.height(18, context),
@@ -503,16 +399,15 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                           return AlertDialog(
                             title: Text('Xác nhận xóa',
                                 style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                    fontFamily: 'Nunito',
                                     wordSpacing: 1.2,
                                     color: ColorsManager.primary,
-                                    fontSize:
-                                        UtilsReponsive.height(20, context),
+                                    fontSize: UtilsReponsive.height(20, context),
                                     fontWeight: FontWeight.bold)),
                             content: Text(
                               'Bạn có muốn xóa đơn thu chi này?',
                               style: TextStyle(
-                                  fontFamily: 'Roboto',
+                                  fontFamily: 'Nunito',
                                   wordSpacing: 1.2,
                                   color: ColorsManager.textColor2,
                                   fontSize: UtilsReponsive.height(18, context),
@@ -523,17 +418,14 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                 onPressed: () async {
                                   await controller.deleteBudget();
                                   Navigator.of(Get.context!).pop();
-                                  controller.errorUpdateBudget.value
-                                      ? _errorMessage(Get.context!)
-                                      : _successMessage(Get.context!);
+                                  controller.errorUpdateBudget.value ? _errorMessage(Get.context!) : _successMessage(Get.context!);
                                 },
                                 child: Text('Xóa',
                                     style: TextStyle(
-                                        fontFamily: 'Roboto',
+                                        fontFamily: 'Nunito',
                                         wordSpacing: 1.2,
                                         color: ColorsManager.red,
-                                        fontSize:
-                                            UtilsReponsive.height(18, context),
+                                        fontSize: UtilsReponsive.height(18, context),
                                         fontWeight: FontWeight.bold)),
                               ),
                               TextButton(
@@ -542,11 +434,10 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                 },
                                 child: Text('Hủy',
                                     style: TextStyle(
-                                        fontFamily: 'Roboto',
+                                        fontFamily: 'Nunito',
                                         wordSpacing: 1.2,
                                         color: ColorsManager.primary,
-                                        fontSize:
-                                            UtilsReponsive.height(18, context),
+                                        fontSize: UtilsReponsive.height(18, context),
                                         fontWeight: FontWeight.bold)),
                               ),
                             ],
@@ -555,10 +446,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                       );
                     }
                     if (choice == 'edit') {
-                      Get.toNamed(Routes.EDIT_BUDGET, arguments: {
-                        "eventID": controller.eventID,
-                        "budget": controller.budgetView
-                      });
+                      Get.toNamed(Routes.EDIT_BUDGET, arguments: {"eventID": controller.eventID, "budget": controller.budgetView});
                     }
                   },
                   itemBuilder: (BuildContext context) {
@@ -568,7 +456,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                         child: Text(
                           'Xóa đơn thu chi này',
                           style: TextStyle(
-                              fontFamily: 'Roboto',
+                              fontFamily: 'Nunito',
                               wordSpacing: 1.2,
                               color: ColorsManager.textColor2,
                               fontSize: UtilsReponsive.height(18, context),
@@ -580,7 +468,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                         child: Text(
                           'Chỉnh sửa thông tin thu chi',
                           style: TextStyle(
-                              fontFamily: 'Roboto',
+                              fontFamily: 'Nunito',
                               wordSpacing: 1.2,
                               color: ColorsManager.textColor2,
                               fontSize: UtilsReponsive.height(18, context),
@@ -602,9 +490,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.heightv2(context, 80),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 81, 146, 83),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 81, 146, 83), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.check_circle,
@@ -620,14 +506,12 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
               children: [
                 Text(
                   'Thành công',
-                  style: GetTextStyle.getTextStyle(
-                      18, 'Roboto', FontWeight.w800, Colors.white),
+                  style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                 ),
                 Spacer(),
                 Text(
                   'Thay đổi thông tin thu chi thành công',
-                  style: GetTextStyle.getTextStyle(
-                      12, 'Roboto', FontWeight.w500, Colors.white),
+                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -648,9 +532,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.heightv2(context, 80),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 219, 90, 90),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 219, 90, 90), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.error_outline,
@@ -666,15 +548,13 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                 children: [
                   Text(
                     'Thất bại',
-                    style: GetTextStyle.getTextStyle(
-                        18, 'Roboto', FontWeight.w800, Colors.white),
+                    style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                   ),
                   const Spacer(),
                   Obx(
                     () => Text(
                       controller.errorUpdateBudgetText.value,
-                      style: GetTextStyle.getTextStyle(
-                          12, 'Roboto', FontWeight.w500, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

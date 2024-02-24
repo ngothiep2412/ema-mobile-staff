@@ -6,6 +6,8 @@ import '../modules/budget_detail/bindings/budget_detail_binding.dart';
 import '../modules/budget_detail/views/budget_detail_view.dart';
 import '../modules/change_password/bindings/change_password_binding.dart';
 import '../modules/change_password/views/change_password_view.dart';
+import '../modules/chat_detail/bindings/chat_detail_binding.dart';
+import '../modules/chat_detail/views/chat_detail_view.dart';
 import '../modules/check_in/bindings/check_in_binding.dart';
 import '../modules/check_in/views/check_in_view.dart';
 import '../modules/check_in_detail/bindings/check_in_detail_binding.dart';
@@ -50,6 +52,8 @@ import '../modules/task-detail-view/bindings/task_detail_view_binding.dart';
 import '../modules/task-detail-view/views/task_detail_view_view.dart';
 import '../modules/task-overall-view/bindings/task_overall_view_binding.dart';
 import '../modules/task-overall-view/views/task_overall_view_view.dart';
+import '../modules/task_schedule/bindings/task_schedule_binding.dart';
+import '../modules/task_schedule/views/task_schedule_view.dart';
 
 part 'app_routes.dart';
 
@@ -183,6 +187,16 @@ class AppPages {
       name: _Paths.CHECK_IN_DETAIL,
       page: () => const CheckInDetailView(),
       binding: CheckInDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHAT_DETAIL,
+      page: () => const ChatDetailView(),
+      binding: ChatDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.TASK_SCHEDULE,
+      page: () => const TaskScheduleView(),
+      binding: TaskScheduleBinding(),
     ),
   ];
 }

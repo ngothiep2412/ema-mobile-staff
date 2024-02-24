@@ -72,7 +72,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                           Center(
                                             child: Text(
                                               'Bộ lọc',
-                                              style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.bold, ColorsManager.primary),
+                                              style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.bold, ColorsManager.primary),
                                             ),
                                           ),
                                         ],
@@ -146,7 +146,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                 ? Center(
                                     child: Text(
                                       'Event này hiện chưa có công việc dành cho bạn',
-                                      style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                                      style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                                     ),
                                   )
                                 : Obx(
@@ -203,7 +203,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                       taskModel.title!.length > 28 ? '${taskModel.title!.substring(0, 28)}...' : taskModel.title!,
                       style: TextStyle(
                         letterSpacing: 0.5,
-                        fontFamily: 'Roboto',
+                        fontFamily: 'Nunito',
                         color: ColorsManager.textColor,
                         fontSize: UtilsReponsive.height(18, context),
                         fontWeight: FontWeight.w600,
@@ -214,7 +214,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                       taskModel.title!.length > 28 ? '${taskModel.title!.substring(0, 28)}...' : taskModel.title!,
                       style: TextStyle(
                           letterSpacing: 0.5,
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Nunito',
                           color: ColorsManager.textColor,
                           fontSize: UtilsReponsive.height(18, context),
                           fontWeight: FontWeight.w600),
@@ -247,7 +247,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                             : "Cao",
                     style: GetTextStyle.getTextStyle(
                         14,
-                        'Roboto',
+                        'Nunito',
                         FontWeight.w600,
                         taskModel.priority! == Priority.LOW
                             ? ColorsManager.green
@@ -291,7 +291,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                         : "Đã xác thực",
                         style: GetTextStyle.getTextStyle(
                           14,
-                          'Roboto',
+                          'Nunito',
                           FontWeight.w600,
                           taskModel.status! == Status.PENDING
                               ? ColorsManager.grey
@@ -332,7 +332,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                           '${controller.dateFormat.format(taskModel.startDate!)} ${getCurrentTime(taskModel.startDate!)} - ${controller.dateFormat.format(taskModel.endDate!)} ${getCurrentTime(taskModel.endDate!)}',
                           style: GetTextStyle.getTextStyle(
                             13,
-                            'Roboto',
+                            'Nunito',
                             FontWeight.w600,
                             taskModel.status! == Status.PENDING
                                 ? ColorsManager.grey
@@ -449,7 +449,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                         : "Đã xác nhận",
                         style: TextStyle(
                             letterSpacing: 1.2,
-                            fontFamily: 'Roboto',
+                            fontFamily: 'Nunito',
                             color: Colors.white,
                             fontSize: UtilsReponsive.heightv2(context, 14),
                             fontWeight: FontWeight.bold))),
@@ -470,7 +470,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                               ? Text(
                                   taskModel.title!.length > 28 ? '${taskModel.title!.substring(0, 28)}...' : taskModel.title!,
                                   style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                    fontFamily: 'Nunito',
                                     letterSpacing: 0.5,
                                     color: ColorsManager.textColor,
                                     fontSize: UtilsReponsive.height(17, context),
@@ -481,7 +481,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                               : Text(
                                   taskModel.title!.length > 28 ? '${taskModel.title!.substring(0, 28)}...' : taskModel.title!,
                                   style: TextStyle(
-                                      fontFamily: 'Roboto',
+                                      fontFamily: 'Nunito',
                                       letterSpacing: 0.5,
                                       color: ColorsManager.textColor,
                                       fontSize: UtilsReponsive.height(17, context),
@@ -513,7 +513,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                       'Hạn hoàn thành',
                                       style: TextStyle(
                                           letterSpacing: 1.5,
-                                          fontFamily: 'Roboto',
+                                          fontFamily: 'Nunito',
                                           color: ColorsManager.textColor2,
                                           fontSize: UtilsReponsive.height(14, context),
                                           fontWeight: FontWeight.bold),
@@ -523,7 +523,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                           '${controller.dateFormat.format(taskModel.startDate!)} ${getCurrentTime(taskModel.startDate!)} - ${controller.dateFormat.format(taskModel.endDate!)} ${getCurrentTime(taskModel.endDate!)}',
                                           style: GetTextStyle.getTextStyle(
                                             11,
-                                            'Roboto',
+                                            'Nunito',
                                             FontWeight.w600,
                                             taskModel.status! == Status.PENDING
                                                 ? ColorsManager.grey
@@ -541,7 +541,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                               controller.dateFormat.format(taskModel.startDate!),
                                               style: GetTextStyle.getTextStyle(
                                                 14,
-                                                'Roboto',
+                                                'Nunito',
                                                 FontWeight.w600,
                                                 taskModel.status! == Status.PENDING
                                                     ? ColorsManager.grey
@@ -559,7 +559,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                                   controller.dateFormat.format(taskModel.endDate!),
                                                   style: GetTextStyle.getTextStyle(
                                                     14,
-                                                    'Roboto',
+                                                    'Nunito',
                                                     FontWeight.w600,
                                                     taskModel.status! == Status.PENDING
                                                         ? ColorsManager.grey

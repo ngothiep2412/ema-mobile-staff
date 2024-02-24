@@ -33,7 +33,7 @@ class TabNotificationView extends BaseView<TabNotificationController> {
                       Expanded(
                         child: Text(
                           'Thông báo',
-                          style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                          style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w600, ColorsManager.primary),
                         ),
                       ),
                       // Icon(
@@ -96,7 +96,7 @@ class TabNotificationView extends BaseView<TabNotificationController> {
                                       ),
                                       Text(
                                         'Bạn chưa có thông báo nào',
-                                        style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w500, ColorsManager.primary),
+                                        style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w500, ColorsManager.primary),
                                       ),
                                     ],
                                   ),
@@ -164,7 +164,7 @@ class TabNotificationView extends BaseView<TabNotificationController> {
                                                         () => Text(controller.listNotifications[index].content!,
                                                             style: GetTextStyle.getTextStyle(
                                                                 14,
-                                                                'Roboto',
+                                                                'Nunito',
                                                                 FontWeight.w700,
                                                                 controller.listNotifications[index].readFlag != 0
                                                                     ? ColorsManager.textColor2
@@ -174,7 +174,7 @@ class TabNotificationView extends BaseView<TabNotificationController> {
                                                         height: UtilsReponsive.height(10, context),
                                                       ),
                                                       Text(calculateTimeDifference(controller.listNotifications[index].createdAt.toString()),
-                                                          style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w600, ColorsManager.textColor)),
+                                                          style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w600, ColorsManager.textColor)),
                                                     ],
                                                   ))
                                             ]),
@@ -191,7 +191,7 @@ class TabNotificationView extends BaseView<TabNotificationController> {
                                                   return AlertDialog(
                                                     title: Text('Xác nhận xóa',
                                                         style: TextStyle(
-                                                            fontFamily: 'Roboto',
+                                                            fontFamily: 'Nunito',
                                                             wordSpacing: 1.2,
                                                             color: ColorsManager.primary,
                                                             fontSize: UtilsReponsive.height(20, context),
@@ -199,7 +199,7 @@ class TabNotificationView extends BaseView<TabNotificationController> {
                                                     content: Text(
                                                       'Bạn có muốn xóa thông báo này?',
                                                       style: TextStyle(
-                                                          fontFamily: 'Roboto',
+                                                          fontFamily: 'Nunito',
                                                           wordSpacing: 1.2,
                                                           color: ColorsManager.textColor2,
                                                           fontSize: UtilsReponsive.height(18, context),
@@ -213,7 +213,7 @@ class TabNotificationView extends BaseView<TabNotificationController> {
                                                         },
                                                         child: Text('Xóa',
                                                             style: TextStyle(
-                                                                fontFamily: 'Roboto',
+                                                                fontFamily: 'Nunito',
                                                                 wordSpacing: 1.2,
                                                                 color: ColorsManager.red,
                                                                 fontSize: UtilsReponsive.height(18, context),
@@ -225,7 +225,7 @@ class TabNotificationView extends BaseView<TabNotificationController> {
                                                         },
                                                         child: Text('Hủy',
                                                             style: TextStyle(
-                                                                fontFamily: 'Roboto',
+                                                                fontFamily: 'Nunito',
                                                                 wordSpacing: 1.2,
                                                                 color: ColorsManager.primary,
                                                                 fontSize: UtilsReponsive.height(18, context),

@@ -1,5 +1,6 @@
 class BaseLink {
-  static const localBaseLink = 'http://api.hreaevent.live';
+  // static const localBaseLink = 'http://api.hreaevent.live';
+  static const localBaseLink = 'http://14.225.204.176:6969';
   static const socketIO = 'http://14.225.204.176:3006';
 
   static const login = '/api/v1/auth/login';

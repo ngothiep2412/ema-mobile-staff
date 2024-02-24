@@ -28,8 +28,7 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
                   Center(
                     child: Text(
                       'Tạo khoản chi',
-                      style: GetTextStyle.getTextStyle(18, 'Roboto',
-                          FontWeight.w600, ColorsManager.textColor),
+                      style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                     ),
                   ),
                   SizedBox(
@@ -37,48 +36,37 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
                   ),
                   Text(
                     'Tên khoản chi',
-                    style: GetTextStyle.getTextStyle(
-                        16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
                   ),
-                  buildTextField(
-                      context,
-                      "Tên khoản chi",
-                      "Ví dụ: Tiền thuê mic",
-                      controller.budgetNameController),
+                  buildTextField(context, "Tên khoản chi", "Ví dụ: Tiền thuê mic", controller.budgetNameController),
 
                   Text(
                     'Chi phí ước tính (VNĐ)',
-                    style: GetTextStyle.getTextStyle(
-                        16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
                   ),
-                  buildWidgetmoney(context, "Chi phí ước tính",
-                      "Ví dụ: 100.000", controller.estExpenseController),
+                  buildWidgetmoney(context, "Chi phí ước tính", "Ví dụ: 100.000", controller.estExpenseController),
                   Text(
                     'Mô tả',
-                    style: GetTextStyle.getTextStyle(
-                        16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
                   ),
-                  buildTextarea(context, "Mô tả", "Ví dụ: Loại nhỏ",
-                      controller.descriptionController),
+                  buildTextarea(context, "Mô tả", "Ví dụ: Loại nhỏ", controller.descriptionController),
                   Text(
                     'Nhà cung cấp',
-                    style: GetTextStyle.getTextStyle(
-                        16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
                   ),
-                  buildTextField(context, "Nhà cung cấp",
-                      "Ví dụ: Saigon LED", controller.supplierController),
+                  buildTextField(context, "Nhà cung cấp", "Ví dụ: Saigon LED", controller.supplierController),
                   // DropdownButtonFormField(
                   //   items: controller.genderList
                   //       .map((e) => DropdownMenuItem(
@@ -113,14 +101,11 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
                       child: ElevatedButton(
                         onPressed: () async {
                           await controller.createBudget();
-                          controller.errorCreateBudget.value
-                              ? _errorMessage(Get.context!)
-                              : _successMessage(Get.context!);
+                          controller.errorCreateBudget.value ? _errorMessage(Get.context!) : _successMessage(Get.context!);
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                5.0), // Đặt border radius theo mong muốn
+                            borderRadius: BorderRadius.circular(5.0), // Đặt border radius theo mong muốn
                           ),
                         ),
                         child: controller.isLoading.value
@@ -133,7 +118,7 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
                                 "Tạo đơn",
                                 style: GetTextStyle.getTextStyle(
                                   14,
-                                  'Roboto',
+                                  'Nunito',
                                   FontWeight.w800,
                                   ColorsManager.backgroundWhite,
                                 ),
@@ -174,8 +159,7 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
           // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
-          hintStyle: GetTextStyle.getTextStyle(
-              14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+          hintStyle: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
         ),
       ),
     );
@@ -207,8 +191,7 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
           // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
-          hintStyle: GetTextStyle.getTextStyle(
-              14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+          hintStyle: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
         ),
       ),
     );
@@ -236,8 +219,7 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
           // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
-          hintStyle: GetTextStyle.getTextStyle(
-              14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+          hintStyle: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
         ),
       ),
     );
@@ -250,9 +232,7 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.heightv2(context, 80),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 81, 146, 83),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 81, 146, 83), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.check_circle,
@@ -268,14 +248,12 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
               children: [
                 Text(
                   'Thành công',
-                  style: GetTextStyle.getTextStyle(
-                      18, 'Roboto', FontWeight.w800, Colors.white),
+                  style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                 ),
                 Spacer(),
                 Text(
                   'Tạo đơn thành công',
-                  style: GetTextStyle.getTextStyle(
-                      12, 'Roboto', FontWeight.w500, Colors.white),
+                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -296,9 +274,7 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.heightv2(context, 80),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 219, 90, 90),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 219, 90, 90), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.error_outline,
@@ -314,15 +290,13 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
                 children: [
                   Text(
                     'Thất bại',
-                    style: GetTextStyle.getTextStyle(
-                        18, 'Roboto', FontWeight.w800, Colors.white),
+                    style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                   ),
                   const Spacer(),
                   Obx(
                     () => Text(
                       controller.errorCreateBudgetText.value,
-                      style: GetTextStyle.getTextStyle(
-                          12, 'Roboto', FontWeight.w500, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

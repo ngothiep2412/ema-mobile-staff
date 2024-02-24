@@ -26,180 +26,108 @@ class BudgetView extends BaseView<BudgetController> {
                       // size: 30.0,
                     ),
                   )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                        Center(
-                          child: Text(
-                            'Danh sách đơn khoản chi',
-                            style: GetTextStyle.getTextStyle(18, 'Roboto',
-                                FontWeight.w700, ColorsManager.primary),
-                          ),
-                        ),
-                        SizedBox(
-                          height: UtilsReponsive.height(10, context),
-                        ),
-                        Expanded(
-                          child: RefreshIndicator(
-                            onRefresh: controller.refreshPage,
-                            child: controller.listBudget.isEmpty
-                                ? Center(
-                                    child: Text(
-                                      'Hiện không có danh sách yêu cầu khoản chi',
-                                      style: GetTextStyle.getTextStyle(
-                                          14,
-                                          'Roboto',
-                                          FontWeight.w700,
-                                          ColorsManager.textColor),
+                : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Center(
+                      child: Text(
+                        'Danh sách đơn khoản chi',
+                        style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w700, ColorsManager.primary),
+                      ),
+                    ),
+                    SizedBox(
+                      height: UtilsReponsive.height(10, context),
+                    ),
+                    Expanded(
+                      child: RefreshIndicator(
+                        onRefresh: controller.refreshPage,
+                        child: controller.listBudget.isEmpty
+                            ? Center(
+                                child: Text(
+                                  'Hiện không có danh sách yêu cầu khoản chi',
+                                  style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor),
+                                ),
+                              )
+                            : ListView.separated(
+                                controller: controller.scrollController,
+                                separatorBuilder: (context, index) => SizedBox(
+                                      height: UtilsReponsive.height(20, context),
                                     ),
-                                  )
-                                : ListView.separated(
-                                    controller: controller.scrollController,
-                                    separatorBuilder: (context, index) =>
-                                        SizedBox(
-                                          height: UtilsReponsive.height(
-                                              20, context),
-                                        ),
-                                    shrinkWrap: true,
-                                    padding: const EdgeInsets.all(8),
-                                    itemCount: controller.listBudget.length,
-                                    itemBuilder: (context, index) {
-                                      if (index ==
-                                              controller.listBudget.length -
-                                                  1 &&
-                                          controller
-                                                  .isMoreDataAvailable.value ==
-                                              true) {
-                                        return const Center(
-                                          child: CircularProgressIndicator(),
-                                        );
-                                      }
-                                      return GestureDetector(
-                                        onTap: () {
-                                          Get.toNamed(Routes.BUDGET_DETAIL,
-                                              arguments: {
-                                                "eventID": controller.eventID,
-                                                "budget":
-                                                    controller.listBudget[index]
-                                              });
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          padding: UtilsReponsive.paddingAll(
-                                              context,
-                                              padding: 10),
-                                          child: Row(children: [
-                                            Expanded(
-                                                child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                shrinkWrap: true,
+                                padding: const EdgeInsets.all(8),
+                                itemCount: controller.listBudget.length,
+                                itemBuilder: (context, index) {
+                                  if (index == controller.listBudget.length - 1 && controller.isMoreDataAvailable.value == true) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Get.toNamed(Routes.BUDGET_DETAIL,
+                                          arguments: {"eventID": controller.eventID, "budget": controller.listBudget[index]});
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      padding: UtilsReponsive.paddingAll(context, padding: 10),
+                                      child: Row(children: [
+                                        Expanded(
+                                            child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              controller.listBudget[index].budgetName!,
+                                              style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor),
+                                            ),
+                                            SizedBox(
+                                              height: UtilsReponsive.height(10, context),
+                                            ),
+                                            Row(
                                               children: [
                                                 Text(
-                                                  controller.listBudget[index]
-                                                      .budgetName!,
-                                                  style:
-                                                      GetTextStyle.getTextStyle(
-                                                          14,
-                                                          'Roboto',
-                                                          FontWeight.w700,
-                                                          ColorsManager
-                                                              .textColor),
+                                                  'Ngày nộp đơn: ',
+                                                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w600, ColorsManager.textColor2),
                                                 ),
-                                                SizedBox(
-                                                  height: UtilsReponsive.height(
-                                                      10, context),
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      'Ngày nộp đơn: ',
-                                                      style: GetTextStyle
-                                                          .getTextStyle(
-                                                              12,
-                                                              'Roboto',
-                                                              FontWeight.w600,
-                                                              ColorsManager
-                                                                  .textColor2),
-                                                    ),
-                                                    Text(
-                                                        controller.dateFormat
-                                                            .format(controller
-                                                                .listBudget[
-                                                                    index]
-                                                                .createdAt!)
-                                                            .toString(),
-                                                        style: GetTextStyle
-                                                            .getTextStyle(
-                                                                12,
-                                                                'Roboto',
-                                                                FontWeight.bold,
-                                                                ColorsManager
-                                                                    .textColor)),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: UtilsReponsive.height(
-                                                      10, context),
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text('Trạng thái: ',
-                                                        style: GetTextStyle
-                                                            .getTextStyle(
-                                                                12,
-                                                                'Roboto',
-                                                                FontWeight.w600,
-                                                                ColorsManager
-                                                                    .textColor2)),
-                                                    Text(
-                                                        controller
-                                                                    .listBudget[
-                                                                        index]
-                                                                    .status! ==
-                                                                "REJECT"
-                                                            ? "Từ chối"
-                                                            : controller
-                                                                        .listBudget[
-                                                                            index]
-                                                                        .status! ==
-                                                                    "ACCEPT"
-                                                                ? "Chấp nhận"
-                                                                : "Đang xử lí",
-                                                        style: GetTextStyle
-                                                            .getTextStyle(
-                                                                12,
-                                                                'Roboto',
-                                                                FontWeight.bold,
-                                                                controller
-                                                                            .listBudget[
-                                                                                index]
-                                                                            .status ==
-                                                                        'REJECT'
-                                                                    ? ColorsManager
-                                                                        .red
-                                                                    : controller.listBudget[index].status ==
-                                                                            'PROCESSING'
-                                                                        ? ColorsManager
-                                                                            .orange
-                                                                        : controller.listBudget[index].status ==
-                                                                                'ACCEPT'
-                                                                            ? ColorsManager.green
-                                                                            : ColorsManager.primary)),
-                                                  ],
-                                                ),
+                                                Text(controller.dateFormat.format(controller.listBudget[index].createdAt!).toString(),
+                                                    style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.bold, ColorsManager.textColor)),
                                               ],
-                                            ))
-                                          ]),
-                                        ),
-                                      );
-                                    }),
-                          ),
-                        ),
-                      ]),
+                                            ),
+                                            SizedBox(
+                                              height: UtilsReponsive.height(10, context),
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text('Trạng thái: ',
+                                                    style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w600, ColorsManager.textColor2)),
+                                                Text(
+                                                    controller.listBudget[index].status! == "REJECT"
+                                                        ? "Từ chối"
+                                                        : controller.listBudget[index].status! == "ACCEPT"
+                                                            ? "Chấp nhận"
+                                                            : "Đang xử lí",
+                                                    style: GetTextStyle.getTextStyle(
+                                                        12,
+                                                        'Nunito',
+                                                        FontWeight.bold,
+                                                        controller.listBudget[index].status == 'REJECT'
+                                                            ? ColorsManager.red
+                                                            : controller.listBudget[index].status == 'PROCESSING'
+                                                                ? ColorsManager.orange
+                                                                : controller.listBudget[index].status == 'ACCEPT'
+                                                                    ? ColorsManager.green
+                                                                    : ColorsManager.primary)),
+                                              ],
+                                            ),
+                                          ],
+                                        ))
+                                      ]),
+                                    ),
+                                  );
+                                }),
+                      ),
+                    ),
+                  ]),
           ),
         ),
       ),

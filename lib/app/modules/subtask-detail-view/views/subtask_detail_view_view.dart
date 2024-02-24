@@ -62,7 +62,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                       TextSpan(
                                         text: 'Task con của ',
                                         style: TextStyle(
-                                          fontFamily: 'Roboto',
+                                          fontFamily: 'Nunito',
                                           wordSpacing: 1.2,
                                           color: ColorsManager.textColor,
                                           fontSize: UtilsReponsive.height(18, context),
@@ -72,7 +72,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                       TextSpan(
                                         text: '${controller.taskModel.value.parent!.title}',
                                         style: TextStyle(
-                                          fontFamily: 'Roboto',
+                                          fontFamily: 'Nunito',
                                           wordSpacing: 1.2,
                                           color: Colors.blue,
                                           fontSize: UtilsReponsive.height(18, context),
@@ -162,7 +162,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                               'Hạn hoàn thành',
                                               style: TextStyle(
                                                   letterSpacing: 1,
-                                                  fontFamily: 'Roboto',
+                                                  fontFamily: 'Nunito',
                                                   color: Colors.grey.withOpacity(0.8),
                                                   fontSize: UtilsReponsive.height(16, context),
                                                   fontWeight: FontWeight.bold),
@@ -188,7 +188,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               //         Row(
                               //           children: [
                               //             Text('Ước tính (giờ):',
-                              //                 style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.bold, ColorsManager.textColor)),
+                              //                 style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.bold, ColorsManager.textColor)),
                               //             SizedBox(
                               //               width: UtilsReponsive.width(5, context),
                               //             ),
@@ -203,7 +203,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               //                       builder: (BuildContext context) {
                               //                         return AlertDialog(
                               //                           title: Text('Nhập con số thời gian ước tính',
-                              //                               style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w500, ColorsManager.primary)),
+                              //                               style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w500, ColorsManager.primary)),
                               //                           content: TextField(
                               //                             keyboardType: const TextInputType.numberWithOptions(decimal: true),
                               //                             inputFormatters: <TextInputFormatter>[
@@ -216,7 +216,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               //                             TextButton(
                               //                               child: Text('Hủy',
                               //                                   style: GetTextStyle.getTextStyle(
-                              //                                       16, 'Roboto', FontWeight.w500, ColorsManager.textColor2)),
+                              //                                       16, 'Nunito', FontWeight.w500, ColorsManager.textColor2)),
                               //                               onPressed: () {
                               //                                 Navigator.of(context).pop();
                               //                               },
@@ -224,7 +224,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               //                             TextButton(
                               //                               child: Text('Lưu',
                               //                                   style:
-                              //                                       GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.primary)),
+                              //                                       GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.primary)),
                               //                               onPressed: () async {
                               //                                 if (controller.estController.text.isEmpty) {
                               //                                   Get.snackbar('Lỗi', 'Không được để trống thời gian ước lượng',
@@ -243,7 +243,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               //                       });
                               //                 },
                               //                 child: Text(controller.est.toString(),
-                              //                     style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w700, ColorsManager.primary))),
+                              //                     style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w700, ColorsManager.primary))),
                               //           ],
                               //         ),
                               //         SizedBox(
@@ -252,7 +252,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               //         Row(
                               //           children: [
                               //             Text('Công sức (giờ):',
-                              //                 style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.bold, ColorsManager.textColor)),
+                              //                 style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.bold, ColorsManager.textColor)),
                               //             SizedBox(
                               //               width: UtilsReponsive.width(5, context),
                               //             ),
@@ -267,7 +267,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               //                       builder: (BuildContext context) {
                               //                         return AlertDialog(
                               //                           title: Text('Nhập con số thời gian công sức',
-                              //                               style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w500, ColorsManager.primary)),
+                              //                               style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w500, ColorsManager.primary)),
                               //                           content: TextField(
                               //                             keyboardType: const TextInputType.numberWithOptions(decimal: true),
                               //                             inputFormatters: <TextInputFormatter>[
@@ -280,7 +280,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               //                             TextButton(
                               //                               child: Text('Hủy',
                               //                                   style: GetTextStyle.getTextStyle(
-                              //                                       16, 'Roboto', FontWeight.w500, ColorsManager.textColor2)),
+                              //                                       16, 'Nunito', FontWeight.w500, ColorsManager.textColor2)),
                               //                               onPressed: () {
                               //                                 Navigator.of(context).pop();
                               //                               },
@@ -288,7 +288,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               //                             TextButton(
                               //                               child: Text('Lưu',
                               //                                   style:
-                              //                                       GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.primary)),
+                              //                                       GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.primary)),
                               //                               onPressed: () async {
                               //                                 if (controller.effortController.text.isEmpty) {
                               //                                   Get.snackbar('Lỗi', 'Không được để trống thời gian công sức',
@@ -308,7 +308,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               //                       });
                               //                 },
                               //                 child: Text(controller.effort.toString(),
-                              //                     style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w700, ColorsManager.primary))),
+                              //                     style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w700, ColorsManager.primary))),
                               //           ],
                               //         ),
                               //       ],
@@ -370,7 +370,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                         Text(
                                           controller.taskModel.value.parent!.assignTasks![0].user!.profile!.fullName!,
                                           style: TextStyle(
-                                              fontFamily: 'Roboto',
+                                              fontFamily: 'Nunito',
                                               color: ColorsManager.textColor,
                                               fontSize: UtilsReponsive.height(17, context),
                                               fontWeight: FontWeight.bold),
@@ -378,7 +378,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                         Text(
                                           "Người giao việc",
                                           style: TextStyle(
-                                              fontFamily: 'Roboto',
+                                              fontFamily: 'Nunito',
                                               color: ColorsManager.primary,
                                               fontSize: UtilsReponsive.height(16, context),
                                               fontWeight: FontWeight.w600),
@@ -443,7 +443,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                       Text(
                                                         'Người chịu trách nhiệm',
                                                         style: TextStyle(
-                                                            fontFamily: 'Roboto',
+                                                            fontFamily: 'Nunito',
                                                             color: ColorsManager.primary,
                                                             fontSize: UtilsReponsive.height(16, context),
                                                             fontWeight: FontWeight.w600),
@@ -512,7 +512,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                       Text(
                                                         'Những người tham gia khác',
                                                         style: TextStyle(
-                                                            fontFamily: 'Roboto',
+                                                            fontFamily: 'Nunito',
                                                             color: ColorsManager.primary,
                                                             fontSize: UtilsReponsive.height(16, context),
                                                             fontWeight: FontWeight.w600),
@@ -592,7 +592,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                             Text(
                                                               controller.taskModel.value.assignTasks![0].user!.profile!.fullName!,
                                                               style: TextStyle(
-                                                                  fontFamily: 'Roboto',
+                                                                  fontFamily: 'Nunito',
                                                                   color: ColorsManager.textColor,
                                                                   fontSize: UtilsReponsive.height(17, context),
                                                                   fontWeight: FontWeight.bold),
@@ -600,7 +600,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                             Text(
                                                               'Người chịu trách nhiệm',
                                                               style: TextStyle(
-                                                                  fontFamily: 'Roboto',
+                                                                  fontFamily: 'Nunito',
                                                                   color: ColorsManager.primary,
                                                                   fontSize: UtilsReponsive.height(16, context),
                                                                   fontWeight: FontWeight.w600),
@@ -695,7 +695,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                                 : Text(
                                                                     controller.taskModel.value.assignTasks![1].user!.profile!.fullName!,
                                                                     style: TextStyle(
-                                                                        fontFamily: 'Roboto',
+                                                                        fontFamily: 'Nunito',
                                                                         color: ColorsManager.textColor,
                                                                         fontSize: UtilsReponsive.height(17, context),
                                                                         fontWeight: FontWeight.bold),
@@ -704,7 +704,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                                 ? Text(
                                                                     "${controller.taskModel.value.assignTasks![1].user!.profile!.fullName!.split(' ').last} và ${controller.taskModel.value.assignTasks!.length - 2} thành viên khác",
                                                                     style: TextStyle(
-                                                                        fontFamily: 'Roboto',
+                                                                        fontFamily: 'Nunito',
                                                                         color: ColorsManager.primary,
                                                                         fontSize: UtilsReponsive.height(16, context),
                                                                         fontWeight: FontWeight.w600),
@@ -712,7 +712,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                                 : Text(
                                                                     'Người tham gia',
                                                                     style: TextStyle(
-                                                                        fontFamily: 'Roboto',
+                                                                        fontFamily: 'Nunito',
                                                                         color: ColorsManager.primary,
                                                                         fontSize: UtilsReponsive.height(16, context),
                                                                         fontWeight: FontWeight.w600),
@@ -737,7 +737,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                     child: Text(
                                                       "Thêm người",
                                                       style: TextStyle(
-                                                          fontFamily: 'Roboto',
+                                                          fontFamily: 'Nunito',
                                                           color: ColorsManager.primary,
                                                           fontSize: UtilsReponsive.height(17, context),
                                                           fontWeight: FontWeight.w600),
@@ -815,7 +815,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                             Text(
                                                               controller.taskModel.value.assignTasks![0].user!.profile!.fullName!,
                                                               style: TextStyle(
-                                                                  fontFamily: 'Roboto',
+                                                                  fontFamily: 'Nunito',
                                                                   color: ColorsManager.textColor,
                                                                   fontSize: UtilsReponsive.height(17, context),
                                                                   fontWeight: FontWeight.bold),
@@ -823,7 +823,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                             Text(
                                                               'Người chịu trách nhiệm',
                                                               style: TextStyle(
-                                                                  fontFamily: 'Roboto',
+                                                                  fontFamily: 'Nunito',
                                                                   color: ColorsManager.primary,
                                                                   fontSize: UtilsReponsive.height(16, context),
                                                                   fontWeight: FontWeight.w600),
@@ -901,7 +901,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                                   Text(
                                                                     'Những người tham gia khác',
                                                                     style: TextStyle(
-                                                                        fontFamily: 'Roboto',
+                                                                        fontFamily: 'Nunito',
                                                                         color: ColorsManager.primary,
                                                                         fontSize: UtilsReponsive.height(16, context),
                                                                         fontWeight: FontWeight.w600),
@@ -1066,7 +1066,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                     return AlertDialog(
                       title: Text(
                         'Thay đổi tiêu đề task',
-                        style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w500, ColorsManager.primary),
+                        style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w500, ColorsManager.primary),
                       ),
                       content: TextField(
                         onChanged: (value) => {controller.titleSubTaskController.text = value},
@@ -1074,14 +1074,14 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                       ),
                       actions: [
                         TextButton(
-                          child: Text('Hủy', style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.primary)),
+                          child: Text('Hủy', style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.primary)),
                           onPressed: () {
                             // Navigator.of(context).pop();
                             Navigator.of(context, rootNavigator: true).pop();
                           },
                         ),
                         TextButton(
-                          child: Text('Lưu', style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.primary)),
+                          child: Text('Lưu', style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.primary)),
                           onPressed: () async {
                             Navigator.of(context, rootNavigator: true).pop();
                             await controller.updateTitleTask(controller.titleSubTaskController.text, controller.taskModel.value.id!);
@@ -1097,7 +1097,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 objectTask,
                 style: TextStyle(
                     letterSpacing: 1,
-                    fontFamily: 'Roboto',
+                    fontFamily: 'Nunito',
                     color: ColorsManager.textColor,
                     fontSize: UtilsReponsive.height(24, context),
                     fontWeight: FontWeight.bold),
@@ -1203,7 +1203,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                     title: Text(
                       e,
                       style: TextStyle(
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Nunito',
                           letterSpacing: 1,
                           color: ColorsManager.textColor,
                           fontSize: UtilsReponsive.height(16, context),
@@ -1247,7 +1247,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                       objectStatusTask,
                       style: TextStyle(
                           letterSpacing: 1,
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Nunito',
                           color: Colors.white,
                           fontSize: UtilsReponsive.height(14, context),
                           fontWeight: FontWeight.bold),
@@ -1256,7 +1256,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                       '--',
                       style: TextStyle(
                           letterSpacing: 1,
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Nunito',
                           color: Colors.white,
                           fontSize: UtilsReponsive.height(14, context),
                           fontWeight: FontWeight.bold),
@@ -1318,7 +1318,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                     title: Text(
                       e,
                       style: TextStyle(
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Nunito',
                           letterSpacing: 1,
                           color: ColorsManager.textColor2,
                           fontSize: UtilsReponsive.height(16, context),
@@ -1363,7 +1363,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
             '$startTime ${getCurrentTime(controller.taskModel.value.startDate!)} - $endTime ${getCurrentTime(controller.taskModel.value.endDate!)}',
             style: TextStyle(
                 letterSpacing: 1,
-                fontFamily: 'Roboto',
+                fontFamily: 'Nunito',
                 color: controller.taskModel.value.status == Status.PENDING
                     ? ColorsManager.grey
                     : controller.taskModel.value.status! == Status.PROCESSING
@@ -1462,7 +1462,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                     child: Text(
                       'Lưu',
                       style: TextStyle(
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Nunito',
                           letterSpacing: 1,
                           color: ColorsManager.primary,
                           fontSize: UtilsReponsive.height(18, context),
@@ -1491,7 +1491,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               child: Text(
                                 'Không tìm thấy nhân viên',
                                 style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                    fontFamily: 'Nunito',
                                     letterSpacing: 1,
                                     color: ColorsManager.textColor,
                                     fontSize: UtilsReponsive.height(16, context),
@@ -1566,7 +1566,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                             title: Text(
                                               controller.listEmployee[index].fullName!,
                                               style: TextStyle(
-                                                  fontFamily: 'Roboto',
+                                                  fontFamily: 'Nunito',
                                                   letterSpacing: 1,
                                                   color: ColorsManager.textColor,
                                                   fontSize: UtilsReponsive.height(17, context),
@@ -1575,7 +1575,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                             subtitle: Text(
                                               '${controller.listEmployee[index].email}',
                                               style: TextStyle(
-                                                  fontFamily: 'Roboto',
+                                                  fontFamily: 'Nunito',
                                                   letterSpacing: 1,
                                                   color: ColorsManager.textColor2,
                                                   fontSize: UtilsReponsive.height(15, context),
@@ -1652,7 +1652,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                     child: Text(
                       'Save',
                       style: TextStyle(
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Nunito',
                           letterSpacing: 1,
                           color: ColorsManager.primary,
                           fontSize: UtilsReponsive.height(18, context),
@@ -1681,7 +1681,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               child: Text(
                                 'Không tìm thấy nhân viên',
                                 style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                    fontFamily: 'Nunito',
                                     letterSpacing: 1,
                                     color: Colors.black,
                                     fontSize: UtilsReponsive.height(16, context),
@@ -1769,7 +1769,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                             title: Text(
                                               controller.listEmployee[index].fullName!,
                                               style: TextStyle(
-                                                  fontFamily: 'Roboto',
+                                                  fontFamily: 'Nunito',
                                                   letterSpacing: 1,
                                                   color: ColorsManager.textColor,
                                                   fontSize: UtilsReponsive.height(17, context),
@@ -1778,7 +1778,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                             subtitle: Text(
                                               '${controller.listEmployee[index].email}',
                                               style: TextStyle(
-                                                  fontFamily: 'Roboto',
+                                                  fontFamily: 'Nunito',
                                                   letterSpacing: 1,
                                                   color: ColorsManager.textColor2,
                                                   fontSize: UtilsReponsive.height(15, context),
@@ -1915,7 +1915,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
           child: Text(
             'Tiếp tục',
             style: TextStyle(
-                fontFamily: 'Roboto',
+                fontFamily: 'Nunito',
                 letterSpacing: 1,
                 color: ColorsManager.primary,
                 fontSize: UtilsReponsive.height(18, context),
@@ -1993,7 +1993,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                   title: Text(
                     controller.listEmployeeSupportView[index].fullName!,
                     style: TextStyle(
-                        fontFamily: 'Roboto',
+                        fontFamily: 'Nunito',
                         letterSpacing: 1,
                         color: ColorsManager.textColor,
                         fontSize: UtilsReponsive.height(17, context),
@@ -2002,7 +2002,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                   subtitle: Text(
                     '${controller.listEmployeeSupportView[index].email}',
                     style: TextStyle(
-                        fontFamily: 'Roboto',
+                        fontFamily: 'Nunito',
                         letterSpacing: 1,
                         color: ColorsManager.textColor2,
                         fontSize: UtilsReponsive.height(15, context),
@@ -2044,7 +2044,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                   return AlertDialog(
                     title: Text('Xác nhận xóa',
                         style: TextStyle(
-                            fontFamily: 'Roboto',
+                            fontFamily: 'Nunito',
                             wordSpacing: 1.2,
                             color: ColorsManager.primary,
                             fontSize: UtilsReponsive.height(20, context),
@@ -2052,7 +2052,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                     content: Text(
                       'Bạn có muốn xóa công việc này?',
                       style: TextStyle(
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Nunito',
                           wordSpacing: 1.2,
                           color: ColorsManager.textColor2,
                           fontSize: UtilsReponsive.height(18, context),
@@ -2066,7 +2066,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                         },
                         child: Text('Xóa',
                             style: TextStyle(
-                                fontFamily: 'Roboto',
+                                fontFamily: 'Nunito',
                                 wordSpacing: 1.2,
                                 color: ColorsManager.red,
                                 fontSize: UtilsReponsive.height(18, context),
@@ -2079,7 +2079,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                         },
                         child: Text('Hủy',
                             style: TextStyle(
-                                fontFamily: 'Roboto',
+                                fontFamily: 'Nunito',
                                 wordSpacing: 1.2,
                                 color: ColorsManager.primary,
                                 fontSize: UtilsReponsive.height(18, context),
@@ -2102,7 +2102,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                   () => Text(
                     'Tiến độ ${controller.progress.value}',
                     style: TextStyle(
-                        fontFamily: 'Roboto',
+                        fontFamily: 'Nunito',
                         wordSpacing: 1.2,
                         color: ColorsManager.textColor2,
                         fontSize: UtilsReponsive.height(18, context),
@@ -2115,7 +2115,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 child: Text(
                   'Xóa công việc này',
                   style: TextStyle(
-                      fontFamily: 'Roboto',
+                      fontFamily: 'Nunito',
                       wordSpacing: 1.2,
                       color: ColorsManager.textColor2,
                       fontSize: UtilsReponsive.height(18, context),
@@ -2158,7 +2158,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                       RichText(
                         text: TextSpan(
                           style: TextStyle(
-                            fontFamily: 'Roboto',
+                            fontFamily: 'Nunito',
                             wordSpacing: 1.2,
                             fontSize: UtilsReponsive.height(24, context),
                             fontWeight: FontWeight.w500,
@@ -2187,7 +2187,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                         child: Text(
                           'Lưu',
                           style: TextStyle(
-                              fontFamily: 'Roboto',
+                              fontFamily: 'Nunito',
                               wordSpacing: 1.2,
                               color: ColorsManager.primary,
                               fontSize: UtilsReponsive.height(24, context),
@@ -2237,7 +2237,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
             padding: EdgeInsets.only(left: UtilsReponsive.height(10, context)),
             child: Text('Bình luận',
                 style: TextStyle(
-                    fontFamily: 'Roboto',
+                    fontFamily: 'Nunito',
                     wordSpacing: 1.2,
                     color: Colors.black,
                     fontSize: UtilsReponsive.height(18, context),
@@ -2280,7 +2280,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                             ),
                             Text(
                               'Để lại bình luận đầu tiên',
-                              style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.primary),
+                              style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.primary),
                             ),
                           ],
                         ),
@@ -2331,7 +2331,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                     Text(
                       commentModel.user!.profile!.fullName!,
                       style: TextStyle(
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Nunito',
                           letterSpacing: 1,
                           color: ColorsManager.textColor,
                           fontSize: UtilsReponsive.height(17, context),
@@ -2341,7 +2341,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                     Text(
                       calculateTimeDifference(commentModel.createdAt.toString()),
                       style: TextStyle(
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Nunito',
                           letterSpacing: 1,
                           color: ColorsManager.textColor,
                           fontSize: UtilsReponsive.height(14, context),
@@ -2387,7 +2387,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                       Text(
                         'Tệp đã thêm',
                         style: TextStyle(
-                            fontFamily: 'Roboto',
+                            fontFamily: 'Nunito',
                             letterSpacing: 1,
                             color: ColorsManager.textColor2,
                             fontSize: UtilsReponsive.height(14, context),
@@ -2425,7 +2425,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 : Text(
                     commentModel.text!,
                     style: TextStyle(
-                        fontFamily: 'Roboto',
+                        fontFamily: 'Nunito',
                         letterSpacing: 1,
                         color: ColorsManager.textColor,
                         fontSize: UtilsReponsive.height(18, context),
@@ -2447,7 +2447,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     'Chỉnh sửa',
-                                    style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.primary),
+                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.primary),
                                   ))
                               : SizedBox()),
                       SizedBox(
@@ -2462,17 +2462,17 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                       return AlertDialog(
                                         title: Text(
                                           'Xác nhận xóa bình luận',
-                                          style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.primary),
+                                          style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.primary),
                                         ),
                                         content: Text(
                                           'Bạn có chắc chắn muốn xóa bình luận này không?',
-                                          style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.textColor2),
+                                          style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.textColor2),
                                         ),
                                         actions: [
                                           TextButton(
                                             child: Text(
                                               'Không',
-                                              style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.primary),
+                                              style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.primary),
                                             ),
                                             onPressed: () {
                                               Navigator.of(context).pop();
@@ -2481,7 +2481,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                           TextButton(
                                             child: Text(
                                               'Có',
-                                              style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.red),
+                                              style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.red),
                                             ),
                                             onPressed: () {
                                               controller.deleteComment(commentModel);
@@ -2499,7 +2499,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     'Xóa',
-                                    style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.red),
+                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.red),
                                   )))
                           : SizedBox(),
                     ],
@@ -2530,7 +2530,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Lưu',
-                                style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.primary),
+                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.primary),
                               ))),
                       SizedBox(
                         width: UtilsReponsive.width(10, context),
@@ -2548,7 +2548,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Hủy',
-                                style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.red),
+                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.red),
                               ))),
                       SizedBox(
                         width: UtilsReponsive.width(10, context),
@@ -2579,7 +2579,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Thêm tệp',
-                                style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.textColor2),
+                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.textColor2),
                               ))),
                       SizedBox(
                         width: UtilsReponsive.width(10, context),
@@ -2607,7 +2607,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 children: [
                   Text('Tài liệu',
                       style: TextStyle(
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Nunito',
                           wordSpacing: 1.2,
                           color: Colors.black,
                           fontSize: UtilsReponsive.height(18, context),
@@ -2646,7 +2646,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               },
                               child: Text(
                                 '+  Thêm tệp',
-                                style: GetTextStyle.getTextStyle(15, 'Roboto', FontWeight.w500, ColorsManager.primary),
+                                style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w500, ColorsManager.primary),
                               ),
                             ),
                           ],
@@ -2686,7 +2686,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                   },
                                   child: Text(
                                     '+  Thêm tệp',
-                                    style: GetTextStyle.getTextStyle(15, 'Roboto', FontWeight.w500, ColorsManager.primary),
+                                    style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w500, ColorsManager.primary),
                                   ),
                                 ),
                               ],
@@ -2708,7 +2708,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Tùy chọn",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -2716,7 +2716,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               ListTile(
                 title: Text(
                   'Xóa',
-                  style: TextStyle(fontFamily: 'Roboto', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
+                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
                 ),
                 onTap: () {
                   if (mode != 2) {
@@ -2748,11 +2748,11 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Xóa tệp này?",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: const Text(
             "Một khi nó đã mất, thì nó đã mất.",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           actions: <Widget>[
             TextButton(
@@ -2761,7 +2761,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               },
               child: Text(
                 "Hủy",
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
               ),
             ),
             TextButton(
@@ -2772,7 +2772,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               },
               child: Text(
                 "Xóa",
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
               ),
             ),
           ],
@@ -2789,7 +2789,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Tùy chọn",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -2797,7 +2797,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               ListTile(
                 title: Text(
                   'Xóa',
-                  style: TextStyle(fontFamily: 'Roboto', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
+                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
                 ),
                 onTap: () {
                   _showDeleteFileCommentConfirmation(context, commentFile, _popupContext);
@@ -2817,11 +2817,11 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Xóa tệp này?",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: const Text(
             "Một khi nó đã mất, thì nó đã mất.",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           actions: <Widget>[
             TextButton(
@@ -2830,7 +2830,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               },
               child: Text(
                 "Hủy",
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
               ),
             ),
             TextButton(
@@ -2841,7 +2841,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               },
               child: Text(
                 "Xóa",
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
               ),
             ),
           ],
@@ -2858,7 +2858,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Tùy chọn",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -2866,7 +2866,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               ListTile(
                 title: Text(
                   'Xóa',
-                  style: TextStyle(fontFamily: 'Roboto', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
+                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
                 ),
                 onTap: () {
                   _showDeleteAttachmentCommentConfirmation(context, index, _popupContext);
@@ -2886,11 +2886,11 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Xóa tệp này?",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: const Text(
             "Một khi nó đã mất, thì nó đã mất.",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           actions: <Widget>[
             TextButton(
@@ -2899,7 +2899,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               },
               child: Text(
                 "Hủy",
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
               ),
             ),
             TextButton(
@@ -2910,7 +2910,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               },
               child: Text(
                 "Xóa",
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
               ),
             ),
           ],
@@ -2927,7 +2927,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Tùy chọn",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -2935,7 +2935,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               ListTile(
                 title: Text(
                   'Xóa',
-                  style: TextStyle(fontFamily: 'Roboto', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
+                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
                 ),
                 onTap: () {
                   _showDeleteAttachmentCommentConfirmationV2(context, index, popupContext, setStateX, filePickerEditCommentFile);
@@ -2956,11 +2956,11 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Xóa tệp này?",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: const Text(
             "Một khi nó đã mất, thì nó đã mất.",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           actions: <Widget>[
             TextButton(
@@ -2969,7 +2969,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               },
               child: Text(
                 "Hủy",
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
               ),
             ),
             TextButton(
@@ -2980,7 +2980,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               },
               child: Text(
                 "Xóa",
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
               ),
             ),
           ],
@@ -3029,17 +3029,17 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                     child: fileName.length > 35
                         ? Text(
                             fileName.length > 35 ? '${fileName.substring(0, 35)}...' : fileName,
-                            style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                            style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                           )
                         : Text(
                             fileName,
-                            style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                            style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                           ),
                   ),
                   Expanded(
                       child: Text(
                     fileSize,
-                    style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
+                    style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
                   )),
                 ]),
               ),
@@ -3092,17 +3092,17 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                   child: fileName.length > 35
                       ? Text(
                           fileName.length > 35 ? '${fileName.substring(0, 35)}...' : fileName,
-                          style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                          style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                         )
                       : Text(
                           fileName,
-                          style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                          style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                         ),
                 ),
                 Expanded(
                     child: Text(
                   fileSize,
-                  style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
+                  style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
                 )),
               ]),
             ),
@@ -3148,11 +3148,11 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               child: commentFile.fileName!.length > 35
                   ? Text(
                       commentFile.fileName!.length > 35 ? '${commentFile.fileName!.substring(0, 35)}...' : commentFile.fileName!,
-                      style: const TextStyle(fontFamily: 'Roboto', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                     )
                   : Text(
                       commentFile.fileName!,
-                      style: const TextStyle(fontFamily: 'Roboto', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                     ),
             ),
             const Expanded(
@@ -3161,7 +3161,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 children: [
                   Text(
                     'Kích thước',
-                    style: TextStyle(fontFamily: 'Roboto', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
+                    style: TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
                   ),
                 ],
               ),
@@ -3211,11 +3211,11 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               child: attachmentModel.fileName!.length > 35
                   ? Text(
                       attachmentModel.fileName!.length > 35 ? '${attachmentModel.fileName!.substring(0, 35)}...' : attachmentModel.fileName!,
-                      style: const TextStyle(fontFamily: 'Roboto', fontSize: 11, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 11, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                     )
                   : Text(
                       attachmentModel.fileName!,
-                      style: const TextStyle(fontFamily: 'Roboto', fontSize: 11, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 11, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                     ),
             ),
             const Expanded(
@@ -3224,7 +3224,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 children: [
                   Text(
                     'Kích thước',
-                    style: TextStyle(fontFamily: 'Roboto', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
+                    style: TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
                   ),
                 ],
               ),
@@ -3251,7 +3251,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
             title: Text(
               'Mô tả',
               style: TextStyle(
-                  fontFamily: 'Roboto',
+                  fontFamily: 'Nunito',
                   wordSpacing: 1.2,
                   color: ColorsManager.textColor,
                   fontSize: UtilsReponsive.height(18, context),
@@ -3286,7 +3286,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                             },
                             child: Text(
                               'Thêm mô tả...',
-                              style: GetTextStyle.getTextStyle(15, 'Roboto', FontWeight.w500, ColorsManager.textColor2),
+                              style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w500, ColorsManager.textColor2),
                             ),
                           ),
                         ],
@@ -3322,12 +3322,12 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               children: [
                 Text(
                   'Thành công',
-                  style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
+                  style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                 ),
                 Spacer(),
                 Text(
                   'Thay đổi công việc thành công',
-                  style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
+                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -3364,13 +3364,13 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 children: [
                   Text(
                     'Thất bại',
-                    style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
+                    style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                   ),
                   const Spacer(),
                   Obx(
                     () => Text(
                       controller.errorUpdateSubTaskText.value,
-                      style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

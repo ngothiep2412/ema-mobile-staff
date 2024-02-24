@@ -40,8 +40,7 @@ class ProfileView extends BaseView<ProfileController> {
                 Expanded(
                   child: Text(
                     "Thay đổi thông tin",
-                    style: GetTextStyle.getTextStyle(
-                        20, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                 ),
               ],
@@ -61,18 +60,14 @@ class ProfileView extends BaseView<ProfileController> {
                       children: [
                         Obx(
                           () => CircleAvatar(
-                            backgroundColor: ColorsManager
-                                .backgroundBlackGrey, // Màu nền mà bạn muốn
-                            radius:
-                                60, // Điều chỉnh kích thước hình tròn theo ý muốn
+                            backgroundColor: ColorsManager.backgroundBlackGrey, // Màu nền mà bạn muốn
+                            radius: 60, // Điều chỉnh kích thước hình tròn theo ý muốn
                             child: controller.selectImagePath.value.isEmpty
                                 ? Container(
                                     width: UtilsReponsive.width(150, context),
                                     height: UtilsReponsive.height(150, context),
                                     decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 4,
-                                          color: ColorsManager.primary),
+                                      border: Border.all(width: 4, color: ColorsManager.primary),
                                       boxShadow: const [
                                         // BoxShadow(
                                         //   spreadRadius: 2,
@@ -85,59 +80,40 @@ class ProfileView extends BaseView<ProfileController> {
                                     ),
                                     child: CachedNetworkImage(
                                       // fit: BoxFit.contain,
-                                      imageUrl: controller
-                                          .userModelView.value.result!.avatar!,
+                                      imageUrl: controller.userModelView.value.result!.avatar!,
                                       // imageUrl:
                                       //     'https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg',
-                                      imageBuilder: (context, imageProvider) =>
-                                          Container(
-                                              width: UtilsReponsive.width(
-                                                  150, context),
-                                              height: UtilsReponsive.height(
-                                                  150, context),
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      width: 4,
-                                                      color: ColorsManager
-                                                          .backgroundBlackGrey),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        spreadRadius: 2,
-                                                        blurRadius: 10,
-                                                        color: Colors.black
-                                                            .withOpacity(0.1),
-                                                        offset:
-                                                            const Offset(0, 10))
-                                                  ],
-                                                  shape: BoxShape.circle,
-                                                  image: DecorationImage(
-                                                      fit: BoxFit.cover,
-                                                      image: imageProvider))),
-                                      progressIndicatorBuilder:
-                                          (context, url, downloadProgress) =>
-                                              Container(
-                                        padding: EdgeInsets.all(
-                                            UtilsReponsive.height(10, context)),
-                                        height:
-                                            UtilsReponsive.height(5, context),
-                                        width:
-                                            UtilsReponsive.height(5, context),
+                                      imageBuilder: (context, imageProvider) => Container(
+                                          width: UtilsReponsive.width(150, context),
+                                          height: UtilsReponsive.height(150, context),
+                                          decoration: BoxDecoration(
+                                              border: Border.all(width: 4, color: ColorsManager.backgroundBlackGrey),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    spreadRadius: 2,
+                                                    blurRadius: 10,
+                                                    color: Colors.black.withOpacity(0.1),
+                                                    offset: const Offset(0, 10))
+                                              ],
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(fit: BoxFit.cover, image: imageProvider))),
+                                      progressIndicatorBuilder: (context, url, downloadProgress) => Container(
+                                        padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
+                                        height: UtilsReponsive.height(5, context),
+                                        width: UtilsReponsive.height(5, context),
                                         child: CircularProgressIndicator(
                                           color: ColorsManager.primary,
                                         ),
                                       ),
-                                      errorWidget: (context, url, error) =>
-                                          const Icon(Icons.error),
+                                      errorWidget: (context, url, error) => const Icon(Icons.error),
                                     ),
                                   )
                                 : ClipOval(
                                     child: Image.file(
                                       File(controller.selectImagePath.value),
                                       fit: BoxFit.cover,
-                                      width: UtilsReponsive.widthv2(context,
-                                          120), // Kích thước của hình ảnh
-                                      height:
-                                          UtilsReponsive.heightv2(context, 145),
+                                      width: UtilsReponsive.widthv2(context, 120), // Kích thước của hình ảnh
+                                      height: UtilsReponsive.heightv2(context, 145),
                                     ),
                                   ),
                           ),
@@ -152,8 +128,7 @@ class ProfileView extends BaseView<ProfileController> {
                                 shape: BoxShape.circle,
                                 border: Border.all(
                                   width: 4,
-                                  color:
-                                      Theme.of(context).scaffoldBackgroundColor,
+                                  color: Theme.of(context).scaffoldBackgroundColor,
                                 ),
                                 color: ColorsManager.primary,
                               ),
@@ -175,33 +150,25 @@ class ProfileView extends BaseView<ProfileController> {
                   ),
                   Text(
                     'Họ và tên',
-                    style: GetTextStyle.getTextStyle(
-                        16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
                   ),
-                  buildTextField(context, "Họ và tên", "Ví dụ: Thiệp",
-                      controller.fullNameController),
+                  buildTextField(context, "Họ và tên", "Ví dụ: Thiệp", controller.fullNameController),
                   // buildTextField(context, "E-mail", "Ví dụ: hrea@gmail.com",
                   //     controller.emailController),
                   Text(
                     'Địa chỉ',
-                    style: GetTextStyle.getTextStyle(
-                        16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
                   ),
-                  buildTextField(
-                      context,
-                      "Địa chỉ",
-                      "Ví dụ: thành Phố Hồ Chí Minh",
-                      controller.addressController),
+                  buildTextField(context, "Địa chỉ", "Ví dụ: thành Phố Hồ Chí Minh", controller.addressController),
                   Text(
                     'Ngày sinh',
-                    style: GetTextStyle.getTextStyle(
-                        16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
@@ -213,18 +180,15 @@ class ProfileView extends BaseView<ProfileController> {
                   ),
                   Text(
                     'Số điện thoại',
-                    style: GetTextStyle.getTextStyle(
-                        16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
                   ),
-                  buildTextField(context, "Số điện thoại",
-                      "Ví dụ: 0905952718", controller.phoneController),
+                  buildTextField(context, "Số điện thoại", "Ví dụ: 0905952718", controller.phoneController),
                   Text(
                     'Giới tính',
-                    style: GetTextStyle.getTextStyle(
-                        16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
@@ -239,8 +203,7 @@ class ProfileView extends BaseView<ProfileController> {
                     onChanged: (value) {
                       controller.setGender(value as String);
                     },
-                    value:
-                        controller.selectedGenderVal == "MALE" ? "Nam" : "Nữ",
+                    value: controller.selectedGenderVal == "MALE" ? "Nam" : "Nữ",
                     icon: Icon(
                       Icons.arrow_drop_down_circle,
                       color: ColorsManager.primary,
@@ -264,14 +227,11 @@ class ProfileView extends BaseView<ProfileController> {
                         onPressed: () {
                           controller.updateProfile();
                           print('${controller.errorUpdateProfile}');
-                          controller.errorUpdateProfile.value
-                              ? _errorMessage(context)
-                              : _successMessage(context);
+                          controller.errorUpdateProfile.value ? _errorMessage(context) : _successMessage(context);
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                5.0), // Đặt border radius theo mong muốn
+                            borderRadius: BorderRadius.circular(5.0), // Đặt border radius theo mong muốn
                           ),
                         ),
                         child: controller.isLoading.value
@@ -284,7 +244,7 @@ class ProfileView extends BaseView<ProfileController> {
                                 "Cập nhật",
                                 style: GetTextStyle.getTextStyle(
                                   14,
-                                  'Roboto',
+                                  'Nunito',
                                   FontWeight.w800,
                                   ColorsManager.backgroundWhite,
                                 ),
@@ -325,8 +285,7 @@ class ProfileView extends BaseView<ProfileController> {
           // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
-          hintStyle: GetTextStyle.getTextStyle(
-              14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+          hintStyle: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
         ),
       ),
     );
@@ -361,8 +320,7 @@ class ProfileView extends BaseView<ProfileController> {
           // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
-          hintStyle: GetTextStyle.getTextStyle(
-              14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+          hintStyle: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
         ),
       ),
     );
@@ -404,9 +362,7 @@ class ProfileView extends BaseView<ProfileController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.heightv2(context, 80),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 81, 146, 83),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 81, 146, 83), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.check_circle,
@@ -422,14 +378,12 @@ class ProfileView extends BaseView<ProfileController> {
               children: [
                 Text(
                   'Thành công',
-                  style: GetTextStyle.getTextStyle(
-                      18, 'Roboto', FontWeight.w800, Colors.white),
+                  style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                 ),
                 Spacer(),
                 Text(
                   'Thay đổi thông tin cá nhân thành công',
-                  style: GetTextStyle.getTextStyle(
-                      12, 'Roboto', FontWeight.w500, Colors.white),
+                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -450,9 +404,7 @@ class ProfileView extends BaseView<ProfileController> {
         content: Container(
           padding: UtilsReponsive.paddingAll(context, padding: 8),
           height: UtilsReponsive.heightv2(context, 80),
-          decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 219, 90, 90),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(color: Color.fromARGB(255, 219, 90, 90), borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(children: [
             const Icon(
               Icons.error_outline,
@@ -468,15 +420,13 @@ class ProfileView extends BaseView<ProfileController> {
                 children: [
                   Text(
                     'Thất bại',
-                    style: GetTextStyle.getTextStyle(
-                        18, 'Roboto', FontWeight.w800, Colors.white),
+                    style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                   ),
                   const Spacer(),
                   Obx(
                     () => Text(
                       controller.errorUpdateProfileText.value,
-                      style: GetTextStyle.getTextStyle(
-                          12, 'Roboto', FontWeight.w500, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

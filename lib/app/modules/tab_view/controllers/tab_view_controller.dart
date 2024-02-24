@@ -2,11 +2,13 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
+import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_chat_controller/tab_chat_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_home_controller/tab_home_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_notification_controller/tab_notification_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_request_controller/tab_request_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_setting_controller/tab_setting_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_timekeeping_controller/tab_timekeeping_controller.dart';
+import 'package:hrea_mobile_staff/app/modules/tab_view/views/tab_chat_view/tab_chat_view.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/views/tab_home_view/tab_home_view.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/views/tab_notification_view/tab_notification_view.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/views/tab_request_view/tab_request_view.dart';
@@ -18,8 +20,14 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class TabViewController extends BaseController {
-  RxList<Widget> body =
-      RxList([const TabHomeView(), const TabTimeKeepingView(), const TabRequestView(), const TabNotificationView(), const TabSettingView()]);
+  RxList<Widget> body = RxList([
+    const TabHomeView(),
+    // const TabTimeKeepingView(),
+    const TabRequestView(),
+    const TabChatView(),
+    const TabNotificationView(),
+    const TabSettingView()
+  ]);
   IO.Socket? socket;
   RxInt selectedIndex = 0.obs;
   String jwt = '';
@@ -117,12 +125,16 @@ class TabViewController extends BaseController {
         selectedIndex(index);
         await Get.find<TabHomeController>().getEvent();
         break;
+      // case 1:
+      //   Get.find<TabTimeKeepingController>();
+      //   selectedIndex(index);
+      //   break;
       case 1:
-        Get.find<TabTimeKeepingController>();
+        Get.find<TabRequestController>();
         selectedIndex(index);
         break;
       case 2:
-        Get.find<TabRequestController>();
+        Get.find<TabChatController>();
         selectedIndex(index);
         break;
       case 3:

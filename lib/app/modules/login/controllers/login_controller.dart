@@ -61,17 +61,14 @@ class LoginController extends BaseController {
       errorLoginText.value = "Vui lòng nhập đúng định dạng email";
     } else {
       try {
-        loginReponseApi =
-            await LoginApi.login(emailTxt.value, passwordTxt.value);
-        if (loginReponseApi!.statusCode == 400 ||
-            loginReponseApi!.statusCode == 500) {
+        loginReponseApi = await LoginApi.login(emailTxt.value, passwordTxt.value);
+        if (loginReponseApi!.statusCode == 400 || loginReponseApi!.statusCode == 500) {
           errorLogin.value = true;
           errorLoginText.value = "Sai email hoặc mật khẩu";
         }
         if (loginReponseApi!.accessToken != null) {
-          Map<String, dynamic> decodedToken =
-              JwtDecoder.decode(loginReponseApi!.accessToken!);
-          if (decodedToken["role"] == "STAFF" && loginReponseApi != null) {
+          Map<String, dynamic> decodedToken = JwtDecoder.decode(loginReponseApi!.accessToken!);
+          if (decodedToken["role"] == "Trưởng Nhóm" && loginReponseApi != null) {
             prefs.setString('JWT', loginReponseApi!.accessToken!);
             GetStorage().write('JWT', loginReponseApi!.accessToken!);
             print('JWT: ${loginReponseApi!.accessToken!}');
@@ -79,11 +76,8 @@ class LoginController extends BaseController {
             final token = await FirebaseMessaging.instance.getToken();
             print('token Firebase: $token');
             if (token != null || token != '') {
-              ResponseApi storeDeviceReponseApi =
-                  await LoginApi.storeDeviceToken(
-                      token!, loginReponseApi!.accessToken!);
-              if (storeDeviceReponseApi.statusCode == 200 ||
-                  storeDeviceReponseApi.statusCode == 201) {
+              ResponseApi storeDeviceReponseApi = await LoginApi.storeDeviceToken(token!, loginReponseApi!.accessToken!);
+              if (storeDeviceReponseApi.statusCode == 200 || storeDeviceReponseApi.statusCode == 201) {
                 errorLogin.value = false;
                 Get.offAllNamed(Routes.TAB_VIEW);
               }
@@ -97,8 +91,7 @@ class LoginController extends BaseController {
             // }
           } else {
             errorLogin.value = true;
-            errorLoginText.value =
-                "Tài khoản này không có quyền truy cập";
+            errorLoginText.value = "Tài khoản này không có quyền truy cập";
           }
         }
         isLoading.value = false;
