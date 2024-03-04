@@ -31,6 +31,7 @@ abstract class Routes {
   static const CHECK_IN_DETAIL = _Paths.CHECK_IN_DETAIL;
   static const CHAT_DETAIL = _Paths.CHAT_DETAIL;
   static const TASK_SCHEDULE = _Paths.TASK_SCHEDULE;
+  static const TASK_CALENDAR_MONTH = _Paths.TASK_CALENDAR_MONTH;
 }
 
 abstract class _Paths {
@@ -63,4 +64,5 @@ abstract class _Paths {
   static const CHECK_IN_DETAIL = '/check-in-detail';
   static const CHAT_DETAIL = '/chat-detail';
   static const TASK_SCHEDULE = '/task-schedule';
+  static const TASK_CALENDAR_MONTH = '/task-calendar-month';
 }

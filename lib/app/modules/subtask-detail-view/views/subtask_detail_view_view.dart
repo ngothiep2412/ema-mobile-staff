@@ -4,7 +4,6 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_quill/flutter_quill.dart' as Quil;
 import 'package:get/get.dart';
@@ -66,7 +65,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                           wordSpacing: 1.2,
                                           color: ColorsManager.textColor,
                                           fontSize: UtilsReponsive.height(18, context),
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight: FontWeight.w700,
                                         ),
                                       ),
                                       TextSpan(
@@ -76,7 +75,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                           wordSpacing: 1.2,
                                           color: Colors.blue,
                                           fontSize: UtilsReponsive.height(18, context),
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight: FontWeight.w800,
                                         ),
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () {
@@ -90,35 +89,18 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               SizedBox(
                                 height: UtilsReponsive.height(15, context),
                               ),
-                              _statusBuilder(
-                                taskID: controller.taskModel.value.id,
-                                context: context,
-                                objectStatusTask: controller.taskModel.value.status == Status.PENDING
-                                    ? "Đang kiểm thực"
-                                    : controller.taskModel.value.status! == Status.PROCESSING
-                                        ? "Đang thực hiện"
-                                        : controller.taskModel.value.status! == Status.DONE
-                                            ? "Hoàn thành"
-                                            : controller.taskModel.value.status! == Status.CONFIRM
-                                                ? "Đã xác thực"
-                                                : "Quá hạn",
-                              ),
-                              SizedBox(
-                                height: UtilsReponsive.height(15, context),
-                              ),
                               Obx(
                                 () => Row(
                                   children: [
-                                    controller.taskModel.value.priority == null
-                                        ? Icon(Icons.priority_high, color: ColorsManager.grey)
-                                        : Icon(
-                                            Icons.priority_high,
-                                            color: controller.taskModel.value.priority! == Priority.LOW
-                                                ? ColorsManager.green
-                                                : controller.taskModel.value.priority! == Priority.MEDIUM
-                                                    ? ColorsManager.yellow
-                                                    : ColorsManager.red,
-                                          ),
+                                    Text(
+                                      'Độ ưu tiên',
+                                      style: TextStyle(
+                                        fontFamily: 'Nunito',
+                                        color: ColorsManager.textColor2,
+                                        fontSize: UtilsReponsive.height(18, context),
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
                                     controller.taskModel.value.priority == null
                                         ? priorityBuilder(context: context, objectStatusTask: "--", taskID: controller.taskModel.value.id!)
                                         : priorityBuilder(
@@ -131,6 +113,36 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                             taskID: controller.taskModel.value.id!)
                                   ],
                                 ),
+                              ),
+                              SizedBox(
+                                height: UtilsReponsive.height(15, context),
+                              ),
+
+                              Row(
+                                children: [
+                                  Text(
+                                    'Trạng thái',
+                                    style: TextStyle(
+                                      fontFamily: 'Nunito',
+                                      color: ColorsManager.textColor2,
+                                      fontSize: UtilsReponsive.height(18, context),
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  _statusBuilder(
+                                    taskID: controller.taskModel.value.id,
+                                    context: context,
+                                    objectStatusTask: controller.taskModel.value.status == Status.PENDING
+                                        ? "Đang kiểm thực"
+                                        : controller.taskModel.value.status! == Status.PROCESSING
+                                            ? "Đang thực hiện"
+                                            : controller.taskModel.value.status! == Status.DONE
+                                                ? "Hoàn thành"
+                                                : controller.taskModel.value.status! == Status.CONFIRM
+                                                    ? "Đã xác thực"
+                                                    : "Quá hạn",
+                                  ),
+                                ],
                               ),
 
                               SizedBox(
@@ -159,13 +171,13 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                               width: UtilsReponsive.width(15, context),
                                             ),
                                             Text(
-                                              'Hạn hoàn thành',
+                                              'Hạn: ---',
                                               style: TextStyle(
                                                   letterSpacing: 1,
                                                   fontFamily: 'Nunito',
                                                   color: Colors.grey.withOpacity(0.8),
                                                   fontSize: UtilsReponsive.height(16, context),
-                                                  fontWeight: FontWeight.bold),
+                                                  fontWeight: FontWeight.w800),
                                             ),
                                           ]),
                                   ),
@@ -188,7 +200,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               //         Row(
                               //           children: [
                               //             Text('Ước tính (giờ):',
-                              //                 style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.bold, ColorsManager.textColor)),
+                              //                 style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w800, ColorsManager.textColor)),
                               //             SizedBox(
                               //               width: UtilsReponsive.width(5, context),
                               //             ),
@@ -203,7 +215,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               //                       builder: (BuildContext context) {
                               //                         return AlertDialog(
                               //                           title: Text('Nhập con số thời gian ước tính',
-                              //                               style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w500, ColorsManager.primary)),
+                              //                               style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w700, ColorsManager.primary)),
                               //                           content: TextField(
                               //                             keyboardType: const TextInputType.numberWithOptions(decimal: true),
                               //                             inputFormatters: <TextInputFormatter>[
@@ -216,7 +228,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               //                             TextButton(
                               //                               child: Text('Hủy',
                               //                                   style: GetTextStyle.getTextStyle(
-                              //                                       16, 'Nunito', FontWeight.w500, ColorsManager.textColor2)),
+                              //                                       16, 'Nunito', FontWeight.w700, ColorsManager.textColor2)),
                               //                               onPressed: () {
                               //                                 Navigator.of(context).pop();
                               //                               },
@@ -224,7 +236,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               //                             TextButton(
                               //                               child: Text('Lưu',
                               //                                   style:
-                              //                                       GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.primary)),
+                              //                                       GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.primary)),
                               //                               onPressed: () async {
                               //                                 if (controller.estController.text.isEmpty) {
                               //                                   Get.snackbar('Lỗi', 'Không được để trống thời gian ước lượng',
@@ -252,7 +264,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               //         Row(
                               //           children: [
                               //             Text('Công sức (giờ):',
-                              //                 style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.bold, ColorsManager.textColor)),
+                              //                 style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w800, ColorsManager.textColor)),
                               //             SizedBox(
                               //               width: UtilsReponsive.width(5, context),
                               //             ),
@@ -267,7 +279,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               //                       builder: (BuildContext context) {
                               //                         return AlertDialog(
                               //                           title: Text('Nhập con số thời gian công sức',
-                              //                               style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w500, ColorsManager.primary)),
+                              //                               style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w700, ColorsManager.primary)),
                               //                           content: TextField(
                               //                             keyboardType: const TextInputType.numberWithOptions(decimal: true),
                               //                             inputFormatters: <TextInputFormatter>[
@@ -280,7 +292,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               //                             TextButton(
                               //                               child: Text('Hủy',
                               //                                   style: GetTextStyle.getTextStyle(
-                              //                                       16, 'Nunito', FontWeight.w500, ColorsManager.textColor2)),
+                              //                                       16, 'Nunito', FontWeight.w700, ColorsManager.textColor2)),
                               //                               onPressed: () {
                               //                                 Navigator.of(context).pop();
                               //                               },
@@ -288,7 +300,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               //                             TextButton(
                               //                               child: Text('Lưu',
                               //                                   style:
-                              //                                       GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.primary)),
+                              //                                       GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.primary)),
                               //                               onPressed: () async {
                               //                                 if (controller.effortController.text.isEmpty) {
                               //                                   Get.snackbar('Lỗi', 'Không được để trống thời gian công sức',
@@ -356,7 +368,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                               letterSpacing: 1,
                                               color: ColorsManager.textColor,
                                               fontSize: UtilsReponsive.height(17, context),
-                                              fontWeight: FontWeight.bold),
+                                              fontWeight: FontWeight.w800),
                                         ),
                                       ),
                                     ),
@@ -372,8 +384,8 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                           style: TextStyle(
                                               fontFamily: 'Nunito',
                                               color: ColorsManager.textColor,
-                                              fontSize: UtilsReponsive.height(17, context),
-                                              fontWeight: FontWeight.bold),
+                                              fontSize: UtilsReponsive.height(18, context),
+                                              fontWeight: FontWeight.w800),
                                         ),
                                         Text(
                                           "Người giao việc",
@@ -381,7 +393,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                               fontFamily: 'Nunito',
                                               color: ColorsManager.primary,
                                               fontSize: UtilsReponsive.height(16, context),
-                                              fontWeight: FontWeight.w600),
+                                              fontWeight: FontWeight.w700),
                                         ),
                                       ],
                                     ),
@@ -403,8 +415,13 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                           ),
                                           child: GestureDetector(
                                             onTap: () async {
-                                              await controller.getAllEmployee();
-                                              _showBottomLeader(context: Get.context!);
+                                              if (controller.taskModel.value.startDate == null || controller.taskModel.value.endDate == null) {
+                                                Get.snackbar('Lỗi', 'Xin vui lòng chọn Ngày giao việc trước',
+                                                    snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.redAccent, colorText: Colors.white);
+                                              } else {
+                                                await controller.getAllEmployee();
+                                                _showBottomLeader(context: Get.context!);
+                                              }
                                             },
                                             child: Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -446,7 +463,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                             fontFamily: 'Nunito',
                                                             color: ColorsManager.primary,
                                                             fontSize: UtilsReponsive.height(16, context),
-                                                            fontWeight: FontWeight.w600),
+                                                            fontWeight: FontWeight.w700),
                                                       ),
                                                     ])
                                                   ],
@@ -515,7 +532,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                             fontFamily: 'Nunito',
                                                             color: ColorsManager.primary,
                                                             fontSize: UtilsReponsive.height(16, context),
-                                                            fontWeight: FontWeight.w600),
+                                                            fontWeight: FontWeight.w700),
                                                       ),
                                                     ])
                                                   ],
@@ -578,7 +595,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                                   letterSpacing: 1.5,
                                                                   color: ColorsManager.primary,
                                                                   fontSize: UtilsReponsive.height(17, context),
-                                                                  fontWeight: FontWeight.bold),
+                                                                  fontWeight: FontWeight.w800),
                                                             ),
                                                           ),
                                                         ),
@@ -595,7 +612,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                                   fontFamily: 'Nunito',
                                                                   color: ColorsManager.textColor,
                                                                   fontSize: UtilsReponsive.height(17, context),
-                                                                  fontWeight: FontWeight.bold),
+                                                                  fontWeight: FontWeight.w800),
                                                             ),
                                                             Text(
                                                               'Người chịu trách nhiệm',
@@ -603,7 +620,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                                   fontFamily: 'Nunito',
                                                                   color: ColorsManager.primary,
                                                                   fontSize: UtilsReponsive.height(16, context),
-                                                                  fontWeight: FontWeight.w600),
+                                                                  fontWeight: FontWeight.w700),
                                                             ),
                                                           ],
                                                         ),
@@ -679,7 +696,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                                         letterSpacing: 1,
                                                                         color: ColorsManager.primary,
                                                                         fontSize: UtilsReponsive.height(17, context),
-                                                                        fontWeight: FontWeight.bold),
+                                                                        fontWeight: FontWeight.w800),
                                                                   ),
                                                                 ),
                                                               ),
@@ -698,7 +715,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                                         fontFamily: 'Nunito',
                                                                         color: ColorsManager.textColor,
                                                                         fontSize: UtilsReponsive.height(17, context),
-                                                                        fontWeight: FontWeight.bold),
+                                                                        fontWeight: FontWeight.w800),
                                                                   ),
                                                             controller.taskModel.value.assignTasks!.length >= 3
                                                                 ? Text(
@@ -707,7 +724,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                                         fontFamily: 'Nunito',
                                                                         color: ColorsManager.primary,
                                                                         fontSize: UtilsReponsive.height(16, context),
-                                                                        fontWeight: FontWeight.w600),
+                                                                        fontWeight: FontWeight.w700),
                                                                   )
                                                                 : Text(
                                                                     'Người tham gia',
@@ -715,7 +732,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                                         fontFamily: 'Nunito',
                                                                         color: ColorsManager.primary,
                                                                         fontSize: UtilsReponsive.height(16, context),
-                                                                        fontWeight: FontWeight.w600),
+                                                                        fontWeight: FontWeight.w700),
                                                                   ),
                                                           ],
                                                         ),
@@ -740,7 +757,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                           fontFamily: 'Nunito',
                                                           color: ColorsManager.primary,
                                                           fontSize: UtilsReponsive.height(17, context),
-                                                          fontWeight: FontWeight.w600),
+                                                          fontWeight: FontWeight.w700),
                                                     ),
                                                   )
                                                 ],
@@ -801,7 +818,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                                   letterSpacing: 1.5,
                                                                   color: ColorsManager.primary,
                                                                   fontSize: UtilsReponsive.height(17, context),
-                                                                  fontWeight: FontWeight.bold),
+                                                                  fontWeight: FontWeight.w800),
                                                             ),
                                                           ),
                                                         ),
@@ -818,7 +835,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                                   fontFamily: 'Nunito',
                                                                   color: ColorsManager.textColor,
                                                                   fontSize: UtilsReponsive.height(17, context),
-                                                                  fontWeight: FontWeight.bold),
+                                                                  fontWeight: FontWeight.w800),
                                                             ),
                                                             Text(
                                                               'Người chịu trách nhiệm',
@@ -826,7 +843,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                                   fontFamily: 'Nunito',
                                                                   color: ColorsManager.primary,
                                                                   fontSize: UtilsReponsive.height(16, context),
-                                                                  fontWeight: FontWeight.w600),
+                                                                  fontWeight: FontWeight.w700),
                                                             ),
                                                           ],
                                                         ),
@@ -904,7 +921,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                                         fontFamily: 'Nunito',
                                                                         color: ColorsManager.primary,
                                                                         fontSize: UtilsReponsive.height(16, context),
-                                                                        fontWeight: FontWeight.w600),
+                                                                        fontWeight: FontWeight.w700),
                                                                   ),
                                                                 ])
                                                           ],
@@ -1066,7 +1083,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                     return AlertDialog(
                       title: Text(
                         'Thay đổi tiêu đề task',
-                        style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w500, ColorsManager.primary),
+                        style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w800, ColorsManager.primary),
                       ),
                       content: TextField(
                         onChanged: (value) => {controller.titleSubTaskController.text = value},
@@ -1074,14 +1091,14 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                       ),
                       actions: [
                         TextButton(
-                          child: Text('Hủy', style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.primary)),
+                          child: Text('Hủy', style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.primary)),
                           onPressed: () {
                             // Navigator.of(context).pop();
                             Navigator.of(context, rootNavigator: true).pop();
                           },
                         ),
                         TextButton(
-                          child: Text('Lưu', style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.primary)),
+                          child: Text('Lưu', style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.primary)),
                           onPressed: () async {
                             Navigator.of(context, rootNavigator: true).pop();
                             await controller.updateTitleTask(controller.titleSubTaskController.text, controller.taskModel.value.id!);
@@ -1095,12 +1112,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               },
               child: Text(
                 objectTask,
-                style: TextStyle(
-                    letterSpacing: 1,
-                    fontFamily: 'Nunito',
-                    color: ColorsManager.textColor,
-                    fontSize: UtilsReponsive.height(24, context),
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(letterSpacing: 1, fontFamily: 'Nunito', color: ColorsManager.textColor, fontSize: 26, fontWeight: FontWeight.w800),
               ),
             ),
           ),
@@ -1115,6 +1127,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         _showBottomSheetStatus(context, taskID);
       },
       child: Container(
+        margin: EdgeInsets.only(left: UtilsReponsive.width(10, context)),
         padding: EdgeInsets.symmetric(horizontal: UtilsReponsive.width(10, context), vertical: UtilsReponsive.width(5, context)),
         decoration: BoxDecoration(
           color: controller.taskModel.value.status == Status.PENDING
@@ -1133,7 +1146,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
           children: [
             Text(
               objectStatusTask,
-              style: TextStyle(letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(14, context), fontWeight: FontWeight.bold),
+              style: TextStyle(letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(16, context), fontWeight: FontWeight.w800),
             ),
             const Icon(
               Icons.arrow_drop_down_rounded,
@@ -1147,6 +1160,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
 
   void _showBottomSheetStatus(BuildContext context, String taskID) {
     Get.bottomSheet(Container(
+      padding: EdgeInsets.symmetric(horizontal: UtilsReponsive.height(10, context), vertical: UtilsReponsive.height(10, context)),
       decoration: const BoxDecoration(
         color: ColorsManager.backgroundGrey,
         borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
@@ -1198,16 +1212,16 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                       : ColorsManager.red,
                       child: Text(e[0],
                           style: TextStyle(
-                              letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(16, context), fontWeight: FontWeight.bold)),
+                              letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(18, context), fontWeight: FontWeight.w800)),
                     ),
                     title: Text(
                       e,
                       style: TextStyle(
                           fontFamily: 'Nunito',
                           letterSpacing: 1,
-                          color: ColorsManager.textColor,
-                          fontSize: UtilsReponsive.height(16, context),
-                          fontWeight: FontWeight.w600),
+                          color: ColorsManager.textColor2,
+                          fontSize: UtilsReponsive.height(18, context),
+                          fontWeight: FontWeight.w800),
                     ),
                   ),
                 ),
@@ -1224,7 +1238,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         _showBottomSheetPriority(context, taskID);
       },
       child: Container(
-          padding: EdgeInsets.symmetric(horizontal: UtilsReponsive.width(10, context), vertical: UtilsReponsive.height(2, context)),
+          padding: EdgeInsets.symmetric(horizontal: UtilsReponsive.width(10, context), vertical: UtilsReponsive.width(3, context)),
           decoration: controller.taskModel.value.priority != null
               ? BoxDecoration(
                   color: controller.taskModel.value.priority! == Priority.LOW
@@ -1249,8 +1263,8 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                           letterSpacing: 1,
                           fontFamily: 'Nunito',
                           color: Colors.white,
-                          fontSize: UtilsReponsive.height(14, context),
-                          fontWeight: FontWeight.bold),
+                          fontSize: UtilsReponsive.height(18, context),
+                          fontWeight: FontWeight.w800),
                     )
                   : Text(
                       '--',
@@ -1258,8 +1272,8 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                           letterSpacing: 1,
                           fontFamily: 'Nunito',
                           color: Colors.white,
-                          fontSize: UtilsReponsive.height(14, context),
-                          fontWeight: FontWeight.bold),
+                          fontSize: UtilsReponsive.height(18, context),
+                          fontWeight: FontWeight.w800),
                     ),
               controller.taskModel.value.priority != null
                   ? const Icon(
@@ -1274,11 +1288,12 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
 
   void _showBottomSheetPriority(BuildContext context, String taskID) {
     Get.bottomSheet(Container(
+      padding: EdgeInsets.symmetric(horizontal: UtilsReponsive.height(10, context), vertical: UtilsReponsive.height(10, context)),
       decoration: const BoxDecoration(
         color: ColorsManager.backgroundGrey,
         borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
       ),
-      constraints: BoxConstraints(maxHeight: UtilsReponsive.width(400, context)),
+      constraints: BoxConstraints(maxHeight: UtilsReponsive.height(400, context)),
       child: ListView(
         shrinkWrap: true,
         children: [
@@ -1313,7 +1328,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               : ColorsManager.red,
                       child: Text(e[0],
                           style: TextStyle(
-                              letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(16, context), fontWeight: FontWeight.bold)),
+                              letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(18, context), fontWeight: FontWeight.w800)),
                     ),
                     title: Text(
                       e,
@@ -1321,8 +1336,8 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                           fontFamily: 'Nunito',
                           letterSpacing: 1,
                           color: ColorsManager.textColor2,
-                          fontSize: UtilsReponsive.height(16, context),
-                          fontWeight: FontWeight.w600),
+                          fontSize: UtilsReponsive.height(18, context),
+                          fontWeight: FontWeight.w700),
                     ),
                   ),
                 ),
@@ -1360,7 +1375,8 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
           // ),
           margin: EdgeInsets.only(left: UtilsReponsive.width(10, context)),
           child: Text(
-            '$startTime ${getCurrentTime(controller.taskModel.value.startDate!)} - $endTime ${getCurrentTime(controller.taskModel.value.endDate!)}',
+            // '$startTime ${getCurrentTime(controller.taskModel.value.startDate!)} - $endTime ${getCurrentTime(controller.taskModel.value.endDate!)}',
+            'Hạn: $startTime - $endTime',
             style: TextStyle(
                 letterSpacing: 1,
                 fontFamily: 'Nunito',
@@ -1374,7 +1390,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                 ? ColorsManager.purple
                                 : ColorsManager.red,
                 // fontSize: UtilsReponsive.height(5, context),
-                fontWeight: FontWeight.bold),
+                fontWeight: FontWeight.w800),
           ),
         )
       ],
@@ -1412,8 +1428,8 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
 
   _showBottomLeader({required BuildContext context}) {
     Get.bottomSheet(Container(
-      height: UtilsReponsive.height(400, context),
-      constraints: BoxConstraints(maxHeight: UtilsReponsive.width(400, context)),
+      height: UtilsReponsive.height(700, context),
+      // constraints: BoxConstraints(maxHeight: UtilsReponsive.width(450, context)),
       padding: EdgeInsetsDirectional.symmetric(horizontal: UtilsReponsive.width(15, context), vertical: UtilsReponsive.height(20, context)),
       decoration: BoxDecoration(
         color: ColorsManager.backgroundWhite,
@@ -1456,8 +1472,64 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextButton(
                     onPressed: () async {
-                      Get.back();
-                      await controller.assignLeader(controller.taskID, controller.employeeLeader.value, controller.employeeLeader.value.id!);
+                      if (controller.employeeLeader.value.totalTask! > 1) {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Cảnh báo',
+                                  style: TextStyle(
+                                      fontFamily: 'Nunito',
+                                      wordSpacing: 1.2,
+                                      color: ColorsManager.primary,
+                                      fontSize: UtilsReponsive.height(20, context),
+                                      fontWeight: FontWeight.w800)),
+                              content: Text(
+                                'Bạn vẫn muốn chọn nhân viên này để thực hiện công việc?',
+                                style: TextStyle(
+                                    fontFamily: 'Nunito',
+                                    wordSpacing: 1.2,
+                                    color: ColorsManager.textColor2,
+                                    fontSize: UtilsReponsive.height(18, context),
+                                    fontWeight: FontWeight.w800),
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () async {
+                                    Navigator.of(Get.context!).pop();
+                                    Get.back();
+                                    await controller.assignLeader(
+                                        controller.taskID, controller.employeeLeader.value, controller.employeeLeader.value.id!);
+                                  },
+                                  child: Text('Xác nhận',
+                                      style: TextStyle(
+                                          fontFamily: 'Nunito',
+                                          wordSpacing: 1.2,
+                                          color: ColorsManager.blue,
+                                          fontSize: UtilsReponsive.height(18, context),
+                                          fontWeight: FontWeight.w800)),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    // Đóng hộp thoại mà không xóa
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Hủy',
+                                      style: TextStyle(
+                                          fontFamily: 'Nunito',
+                                          wordSpacing: 1.2,
+                                          color: ColorsManager.grey,
+                                          fontSize: UtilsReponsive.height(18, context),
+                                          fontWeight: FontWeight.w800)),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      } else {
+                        Get.back();
+                        await controller.assignLeader(controller.taskID, controller.employeeLeader.value, controller.employeeLeader.value.id!);
+                      }
                     },
                     child: Text(
                       'Lưu',
@@ -1465,8 +1537,8 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                           fontFamily: 'Nunito',
                           letterSpacing: 1,
                           color: ColorsManager.primary,
-                          fontSize: UtilsReponsive.height(18, context),
-                          fontWeight: FontWeight.bold),
+                          fontSize: UtilsReponsive.height(20, context),
+                          fontWeight: FontWeight.w800),
                     )),
               )
             ],
@@ -1495,7 +1567,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                     letterSpacing: 1,
                                     color: ColorsManager.textColor,
                                     fontSize: UtilsReponsive.height(16, context),
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.w800),
                               ),
                             )
                           : RefreshIndicator(
@@ -1528,6 +1600,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                           }
                                         },
                                         child: Container(
+                                          padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(10.0),
                                             color: controller.employeeLeader.value.id != null &&
@@ -1542,11 +1615,13 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                               width: 1.0, // Đặt độ dày của border
                                             ),
                                           ),
-                                          child: ListTile(
-                                            leading: CircleAvatar(
+                                          child: Row(
+                                            children: [
+                                              CircleAvatar(
                                                 radius: UtilsReponsive.height(20, context),
-                                                backgroundColor: Colors.transparent, // Đảm bảo nền trong suốt
-                                                child: controller.listEmployee[index].avatar == null || controller.listEmployee[index].avatar == ''
+                                                backgroundColor: Colors.transparent,
+                                                child: controller.listEmployee[index].profile!.avatar == null ||
+                                                        controller.listEmployee[index].profile!.avatar == ''
                                                     ? ClipOval(
                                                         child: Image.network(
                                                           "https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.webp",
@@ -1557,30 +1632,109 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                       )
                                                     : ClipOval(
                                                         child: Image.network(
-                                                          controller.listEmployee[index].avatar!,
+                                                          controller.listEmployee[index].profile!.avatar!,
                                                           fit: BoxFit.cover,
                                                           width: UtilsReponsive.widthv2(context, 60),
                                                           height: UtilsReponsive.heightv2(context, 60),
                                                         ),
-                                                      )),
-                                            title: Text(
-                                              controller.listEmployee[index].fullName!,
-                                              style: TextStyle(
-                                                  fontFamily: 'Nunito',
-                                                  letterSpacing: 1,
-                                                  color: ColorsManager.textColor,
-                                                  fontSize: UtilsReponsive.height(17, context),
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            subtitle: Text(
-                                              '${controller.listEmployee[index].email}',
-                                              style: TextStyle(
-                                                  fontFamily: 'Nunito',
-                                                  letterSpacing: 1,
-                                                  color: ColorsManager.textColor2,
-                                                  fontSize: UtilsReponsive.height(15, context),
-                                                  fontWeight: FontWeight.w500),
-                                            ),
+                                                      ),
+                                              ),
+                                              SizedBox(width: UtilsReponsive.width(10, context)),
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        controller.listEmployee[index].profile!.fullName!,
+                                                        style: TextStyle(
+                                                          fontFamily: 'Nunito',
+                                                          letterSpacing: 1,
+                                                          color: ColorsManager.textColor,
+                                                          fontSize: UtilsReponsive.height(17, context),
+                                                          fontWeight: FontWeight.w700,
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: UtilsReponsive.width(10, context)), // Khoảng cách giữa
+                                                      Container(
+                                                        width: 14,
+                                                        height: 14,
+                                                        decoration: BoxDecoration(
+                                                          shape: BoxShape.circle,
+                                                          color: controller.listEmployee[index].isFree == true
+                                                              ? Colors.green
+                                                              : Colors.orange, // Màu nền là màu xanh
+                                                          // Viền trắng xung quanh
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Text(
+                                                    '${controller.listEmployee[index].email}',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Nunito',
+                                                      letterSpacing: 1,
+                                                      color: ColorsManager.blue.withOpacity(0.8),
+                                                      fontSize: UtilsReponsive.height(17, context),
+                                                      fontWeight: FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                  Text.rich(
+                                                    TextSpan(
+                                                      children: <TextSpan>[
+                                                        TextSpan(
+                                                          text: 'Tổng số công việc: ',
+                                                          style: TextStyle(
+                                                            fontFamily: 'Nunito',
+                                                            wordSpacing: 1.2,
+                                                            color: ColorsManager.textColor2,
+                                                            fontSize: UtilsReponsive.height(17, context),
+                                                            fontWeight: FontWeight.w700,
+                                                          ),
+                                                        ),
+                                                        TextSpan(
+                                                          text: '${controller.listEmployee[index].totalTask}',
+                                                          style: TextStyle(
+                                                            fontFamily: 'Nunito',
+                                                            color: Colors.blue,
+                                                            fontSize: UtilsReponsive.height(17, context),
+                                                            fontWeight: FontWeight.w800,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: UtilsReponsive.height(10, context)),
+                                                  Row(
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          Get.toNamed('/task-calendar-month', arguments: {
+                                                            'userID': controller.listEmployee[index].id,
+                                                            'userName': controller.listEmployee[index].profile!.fullName,
+                                                            'startDate': controller.dateFormatv2.format(controller.taskModel.value.startDate!),
+                                                            'endDate': controller.dateFormatv2.format(controller.taskModel.value.endDate!),
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                            decoration:
+                                                                BoxDecoration(color: Colors.blueAccent, borderRadius: BorderRadius.circular(5)),
+                                                            padding: EdgeInsets.all(UtilsReponsive.height(6, context)),
+                                                            child: Text(
+                                                              'Xem lịch trình',
+                                                              style: TextStyle(
+                                                                fontFamily: 'Nunito',
+                                                                color: Colors.white,
+                                                                fontSize: UtilsReponsive.height(16, context),
+                                                                fontWeight: FontWeight.w700,
+                                                              ),
+                                                            )), // Biểu tượng mũi tên right
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
@@ -1597,8 +1751,8 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
 
   _showBottomAddMore({required BuildContext context}) {
     Get.bottomSheet(Container(
-      height: UtilsReponsive.height(400, context),
-      constraints: BoxConstraints(maxHeight: UtilsReponsive.width(400, context)),
+      height: UtilsReponsive.height(700, context),
+      // constraints: BoxConstraints(maxHeight: UtilsReponsive.height(700, context)),
       padding: EdgeInsetsDirectional.symmetric(horizontal: UtilsReponsive.width(15, context), vertical: UtilsReponsive.height(20, context)),
       decoration: BoxDecoration(
         color: ColorsManager.backgroundWhite,
@@ -1641,22 +1795,85 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextButton(
                     onPressed: () async {
-                      Get.back();
+                      bool checkEmployees = false;
+                      for (int i = 0; i < controller.listEmployeeChoose.length; i++) {
+                        if (controller.listEmployeeChoose[i].totalTask! > 1) {
+                          checkEmployees = true;
+                          break;
+                        }
+                      }
                       if (controller.employeeLeader.value.id == null || controller.employeeLeader.value.id == '') {
                         Get.snackbar('Lỗi', 'Xin vui lòng chọn Người chịu trách nhiệm trước',
                             snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.redAccent, colorText: Colors.white);
+                      } else if (checkEmployees) {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Cảnh báo',
+                                  style: TextStyle(
+                                      fontFamily: 'Nunito',
+                                      wordSpacing: 1.2,
+                                      color: ColorsManager.primary,
+                                      fontSize: UtilsReponsive.height(20, context),
+                                      fontWeight: FontWeight.w800)),
+                              content: Text(
+                                'Bạn vẫn muốn chọn những nhân viên này để thực hiện công việc?',
+                                style: TextStyle(
+                                    fontFamily: 'Nunito',
+                                    wordSpacing: 1.2,
+                                    color: ColorsManager.textColor2,
+                                    fontSize: UtilsReponsive.height(18, context),
+                                    fontWeight: FontWeight.w800),
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () async {
+                                    Navigator.of(Get.context!).pop();
+                                    Get.back();
+                                    await controller.assignSupporter(
+                                        controller.taskID, controller.listEmployeeChoose, controller.employeeLeader.value.id!);
+                                  },
+                                  child: Text('Xác nhận',
+                                      style: TextStyle(
+                                          fontFamily: 'Nunito',
+                                          wordSpacing: 1.2,
+                                          color: ColorsManager.blue,
+                                          fontSize: UtilsReponsive.height(18, context),
+                                          fontWeight: FontWeight.w800)),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    // Đóng hộp thoại mà không xóa
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Hủy',
+                                      style: TextStyle(
+                                          fontFamily: 'Nunito',
+                                          wordSpacing: 1.2,
+                                          color: ColorsManager.grey,
+                                          fontSize: UtilsReponsive.height(18, context),
+                                          fontWeight: FontWeight.w800)),
+                                ),
+                              ],
+                            );
+                          },
+                        );
                       } else {
+                        Get.back();
+                        // Navigator.of(Get.context!).pop();
                         await controller.assignSupporter(controller.taskID, controller.listEmployeeChoose, controller.employeeLeader.value.id!);
                       }
+                      // Get.back();
                     },
                     child: Text(
-                      'Save',
+                      'Lưu',
                       style: TextStyle(
                           fontFamily: 'Nunito',
                           letterSpacing: 1,
                           color: ColorsManager.primary,
-                          fontSize: UtilsReponsive.height(18, context),
-                          fontWeight: FontWeight.bold),
+                          fontSize: UtilsReponsive.height(20, context),
+                          fontWeight: FontWeight.w800),
                     )),
               )
             ],
@@ -1685,7 +1902,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                     letterSpacing: 1,
                                     color: Colors.black,
                                     fontSize: UtilsReponsive.height(16, context),
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.w800),
                               ),
                             )
                           : RefreshIndicator(
@@ -1733,8 +1950,10 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                           }
                                         },
                                         child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: UtilsReponsive.height(10, context), horizontal: UtilsReponsive.height(15, context)),
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10.0),
+                                            borderRadius: BorderRadius.circular(UtilsReponsive.height(10, context)),
                                             color: controller.listEmployeeChoose.contains(controller.listEmployee[index])
                                                 ? Colors.blue.shade100
                                                 : Colors.white,
@@ -1745,11 +1964,13 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                               width: 1.0, // Đặt độ dày của border
                                             ),
                                           ),
-                                          child: ListTile(
-                                            leading: CircleAvatar(
+                                          child: Row(
+                                            children: [
+                                              CircleAvatar(
                                                 radius: UtilsReponsive.height(20, context),
-                                                backgroundColor: Colors.transparent, // Đảm bảo nền trong suốt
-                                                child: controller.listEmployee[index].avatar == null || controller.listEmployee[index].avatar == ''
+                                                backgroundColor: Colors.transparent,
+                                                child: controller.listEmployee[index].profile!.avatar == null ||
+                                                        controller.listEmployee[index].profile!.avatar == ''
                                                     ? ClipOval(
                                                         child: Image.network(
                                                           "https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.webp",
@@ -1760,30 +1981,109 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                       )
                                                     : ClipOval(
                                                         child: Image.network(
-                                                          controller.listEmployee[index].avatar!,
+                                                          controller.listEmployee[index].profile!.avatar!,
                                                           fit: BoxFit.cover,
                                                           width: UtilsReponsive.widthv2(context, 60),
                                                           height: UtilsReponsive.heightv2(context, 60),
                                                         ),
-                                                      )),
-                                            title: Text(
-                                              controller.listEmployee[index].fullName!,
-                                              style: TextStyle(
-                                                  fontFamily: 'Nunito',
-                                                  letterSpacing: 1,
-                                                  color: ColorsManager.textColor,
-                                                  fontSize: UtilsReponsive.height(17, context),
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            subtitle: Text(
-                                              '${controller.listEmployee[index].email}',
-                                              style: TextStyle(
-                                                  fontFamily: 'Nunito',
-                                                  letterSpacing: 1,
-                                                  color: ColorsManager.textColor2,
-                                                  fontSize: UtilsReponsive.height(15, context),
-                                                  fontWeight: FontWeight.bold),
-                                            ),
+                                                      ),
+                                              ),
+                                              SizedBox(width: UtilsReponsive.width(10, context)),
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        controller.listEmployee[index].profile!.fullName!,
+                                                        style: TextStyle(
+                                                          fontFamily: 'Nunito',
+                                                          letterSpacing: 1,
+                                                          color: ColorsManager.textColor,
+                                                          fontSize: UtilsReponsive.height(17, context),
+                                                          fontWeight: FontWeight.w700,
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: UtilsReponsive.width(10, context)), // Khoảng cách giữa
+                                                      Container(
+                                                        width: 14,
+                                                        height: 14,
+                                                        decoration: BoxDecoration(
+                                                          shape: BoxShape.circle,
+                                                          color: controller.listEmployee[index].isFree == true
+                                                              ? Colors.green
+                                                              : Colors.orange, // Màu nền là màu xanh
+                                                          // Viền trắng xung quanh
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Text(
+                                                    '${controller.listEmployee[index].email}',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Nunito',
+                                                      letterSpacing: 1,
+                                                      color: ColorsManager.blue.withOpacity(0.8),
+                                                      fontSize: UtilsReponsive.height(17, context),
+                                                      fontWeight: FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                  Text.rich(
+                                                    TextSpan(
+                                                      children: <TextSpan>[
+                                                        TextSpan(
+                                                          text: 'Tổng số công việc: ',
+                                                          style: TextStyle(
+                                                            fontFamily: 'Nunito',
+                                                            wordSpacing: 1.2,
+                                                            color: ColorsManager.textColor2,
+                                                            fontSize: UtilsReponsive.height(17, context),
+                                                            fontWeight: FontWeight.w700,
+                                                          ),
+                                                        ),
+                                                        TextSpan(
+                                                          text: '${controller.listEmployee[index].totalTask}',
+                                                          style: TextStyle(
+                                                            fontFamily: 'Nunito',
+                                                            color: Colors.blue,
+                                                            fontSize: UtilsReponsive.height(17, context),
+                                                            fontWeight: FontWeight.w800,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: UtilsReponsive.height(10, context)),
+                                                  Row(
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          Get.toNamed('/task-calendar-month', arguments: {
+                                                            'userID': controller.listEmployee[index].id,
+                                                            'userName': controller.listEmployee[index].profile!.fullName,
+                                                            'startDate': controller.dateFormatv2.format(controller.taskModel.value.startDate!),
+                                                            'endDate': controller.dateFormatv2.format(controller.taskModel.value.endDate!),
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                            decoration:
+                                                                BoxDecoration(color: Colors.blueAccent, borderRadius: BorderRadius.circular(5)),
+                                                            padding: EdgeInsets.all(UtilsReponsive.height(6, context)),
+                                                            child: Text(
+                                                              'Xem lịch trình',
+                                                              style: TextStyle(
+                                                                fontFamily: 'Nunito',
+                                                                color: Colors.white,
+                                                                fontSize: UtilsReponsive.height(16, context),
+                                                                fontWeight: FontWeight.w700,
+                                                              ),
+                                                            )), // Biểu tượng mũi tên right
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
@@ -1800,126 +2100,162 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
 
   _showDateTimePicker(BuildContext context, String taskID) async {
     await Get.defaultDialog(
-      confirm: TextButton(
-          onPressed: () async {
-            bool isErrorStartDate = true;
+      confirm: GestureDetector(
+          onTap: () async {
+            // bool isErrorStartDate = true;
             bool isErrorEndDate = true;
 
             bool isStartDateCancel = false;
             bool isEndDateCancel = false;
 
-            DateTime newStartDate = DateTime.now().toUtc().add(const Duration(hours: 7));
-            DateTime newEndDate = DateTime.now().toUtc().add(const Duration(hours: 7));
+            DateTime newStartDate = DateTime(
+              controller.listChange.first!.year,
+              controller.listChange.first!.month,
+              controller.listChange.first!.day,
+            );
+            DateTime newEndDate = DateTime(
+              controller.listChange.last!.year,
+              controller.listChange.first!.month,
+              controller.listChange.last!.day,
+            );
 
-            while (isErrorStartDate) {
-              TimeOfDay? timeStartDate = await pickTimeStartDate(Get.context!);
-              if (timeStartDate == null) {
-                isStartDateCancel = true;
-                return;
-              }
-              final newDate = DateTime(controller.listChange.first!.year, controller.listChange.first!.month, controller.listChange.first!.day,
-                  timeStartDate.hour, timeStartDate.minute);
-              newStartDate = newDate;
+            // while (isErrorEndDate) {
+            //   if (newEndDate.toLocal().isAfter(controller.startDateTaskParent.toLocal())) {
+            //     Get.snackbar(
+            //       'Thông báo',
+            //       'Ngày của công việc nhỏ phải nằm trong khoảng ngày bắt đầu ${controller.dateFormat.format(controller.startDateTaskParent.toLocal())} ${getCurrentTime(controller.startDateTaskParent.toLocal())} của công việc lớn',
+            //       snackPosition: SnackPosition.TOP,
+            //       margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
+            //       backgroundColor: ColorsManager.backgroundGrey,
+            //       colorText: ColorsManager.textColor2,
+            //       duration: const Duration(seconds: 4),
+            //     );
+            //     isErrorEndDate = true;
+            //   } else {
+            //     isErrorEndDate = false;
+            //   }
+            // }
 
-              if (!newDate.toLocal().isAfter(controller.startDateTaskParent.toLocal())) {
-                Get.snackbar(
-                  'Thông báo 1',
-                  'Giờ bắt đầu của công việc nhỏ phải nhỏ hơn giờ bắt đầu ${controller.dateFormat.format(controller.startDateTaskParent.toLocal())} ${getCurrentTime(controller.startDateTaskParent.toLocal())} của công việc lớn',
-                  snackPosition: SnackPosition.TOP,
-                  margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
-                  backgroundColor: ColorsManager.backgroundGrey,
-                  colorText: ColorsManager.textColor2,
-                  duration: const Duration(seconds: 4),
-                );
+            // while (isErrorStartDate) {
+            //   TimeOfDay? timeStartDate = await pickTimeStartDate(Get.context!);
+            //   if (timeStartDate == null) {
+            //     isStartDateCancel = true;
+            //     return;
+            //   }
+            //   final newDate = DateTime(controller.listChange.first!.year, controller.listChange.first!.month, controller.listChange.first!.day,
+            //       timeStartDate.hour, timeStartDate.minute);
+            //   newStartDate = newDate;
 
-                isErrorStartDate = true;
-              } else if (newDate //23/10 0202
-                  .toLocal()
-                  .isAfter(controller.endDateTaskParent.toLocal())) {
-                //23/10/1231
-                Get.snackbar(
-                  'Thông báo 2',
-                  'Giờ bắt đầu của công việc nhỏ phải nhỏ hơn giờ kết thúc ${controller.dateFormat.format(controller.endDateTaskParent.toLocal())} ${getCurrentTime(controller.endDateTaskParent.toLocal())} của công việc lớn',
-                  snackPosition: SnackPosition.TOP,
-                  margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
-                  backgroundColor: ColorsManager.backgroundGrey,
-                  colorText: ColorsManager.textColor2,
-                  duration: const Duration(seconds: 4),
-                );
-                isErrorEndDate = true;
-              } else {
-                isErrorStartDate = false;
-              }
-            }
+            //   if (!newDate.toLocal().isAfter(controller.startDateTaskParent.toLocal())) {
+            //     Get.snackbar(
+            //       'Thông báo 1',
+            //       'Giờ bắt đầu của công việc nhỏ phải nhỏ hơn giờ bắt đầu ${controller.dateFormat.format(controller.startDateTaskParent.toLocal())} ${getCurrentTime(controller.startDateTaskParent.toLocal())} của công việc lớn',
+            //       snackPosition: SnackPosition.TOP,
+            //       margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
+            //       backgroundColor: ColorsManager.backgroundGrey,
+            //       colorText: ColorsManager.textColor2,
+            //       duration: const Duration(seconds: 4),
+            //     );
 
-            while (isErrorEndDate) {
-              TimeOfDay? timeEndDate = await pickTimeEndDate(Get.context!);
-              if (timeEndDate == null) {
-                isEndDateCancel = true;
-                return;
-              }
-              final newDate = DateTime(controller.listChange.last!.year, controller.listChange.last!.month, controller.listChange.last!.day,
-                  timeEndDate.hour, timeEndDate.minute);
-              newEndDate = newDate;
+            //     isErrorStartDate = true;
+            //   } else if (newDate //23/10 0202
+            //       .toLocal()
+            //       .isAfter(controller.endDateTaskParent.toLocal())) {
+            //     //23/10/1231
+            //     Get.snackbar(
+            //       'Thông báo 2',
+            //       'Giờ bắt đầu của công việc nhỏ phải nhỏ hơn giờ kết thúc ${controller.dateFormat.format(controller.endDateTaskParent.toLocal())} ${getCurrentTime(controller.endDateTaskParent.toLocal())} của công việc lớn',
+            //       snackPosition: SnackPosition.TOP,
+            //       margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
+            //       backgroundColor: ColorsManager.backgroundGrey,
+            //       colorText: ColorsManager.textColor2,
+            //       duration: const Duration(seconds: 4),
+            //     );
+            //     isErrorEndDate = true;
+            //   } else {
+            //     isErrorStartDate = false;
+            //   }
+            // }
 
-              if (newDate.toLocal().isAfter(controller.endDateTaskParent.toLocal())) {
-                Get.snackbar(
-                  'Thông báo',
-                  'Giờ kết thúc của công việc nhỏ phải nhỏ hơn giờ kết thúc ${controller.dateFormat.format(controller.endDateTaskParent.toLocal())} ${getCurrentTime(controller.endDateTaskParent.toLocal())} của công việc lớn',
-                  snackPosition: SnackPosition.TOP,
-                  margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
-                  backgroundColor: ColorsManager.backgroundGrey,
-                  colorText: ColorsManager.textColor2,
-                  duration: const Duration(seconds: 4),
-                );
-                isErrorEndDate = true;
-              } else if (newStartDate.isAfter(newEndDate)) {
-                Get.snackbar(
-                  'Thông báo',
-                  'Giờ kết thúc của công việc nhỏ phải lớn hơn giờ bắt đầu ${controller.dateFormat.format(newStartDate)} ${getCurrentTime(newStartDate)} của công việc nhỏ',
-                  snackPosition: SnackPosition.TOP,
-                  margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
-                  backgroundColor: ColorsManager.backgroundGrey,
-                  colorText: ColorsManager.textColor2,
-                  duration: const Duration(seconds: 4),
-                );
-                isErrorEndDate = true;
-              } else if (newEndDate.difference(newStartDate).inMinutes < 15) {
-                Get.snackbar(
-                  'Thông báo',
-                  'Giờ kết thúc của công việc nhỏ phải lớn hơn 15 phút so với giờ bắt đầu của công việc nhỏ',
-                  snackPosition: SnackPosition.TOP,
-                  margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
-                  backgroundColor: ColorsManager.backgroundGrey,
-                  colorText: ColorsManager.textColor2,
-                  duration: const Duration(seconds: 4),
-                );
-                isErrorEndDate = true;
-              } else {
-                isErrorEndDate = false;
-              }
-            }
+            // while (isErrorEndDate) {
+            //   // TimeOfDay? timeEndDate = await pickTimeEndDate(Get.context!);
+            //   // if (timeEndDate == null) {
+            //   //   isEndDateCancel = true;
+            //   //   return;
+            //   // }
+            //   final newDate = DateTime(
+            //     controller.listChange.last!.year,
+            //     controller.listChange.last!.month,
+            //     controller.listChange.last!.day,
+            //   );
+            //   newEndDate = newDate;
 
-            if (isEndDateCancel == true || isStartDateCancel == true) {
-              Get.back();
-            }
+            //   if (newDate.toLocal().isAfter(controller.endDateTaskParent.toLocal())) {
+            //     Get.snackbar(
+            //       'Thông báo',
+            //       'Ngày kết thúc của công việc nhỏ phải nhỏ hơn ngày kết thúc ${controller.dateFormat.format(controller.endDateTaskParent.toLocal())} ${getCurrentTime(controller.endDateTaskParent.toLocal())} của công việc lớn',
+            //       snackPosition: SnackPosition.TOP,
+            //       margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
+            //       backgroundColor: ColorsManager.backgroundGrey,
+            //       colorText: ColorsManager.textColor2,
+            //       duration: const Duration(seconds: 4),
+            //     );
+            //     isErrorEndDate = true;
+            //   } else if (newStartDate.isAfter(newEndDate)) {
+            //     Get.snackbar(
+            //       'Thông báo',
+            //       'Ngày kết thúc của công việc nhỏ phải lớn hơn giờ bắt đầu ${controller.dateFormat.format(newStartDate)} ${getCurrentTime(newStartDate)} của công việc nhỏ',
+            //       snackPosition: SnackPosition.TOP,
+            //       margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
+            //       backgroundColor: ColorsManager.backgroundGrey,
+            //       colorText: ColorsManager.textColor2,
+            //       duration: const Duration(seconds: 4),
+            //     );
+            //     isErrorEndDate = true;
+            //     // } else if (newEndDate.difference(newStartDate).inMinutes < 15) {
+            //     //   Get.snackbar(
+            //     //     'Thông báo',
+            //     //     'Ngày kết thúc của công việc nhỏ phải lớn hơn 15 phút so với giờ bắt đầu của công việc nhỏ',
+            //     //     snackPosition: SnackPosition.TOP,
+            //     //     margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
+            //     //     backgroundColor: ColorsManager.backgroundGrey,
+            //     //     colorText: ColorsManager.textColor2,
+            //     //     duration: const Duration(seconds: 4),
+            //     //   );
+            //     //   isErrorEndDate = true;
+            //   } else {
+            //     isErrorEndDate = false;
+            //   }
+            // }
 
-            if (isErrorEndDate == false && isErrorEndDate == false) {
-              controller.startDate.value = newStartDate;
-              controller.endDate.value = newEndDate;
-              Get.back();
-              await controller.updateDateTime(taskID, controller.startDate.value, controller.endDate.value);
-              controller.errorUpdateSubTask.value ? _errorMessage(context) : _successMessage(context);
-            }
+            // if (isEndDateCancel == true || isStartDateCancel == true) {
+            //   Get.back();
+            // }
+
+            // if (isErrorEndDate == false) {
+            controller.startDate.value = newStartDate;
+            controller.endDate.value = newEndDate;
+            Get.back();
+            await controller.updateDateTime(taskID, controller.startDate.value, controller.endDate.value);
+            controller.errorUpdateSubTask.value ? _errorMessage(context) : _successMessage(context);
+            // }
           },
-          child: Text(
-            'Tiếp tục',
-            style: TextStyle(
+          child: Container(
+            padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0), // Điều chỉnh độ cong của góc (có thể thay đổi giá trị)
+              color: Colors.blue, // Màu nền của container
+            ),
+            child: Text(
+              'Xác nhận',
+              style: TextStyle(
                 fontFamily: 'Nunito',
                 letterSpacing: 1,
-                color: ColorsManager.primary,
+                color: Colors.white, // Màu chữ bên trong container
                 fontSize: UtilsReponsive.height(18, context),
-                fontWeight: FontWeight.bold),
+                fontWeight: FontWeight.w800,
+              ),
+            ),
           )),
       title: 'Chọn ngày',
       content: SizedBox(
@@ -1927,7 +2263,9 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         width: UtilsReponsive.height(300, context),
         child: CalendarDatePicker2(
           config: CalendarDatePicker2Config(
-            currentDate: controller.endDateTaskParent.toUtc().toLocal().add(const Duration(hours: 7)),
+            firstDate: controller.startDateTaskParent.toUtc().toLocal().add(const Duration(hours: 7)),
+            lastDate: controller.endDateTaskParent.toUtc().toLocal().add(const Duration(hours: 7)),
+            currentDate: controller.taskModel.value.startDate ?? controller.startDateTaskParent.toUtc().toLocal().add(const Duration(hours: 7)),
             calendarType: CalendarDatePicker2Type.range,
             centerAlignModePicker: true,
             selectedDayTextStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
@@ -1944,7 +2282,8 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
 
   _showBottomAssign({required BuildContext context}) {
     Get.bottomSheet(Container(
-      constraints: BoxConstraints(maxHeight: UtilsReponsive.width(250, context)),
+      height: UtilsReponsive.height(700, context),
+      // constraints: BoxConstraints(maxHeight: UtilsReponsive.width(250, context)),
       padding: EdgeInsetsDirectional.symmetric(horizontal: UtilsReponsive.width(15, context), vertical: UtilsReponsive.height(20, context)),
       decoration: BoxDecoration(
         color: ColorsManager.backgroundWhite,
@@ -1961,19 +2300,22 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 height: UtilsReponsive.height(10, context),
               ),
               itemBuilder: (context, index) => Container(
+                padding: EdgeInsets.symmetric(vertical: UtilsReponsive.height(10, context), horizontal: UtilsReponsive.height(15, context)),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(UtilsReponsive.height(10, context)),
                   color: Colors.white,
                   border: Border.all(
                     color: Colors.blue.shade100, // Đặt màu border xung quanh Container
                     width: 1.0, // Đặt độ dày của border
                   ),
                 ),
-                child: ListTile(
-                  leading: CircleAvatar(
+                child: Row(
+                  children: [
+                    CircleAvatar(
                       radius: UtilsReponsive.height(20, context),
-                      backgroundColor: Colors.transparent, // Đảm bảo nền trong suốt
-                      child: controller.listEmployeeSupportView[index].avatar == null || controller.listEmployeeSupportView[index].avatar == ''
+                      backgroundColor: Colors.transparent,
+                      child: controller.listEmployeeSupportView[index].profile!.avatar == null ||
+                              controller.listEmployeeSupportView[index].profile!.avatar == ''
                           ? ClipOval(
                               child: Image.network(
                                 "https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.webp",
@@ -1984,30 +2326,106 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                             )
                           : ClipOval(
                               child: Image.network(
-                                controller.listEmployeeSupportView[index].avatar!,
+                                controller.listEmployeeSupportView[index].profile!.avatar!,
                                 fit: BoxFit.cover,
                                 width: UtilsReponsive.widthv2(context, 60),
                                 height: UtilsReponsive.heightv2(context, 60),
                               ),
-                            )),
-                  title: Text(
-                    controller.listEmployeeSupportView[index].fullName!,
-                    style: TextStyle(
-                        fontFamily: 'Nunito',
-                        letterSpacing: 1,
-                        color: ColorsManager.textColor,
-                        fontSize: UtilsReponsive.height(17, context),
-                        fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    '${controller.listEmployeeSupportView[index].email}',
-                    style: TextStyle(
-                        fontFamily: 'Nunito',
-                        letterSpacing: 1,
-                        color: ColorsManager.textColor2,
-                        fontSize: UtilsReponsive.height(15, context),
-                        fontWeight: FontWeight.bold),
-                  ),
+                            ),
+                    ),
+                    SizedBox(width: UtilsReponsive.width(10, context)),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              controller.listEmployeeSupportView[index].profile!.fullName!,
+                              style: TextStyle(
+                                fontFamily: 'Nunito',
+                                letterSpacing: 1,
+                                color: ColorsManager.textColor,
+                                fontSize: UtilsReponsive.height(17, context),
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            SizedBox(width: UtilsReponsive.width(10, context)), // Khoảng cách giữa
+                            Container(
+                              width: 14,
+                              height: 14,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: controller.listEmployeeSupportView[index].isFree == true ? Colors.green : Colors.orange, // Màu nền là màu xanh
+                                // Viền trắng xung quanh
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          '${controller.listEmployeeSupportView[index].email}',
+                          style: TextStyle(
+                            fontFamily: 'Nunito',
+                            letterSpacing: 1,
+                            color: ColorsManager.blue.withOpacity(0.8),
+                            fontSize: UtilsReponsive.height(17, context),
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text.rich(
+                          TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'Tổng số công việc: ',
+                                style: TextStyle(
+                                  fontFamily: 'Nunito',
+                                  wordSpacing: 1.2,
+                                  color: ColorsManager.textColor2,
+                                  fontSize: UtilsReponsive.height(17, context),
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              TextSpan(
+                                text: '${controller.listEmployeeSupportView[index].totalTask}',
+                                style: TextStyle(
+                                  fontFamily: 'Nunito',
+                                  color: Colors.blue,
+                                  fontSize: UtilsReponsive.height(17, context),
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: UtilsReponsive.height(10, context)),
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed('/task-calendar-month', arguments: {
+                                  'userID': controller.listEmployee[index].id,
+                                  'userName': controller.listEmployee[index].profile!.fullName,
+                                  'startDate': controller.dateFormatv2.format(controller.taskModel.value.startDate!),
+                                  'endDate': controller.dateFormatv2.format(controller.taskModel.value.endDate!),
+                                });
+                              },
+                              child: Container(
+                                  decoration: BoxDecoration(color: Colors.blueAccent, borderRadius: BorderRadius.circular(5)),
+                                  padding: EdgeInsets.all(UtilsReponsive.height(6, context)),
+                                  child: Text(
+                                    'Xem lịch trình',
+                                    style: TextStyle(
+                                      fontFamily: 'Nunito',
+                                      color: Colors.white,
+                                      fontSize: UtilsReponsive.height(16, context),
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  )), // Biểu tượng mũi tên right
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -2023,7 +2441,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
       leading: IconButton(
         onPressed: () {
           Get.back();
-          controller.onDelete();
+          // controller.onDelete();
         },
         icon: Icon(
           Icons.arrow_back_ios_new,
@@ -2048,7 +2466,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                             wordSpacing: 1.2,
                             color: ColorsManager.primary,
                             fontSize: UtilsReponsive.height(20, context),
-                            fontWeight: FontWeight.bold)),
+                            fontWeight: FontWeight.w800)),
                     content: Text(
                       'Bạn có muốn xóa công việc này?',
                       style: TextStyle(
@@ -2056,7 +2474,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                           wordSpacing: 1.2,
                           color: ColorsManager.textColor2,
                           fontSize: UtilsReponsive.height(18, context),
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.w800),
                     ),
                     actions: <Widget>[
                       TextButton(
@@ -2070,7 +2488,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                 wordSpacing: 1.2,
                                 color: ColorsManager.red,
                                 fontSize: UtilsReponsive.height(18, context),
-                                fontWeight: FontWeight.bold)),
+                                fontWeight: FontWeight.w800)),
                       ),
                       TextButton(
                         onPressed: () {
@@ -2083,7 +2501,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                 wordSpacing: 1.2,
                                 color: ColorsManager.primary,
                                 fontSize: UtilsReponsive.height(18, context),
-                                fontWeight: FontWeight.bold)),
+                                fontWeight: FontWeight.w800)),
                       ),
                     ],
                   );
@@ -2106,7 +2524,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                         wordSpacing: 1.2,
                         color: ColorsManager.textColor2,
                         fontSize: UtilsReponsive.height(18, context),
-                        fontWeight: FontWeight.w500),
+                        fontWeight: FontWeight.w700),
                   ),
                 ),
               ),
@@ -2119,7 +2537,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                       wordSpacing: 1.2,
                       color: ColorsManager.textColor2,
                       fontSize: UtilsReponsive.height(18, context),
-                      fontWeight: FontWeight.w500),
+                      fontWeight: FontWeight.w700),
                 ),
               ),
               // Các mục menu khác nếu cần
@@ -2161,7 +2579,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                             fontFamily: 'Nunito',
                             wordSpacing: 1.2,
                             fontSize: UtilsReponsive.height(24, context),
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w700,
                           ),
                           children: [
                             const TextSpan(
@@ -2191,7 +2609,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               wordSpacing: 1.2,
                               color: ColorsManager.primary,
                               fontSize: UtilsReponsive.height(24, context),
-                              fontWeight: FontWeight.w500),
+                              fontWeight: FontWeight.w700),
                         ),
                       ),
                     ],
@@ -2241,7 +2659,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                     wordSpacing: 1.2,
                     color: Colors.black,
                     fontSize: UtilsReponsive.height(18, context),
-                    fontWeight: FontWeight.bold)),
+                    fontWeight: FontWeight.w800)),
           ),
           SizedBox(
             height: UtilsReponsive.height(10, context),
@@ -2280,7 +2698,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                             ),
                             Text(
                               'Để lại bình luận đầu tiên',
-                              style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.primary),
+                              style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.primary),
                             ),
                           ],
                         ),
@@ -2335,7 +2753,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                           letterSpacing: 1,
                           color: ColorsManager.textColor,
                           fontSize: UtilsReponsive.height(17, context),
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.w800),
                     ),
                     SizedBox(height: UtilsReponsive.width(5, context)),
                     Text(
@@ -2345,7 +2763,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                           letterSpacing: 1,
                           color: ColorsManager.textColor,
                           fontSize: UtilsReponsive.height(14, context),
-                          fontWeight: FontWeight.w500),
+                          fontWeight: FontWeight.w700),
                     ),
                   ],
                 ),
@@ -2391,7 +2809,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                             letterSpacing: 1,
                             color: ColorsManager.textColor2,
                             fontSize: UtilsReponsive.height(14, context),
-                            fontWeight: FontWeight.w500),
+                            fontWeight: FontWeight.w700),
                       ),
                       Container(
                         margin: EdgeInsets.only(top: UtilsReponsive.height(8, context)),
@@ -2429,7 +2847,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                         letterSpacing: 1,
                         color: ColorsManager.textColor,
                         fontSize: UtilsReponsive.height(18, context),
-                        fontWeight: FontWeight.w500),
+                        fontWeight: FontWeight.w700),
                   ),
             SizedBox(height: UtilsReponsive.width(10, context)),
             isEditComment == false
@@ -2447,7 +2865,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     'Chỉnh sửa',
-                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.primary),
+                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.primary),
                                   ))
                               : SizedBox()),
                       SizedBox(
@@ -2462,17 +2880,17 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                       return AlertDialog(
                                         title: Text(
                                           'Xác nhận xóa bình luận',
-                                          style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.primary),
+                                          style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.primary),
                                         ),
                                         content: Text(
                                           'Bạn có chắc chắn muốn xóa bình luận này không?',
-                                          style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.textColor2),
+                                          style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                                         ),
                                         actions: [
                                           TextButton(
                                             child: Text(
                                               'Không',
-                                              style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.primary),
+                                              style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.primary),
                                             ),
                                             onPressed: () {
                                               Navigator.of(context).pop();
@@ -2481,7 +2899,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                           TextButton(
                                             child: Text(
                                               'Có',
-                                              style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.red),
+                                              style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.red),
                                             ),
                                             onPressed: () {
                                               controller.deleteComment(commentModel);
@@ -2499,7 +2917,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     'Xóa',
-                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.red),
+                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.red),
                                   )))
                           : SizedBox(),
                     ],
@@ -2530,7 +2948,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Lưu',
-                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.primary),
+                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.primary),
                               ))),
                       SizedBox(
                         width: UtilsReponsive.width(10, context),
@@ -2548,7 +2966,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Hủy',
-                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.red),
+                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.red),
                               ))),
                       SizedBox(
                         width: UtilsReponsive.width(10, context),
@@ -2579,7 +2997,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Thêm tệp',
-                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.textColor2),
+                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                               ))),
                       SizedBox(
                         width: UtilsReponsive.width(10, context),
@@ -2611,7 +3029,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                           wordSpacing: 1.2,
                           color: Colors.black,
                           fontSize: UtilsReponsive.height(18, context),
-                          fontWeight: FontWeight.bold)),
+                          fontWeight: FontWeight.w800)),
                   SizedBox(
                     width: UtilsReponsive.width(5, context),
                   ),
@@ -2624,7 +3042,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                 letterSpacing: 1,
                                 color: ColorsManager.backgroundWhite,
                                 fontSize: UtilsReponsive.height(15, context),
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.w800),
                           ),
                         )
                       : SizedBox(),
@@ -2646,7 +3064,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               },
                               child: Text(
                                 '+  Thêm tệp',
-                                style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w500, ColorsManager.primary),
+                                style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w700, ColorsManager.primary),
                               ),
                             ),
                           ],
@@ -2686,7 +3104,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                   },
                                   child: Text(
                                     '+  Thêm tệp',
-                                    style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w500, ColorsManager.primary),
+                                    style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w700, ColorsManager.primary),
                                   ),
                                 ),
                               ],
@@ -2708,7 +3126,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Tùy chọn",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -2716,7 +3134,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               ListTile(
                 title: Text(
                   'Xóa',
-                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
+                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w700, color: ColorsManager.red),
                 ),
                 onTap: () {
                   if (mode != 2) {
@@ -2748,11 +3166,11 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Xóa tệp này?",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           content: const Text(
             "Một khi nó đã mất, thì nó đã mất.",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           actions: <Widget>[
             TextButton(
@@ -2761,7 +3179,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               },
               child: Text(
                 "Hủy",
-                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.primary),
               ),
             ),
             TextButton(
@@ -2772,7 +3190,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               },
               child: Text(
                 "Xóa",
-                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.red),
               ),
             ),
           ],
@@ -2789,7 +3207,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Tùy chọn",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -2797,7 +3215,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               ListTile(
                 title: Text(
                   'Xóa',
-                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
+                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w700, color: ColorsManager.red),
                 ),
                 onTap: () {
                   _showDeleteFileCommentConfirmation(context, commentFile, _popupContext);
@@ -2817,11 +3235,11 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Xóa tệp này?",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           content: const Text(
             "Một khi nó đã mất, thì nó đã mất.",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           actions: <Widget>[
             TextButton(
@@ -2830,7 +3248,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               },
               child: Text(
                 "Hủy",
-                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.primary),
               ),
             ),
             TextButton(
@@ -2841,7 +3259,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               },
               child: Text(
                 "Xóa",
-                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.red),
               ),
             ),
           ],
@@ -2858,7 +3276,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Tùy chọn",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -2866,7 +3284,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               ListTile(
                 title: Text(
                   'Xóa',
-                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
+                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w700, color: ColorsManager.red),
                 ),
                 onTap: () {
                   _showDeleteAttachmentCommentConfirmation(context, index, _popupContext);
@@ -2886,11 +3304,11 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Xóa tệp này?",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           content: const Text(
             "Một khi nó đã mất, thì nó đã mất.",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           actions: <Widget>[
             TextButton(
@@ -2899,7 +3317,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               },
               child: Text(
                 "Hủy",
-                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.primary),
               ),
             ),
             TextButton(
@@ -2910,7 +3328,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               },
               child: Text(
                 "Xóa",
-                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.red),
               ),
             ),
           ],
@@ -2927,7 +3345,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Tùy chọn",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -2935,7 +3353,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               ListTile(
                 title: Text(
                   'Xóa',
-                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
+                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w700, color: ColorsManager.red),
                 ),
                 onTap: () {
                   _showDeleteAttachmentCommentConfirmationV2(context, index, popupContext, setStateX, filePickerEditCommentFile);
@@ -2956,11 +3374,11 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Xóa tệp này?",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           content: const Text(
             "Một khi nó đã mất, thì nó đã mất.",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           actions: <Widget>[
             TextButton(
@@ -2969,7 +3387,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               },
               child: Text(
                 "Hủy",
-                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.primary),
               ),
             ),
             TextButton(
@@ -2980,7 +3398,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               },
               child: Text(
                 "Xóa",
-                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.red),
               ),
             ),
           ],
@@ -3029,17 +3447,17 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                     child: fileName.length > 35
                         ? Text(
                             fileName.length > 35 ? '${fileName.substring(0, 35)}...' : fileName,
-                            style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                            style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
                           )
                         : Text(
                             fileName,
-                            style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                            style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
                           ),
                   ),
                   Expanded(
                       child: Text(
                     fileSize,
-                    style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
+                    style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
                   )),
                 ]),
               ),
@@ -3092,17 +3510,17 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                   child: fileName.length > 35
                       ? Text(
                           fileName.length > 35 ? '${fileName.substring(0, 35)}...' : fileName,
-                          style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                          style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
                         )
                       : Text(
                           fileName,
-                          style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                          style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
                         ),
                 ),
                 Expanded(
                     child: Text(
                   fileSize,
-                  style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
+                  style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
                 )),
               ]),
             ),
@@ -3148,11 +3566,11 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               child: commentFile.fileName!.length > 35
                   ? Text(
                       commentFile.fileName!.length > 35 ? '${commentFile.fileName!.substring(0, 35)}...' : commentFile.fileName!,
-                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
                     )
                   : Text(
                       commentFile.fileName!,
-                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
                     ),
             ),
             const Expanded(
@@ -3161,7 +3579,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 children: [
                   Text(
                     'Kích thước',
-                    style: TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
+                    style: TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
                   ),
                 ],
               ),
@@ -3211,11 +3629,11 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
               child: attachmentModel.fileName!.length > 35
                   ? Text(
                       attachmentModel.fileName!.length > 35 ? '${attachmentModel.fileName!.substring(0, 35)}...' : attachmentModel.fileName!,
-                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 11, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 11, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
                     )
                   : Text(
                       attachmentModel.fileName!,
-                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 11, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 11, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
                     ),
             ),
             const Expanded(
@@ -3224,7 +3642,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 children: [
                   Text(
                     'Kích thước',
-                    style: TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
+                    style: TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
                   ),
                 ],
               ),
@@ -3255,7 +3673,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                   wordSpacing: 1.2,
                   color: ColorsManager.textColor,
                   fontSize: UtilsReponsive.height(18, context),
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.w800),
             ),
             children: [
               controller.taskModel.value.description != null &&
@@ -3286,7 +3704,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                             },
                             child: Text(
                               'Thêm mô tả...',
-                              style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w500, ColorsManager.textColor2),
+                              style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                             ),
                           ),
                         ],
@@ -3327,7 +3745,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 Spacer(),
                 Text(
                   'Thay đổi công việc thành công',
-                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
+                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w700, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -3370,7 +3788,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                   Obx(
                     () => Text(
                       controller.errorUpdateSubTaskText.value,
-                      style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w700, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

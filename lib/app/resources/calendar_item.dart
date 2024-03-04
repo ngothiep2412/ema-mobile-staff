@@ -66,7 +66,7 @@ class CalendarItems extends StatelessWidget {
         //   color: diffDays != 0 ? Colors.blueGrey : selectedColor,
         //   width: 1, // Độ dày của border
         // ),
-        color: diffDays != 0 ? ColorsManager.primary : Colors.white,
+        color: diffDays != 0 ? ColorsManager.primary.withOpacity(0.8) : Colors.white,
       ),
       alignment: Alignment.center,
       child: TextButton(
@@ -88,6 +88,7 @@ class CalendarItems extends StatelessWidget {
             Text(
               DateFormat.d(locale.toString()).format(date),
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontSize: 18,
                   fontFamily: 'Nunito',
                   color: diffDays != 0
                       ? checkPastDate >= 0

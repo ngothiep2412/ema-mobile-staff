@@ -14,18 +14,22 @@ class TabHomeController extends BaseController {
 
   final count = 0.obs;
   RxList<EventModel> listEvent = <EventModel>[].obs;
+  RxList<EventModel> listEventUpComing = <EventModel>[].obs;
   RxList<EventModel> listEventToday = <EventModel>[].obs;
 
   RxBool isLoading = false.obs;
   String jwt = '';
+  String idUser = '';
 
   Future<void> refreshpage() async {
-    listEvent.clear();
+    listEventUpComing.clear();
     listEventToday.clear();
     print('1: ${isLoading.value}');
     isLoading.value = true;
+    listEventUpComing.value = await TabHomeApi.getEventUpComing(jwt, idUser);
     listEvent.value = await TabHomeApi.getEvent(jwt);
-    listEventToday.value = await TabHomeApi.getEventToday(jwt);
+
+    listEventToday.value = await TabHomeApi.getEventToday(jwt, idUser);
 
     isLoading.value = false;
   }
@@ -33,6 +37,8 @@ class TabHomeController extends BaseController {
   void checkToken() {
     if (GetStorage().read('JWT') != null) {
       jwt = GetStorage().read('JWT');
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+      idUser = decodedToken['id'];
       if (JwtDecoder.isExpired(jwt)) {
         Get.offAllNamed(Routes.LOGIN);
         return;
@@ -49,9 +55,9 @@ class TabHomeController extends BaseController {
     checkToken();
     print('JWT 123: $jwt');
     isLoading.value = true;
-
     listEvent.value = await TabHomeApi.getEvent(jwt);
-    listEventToday.value = await TabHomeApi.getEventToday(jwt);
+    listEventUpComing.value = await TabHomeApi.getEventUpComing(jwt, idUser);
+    listEventToday.value = await TabHomeApi.getEventToday(jwt, idUser);
 
     isLoading.value = false;
     print('2: ${isLoading.value}');

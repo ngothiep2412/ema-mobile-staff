@@ -86,7 +86,10 @@ class TabNotificationController extends BaseController {
         list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
         listNotifications.value = list;
-      } else {}
+        print('aaa123');
+      } else {
+        print('aaa');
+      }
     } catch (e) {
       log(e.toString());
       errorGetNotification.value = true;
@@ -121,6 +124,7 @@ class TabNotificationController extends BaseController {
       checkToken();
 
       ResponseApi responseApi = await TabNotificationApi.seenANotification(jwt, notificationID);
+      print('aa ${responseApi.statusCode}');
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         List<NotificationModel> list = await TabNotificationApi.getAllNotification(jwt, page);
 
@@ -129,7 +133,7 @@ class TabNotificationController extends BaseController {
         listNotifications.value = list;
         bool allRead = true;
         for (var item in list) {
-          if (item.readFlag == 0) {
+          if (item.isRead == 0) {
             allRead = false;
             break;
           }
@@ -174,7 +178,7 @@ class TabNotificationController extends BaseController {
         Get.find<TabViewController>().checkAllNotiSeen.value = true;
 
         for (var item in listNotifications) {
-          if (item.readFlag == 0) {
+          if (item.isRead == 0) {
             // At least one notification is not seen
             Get.find<TabViewController>().checkAllNotiSeen.value = false;
             break; // No need to continue checking, we found one not seen

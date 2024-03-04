@@ -44,15 +44,18 @@ class CalendarButton extends StatelessWidget {
     return Container(
       height: (height / 100) * 10,
       // color: backgroundColor,
-      child: IconButton(
-        onPressed: onCalendarPressed,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8.0,
-        ),
-        icon: Icon(
-          Icons.calendar_today,
-          color: textColor,
-          size: 20.0,
+      child: GestureDetector(
+        onTap: onCalendarPressed,
+        // padding: const EdgeInsets.symmetric(
+        //   horizontal: 8.0,
+        // ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(
+            Icons.calendar_today_outlined,
+            color: Colors.white,
+            size: 20.0,
+          ),
         ),
       ),
     );

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -52,16 +51,11 @@ class ProfileController extends BaseController {
       userModelView.value = userModel!;
       print('userForm ${userModelView.value.result!.fullName}');
 
-      dateController = TextEditingController(
-          text: DateFormat('dd/MM/yyyy')
-              .format(userModelView.value.result!.dob!));
-      fullNameController =
-          TextEditingController(text: userModelView.value.result!.fullName);
+      dateController = TextEditingController(text: DateFormat('dd/MM/yyyy').format(userModelView.value.result!.dob!));
+      fullNameController = TextEditingController(text: userModelView.value.result!.fullName);
       // emailController = TextEditingController(text: userModel!.result!.email);
-      addressController =
-          TextEditingController(text: userModelView.value.result!.address);
-      phoneController =
-          TextEditingController(text: userModelView.value.result!.phoneNumber);
+      addressController = TextEditingController(text: userModelView.value.result!.address);
+      phoneController = TextEditingController(text: userModelView.value.result!.phoneNumber);
       imageUrl.value = userModelView.value.result!.avatar!;
       selectedGenderVal.value = userModelView.value.result!.gender!;
     } catch (e) {
@@ -96,8 +90,7 @@ class ProfileController extends BaseController {
       isLoading.value = false;
     } else if (isDateValid(dateController!.text) != true) {
       errorUpdateProfile.value = true;
-      errorUpdateProfileText.value =
-          "Ngày sinh không hợp lệ, nhập đúng định dạng dd/mm/yyyy";
+      errorUpdateProfileText.value = "Ngày sinh không hợp lệ, nhập đúng định dạng dd/mm/yyyy";
       isLoading.value = false;
     } else {
       try {
@@ -107,16 +100,9 @@ class ProfileController extends BaseController {
           if (imageFile == null) {
             List<String> parts = dateController!.text.split('/');
             String formattedDate = '${parts[2]}-${parts[1]}-${parts[0]}';
-            responseApi = await ProfileApi.updateProfile(
-                phoneController!.text,
-                fullNameController!.text,
-                DateTime.parse(formattedDate),
-                addressController!.text,
-                imageUrl.value,
-                selectedGenderVal.value,
-                jwtToken);
-            if (responseApi!.statusCode == 200 ||
-                responseApi!.statusCode == 201) {
+            responseApi = await ProfileApi.updateProfile(phoneController!.text, fullNameController!.text, DateTime.parse(formattedDate),
+                addressController!.text, imageUrl.value, selectedGenderVal.value, jwtToken);
+            if (responseApi!.statusCode == 200 || responseApi!.statusCode == 201) {
               errorUpdateProfile.value = false;
               await Get.find<TabSettingController>().getProfile();
             } else {
@@ -124,34 +110,23 @@ class ProfileController extends BaseController {
               errorUpdateProfileText.value = "Không thể cập nhật thông tin";
             }
           } else {
-            UploadFileModel responseApi =
-                await ProfileApi.uploadFile(jwtToken, file!);
-            if (responseApi.statusCode == 200 ||
-                responseApi.statusCode == 201) {
+            UploadFileModel responseApi = await ProfileApi.uploadFile(jwtToken, file!);
+            if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
               List<String> parts = dateController!.text.split('/');
               String formattedDate = '${parts[2]}-${parts[1]}-${parts[0]}';
 
-              ResponseApi responseApiv2 = await ProfileApi.updateProfile(
-                  phoneController!.text,
-                  fullNameController!.text,
-                  DateTime.parse(formattedDate),
-                  addressController!.text,
-                  responseApi.result!.downloadUrl!,
-                  selectedGenderVal.value,
-                  jwtToken);
-              if (responseApiv2.statusCode == 200 ||
-                  responseApiv2.statusCode == 201) {
+              ResponseApi responseApiv2 = await ProfileApi.updateProfile(phoneController!.text, fullNameController!.text,
+                  DateTime.parse(formattedDate), addressController!.text, responseApi.result!.downloadUrl!, selectedGenderVal.value, jwtToken);
+              if (responseApiv2.statusCode == 200 || responseApiv2.statusCode == 201) {
                 errorUpdateProfile.value = false;
                 await Get.find<TabSettingController>().getProfile();
               } else {
                 errorUpdateProfile.value = true;
-                errorUpdateProfileText.value =
-                    "Không thể cập nhật thông tin";
+                errorUpdateProfileText.value = "Không thể cập nhật thông tin";
               }
             } else {
               errorUpdateProfile.value = true;
-              errorUpdateProfileText.value =
-                  "Kích thước file phải nhỏ hơn 10mb";
+              errorUpdateProfileText.value = "Kích thước file phải nhỏ hơn 10mb";
             }
           }
           isLoading.value = false;
@@ -170,15 +145,11 @@ class ProfileController extends BaseController {
     if (file != null) {
       imageFile = File(file!.path);
       selectImagePath.value = file!.path;
-      selectImageSize.value =
-          "${((File(selectImagePath.value)).lengthSync() / 1024 / 1024).toStringAsFixed(2)}Mb";
-      double fileLength =
-          File(selectImagePath.value).lengthSync() / 1024 / 1024;
+      selectImageSize.value = "${((File(selectImagePath.value)).lengthSync() / 1024 / 1024).toStringAsFixed(2)}Mb";
+      double fileLength = File(selectImagePath.value).lengthSync() / 1024 / 1024;
       if (fileLength > 10) {
         Get.snackbar('Lỗi', 'Không thể lấy hình lớn hơn 10mb',
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.redAccent,
-            colorText: Colors.white);
+            snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.redAccent, colorText: Colors.white);
         isLoading.value = false;
         return;
       }
@@ -188,9 +159,7 @@ class ProfileController extends BaseController {
       //     "${((File(selectImagePath.value)).lengthSync() / 1024 / 1024).toStringAsFixed(2)}Mb";
     } else {
       Get.snackbar('Lỗi', 'Không thể lấy hình ảnh',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.redAccent,
-          colorText: Colors.white);
+          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.redAccent, colorText: Colors.white);
     }
   }
 
@@ -212,8 +181,7 @@ class ProfileController extends BaseController {
     );
     if (pickedDate != null && pickedDate != selectedDate.value) {
       selectedDate.value = pickedDate;
-      dateController!.text =
-          DateFormat('dd/MM/yyyy').format(selectedDate.value).toString();
+      dateController!.text = DateFormat('dd/MM/yyyy').format(selectedDate.value).toString();
       print(' dateController!.text ${dateController!.text}');
     }
   }

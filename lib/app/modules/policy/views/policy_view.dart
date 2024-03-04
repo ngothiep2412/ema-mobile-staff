@@ -40,11 +40,11 @@ class PolicyView extends BaseView<PolicyController> {
                     //   width: 280,
                     // ),
                     Text(
-                      'HREA',
+                      'EMA',
                       style: TextStyle(
                         fontSize: 20,
                         color: ColorsManager.primary,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                     SizedBox(height: 8),
@@ -85,8 +85,7 @@ class PolicyView extends BaseView<PolicyController> {
                       SizedBox(height: 8),
                       ListTile(
                         leading: Icon(Icons.check),
-                        title:
-                            Text('Customer satisfaction is our top priority'),
+                        title: Text('Customer satisfaction is our top priority'),
                       ),
                       ListTile(
                         leading: Icon(Icons.check),
@@ -94,8 +93,7 @@ class PolicyView extends BaseView<PolicyController> {
                       ),
                       ListTile(
                         leading: Icon(Icons.check),
-                        title: Text(
-                            'We value honesty and integrity in all our actions'),
+                        title: Text('We value honesty and integrity in all our actions'),
                       ),
                     ],
                   )),
@@ -118,13 +116,11 @@ class PolicyView extends BaseView<PolicyController> {
                       ),
                       ListTile(
                         leading: Icon(Icons.check),
-                        title: Text(
-                            'Started as a small business with a few employees'),
+                        title: Text('Started as a small business with a few employees'),
                       ),
                       ListTile(
                         leading: Icon(Icons.check),
-                        title: Text(
-                            'Grown into a successful and well-respected organization'),
+                        title: Text('Grown into a successful and well-respected organization'),
                       ),
                     ],
                   )),
@@ -151,8 +147,7 @@ class PolicyView extends BaseView<PolicyController> {
                       ),
                       ListTile(
                         leading: Icon(Icons.check),
-                        title: Text(
-                            'Product C: Energy efficient and environmentally friendly'),
+                        title: Text('Product C: Energy efficient and environmentally friendly'),
                       ),
                     ],
                   )),
@@ -246,7 +241,7 @@ class PolicyView extends BaseView<PolicyController> {
                       ),
                       ListTile(
                         leading: Icon(Icons.email),
-                        title: Text('hrea@gmail.com'),
+                        title: Text('ema@gmail.com'),
                       ),
                     ],
                   )),

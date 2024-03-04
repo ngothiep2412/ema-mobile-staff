@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
-import 'package:hrea_mobile_staff/app/modules/tab_view/api/tab_home_api/tab_home_api.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/event.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class TabChatController extends BaseController {
   ScrollController scrollController = ScrollController();
@@ -24,8 +22,6 @@ class TabChatController extends BaseController {
     listEventToday.clear();
     print('1: ${isLoading.value}');
     isLoading.value = true;
-    listEvent.value = await TabHomeApi.getEvent(jwt);
-    listEventToday.value = await TabHomeApi.getEventToday(jwt);
 
     isLoading.value = false;
   }

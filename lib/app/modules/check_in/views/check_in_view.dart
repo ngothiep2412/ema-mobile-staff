@@ -2,9 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrea_mobile_staff/app/modules/check_in/controllers/check_in_controller.dart';
-import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
-import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
-import 'package:hrea_mobile_staff/app/resources/style_manager.dart';
+
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class CheckInView extends StatefulWidget {

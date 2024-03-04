@@ -44,8 +44,8 @@ class HorizontalCalendar extends StatefulWidget {
     this.showMonth = false,
     this.locale = const Locale('en', ''),
     required this.onDateSelected,
-  })  : initialDate = DateUtils.dateOnly(initialDate ?? DateTime.now()),
-        lastDate = DateUtils.dateOnly(lastDate ?? DateTime.now().add(Duration(days: 90))) {
+  })  : initialDate = DateUtils.dateOnly(initialDate ?? DateTime.now().toUtc().add(const Duration(hours: 7))),
+        lastDate = DateUtils.dateOnly(lastDate ?? DateTime.now().toUtc().add(const Duration(hours: 7)).add(Duration(days: 90))) {
     assert(
       !this.lastDate.isBefore(this.initialDate),
       'lastDate ${this.lastDate} must be on or after initialDate ${this.initialDate}.',
@@ -115,9 +115,9 @@ class _CalendarState extends State<HorizontalCalendar> {
         contentPadding: EdgeInsets.all(0.0),
         title: widget.showMonth
             ? Text(
-                DateFormat.yMMM(widget.locale.toString()).format(selectedDate),
+                DateFormat.yMMMMEEEEd(widget.locale.toString()).format(selectedDate),
                 textAlign: TextAlign.start,
-                style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+                style: const TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.backgroundWhite),
               )
             : Offstage(),
         subtitle: Row(
@@ -167,7 +167,7 @@ class _CalendarState extends State<HorizontalCalendar> {
       context: context,
       initialDatePickerMode: DatePickerMode.day,
       initialDate: selectedDate,
-      firstDate: widget.initialDate,
+      firstDate: selectedDate,
       lastDate: widget.lastDate,
       locale: Localizations.localeOf(context),
     );

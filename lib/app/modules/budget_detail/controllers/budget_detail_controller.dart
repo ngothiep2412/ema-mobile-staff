@@ -26,13 +26,11 @@ class BudgetDetailController extends BaseController {
     isLoading.value = true;
     try {
       checkToken();
-      BudgetModel budgetModel =
-          await BudgetDetailApi.getBudgetDetail(budgetID, jwt);
+      BudgetModel budgetModel = await BudgetDetailApi.getBudgetDetail(budgetID, jwt);
       budgetView.value = budgetModel;
       isLoading.value = false;
     } catch (e) {
       isLoading.value = false;
-      print(e);
     }
   }
 
@@ -79,8 +77,7 @@ class BudgetDetailController extends BaseController {
     isLoading.value = true;
     try {
       checkToken();
-      ResponseApi responseApi =
-          await BudgetDetailApi.deleteBudget(budgetView.value.id!, jwt);
+      ResponseApi responseApi = await BudgetDetailApi.deleteBudget(budgetView.value.id!, jwt);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         errorUpdateBudget.value = false;
         await Get.find<BudgetController>().getAllRequestBudget(1);
@@ -95,7 +92,6 @@ class BudgetDetailController extends BaseController {
       isLoading.value = false;
       errorUpdateBudget.value = true;
       errorUpdateBudgetText.value = 'Có lỗi xảy ra';
-      print(e);
     }
   }
 

@@ -25,12 +25,13 @@ class TaskModel {
   String? avatarAssigner;
   String? modifiedBy;
   dynamic approvedBy;
-  String? eventId;
+  // String? eventId;
   dynamic progress;
   List<TaskFile>? taskFiles;
   List<AssignTask>? assignTasks;
   List<TaskModel>? subTask;
   TaskModel? parent;
+  EventDivision? eventDivision;
 
   TaskModel({
     this.id,
@@ -50,11 +51,12 @@ class TaskModel {
     this.avatarAssigner,
     this.modifiedBy,
     this.approvedBy,
-    this.eventId,
+    // this.eventId,
     this.taskFiles,
     this.assignTasks,
     this.subTask,
     this.parent,
+    this.eventDivision,
   });
 
   factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
@@ -73,8 +75,9 @@ class TaskModel {
         createdBy: json["createdBy"],
         modifiedBy: json["modifiedBy"],
         approvedBy: json["approvedBy"],
-        eventId: json["eventID"],
+        // eventId: json["eventID"],
         taskFiles: json["taskFiles"] == null ? [] : List<TaskFile>.from(json["taskFiles"]!.map((x) => TaskFile.fromJson(x))),
+        eventDivision: json["eventDivision"] == null ? null : EventDivision.fromJson(json["eventDivision"]),
         assignTasks: json["assignTasks"] == null ? [] : List<AssignTask>.from(json["assignTasks"]!.map((x) => AssignTask.fromJson(x))),
         subTask: json["subTask"] == null ? [] : List<TaskModel>.from(json["subTask"]!.map((x) => TaskModel.fromJson(x))),
         parent: json["parent"] == null ? null : TaskModel.fromJson(json["parent"]),
@@ -96,7 +99,8 @@ class TaskModel {
         "createdBy": createdBy,
         "modifiedBy": modifiedBy,
         "approvedBy": approvedBy,
-        "eventID": eventId,
+        // "eventID": eventId,
+        "eventDivision": eventDivision?.toJson(),
         "taskFiles": taskFiles == null ? [] : List<dynamic>.from(taskFiles!.map((x) => x.toJson())),
         "assignTasks": assignTasks == null ? [] : List<dynamic>.from(assignTasks!.map((x) => x.toJson())),
         "subTask": subTask == null ? [] : List<dynamic>.from(subTask!.map((x) => x.toJson())),
@@ -145,6 +149,46 @@ class AssignTask {
         "taskMaster": taskMaster,
         "isLeader": isLeader,
         "taskID": taskId,
+      };
+}
+
+class EventDivision {
+  String? id;
+  Event? event;
+
+  EventDivision({
+    this.id,
+    this.event,
+  });
+
+  factory EventDivision.fromJson(Map<String, dynamic> json) => EventDivision(
+        id: json["id"],
+        event: json["event"] == null ? null : Event.fromJson(json["event"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "event": event?.toJson(),
+      };
+}
+
+class Event {
+  String? id;
+  String? eventName;
+
+  Event({
+    this.id,
+    this.eventName,
+  });
+
+  factory Event.fromJson(Map<String, dynamic> json) => Event(
+        id: json["id"],
+        eventName: json["eventName"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "eventName": eventName,
       };
 }
 

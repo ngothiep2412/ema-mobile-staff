@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrea_mobile_staff/app/modules/chat_detail/models/chat_message.dart';
 import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
-import 'package:hrea_mobile_staff/app/resources/icon_button.dart';
 
 import '../controllers/chat_detail_controller.dart';
 

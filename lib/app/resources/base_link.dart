@@ -13,7 +13,7 @@ class BaseLink {
   static const updateProfile = '/api/v1/user/profile';
   static const uploadFile = '/api/v1/file/upload';
   static const getEvent = '/api/v1/event/division';
-  static const getEventToday = '/api/v1/event/today';
+  static const getEventFilter = '/api/v1/event/user/doing';
   static const getTask = '/api/v1/task';
   static const getTaskBySelf = '/api/v1/task/filterByAssignee';
   static const getAssignerInformation = '/api/v1/user/';
@@ -47,4 +47,6 @@ class BaseLink {
   static const getDetailTimesheet = '/api/v1/timesheet';
   static const deleteNotification = '/api/v1/notification/delete/';
   static const deleteAllNotification = '/api/v1/notification/delete-all';
+  static const getTaskByDate = '/api/v1/task/filterByDate';
+  static const getAllEmployeeV2 = '/api/v1/division/list/assignee/employee';
 }

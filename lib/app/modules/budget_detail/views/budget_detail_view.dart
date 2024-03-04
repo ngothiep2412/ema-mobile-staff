@@ -508,7 +508,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                   'Thành công',
                   style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
                   'Thay đổi thông tin thu chi thành công',
                   style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),

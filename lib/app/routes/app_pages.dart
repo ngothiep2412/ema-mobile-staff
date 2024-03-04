@@ -52,6 +52,8 @@ import '../modules/task-detail-view/bindings/task_detail_view_binding.dart';
 import '../modules/task-detail-view/views/task_detail_view_view.dart';
 import '../modules/task-overall-view/bindings/task_overall_view_binding.dart';
 import '../modules/task-overall-view/views/task_overall_view_view.dart';
+import '../modules/task_calendar_month/bindings/task_calendar_month_binding.dart';
+import '../modules/task_calendar_month/views/task_calendar_month_view.dart';
 import '../modules/task_schedule/bindings/task_schedule_binding.dart';
 import '../modules/task_schedule/views/task_schedule_view.dart';
 
@@ -197,6 +199,11 @@ class AppPages {
       name: _Paths.TASK_SCHEDULE,
       page: () => const TaskScheduleView(),
       binding: TaskScheduleBinding(),
+    ),
+    GetPage(
+      name: _Paths.TASK_CALENDAR_MONTH,
+      page: () => const TaskCalendarMonthView(),
+      binding: TaskCalendarMonthBinding(),
     ),
   ];
 }

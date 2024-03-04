@@ -1,5 +1,4 @@
 import 'package:hrea_mobile_staff/app/modules/chat_detail/controllers/chat_detail_controller.dart';
-import 'package:flutter/cupertino.dart';
 
 class ChatMessage {
   String message;

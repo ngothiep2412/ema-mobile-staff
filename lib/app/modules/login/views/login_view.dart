@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrea_mobile_staff/app/base/base_view.dart';
+import 'package:hrea_mobile_staff/app/resources/assets_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_staff/app/resources/style_manager.dart';
@@ -31,22 +32,24 @@ class LoginView extends BaseView<LoginController> {
               Expanded(
                 flex: 2,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: UtilsReponsive.height(36, context), horizontal: UtilsReponsive.width(24, context)),
+                  padding: EdgeInsets.symmetric(vertical: UtilsReponsive.height(20, context), horizontal: UtilsReponsive.width(24, context)),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'EMA',
-                        style: GetTextStyle.getTextStyle(46, 'Nunito', FontWeight.w800, Colors.white),
+                      Center(
+                        child: Image.asset(
+                          ImageAssets.logo,
+                          height: 170,
+                        ),
                       ),
-                      SizedBox(
-                        height: UtilsReponsive.height(10, context),
-                      ),
-                      Text(
-                        'Đăng nhập',
-                        style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w400, Colors.white),
-                      ),
+                      // Text(
+                      //   'EMA',
+                      //   style: GetTextStyle.getTextStyle(46, 'Nunito', FontWeight.w800, Colors.white),
+                      // ),
+                      // SizedBox(
+                      //   height: UtilsReponsive.height(10, context),
+                      // ),
                     ],
                   ),
                 ),
@@ -58,12 +61,19 @@ class LoginView extends BaseView<LoginController> {
                   decoration: const BoxDecoration(
                       color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(40))),
                   child: Padding(
-                    padding: UtilsReponsive.paddingAll(context, padding: 24),
+                    padding: UtilsReponsive.paddingAll(context, padding: 20),
                     child: Obx(
                       () => Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text(
+                            'Đăng nhập',
+                            style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w800, ColorsManager.primary),
+                          ),
+                          SizedBox(
+                            height: UtilsReponsive.height(10, context),
+                          ),
                           TextFormField(
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(

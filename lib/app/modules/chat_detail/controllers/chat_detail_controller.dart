@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:hrea_mobile_staff/app/modules/chat_detail/models/chat_message.dart';
 import 'package:hrea_mobile_staff/app/modules/chat_detail/models/send_message.dart';
 

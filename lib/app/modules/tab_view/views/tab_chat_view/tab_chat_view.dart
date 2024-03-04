@@ -1,15 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+
 import 'package:hrea_mobile_staff/app/base/base_view.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_chat_controller/tab_chat_controller.dart';
-import 'package:hrea_mobile_staff/app/modules/tab_view/model/user_model.dart';
+
 import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_staff/app/resources/style_manager.dart';
-import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 
 class TabChatView extends BaseView<TabChatController> {
   const TabChatView({Key? key}) : super(key: key);

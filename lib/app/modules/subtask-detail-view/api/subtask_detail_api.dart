@@ -21,7 +21,6 @@ class SubTaskDetailApi {
         'Authorization': 'Bearer $jwtToken',
       },
     );
-    print('abc task' + response.statusCode.toString());
     if (response.statusCode == 201 || response.statusCode == 200) {
       // TaskModel.fromJson(jsonDecode(jsonData));
 
@@ -37,7 +36,6 @@ class SubTaskDetailApi {
       "startDate": startDate.toString(),
       "endDate": endDate.toString(),
     };
-    print(taskID);
 
     var response = await http.put(Uri.parse('${BaseLink.localBaseLink}${BaseLink.updateTask}?taskID=$taskID'),
         headers: {
@@ -164,9 +162,31 @@ class SubTaskDetailApi {
     }
   }
 
-  static Future<List<EmployeeModel>> getAllEmployee(String jwtToken, String divisionId) async {
+  // static Future<List<EmployeeModel>> getAllEmployee(String jwtToken, String divisionId) async {
+  //   String employee = "Nhân Viên";
+  //   var response = await http.get(
+  //     Uri.parse('${BaseLink.localBaseLink}${BaseLink.getAllEmployee}?divisionId=$divisionId&role=$employee&sizePage=100&currentPage=1'),
+  //     headers: {
+  //       "Accept": "application/json",
+  //       "content-type": "application/json",
+  //       'Authorization': 'Bearer $jwtToken',
+  //     },
+  //   );
+
+  //   print('abc event' + response.statusCode.toString());
+  //   if (response.statusCode == 201 || response.statusCode == 200) {
+  //     var jsonData = jsonDecode(response.body)["result"]["data"];
+  //     List<EmployeeModel> listEmployee = [];
+  //     listEmployee.addAll(jsonData.map((events) => EmployeeModel.fromJson(events)).cast<EmployeeModel>());
+  //     return listEmployee;
+  //   } else {
+  //     throw Exception('Exception');
+  //   }
+  // }
+
+  static Future<List<EmployeeModel>> getAllEmployee(String jwtToken, String idStaff, String startDate, String endDate) async {
     var response = await http.get(
-      Uri.parse('${BaseLink.localBaseLink}${BaseLink.getAllEmployee}?divisionId=$divisionId&role=EMPLOYEE&sizePage=100&currentPage=1'),
+      Uri.parse('${BaseLink.localBaseLink}${BaseLink.getAllEmployeeV2}?fieldName=id&conValue=$idStaff&startDate=$startDate&endDate=$endDate'),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",
@@ -176,9 +196,9 @@ class SubTaskDetailApi {
 
     print('abc event' + response.statusCode.toString());
     if (response.statusCode == 201 || response.statusCode == 200) {
-      var jsonData = jsonDecode(response.body)["result"]["data"];
+      var jsonData = jsonDecode(response.body)['result']['users'];
       List<EmployeeModel> listEmployee = [];
-      listEmployee.addAll(jsonData.map((events) => EmployeeModel.fromJson(events)).cast<EmployeeModel>());
+      listEmployee.addAll(jsonData.map((employee) => EmployeeModel.fromJson(employee)).cast<EmployeeModel>());
       return listEmployee;
     } else {
       throw Exception('Exception');

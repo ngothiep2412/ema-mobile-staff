@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     
     <application
-        android:label="hrea_mobile_staff"
+        android:label="EMA STAFF"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <!-- android:usersCleartextTraffic="true"> -->

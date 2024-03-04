@@ -8,10 +8,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
-import 'package:hrea_mobile_staff/app/modules/check_in_detail/model/timesheet_model.dart';
 import 'package:hrea_mobile_staff/app/modules/subtask-detail-view/model/attachment_model.dart';
-import 'package:hrea_mobile_staff/app/modules/tab_view/api/tab_timehseet_api/tab_timesheet_api.dart';
-import 'package:hrea_mobile_staff/app/modules/tab_view/model/notification.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/task.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/user_model.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/api/task_detail_api.dart';
@@ -26,7 +23,6 @@ import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:socket_io_client/socket_io_client.dart';
 // import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class TaskDetailViewController extends BaseController {
@@ -65,6 +61,8 @@ class TaskDetailViewController extends BaseController {
   Rx<DateTime> startDate = DateTime.now().obs;
   Rx<DateTime> endDate = DateTime.now().obs;
   DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'vi');
+  DateFormat dateFormatf2 = DateFormat('dd-MM-yyyy', 'vi');
+
   List<DateTime?> listChange = [];
 
   FocusNode focusNodeDetail = FocusNode();
@@ -92,27 +90,36 @@ class TaskDetailViewController extends BaseController {
 
   // late IO.Socket socket;
 
-  Socket socket = io('API_URL', <String, dynamic>{
-    'transports': ['websocket'],
-    'autoConnect': false
-  });
+  // Socket socket = io('API_URL', <String, dynamic>{
+  //   'transports': ['websocket'],
+  //   'autoConnect': false
+  // });
 
-  void connectAndListen() {
-    // socket = IO.io(BaseLink.localBaseLink + BaseLink.createComment,
-    //     IO.OptionBuilder().setTransports(['websocket']).build());
-    socket.connect();
-    socket.onConnect((data) {
-      print('connect socket');
-    });
-  }
+  // void connectAndListen() {
+  //   // socket = IO.io(BaseLink.localBaseLink + BaseLink.createComment,
+  //   //     IO.OptionBuilder().setTransports(['websocket']).build());
+  //   socket.connect();
+  //   socket.onConnect((data) {
+  //     print('connect socket');
+  //   });
+  // }
 
   Future<void> getTaskDetail() async {
     isLoading.value = true;
-    isDateCheckIn();
+    // isDateCheckIn();
     try {
       checkToken();
 
       taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
+      UserModel creater = await TaskDetailApi.getAssignerDetail(jwt, taskModel.value.createdBy!);
+      if (creater.statusCode == 200 || creater.statusCode == 201) {
+        taskModel.value.nameAssigner = creater.result!.fullName;
+        taskModel.value.avatarAssigner = creater.result!.avatar;
+      } else {
+        taskModel.value.nameAssigner = '';
+        taskModel.value.avatarAssigner = '';
+      }
+
       if (taskModel.value.subTask!.isEmpty) {
         progressSubTaskDone.value = 0.0;
       } else {
@@ -122,19 +129,49 @@ class TaskDetailViewController extends BaseController {
           }
         }
         progressSubTaskDone.value = count / taskModel.value.subTask!.length;
+        taskModel.value.subTask!.sort((a, b) {
+          // Xử lý trường hợp startDate là null
+          if (a.startDate == null && b.startDate != null) {
+            return -1; // Đưa a lên đầu nếu a.startDate là null và b.startDate không phải là null.
+          } else if (a.startDate != null && b.startDate == null) {
+            return 1; // Đưa b lên đầu nếu b.startDate là null và a.startDate không phải là null.
+          } else if (a.startDate == null && b.startDate == null) {
+            return 0; // Nếu cả hai đều là null, không cần sắp xếp.
+          }
+
+          // So sánh ngày nếu cả hai đều không phải là null
+          int dateComparison = a.startDate!.compareTo(b.startDate!);
+          if (dateComparison != 0) {
+            return dateComparison; // Trả về kết quả nếu ngày không giống nhau.
+          } else {
+            // Sắp xếp theo độ ưu tiên nếu ngày giống nhau
+            final priorityOrder = {Priority.HIGH: 0, Priority.MEDIUM: 1, Priority.LOW: 2};
+            final priorityA = priorityOrder[a.priority] ?? 2;
+            final priorityB = priorityOrder[b.priority] ?? 2;
+            return priorityA.compareTo(priorityB);
+          }
+        });
       }
+      print(taskModel);
       count.value = 0;
+
       if (progressSubTaskDone.value == 1) {
         await updateStatusTask('DONE', taskID);
-      } else {
-        if (taskModel.value.startDate!.day == taskModel.value.endDate!.day && DateTime.now().toLocal().isAfter(taskModel.value.startDate!)) {
-          await updateStatusTask('OVERDUE', taskID);
-        } else if (taskModel.value.startDate!.day != taskModel.value.endDate!.day && DateTime.now().toLocal().isAfter(taskModel.value.endDate!)) {
-          await updateStatusTask('OVERDUE', taskID);
-        } else {
-          await updateStatusTask('PROCESSING', taskID);
-        }
       }
+
+      if (progressSubTaskDone.value == 1) {
+        await updateStatusTask('DONE', taskID);
+      }
+      //
+      // else {
+      //   if (taskModel.value.startDate!.day == taskModel.value.endDate!.day && DateTime.now().toLocal().isAfter(taskModel.value.startDate!)) {
+      //     await updateStatusTask('OVERDUE', taskID);
+      //   } else if (taskModel.value.startDate!.day != taskModel.value.endDate!.day && DateTime.now().toLocal().isAfter(taskModel.value.endDate!)) {
+      //     await updateStatusTask('OVERDUE', taskID);
+      //   } else {
+      //     await updateStatusTask('PROCESSING', taskID);
+      //   }
+      // }
 
       // for (var item in taskModel.value.taskFiles!) {
       //   final ref = FirebaseStorage.instance.ref().child(item.fileUrl!);
@@ -143,14 +180,6 @@ class TaskDetailViewController extends BaseController {
       //   print('filePicker ${filePicker.length}');
       // }
 
-      UserModel creater = await TaskDetailApi.getAssignerDetail(jwt, taskModel.value.createdBy!);
-      if (creater.statusCode == 200 || creater.statusCode == 201) {
-        taskModel.value.nameAssigner = creater.result!.fullName;
-        taskModel.value.avatarAssigner = creater.result!.avatar;
-      } else {
-        taskModel.value.nameAssigner = '';
-        taskModel.value.avatarAssigner = '';
-      }
       // quillController.value = QuillController(
       //   document: Document.fromJson(jsonDecode(taskModel.value.description!)),
       //   selection: const TextSelection.collapsed(offset: 0),
@@ -197,7 +226,7 @@ class TaskDetailViewController extends BaseController {
     try {
       print('task Created At: ${taskModel.value.startDate}');
       print('task Created At: ${DateTime.now().toLocal().add(const Duration(hours: 7))}');
-      if (DateTime.now().toLocal().add(Duration(hours: 7)).difference(taskModel.value.startDate!).inMinutes > 2) {
+      if (DateTime.now().toLocal().add(const Duration(hours: 7)).difference(taskModel.value.startDate!).inMinutes > 2) {
         print('aaaa');
       }
 
@@ -304,12 +333,12 @@ class TaskDetailViewController extends BaseController {
     }
   }
 
-  void emitComment() {
-    socket.emit('comment-${taskModel.value.id}', {
-      'taskID': taskModel.value.id,
-      'content': '',
-    });
-  }
+  // void emitComment() {
+  //   socket.emit('comment-${taskModel.value.id}', {
+  //     'taskID': taskModel.value.id,
+  //     'content': '',
+  //   });
+  // }
 
   @override
   void onReady() {
@@ -321,7 +350,7 @@ class TaskDetailViewController extends BaseController {
     textSearchController.dispose();
     quillController.value.dispose();
     super.onClose();
-    socket.disconnect();
+    // socket.disconnect();
   }
 
   testController() async {
@@ -458,7 +487,8 @@ class TaskDetailViewController extends BaseController {
       isLoading.value = false;
     } else {
       try {
-        ResponseApi responseApi = await TaskDetailApi.createSubTask(jwt, titleSubTaskController.text, taskModel.value.eventId!, taskModel.value.id!);
+        ResponseApi responseApi =
+            await TaskDetailApi.createSubTask(jwt, titleSubTaskController.text, taskModel.value.eventDivision!.event!.id!, taskModel.value.id!);
         if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
           // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
           // UserModel assigner = await TaskDetailApi.getAssignerDetail(
@@ -684,7 +714,7 @@ class TaskDetailViewController extends BaseController {
   Future<void> updateEffort(String taskID, double effortInput) async {
     try {
       checkToken();
-      ResponseApi responseApi = await TaskDetailApi.updateEffort(jwt, taskID, taskModel.value.eventId!, effortInput);
+      ResponseApi responseApi = await TaskDetailApi.updateEffort(jwt, taskID, taskModel.value.eventDivision!.event!.id!, effortInput);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         effort.value = effortInput;
         effortController.text = effortInput.toString();

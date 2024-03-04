@@ -9,7 +9,6 @@ import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_staff/app/resources/style_manager.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:hrea_mobile_staff/app/utils/calculate_time_difference.dart';
-import 'package:line_icons/line_icons.dart';
 
 class TabNotificationView extends BaseView<TabNotificationController> {
   const TabNotificationView({Key? key}) : super(key: key);
@@ -134,7 +133,9 @@ class TabNotificationView extends BaseView<TabNotificationController> {
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(
-                                              color: controller.listNotifications[index].readFlag != 0 ? Colors.white : Colors.blue.withOpacity(0.7),
+                                              color: controller.listNotifications[index].isRead != 0
+                                                  ? Colors.blue.withOpacity(0.2)
+                                                  : Colors.blue.withOpacity(0.7),
                                               borderRadius: BorderRadius.circular(10),
                                             ),
                                             padding: UtilsReponsive.paddingAll(context, padding: 10),
@@ -166,7 +167,7 @@ class TabNotificationView extends BaseView<TabNotificationController> {
                                                                 14,
                                                                 'Nunito',
                                                                 FontWeight.w700,
-                                                                controller.listNotifications[index].readFlag != 0
+                                                                controller.listNotifications[index].isRead != 0
                                                                     ? ColorsManager.textColor2
                                                                     : ColorsManager.textInput)),
                                                       ),
@@ -174,7 +175,7 @@ class TabNotificationView extends BaseView<TabNotificationController> {
                                                         height: UtilsReponsive.height(10, context),
                                                       ),
                                                       Text(calculateTimeDifference(controller.listNotifications[index].createdAt.toString()),
-                                                          style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w600, ColorsManager.textColor)),
+                                                          style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w700, ColorsManager.textColor)),
                                                     ],
                                                   ))
                                             ]),

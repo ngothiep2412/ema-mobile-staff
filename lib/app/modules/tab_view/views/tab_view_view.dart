@@ -22,7 +22,9 @@ class TabViewView extends BaseView<TabViewController> {
 
   Container _bottomNav(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(20)),
+      // color: Colors.grey[200],
+      decoration: BoxDecoration(
+          color: ColorsManager.backgroundContainer, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       padding: EdgeInsets.symmetric(vertical: UtilsReponsive.height(10, context), horizontal: UtilsReponsive.height(10, context)),
       child: Obx(
         () => GNav(
