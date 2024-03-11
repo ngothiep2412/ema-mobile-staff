@@ -240,7 +240,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                                           Center(
                                             child: Text(
                                               'Không có sự kiện cho hôm nay',
-                                              style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w800, ColorsManager.textColor2),
+                                              style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, ColorsManager.textColor2),
                                             ),
                                           ),
                                         ],
@@ -300,7 +300,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                                           Center(
                                             child: Text(
                                               'Không có sự kiện sắp tới',
-                                              style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w800, ColorsManager.textColor2),
+                                              style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, ColorsManager.textColor2),
                                             ),
                                           ),
                                         ],

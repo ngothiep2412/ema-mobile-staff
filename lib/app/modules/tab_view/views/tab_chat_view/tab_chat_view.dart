@@ -201,23 +201,48 @@ class TabChatView extends BaseView<TabChatController> {
                       )),
                 ),
                 Expanded(
-                  flex: 2,
+                  flex: 3,
                   child: Obx(
-                    () => ListView.builder(
-                      controller: controller.scrollController,
-                      itemCount: controller.listChatUser.length,
-                      shrinkWrap: true,
+                    () => controller.listChatUser.isNotEmpty
+                        ? ListView.builder(
+                            controller: controller.scrollController,
+                            itemCount: controller.listChatUser.length,
+                            shrinkWrap: true,
 
-                      // physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        if (index == controller.listChatUser.length - 1 && controller.isMoreDataAvailable.value == true) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        return chatUsersList(chatUserModel: controller.listChatUser[index], controller: controller);
-                      },
-                    ),
+                            // physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              if (index == controller.listChatUser.length - 1 && controller.isMoreDataAvailable.value == true) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                              return chatUsersList(chatUserModel: controller.listChatUser[index], controller: controller);
+                            },
+                          )
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: UtilsReponsive.height(200, context),
+                                width: UtilsReponsive.width(150, context),
+                                child: CachedNetworkImage(
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(decoration: BoxDecoration(image: DecorationImage(fit: BoxFit.cover, image: imageProvider))),
+                                  imageUrl:
+                                      'https://cdn2.iconfinder.com/data/icons/interface-116/200/no-conversation-1--no-conversation-INTERFACE-CHAT-ZERO-MESSAGES-NOTIFICATIONS-APP-ALONE-SAD-MAN-SIT-512.png',
+                                  placeholder: (context, url) => CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) => Icon(Icons.error),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Center(
+                                child: Text(
+                                  'Bạn chưa có cuộc hội thoại',
+                                  style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, ColorsManager.textColor2),
+                                ),
+                              ),
+                            ],
+                          ),
                   ),
                 )
               ]),

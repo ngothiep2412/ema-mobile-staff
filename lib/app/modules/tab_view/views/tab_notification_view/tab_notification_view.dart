@@ -94,7 +94,7 @@ class TabNotificationView extends BaseView<TabNotificationController> {
                                     ),
                                     Text(
                                       'Bạn chưa có thông báo nào',
-                                      style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w500, ColorsManager.primary),
+                                      style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, ColorsManager.textColor2),
                                     ),
                                   ],
                                 ),
