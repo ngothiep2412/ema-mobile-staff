@@ -2096,17 +2096,17 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                       style: const TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w600, color: ColorsManager.textColor),
                     ),
             ),
-            const Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'Kích thước',
-                    style: TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
-                  ),
-                ],
-              ),
-            ),
+            // const Expanded(
+            //   child: Column(
+            //     mainAxisAlignment: MainAxisAlignment.end,
+            //     children: [
+            //       Text(
+            //         'Kích thước',
+            //         style: TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ]),
         ),
       ),
@@ -2155,17 +2155,17 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                       style: const TextStyle(fontFamily: 'Nunito', fontSize: 11, fontWeight: FontWeight.w600, color: ColorsManager.textColor),
                     ),
             ),
-            const Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'Kích thước',
-                    style: TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
-                  ),
-                ],
-              ),
-            ),
+            // const Expanded(
+            //   child: Column(
+            //     mainAxisAlignment: MainAxisAlignment.end,
+            //     children: [
+            //       Text(
+            //         'Kích thước',
+            //         style: TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ]),
         ),
       ),

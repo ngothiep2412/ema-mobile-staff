@@ -319,23 +319,23 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
               ),
               taskModel.status == Status.DONE || taskModel.status == Status.CONFIRM
                   ? Text(
-                      taskModel.title!.length > 28 ? '${taskModel.title!.substring(0, 28)}...' : taskModel.title!,
+                      taskModel.title!.length > 15 ? '${taskModel.title!.substring(0, 15)}...' : taskModel.title!,
                       style: TextStyle(
                         letterSpacing: 0.5,
                         fontFamily: 'Nunito',
                         color: ColorsManager.textColor,
-                        fontSize: UtilsReponsive.height(20, context),
+                        fontSize: UtilsReponsive.height(15, context),
                         fontWeight: FontWeight.w800,
-                        decoration: TextDecoration.lineThrough,
+                        // decoration: TextDecoration.lineThrough,
                       ),
                     )
                   : Text(
-                      taskModel.title!.length > 28 ? '${taskModel.title!.substring(0, 28)}...' : taskModel.title!,
+                      taskModel.title!.length > 15 ? '${taskModel.title!.substring(0, 15)}...' : taskModel.title!,
                       style: TextStyle(
                           letterSpacing: 0.5,
                           fontFamily: 'Nunito',
                           color: ColorsManager.textColor,
-                          fontSize: UtilsReponsive.height(20, context),
+                          fontSize: UtilsReponsive.height(15, context),
                           fontWeight: FontWeight.w800),
                     )
             ],
@@ -614,23 +614,23 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                         children: [
                           taskModel.status == Status.DONE || taskModel.status == Status.CONFIRM
                               ? Text(
-                                  taskModel.title!.length > 28 ? '${taskModel.title!.substring(0, 28)}...' : taskModel.title!,
+                                  taskModel.title!.length > 15 ? '${taskModel.title!.substring(0, 15)}...' : taskModel.title!,
                                   style: TextStyle(
                                     fontFamily: 'Nunito',
                                     letterSpacing: 0.5,
                                     color: ColorsManager.textColor,
-                                    fontSize: UtilsReponsive.height(17, context),
+                                    fontSize: UtilsReponsive.height(15, context),
                                     fontWeight: FontWeight.w800,
                                     // decoration: TextDecoration.lineThrough,
                                   ),
                                 )
                               : Text(
-                                  taskModel.title!.length > 28 ? '${taskModel.title!.substring(0, 28)}...' : taskModel.title!,
+                                  taskModel.title!.length > 15 ? '${taskModel.title!.substring(0, 15)}...' : taskModel.title!,
                                   style: TextStyle(
                                       fontFamily: 'Nunito',
                                       letterSpacing: 0.5,
                                       color: ColorsManager.textColor,
-                                      fontSize: UtilsReponsive.height(17, context),
+                                      fontSize: UtilsReponsive.height(15, context),
                                       fontWeight: FontWeight.w800),
                                 ),
                           SizedBox(

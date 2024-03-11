@@ -9,10 +9,12 @@ import 'package:hrea_mobile_staff/app/modules/tab_view/api/tab_notification_api/
 import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_view_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/notification.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/task.dart';
+import 'package:hrea_mobile_staff/app/resources/base_link.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class TabNotificationController extends BaseController {
   RxBool isLoading = false.obs;
@@ -37,13 +39,47 @@ class TabNotificationController extends BaseController {
   DateTime startDateParentTask = DateTime.now();
   DateTime endDateParentTask = DateTime.now();
 
+  IO.Socket? socket;
+
   @override
   Future<void> onInit() async {
     super.onInit();
-
+    connect();
     await getAllNotification(page);
 
     paginateNotification();
+  }
+
+  Future<void> connect() async {
+    checkToken();
+    socket = IO.io(BaseLink.socketIO, {
+      "auth": {"access_token": jwt},
+      "transports": ['websocket'],
+      "autoConnect": false
+    });
+    socket!.connect();
+
+    socket!.on('notification', (data) async {
+      await uploadNoti();
+      Get.find<TabViewController>().checkAllNotiSeen.value = false;
+      // listNotifications.value = list;
+
+      // listNotifications.add(NotificationModel(
+      //     commonId: data['commonId'],
+      //     content: data['content'],
+      //     type: data['type'],
+      //     readFlag: data['readFlag'] == false ? 0 : 1,
+      //     eventId: data['eventId'],
+      //     createdAt:
+      //         DateTime.now().toUtc().toLocal().add(Duration(hours: 7)),
+      //     avatarSender: data['avatar'])),
+      // print('noti ${data}'),
+      // listNotifications
+      //     .sort((a, b) => b.createdAt!.compareTo(a.createdAt!))
+    });
+    // socket!.onConnect((data) => print('Connection established'));
+    // socket!.onConnectError((data) => print('Connect Error: $data'));
+    // socket!.onDisconnect((data) => print('Socket.IO server disconnected'));
   }
 
   @override
