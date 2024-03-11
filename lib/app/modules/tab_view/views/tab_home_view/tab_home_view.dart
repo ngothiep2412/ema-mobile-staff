@@ -86,7 +86,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                             ],
                           ),
                           SizedBox(
-                            height: UtilsReponsive.height(30, context),
+                            height: UtilsReponsive.height(50, context),
                           ),
                           GestureDetector(
                             onTap: () => showSearch(
@@ -112,7 +112,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.search,
                                     color: Color(0xFF113953),
                                   ),
@@ -161,11 +161,36 @@ class TabHomeView extends BaseView<TabHomeController> {
                   Expanded(
                     flex: 2,
                     child: Padding(
-                      padding: EdgeInsets.all(UtilsReponsive.height(20, context)),
+                      padding: EdgeInsets.only(
+                          left: UtilsReponsive.height(20, context),
+                          right: UtilsReponsive.height(20, context),
+                          top: UtilsReponsive.height(0, context)),
                       child: RefreshIndicator(
                         onRefresh: controller.refreshpage,
                         child: ListView(
                           children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                TextButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    'Thống kê',
+                                    style: GetTextStyle.getTextStyle(19, 'Nunito', FontWeight.w800, Colors.blueAccent),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: UtilsReponsive.width(5, context),
+                                ),
+                                Icon(
+                                  Icons.analytics,
+                                  color: Colors.blueGrey,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: UtilsReponsive.height(10, context),
+                            ),
                             Align(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -179,7 +204,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                             Obx(
                               () => controller.listEventToday.length != 0
                                   ? Container(
-                                      height: 330,
+                                      height: MediaQuery.of(context).size.height / 2,
                                       padding: EdgeInsets.all(UtilsReponsive.width(8, context)),
                                       child: GridView.builder(
                                         scrollDirection: Axis.horizontal,
@@ -197,7 +222,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                                       ),
                                     )
                                   : Container(
-                                      height: 200,
+                                      height: MediaQuery.of(context).size.height / 3,
                                       child: Column(
                                         children: [
                                           Container(
@@ -238,7 +263,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                             Obx(
                               () => controller.listEventUpComing.length != 0
                                   ? Container(
-                                      height: 330,
+                                      height: MediaQuery.of(context).size.height / 2,
                                       // height: MediaQuery.of(context).size.height / 1.38,
                                       padding: EdgeInsets.all(UtilsReponsive.width(8, context)),
                                       child: GridView.builder(
@@ -257,7 +282,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                                       ),
                                     )
                                   : Container(
-                                      height: 200,
+                                      height: MediaQuery.of(context).size.height / 3,
                                       child: Column(
                                         children: [
                                           Container(
@@ -385,20 +410,20 @@ class TabHomeView extends BaseView<TabHomeController> {
                   ],
                 ),
               ),
-              //  Expanded(
-              //   child: Row(
-              //     children: [
-              //       Text(
-              //         'Ngày diễn ra: ',
-              //         style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
-              //       ),
-              //       Text(
-              //         DateFormat('dd-MM-yyyy').format(eventModel.processingDate!),
-              //         style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.textColor),
-              //       ),
-              //     ],
-              //   ),
-              // ),
+              Expanded(
+                child: Row(
+                  children: [
+                    Text(
+                      'Ngày diễn ra: ',
+                      style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w600, ColorsManager.textColor2),
+                    ),
+                    Text(
+                      DateFormat('dd-MM-yyyy').format(eventModel.endDate!),
+                      style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w800, Colors.blueAccent),
+                    ),
+                  ],
+                ),
+              ),
               Expanded(
                 child: Row(
                   children: [
@@ -421,20 +446,24 @@ class TabHomeView extends BaseView<TabHomeController> {
                       padding: const EdgeInsets.all(3.0), // Thêm padding cho khoảng cách giữa văn bản và viền của Container
                       decoration: BoxDecoration(
                         color: eventModel.status == "PENDING"
-                            ? Colors.blueAccent
-                            : eventModel.status == "PROCESSING"
+                            ? Colors.blueGrey
+                            : eventModel.status == "PREPARING"
                                 ? Colors.orangeAccent
-                                : Colors.greenAccent, // Đặt màu nền của Container là màu trắng
+                                : eventModel.status == "PROCESSING"
+                                    ? Colors.blueAccent
+                                    : Colors.greenAccent, // Đặt màu nền của Container là màu trắng
                         borderRadius: BorderRadius.circular(10.0), // Đặt bo tròn cho viền của Container
                       ),
                       child: Text(
                         eventModel.status == "PENDING"
-                            ? "Đang chuẩn bị"
-                            : eventModel.status == "PROCESSING"
-                                ? "Đang diễn ra"
-                                : "Đã kết thúc",
+                            ? "Chưa bắt đầu"
+                            : eventModel.status == "PREPARING"
+                                ? "Đang chuẩn bị"
+                                : eventModel.status == "PROCESSING"
+                                    ? "Đang diễn ra"
+                                    : "Đã kết thúc",
                         style: TextStyle(
-                            fontFamily: 'Nunito', fontWeight: FontWeight.w800, fontSize: UtilsReponsive.height(18, context), color: Colors.white),
+                            fontFamily: 'Nunito', fontWeight: FontWeight.w800, fontSize: UtilsReponsive.height(15, context), color: Colors.white),
                       ),
                     )
                   ],
@@ -520,7 +549,7 @@ class CustomSearch extends SearchDelegate {
                 width: UtilsReponsive.width(15, context),
               ),
               Text(
-                result.eventName!,
+                result.eventName!.length > 20 ? '${result.eventName!.substring(0, 20)}...' : result.eventName!,
                 style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, ColorsManager.textColor),
               ),
             ],

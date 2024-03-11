@@ -1,113 +1,179 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:get/get.dart';
 import 'package:hrea_mobile_staff/app/modules/chat_detail/models/chat_message.dart';
 import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
+import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
+import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
+import 'package:hrea_mobile_staff/app/utils/calculate_time_difference.dart';
 
 import '../controllers/chat_detail_controller.dart';
 
 class ChatDetailView extends GetView<ChatDetailController> {
   const ChatDetailView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
           elevation: 0,
           automaticallyImplyLeading: false,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           flexibleSpace: SafeArea(
             child: Container(
-              padding: EdgeInsets.only(right: 16),
+              padding: EdgeInsets.only(right: UtilsReponsive.height(16, context)),
               child: Row(
-                children: <Widget>[
+                children: [
                   IconButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
                     icon: Icon(
                       Icons.arrow_back,
-                      color: Colors.black,
+                      color: Colors.blueAccent,
                     ),
                   ),
                   SizedBox(
                     width: 2,
                   ),
-                  Stack(children: [
-                    CircleAvatar(
-                      backgroundImage: CachedNetworkImageProvider(
-                          'https://images.immediate.co.uk/production/volatile/sites/3/2023/08/2023.06.28-06.20-boundingintocomics-649c79f009cdf-Cropped-8d74232.png?resize=768,574'),
-                      maxRadius: 20,
-                    ),
-                    Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          width: 14,
-                          height: 14,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.green, // Màu nền là màu xanh
-                            border: Border.all(color: Colors.white, width: 2), // Viền trắng xung quanh
-                          ),
-                        )),
-                  ]),
+                  Obx(
+                    () => Stack(children: [
+                      CircleAvatar(
+                        backgroundImage: CachedNetworkImageProvider(controller.avatar),
+                        maxRadius: 20,
+                      ),
+                      controller.checkOnline.value
+                          ? Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Container(
+                                width: 14,
+                                height: 14,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.green, // Màu nền là màu xanh
+                                  border: Border.all(color: Colors.white, width: 2), // Viền trắng xung quanh
+                                ),
+                              ))
+                          : SizedBox(),
+                    ]),
+                  ),
                   SizedBox(
                     width: 12,
                   ),
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "Jane Russel",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Text(
-                          "Online",
-                          style: TextStyle(color: Colors.green, fontSize: 12),
-                        ),
-                      ],
+                    child: Obx(
+                      () => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(Routes.PROFILE_CHAT, arguments: {"idUserChat": controller.userIDChat});
+                            },
+                            child: Text(
+                              controller.name,
+                              style: TextStyle(fontWeight: FontWeight.w700, fontFamily: 'Nunito', color: Colors.black),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 6,
+                          ),
+                          Text(
+                            controller.checkOnline.value ? "Trực tuyến" : "Ngoại tuyến",
+                            style: TextStyle(
+                                color: controller.checkOnline.value ? Colors.green : Colors.grey.shade300, fontSize: 12, fontFamily: 'Nunito'),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      CupertinoIcons.phone_solid,
-                      color: ColorsManager.primary,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      CupertinoIcons.video_camera_solid,
-                      color: ColorsManager.primary,
-                      size: 30,
-                    ),
-                  ),
+                  // IconButton(
+                  //   onPressed: () {},
+                  //   icon: Icon(
+                  //     CupertinoIcons.phone_solid,
+                  //     color: ColorsManager.primary,
+                  //   ),
+                  // ),
+                  // IconButton(
+                  //   onPressed: () {},
+                  //   icon: Icon(
+                  //     CupertinoIcons.video_camera_solid,
+                  //     color: ColorsManager.primary,
+                  //     size: 30,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
           )),
       body: Column(
         children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: controller.chatMessage.length,
-              shrinkWrap: true,
-              padding: EdgeInsets.only(top: 10, bottom: 10),
-              // physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return chatBubble(
-                  chatMessage: controller.chatMessage[index],
-                  index: index,
-                );
-              },
+          Obx(
+            () => Expanded(
+              child: Stack(children: [
+                controller.isLoading.value == true
+                    ? Center(
+                        child: SpinKitFadingCircle(
+                          color: ColorsManager.primary,
+                          // size: 30.0,
+                        ),
+                      )
+                    : ListView.builder(
+                        controller: controller.scrollController,
+                        reverse: true,
+                        itemCount: controller.chatMessages.length,
+                        shrinkWrap: true,
+                        padding: EdgeInsets.only(top: 10, bottom: 10),
+                        // physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          if (index == controller.chatMessages.length - 1 && controller.isMoreDataAvailable.value == true) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          return chatBubble(
+                            chatMessage: controller.chatMessages[index],
+                            index: index,
+                          );
+                        },
+                      ),
+                controller.isScrollDown.value
+                    ? Positioned(
+                        bottom: 20,
+                        right: MediaQuery.of(context).size.width / 2.15,
+                        child: GestureDetector(
+                          onTap: () {
+                            controller.scrollDown();
+                          },
+                          child: Container(
+                            width: UtilsReponsive.height(40, context),
+                            height: UtilsReponsive.height(40, context),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white, // Màu nền là màu trắng
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5), // Màu của shadow
+                                  spreadRadius: 1, // Bán kính mở rộng của shadow
+                                  blurRadius: 1, // Bán kính mờ của shadow
+                                  offset: Offset(0, 1), // Vị trí của shadow (ngang, dọc)
+                                ),
+                              ],
+                            ),
+                            child: Icon(
+                              Icons.arrow_downward_rounded, // chọn icon mũi tên xuống
+                              size: 20, // kích thước của icon
+                              color: Colors.black, // màu của icon
+                            ),
+                          ),
+                        ),
+                      )
+                    : SizedBox(),
+              ]),
             ),
           ),
           Container(
@@ -117,52 +183,68 @@ class ChatDetailView extends GetView<ChatDetailController> {
             color: Colors.white,
             child: Row(
               children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 16.0),
-                    child: TextFormField(
-                      controller: controller.textEditingController,
-                      onChanged: (val) {},
-                      style: const TextStyle(fontSize: 14),
-                      decoration: const InputDecoration(
-                        hintText: 'Type something...',
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    color: ColorsManager.primary,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: ColorsManager.primary.withOpacity(0.3),
-                        spreadRadius: 8,
-                        blurRadius: 24,
-                      ),
-                    ],
-                  ),
-                  child: ClipOval(
-                    child: Material(
-                      color: ColorsManager.primary,
-                      child: InkWell(
-                        splashColor: Colors.green,
-                        onTap: () {},
-                        child: SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: Icon(
-                            Icons.send_rounded,
-                            size: 26,
-                            color: Colors.white,
-                          ),
+                Obx(
+                  () => Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: TextFormField(
+                        controller: controller.textEditingController.value,
+                        onChanged: (val) {
+                          if (controller.textEditingController.value.text.isNotEmpty) {
+                            controller.checkTyping.value = true;
+                          } else {
+                            controller.checkTyping.value = false;
+                          }
+                        },
+                        style: const TextStyle(fontSize: 14),
+                        decoration: const InputDecoration(
+                          hintText: 'Nhập gì đó...',
+                          border: InputBorder.none,
                         ),
                       ),
                     ),
                   ),
+                ),
+                Obx(
+                  () => controller.checkTyping.value
+                      ? Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            color: ColorsManager.primary,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: ColorsManager.primary.withOpacity(0.3),
+                                spreadRadius: 8,
+                                blurRadius: 24,
+                              ),
+                            ],
+                          ),
+                          child: ClipOval(
+                            child: Material(
+                              color: ColorsManager.primary,
+                              child: InkWell(
+                                splashColor: Colors.green,
+                                onTap: () async {
+                                  await controller.createAMessage(controller.textEditingController.value.text);
+                                  // controller.scrollController.animateTo(controller.scrollController.position.minScrollExtent,
+                                  //     duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+                                },
+                                child: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Icon(
+                                    Icons.send_rounded,
+                                    size: 26,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : SizedBox(),
                 ),
                 SizedBox(
                   width: 10,
@@ -173,66 +255,6 @@ class ChatDetailView extends GetView<ChatDetailController> {
         ],
       ),
     );
-  }
-
-  void showModal({required BuildContext context}) {
-    showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return Container(
-            height: MediaQuery.of(context).size.height / 2,
-            color: Color(0xff737373),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)),
-              ),
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 16,
-                  ),
-                  Center(
-                    child: Container(
-                      height: 4,
-                      width: 50,
-                      color: Colors.grey.shade200,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  ListView.builder(
-                    itemCount: controller.menuItems.length,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Container(
-                        padding: EdgeInsets.only(top: 10, bottom: 10),
-                        child: ListTile(
-                          leading: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: controller.menuItems[index].color.shade50,
-                            ),
-                            height: 50,
-                            width: 50,
-                            child: Icon(
-                              controller.menuItems[index].icons,
-                              size: 20,
-                              color: controller.menuItems[index].color.shade400,
-                            ),
-                          ),
-                          title: Text(controller.menuItems[index].text),
-                        ),
-                      );
-                    },
-                  )
-                ],
-              ),
-            ),
-          );
-        });
   }
 
   Widget chatBubble({required ChatMessage chatMessage, required int index}) {
@@ -251,7 +273,7 @@ class ChatDetailView extends GetView<ChatDetailController> {
               child: Opacity(
                 opacity: (controller.showTime.value && controller.indexChat.value == index) ? 1 : 0,
                 child: Text(
-                  "10:25",
+                  '${calculateTimeDifferenceMessenger(chatMessage.time!)}',
                   style: TextStyle(fontSize: 14),
                 ),
               ),
@@ -260,12 +282,24 @@ class ChatDetailView extends GetView<ChatDetailController> {
             Align(
               alignment: (chatMessage.type == MessageType.Receiver ? Alignment.topLeft : Alignment.topRight),
               child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: (chatMessage.type == MessageType.Receiver ? Colors.white : Colors.grey.shade200),
+                decoration: chatMessage.type == MessageType.Receiver
+                    ? BoxDecoration(
+                        borderRadius:
+                            BorderRadius.only(bottomRight: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+                        color: Colors.grey.shade400)
+                    : BoxDecoration(
+                        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+                        color: Colors.blueAccent,
+                      ),
+                padding: EdgeInsets.all(14),
+                child: Text(
+                  chatMessage.message,
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: chatMessage.type == MessageType.Receiver ? ColorsManager.textColor : Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Nunito'),
                 ),
-                padding: EdgeInsets.all(16),
-                child: Text(chatMessage.message),
               ),
             ),
           ]),

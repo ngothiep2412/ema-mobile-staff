@@ -128,7 +128,7 @@ class TaskDetailViewController extends BaseController {
             count.value++;
           }
         }
-        progressSubTaskDone.value = count / taskModel.value.subTask!.length;
+        progressSubTaskDone.value = count / taskModel.value.subTask!.where((item) => item.status != Status.CANCEL).length;
         taskModel.value.subTask!.sort((a, b) {
           // Xử lý trường hợp startDate là null
           if (a.startDate == null && b.startDate != null) {

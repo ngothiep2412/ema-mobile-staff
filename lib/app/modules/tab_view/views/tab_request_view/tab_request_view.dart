@@ -30,7 +30,7 @@ class TabRequestView extends BaseView<TabRequestController> {
                     children: [
                       Text(
                         'Đơn yêu cầu',
-                        style: GetTextStyle.getTextStyle(22, 'Nunito', FontWeight.w600, ColorsManager.primary),
+                        style: GetTextStyle.getTextStyle(22, 'Nunito', FontWeight.w800, ColorsManager.primary),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -31,6 +31,15 @@ class TabHomeController extends BaseController {
 
     listEventToday.value = await TabHomeApi.getEventToday(jwt, idUser);
 
+    for (var todayEvent in listEventToday) {
+      // Tìm sự kiện trong ngày trong danh sách sự kiện sắp diễn ra
+      var index = listEventUpComing.indexWhere((upcomingEvent) => upcomingEvent.id == todayEvent.id);
+      print('$index');
+      if (index != -1) {
+        listEventUpComing.removeAt(index);
+      }
+    }
+
     isLoading.value = false;
   }
 
@@ -59,8 +68,16 @@ class TabHomeController extends BaseController {
     listEventUpComing.value = await TabHomeApi.getEventUpComing(jwt, idUser);
     listEventToday.value = await TabHomeApi.getEventToday(jwt, idUser);
 
+    for (var todayEvent in listEventToday) {
+      // Tìm sự kiện trong ngày trong danh sách sự kiện sắp diễn ra
+      var index = listEventUpComing.indexWhere((upcomingEvent) => upcomingEvent.id == todayEvent.id);
+      print('$index');
+      if (index != -1) {
+        listEventUpComing.removeAt(index);
+      }
+    }
+
     isLoading.value = false;
-    print('2: ${isLoading.value}');
   }
 
   @override

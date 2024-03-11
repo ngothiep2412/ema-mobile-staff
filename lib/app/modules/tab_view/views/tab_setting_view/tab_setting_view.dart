@@ -29,7 +29,7 @@ class TabSettingView extends BaseView<TabSettingController> {
                 Center(
                   child: Text(
                     'Khác',
-                    style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(22, 'Nunito', FontWeight.w800, ColorsManager.primary),
                   ),
                 ),
                 SizedBox(

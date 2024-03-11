@@ -71,8 +71,8 @@ class SubtaskDetailViewController extends BaseController {
 
   Rx<DateTime> startDate = DateTime.now().toUtc().add(const Duration(hours: 7)).obs;
   Rx<DateTime> endDate = DateTime.now().toUtc().add(const Duration(hours: 7)).obs;
-  DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'vi');
-  DateFormat dateFormatv2 = DateFormat('dd-MM-yyyy', 'vi');
+  DateFormat dateFormat = DateFormat('dd-MM-yyyy', 'vi');
+  DateFormat dateFormatv2 = DateFormat('yyyy-MM-dd', 'vi');
 
   DateTime endDateTaskParent;
   DateTime startDateTaskParent;
@@ -106,6 +106,7 @@ class SubtaskDetailViewController extends BaseController {
       checkToken();
       List<DateTime> listDateTime = [];
       taskModel.value = await SubTaskDetailApi.getTaskDetail(jwt, taskID);
+      print('taskModel ${taskModel.value.id}');
       titleSubTaskController.text = taskModel.value.title!;
       if (taskModel.value.startDate != null) {
         startDate.value = taskModel.value.startDate!;
@@ -117,6 +118,8 @@ class SubtaskDetailViewController extends BaseController {
       }
 
       listChange = listDateTime;
+      // Lọc ra các nhiệm vụ từ assignTasks mà có status là "active"
+      taskModel.value.assignTasks = taskModel.value.assignTasks!.where((task) => task.status == "active").toList();
 
       if (taskModel.value.assignTasks != null && taskModel.value.assignTasks!.isNotEmpty) {
         // for (int index = 0;

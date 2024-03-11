@@ -36,6 +36,8 @@ import '../modules/policy/bindings/policy_binding.dart';
 import '../modules/policy/views/policy_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
+import '../modules/profile_chat/bindings/profile_chat_binding.dart';
+import '../modules/profile_chat/views/profile_chat_view.dart';
 import '../modules/request_detail/bindings/request_detail_binding.dart';
 import '../modules/request_detail/views/request_detail_view.dart';
 import '../modules/reset_password/bindings/reset_password_binding.dart';
@@ -204,6 +206,11 @@ class AppPages {
       name: _Paths.TASK_CALENDAR_MONTH,
       page: () => const TaskCalendarMonthView(),
       binding: TaskCalendarMonthBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE_CHAT,
+      page: () => const ProfileChatView(),
+      binding: ProfileChatBinding(),
     ),
   ];
 }

@@ -4,9 +4,11 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
+import 'package:hrea_mobile_staff/app/modules/subtask-detail-view/api/subtask_detail_api.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/api/tab_notification_api/tab_notification_api.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_view_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/notification.dart';
+import 'package:hrea_mobile_staff/app/modules/tab_view/model/task.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:intl/intl.dart';
@@ -31,6 +33,9 @@ class TabNotificationController extends BaseController {
 
   RxList<NotificationModel> listNotifications = <NotificationModel>[].obs;
   final count = 0.obs;
+
+  DateTime startDateParentTask = DateTime.now();
+  DateTime endDateParentTask = DateTime.now();
 
   @override
   Future<void> onInit() async {
@@ -88,7 +93,9 @@ class TabNotificationController extends BaseController {
         listNotifications.value = list;
         print('aaa123');
       } else {
-        print('aaa');
+        errorGetNotification.value = true;
+
+        errorGetNotificationText.value = "Có lỗi xảy ra";
       }
     } catch (e) {
       log(e.toString());
@@ -143,9 +150,17 @@ class TabNotificationController extends BaseController {
         } else {
           Get.find<TabViewController>().checkAllNotiSeen.value = false;
         }
-      } else {}
+      } else {
+        errorGetNotification.value = true;
+
+        errorGetNotificationText.value = "Có lỗi xảy ra";
+      }
     } catch (e) {
       log(e.toString());
+
+      errorGetNotification.value = true;
+
+      errorGetNotificationText.value = "Có lỗi xảy ra";
     }
   }
 
@@ -164,9 +179,9 @@ class TabNotificationController extends BaseController {
     isMoreDataAvailable.value = false;
     try {
       checkToken();
-      listNotifications.clear();
       List<NotificationModel> list = await TabNotificationApi.getAllNotification(jwt, page);
 
+      listNotifications.clear();
       list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
       listNotifications.value = list;
@@ -243,5 +258,26 @@ class TabNotificationController extends BaseController {
     listNotifications.clear();
     page = 1;
     await getAllNotification(page);
+  }
+
+  Future<void> getTaskDetail(String taskID, int index) async {
+    try {
+      checkToken();
+      TaskModel taskModel;
+      taskModel = await SubTaskDetailApi.getTaskDetail(jwt, taskID);
+      if (taskModel.parent != null) {
+        startDateParentTask = taskModel.parent!.startDate!;
+        endDateParentTask = taskModel.parent!.endDate!;
+        Get.toNamed(Routes.SUBTASK_DETAIL_VIEW, arguments: {
+          "taskID": listNotifications[index].commonId,
+          "isNavigateDetail": false,
+          "endDate": endDateParentTask,
+          "startDate": startDateParentTask,
+        });
+      }
+    } catch (e) {
+      isLoading.value = false;
+      print(e);
+    }
   }
 }

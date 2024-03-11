@@ -17,7 +17,7 @@ class EventDetailController extends BaseController {
 
   Rx<EventDetailModel> eventDetail = EventDetailModel().obs;
   Rx<QuillController> quillController = QuillController.basic().obs;
-  DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'vi');
+  DateFormat dateFormat = DateFormat('dd-MM-yyyy', 'vi');
   String jwt = '';
 
   final count = 0.obs;
@@ -52,11 +52,9 @@ class EventDetailController extends BaseController {
       checkToken();
 
       eventDetail.value = await EventDetailApi.getEventDetail(jwt, eventID);
-      if (eventDetail.value.description!.isNotEmpty ||
-          eventDetail.value.description != null) {
+      if (eventDetail.value.description!.isNotEmpty || eventDetail.value.description != null) {
         quillController.value = QuillController(
-          document:
-              Document.fromJson(jsonDecode(eventDetail.value.description!)),
+          document: Document.fromJson(jsonDecode(eventDetail.value.description!)),
           selection: const TextSelection.collapsed(offset: 0),
         );
       }

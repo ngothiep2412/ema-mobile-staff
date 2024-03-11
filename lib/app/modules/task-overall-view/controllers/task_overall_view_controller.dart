@@ -59,9 +59,8 @@ class TaskOverallViewController extends BaseController {
           }
         }
       }
-      // listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
 
-      filterChoose.value = '';
+      // listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
     }
     isLoading.value = false;
   }

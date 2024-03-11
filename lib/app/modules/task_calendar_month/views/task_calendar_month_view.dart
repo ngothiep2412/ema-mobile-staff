@@ -7,7 +7,6 @@ import 'package:hrea_mobile_staff/app/modules/task_calendar_month/model/task_ite
 import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_staff/app/resources/style_manager.dart';
-import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../controllers/task_calendar_month_controller.dart';
@@ -99,7 +98,7 @@ class TaskCalendarMonthView extends BaseView<TaskCalendarMonthController> {
                     }),
                     calendarStyle: CalendarStyle(
                       todayDecoration: BoxDecoration(
-                        color: Colors.greenAccent,
+                        color: Colors.grey,
                         shape: BoxShape.circle,
                       ),
                       outsideDaysVisible: false,
@@ -108,9 +107,10 @@ class TaskCalendarMonthView extends BaseView<TaskCalendarMonthController> {
                         shape: BoxShape.circle,
                       ),
                       selectedDecoration: BoxDecoration(
-                        color: Colors.blue,
+                        color: Colors.white,
                         shape: BoxShape.circle,
                       ),
+                      selectedTextStyle: TextStyle(color: Colors.blue),
                       defaultTextStyle: TextStyle(color: Colors.white),
                       weekNumberTextStyle: TextStyle(color: Colors.white),
                       weekendTextStyle: TextStyle(color: Colors.white),
@@ -186,12 +186,12 @@ class TaskCalendarMonthView extends BaseView<TaskCalendarMonthController> {
   Widget itemTask({required int index, required BuildContext context, required TaskItem taskModel}) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routes.SUBTASK_DETAIL_VIEW, arguments: {
-          "taskID": taskModel.id,
-          "isNavigateDetail": true,
-          "endDate": DateTime.parse(controller.convertDateFormat(taskModel.endDate!)),
-          "startDate": DateTime.parse(controller.convertDateFormat(taskModel.startDate!)),
-        });
+        // Get.toNamed(Routes.SUBTASK_DETAIL_VIEW, arguments: {
+        //   "taskID": taskModel.id,
+        //   "isNavigateDetail": true,
+        //   "endDate": DateTime.parse(controller.convertDateFormat(taskModel.endDate!)),
+        //   "startDate": DateTime.parse(controller.convertDateFormat(taskModel.startDate!)),
+        // });
       },
       child: Container(
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [

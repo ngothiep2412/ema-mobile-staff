@@ -1541,18 +1541,18 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                       children: [
                                                         e.status == Status.DONE || e.status == Status.CONFIRM
                                                             ? Text(
-                                                                e.title!.length > 15 ? '${e.title!.substring(0, 15)}...' : e.title!,
+                                                                e.title!.length > 10 ? '${e.title!.substring(0, 10)}...' : e.title!,
                                                                 style: TextStyle(
                                                                   fontFamily: 'Nunito',
                                                                   letterSpacing: 1,
                                                                   color: ColorsManager.textColor,
                                                                   fontSize: UtilsReponsive.height(16, context),
                                                                   fontWeight: FontWeight.w800,
-                                                                  decoration: TextDecoration.lineThrough,
+                                                                  // decoration: TextDecoration.lineThrough,
                                                                 ),
                                                               )
                                                             : Text(
-                                                                e.title!.length > 15 ? '${e.title!.substring(0, 15)}...' : e.title!,
+                                                                e.title!.length > 10 ? '${e.title!.substring(0, 10)}...' : e.title!,
                                                                 style: TextStyle(
                                                                     fontFamily: 'Nunito',
                                                                     letterSpacing: 1,
@@ -1565,12 +1565,12 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                             Container(
                                                               child: e.startDate != null
                                                                   ? Text(
-                                                                      'Hạn: ${controller.dateFormatf2.format(e.startDate!)} - ${controller.dateFormatf2.format(e.endDate!)}',
+                                                                      '${controller.dateFormatf2.format(e.startDate!)} - ${controller.dateFormatf2.format(e.endDate!)}',
                                                                       style: TextStyle(
                                                                           fontFamily: 'Nunito',
                                                                           color: ColorsManager.textColor,
-                                                                          fontSize: UtilsReponsive.height(12, context),
-                                                                          fontWeight: FontWeight.w800),
+                                                                          fontSize: UtilsReponsive.height(10, context),
+                                                                          fontWeight: FontWeight.w700),
                                                                     )
                                                                   : Text(
                                                                       'Hạn: ---',
@@ -1681,7 +1681,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                   ),
                   controller.listAttachment.isNotEmpty
                       ? CircleAvatar(
-                          radius: UtilsReponsive.height(10, context),
+                          radius: controller.listAttachment.length >= 100
+                              ? 15
+                              : controller.listAttachment.length >= 10
+                                  ? 15
+                                  : 10,
                           child: Text(
                             controller.listAttachment.length.toString(),
                             style: TextStyle(

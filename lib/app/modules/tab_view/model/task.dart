@@ -117,6 +117,7 @@ class AssignTask {
   String? taskMaster;
   bool? isLeader;
   String? taskId;
+  String? status;
 
   AssignTask({
     this.id,
@@ -127,6 +128,7 @@ class AssignTask {
     this.taskMaster,
     this.isLeader,
     this.taskId,
+    this.status,
   });
 
   factory AssignTask.fromJson(Map<String, dynamic> json) => AssignTask(
@@ -138,6 +140,7 @@ class AssignTask {
         taskMaster: json["taskMaster"],
         isLeader: json["isLeader"],
         taskId: json["taskID"],
+        status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -149,6 +152,7 @@ class AssignTask {
         "taskMaster": taskMaster,
         "isLeader": isLeader,
         "taskID": taskId,
+        "status": status,
       };
 }
 

@@ -3,5 +3,6 @@ import 'package:hrea_mobile_staff/app/modules/chat_detail/controllers/chat_detai
 class ChatMessage {
   String message;
   MessageType type;
-  ChatMessage({required this.message, required this.type});
+  String time;
+  ChatMessage({required this.message, required this.type, required this.time});
 }

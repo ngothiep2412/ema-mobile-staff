@@ -133,7 +133,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                     taskID: controller.taskModel.value.id,
                                     context: context,
                                     objectStatusTask: controller.taskModel.value.status == Status.PENDING
-                                        ? "Đang kiểm thực"
+                                        ? "Đang chuẩn bị"
                                         : controller.taskModel.value.status! == Status.PROCESSING
                                             ? "Đang thực hiện"
                                             : controller.taskModel.value.status! == Status.DONE
@@ -643,121 +643,130 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                               child: Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  GestureDetector(
-                                                    onTap: () async {
-                                                      await controller.getEmployeeSupportView();
-                                                      _showBottomAssign(context: Get.context!);
-                                                    },
-                                                    child: Row(
-                                                      children: [
-                                                        controller.taskModel.value.assignTasks!.length == 1
-                                                            ? CircleAvatar(
-                                                                radius: UtilsReponsive.height(20, context),
-                                                                backgroundColor: Colors.transparent, // Đảm bảo nền trong suốt
-                                                                child: ClipOval(
-                                                                  child: Image.network(
-                                                                    "https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.webp",
-                                                                    fit: BoxFit.cover,
-                                                                    width: UtilsReponsive.widthv2(context, 45),
-                                                                    height: UtilsReponsive.heightv2(context, 40),
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            : CachedNetworkImage(
-                                                                // fit: BoxFit.contain,
-                                                                imageUrl: controller.taskModel.value.assignTasks![1].user!.profile!.avatar!,
-                                                                imageBuilder: (context, imageProvider) => Container(
-                                                                    width: UtilsReponsive.width(40, context),
-                                                                    height: UtilsReponsive.height(45, context),
-                                                                    decoration: BoxDecoration(
-                                                                        boxShadow: [
-                                                                          BoxShadow(
-                                                                            spreadRadius: 0.5,
-                                                                            blurRadius: 0.5,
-                                                                            color: Colors.black.withOpacity(0.1),
-                                                                          )
-                                                                        ],
-                                                                        shape: BoxShape.circle,
-                                                                        image: DecorationImage(fit: BoxFit.cover, image: imageProvider))),
-                                                                progressIndicatorBuilder: (context, url, downloadProgress) => Container(
-                                                                  padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
-                                                                  height: UtilsReponsive.height(5, context),
-                                                                  width: UtilsReponsive.height(5, context),
-                                                                  child: CircularProgressIndicator(
-                                                                    color: ColorsManager.primary,
-                                                                  ),
-                                                                ),
-                                                                errorWidget: (context, url, error) => CircleAvatar(
+                                                  Expanded(
+                                                    flex: 3,
+                                                    child: GestureDetector(
+                                                      onTap: () async {
+                                                        await controller.getEmployeeSupportView();
+                                                        _showBottomAssign(context: Get.context!);
+                                                      },
+                                                      child: Row(
+                                                        children: [
+                                                          controller.taskModel.value.assignTasks!.length == 1
+                                                              ? CircleAvatar(
                                                                   radius: UtilsReponsive.height(20, context),
-                                                                  child: Text(
-                                                                    getTheAbbreviation(
-                                                                        controller.taskModel.value.assignTasks![1].user!.profile!.fullName!),
-                                                                    style: TextStyle(
-                                                                        letterSpacing: 1,
-                                                                        color: ColorsManager.primary,
-                                                                        fontSize: UtilsReponsive.height(17, context),
-                                                                        fontWeight: FontWeight.w800),
+                                                                  backgroundColor: Colors.transparent, // Đảm bảo nền trong suốt
+                                                                  child: ClipOval(
+                                                                    child: Image.network(
+                                                                      "https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.webp",
+                                                                      fit: BoxFit.cover,
+                                                                      width: UtilsReponsive.widthv2(context, 45),
+                                                                      height: UtilsReponsive.heightv2(context, 40),
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              : CachedNetworkImage(
+                                                                  // fit: BoxFit.contain,
+                                                                  imageUrl: controller.taskModel.value.assignTasks![1].user!.profile!.avatar!,
+                                                                  imageBuilder: (context, imageProvider) => Container(
+                                                                      width: UtilsReponsive.width(40, context),
+                                                                      height: UtilsReponsive.height(45, context),
+                                                                      decoration: BoxDecoration(
+                                                                          boxShadow: [
+                                                                            BoxShadow(
+                                                                              spreadRadius: 0.5,
+                                                                              blurRadius: 0.5,
+                                                                              color: Colors.black.withOpacity(0.1),
+                                                                            )
+                                                                          ],
+                                                                          shape: BoxShape.circle,
+                                                                          image: DecorationImage(fit: BoxFit.cover, image: imageProvider))),
+                                                                  progressIndicatorBuilder: (context, url, downloadProgress) => Container(
+                                                                    padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
+                                                                    height: UtilsReponsive.height(5, context),
+                                                                    width: UtilsReponsive.height(5, context),
+                                                                    child: CircularProgressIndicator(
+                                                                      color: ColorsManager.primary,
+                                                                    ),
+                                                                  ),
+                                                                  errorWidget: (context, url, error) => CircleAvatar(
+                                                                    radius: UtilsReponsive.height(20, context),
+                                                                    child: Text(
+                                                                      getTheAbbreviation(
+                                                                          controller.taskModel.value.assignTasks![1].user!.profile!.fullName!),
+                                                                      style: TextStyle(
+                                                                          letterSpacing: 1,
+                                                                          color: ColorsManager.primary,
+                                                                          fontSize: UtilsReponsive.height(17, context),
+                                                                          fontWeight: FontWeight.w800),
+                                                                    ),
                                                                   ),
                                                                 ),
-                                                              ),
-                                                        SizedBox(
-                                                          width: UtilsReponsive.width(10, context),
-                                                        ),
-                                                        Column(
-                                                          mainAxisSize: MainAxisSize.min,
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            controller.taskModel.value.assignTasks!.length == 1
-                                                                ? SizedBox()
-                                                                : Text(
-                                                                    controller.taskModel.value.assignTasks![1].user!.profile!.fullName!,
-                                                                    style: TextStyle(
-                                                                        fontFamily: 'Nunito',
-                                                                        color: ColorsManager.textColor,
-                                                                        fontSize: UtilsReponsive.height(17, context),
-                                                                        fontWeight: FontWeight.w800),
-                                                                  ),
-                                                            controller.taskModel.value.assignTasks!.length >= 3
-                                                                ? Text(
-                                                                    "${controller.taskModel.value.assignTasks![1].user!.profile!.fullName!.split(' ').last} và ${controller.taskModel.value.assignTasks!.length - 2} thành viên khác",
-                                                                    style: TextStyle(
-                                                                        fontFamily: 'Nunito',
-                                                                        color: ColorsManager.primary,
-                                                                        fontSize: UtilsReponsive.height(16, context),
-                                                                        fontWeight: FontWeight.w700),
-                                                                  )
-                                                                : Text(
-                                                                    'Người tham gia',
-                                                                    style: TextStyle(
-                                                                        fontFamily: 'Nunito',
-                                                                        color: ColorsManager.primary,
-                                                                        fontSize: UtilsReponsive.height(16, context),
-                                                                        fontWeight: FontWeight.w700),
-                                                                  ),
-                                                          ],
-                                                        ),
-                                                      ],
+                                                          SizedBox(
+                                                            width: UtilsReponsive.width(10, context),
+                                                          ),
+                                                          Flexible(
+                                                            child: Column(
+                                                              mainAxisSize: MainAxisSize.min,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                controller.taskModel.value.assignTasks!.length == 1
+                                                                    ? SizedBox()
+                                                                    : Text(
+                                                                        controller.taskModel.value.assignTasks![1].user!.profile!.fullName!,
+                                                                        style: TextStyle(
+                                                                            fontFamily: 'Nunito',
+                                                                            color: ColorsManager.textColor,
+                                                                            fontSize: UtilsReponsive.height(17, context),
+                                                                            fontWeight: FontWeight.w800),
+                                                                      ),
+                                                                controller.taskModel.value.assignTasks!.length >= 3
+                                                                    ? Text(
+                                                                        "${controller.taskModel.value.assignTasks![1].user!.profile!.fullName!.split(' ').last} và ${controller.taskModel.value.assignTasks!.length - 2} thành viên khác",
+                                                                        style: TextStyle(
+                                                                            fontFamily: 'Nunito',
+                                                                            color: ColorsManager.primary,
+                                                                            fontSize: UtilsReponsive.height(16, context),
+                                                                            fontWeight: FontWeight.w700),
+                                                                      )
+                                                                    : Text(
+                                                                        'Người tham gia',
+                                                                        style: TextStyle(
+                                                                            overflow: TextOverflow.clip,
+                                                                            fontFamily: 'Nunito',
+                                                                            color: ColorsManager.primary,
+                                                                            fontSize: UtilsReponsive.height(16, context),
+                                                                            fontWeight: FontWeight.w700),
+                                                                      ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
-                                                  TextButton(
-                                                    onPressed: () async {
-                                                      if (controller.taskModel.value.assignTasks!.isEmpty) {
-                                                        Get.snackbar('Lỗi', 'Xin vui lòng chọn Người chịu trách nhiệm trước',
-                                                            snackPosition: SnackPosition.BOTTOM,
-                                                            backgroundColor: Colors.redAccent,
-                                                            colorText: Colors.white);
-                                                      } else {
-                                                        await controller.getEmployeeSupport();
-                                                        _showBottomAddMore(context: Get.context!);
-                                                      }
-                                                    },
-                                                    child: Text(
-                                                      "Thêm người",
-                                                      style: TextStyle(
-                                                          fontFamily: 'Nunito',
-                                                          color: ColorsManager.primary,
-                                                          fontSize: UtilsReponsive.height(17, context),
-                                                          fontWeight: FontWeight.w700),
+                                                  Expanded(
+                                                    flex: 2,
+                                                    child: TextButton(
+                                                      onPressed: () async {
+                                                        if (controller.taskModel.value.assignTasks!.isEmpty) {
+                                                          Get.snackbar('Lỗi', 'Xin vui lòng chọn Người chịu trách nhiệm trước',
+                                                              snackPosition: SnackPosition.BOTTOM,
+                                                              backgroundColor: Colors.redAccent,
+                                                              colorText: Colors.white);
+                                                        } else {
+                                                          await controller.getEmployeeSupport();
+                                                          _showBottomAddMore(context: Get.context!);
+                                                        }
+                                                      },
+                                                      child: Text(
+                                                        "Thêm người",
+                                                        style: TextStyle(
+                                                            fontFamily: 'Nunito',
+                                                            color: ColorsManager.primary,
+                                                            fontSize: UtilsReponsive.height(17, context),
+                                                            fontWeight: FontWeight.w700),
+                                                      ),
                                                     ),
                                                   )
                                                 ],
@@ -1169,7 +1178,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
       child: ListView(
         shrinkWrap: true,
         children: [
-          "Đang kiểm thực",
+          "Đang chuẩn bị",
           "Đang thực hiện",
           "Hoàn thành",
           "Đã xác thực",
@@ -1178,7 +1187,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
             .map(
               (e) => GestureDetector(
                 onTap: () {
-                  if (e == "Đang kiểm thực") {
+                  if (e == "Đang chuẩn bị") {
                     controller.updateStatusTask("PENDING", taskID);
                     Navigator.of(context).pop();
                   } else if (e == "Đang thực hiện") {
@@ -1201,7 +1210,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                   ),
                   child: ListTile(
                     leading: CircleAvatar(
-                      backgroundColor: e == "Đang kiểm thực"
+                      backgroundColor: e == "Đang chuẩn bị"
                           ? ColorsManager.grey
                           : e == "Đang thực hiện"
                               ? ColorsManager.primary
@@ -1646,7 +1655,9 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                   Row(
                                                     children: [
                                                       Text(
-                                                        controller.listEmployee[index].profile!.fullName!,
+                                                        controller.listEmployee[index].profile!.fullName!.length > 15
+                                                            ? '${controller.listEmployee[index].profile!.fullName!.substring(0, 15)}...'
+                                                            : controller.listEmployee[index].profile!.fullName!,
                                                         style: TextStyle(
                                                           fontFamily: 'Nunito',
                                                           letterSpacing: 1,
@@ -1670,12 +1681,14 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                     ],
                                                   ),
                                                   Text(
-                                                    '${controller.listEmployee[index].email}',
+                                                    controller.listEmployee[index].email!.length > 20
+                                                        ? '${controller.listEmployee[index].email!.substring(0, 20)}...'
+                                                        : controller.listEmployee[index].email!,
                                                     style: TextStyle(
                                                       fontFamily: 'Nunito',
                                                       letterSpacing: 1,
                                                       color: ColorsManager.blue.withOpacity(0.8),
-                                                      fontSize: UtilsReponsive.height(17, context),
+                                                      fontSize: UtilsReponsive.height(14, context),
                                                       fontWeight: FontWeight.w700,
                                                     ),
                                                   ),
@@ -1995,7 +2008,9 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                   Row(
                                                     children: [
                                                       Text(
-                                                        controller.listEmployee[index].profile!.fullName!,
+                                                        controller.listEmployee[index].profile!.fullName!.length > 15
+                                                            ? '${controller.listEmployee[index].profile!.fullName!.substring(0, 15)}...'
+                                                            : controller.listEmployee[index].profile!.fullName!,
                                                         style: TextStyle(
                                                           fontFamily: 'Nunito',
                                                           letterSpacing: 1,
@@ -2019,12 +2034,14 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                     ],
                                                   ),
                                                   Text(
-                                                    '${controller.listEmployee[index].email}',
+                                                    controller.listEmployee[index].email!.length > 20
+                                                        ? '${controller.listEmployee[index].email!.substring(0, 20)}...'
+                                                        : controller.listEmployee[index].email!,
                                                     style: TextStyle(
                                                       fontFamily: 'Nunito',
                                                       letterSpacing: 1,
                                                       color: ColorsManager.blue.withOpacity(0.8),
-                                                      fontSize: UtilsReponsive.height(17, context),
+                                                      fontSize: UtilsReponsive.height(14, context),
                                                       fontWeight: FontWeight.w700,
                                                     ),
                                                   ),
@@ -2340,7 +2357,9 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                         Row(
                           children: [
                             Text(
-                              controller.listEmployeeSupportView[index].profile!.fullName!,
+                              controller.listEmployeeSupportView[index].profile!.fullName!.length > 15
+                                  ? '${controller.listEmployeeSupportView[index].profile!.fullName!.substring(0, 15)}...'
+                                  : controller.listEmployeeSupportView[index].profile!.fullName!,
                               style: TextStyle(
                                 fontFamily: 'Nunito',
                                 letterSpacing: 1,
@@ -2362,7 +2381,9 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                           ],
                         ),
                         Text(
-                          '${controller.listEmployeeSupportView[index].email}',
+                          controller.listEmployeeSupportView[index].email!.length > 20
+                              ? '${controller.listEmployeeSupportView[index].email!.substring(0, 20)}...'
+                              : controller.listEmployeeSupportView[index].email!,
                           style: TextStyle(
                             fontFamily: 'Nunito',
                             letterSpacing: 1,
@@ -3035,7 +3056,11 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                   ),
                   controller.listAttachment.isNotEmpty
                       ? CircleAvatar(
-                          radius: UtilsReponsive.height(10, context),
+                          radius: controller.listAttachment.length >= 100
+                              ? 15
+                              : controller.listAttachment.length >= 10
+                                  ? 15
+                                  : 10,
                           child: Text(
                             controller.listAttachment.length.toString(),
                             style: TextStyle(

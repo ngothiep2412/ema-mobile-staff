@@ -492,16 +492,26 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
               ? () {
                   var subTasks = taskModel.subTask!.where((subTask) => subTask.status != Status.CANCEL).toList();
                   subTasks.sort((a, b) {
-                    if (a.endDate == null && b.endDate == null) {
+                    if (a.startDate == null && b.startDate == null) {
                       return 0;
                     }
-                    if (a.endDate == null) {
+                    if (a.startDate == null) {
                       return 1;
                     }
-                    if (b.endDate == null) {
+                    if (b.startDate == null) {
                       return -1;
                     }
-                    return a.endDate!.compareTo(b.endDate!);
+                    // So sánh ngày nếu cả hai đều không phải là null
+                    int dateComparison = a.startDate!.compareTo(b.startDate!);
+                    if (dateComparison != 0) {
+                      return dateComparison; // Trả về kết quả nếu ngày không giống nhau.
+                    } else {
+                      // Sắp xếp theo độ ưu tiên nếu ngày giống nhau
+                      final priorityOrder = {Priority.HIGH: 0, Priority.MEDIUM: 1, Priority.LOW: 2};
+                      final priorityA = priorityOrder[a.priority] ?? 2;
+                      final priorityB = priorityOrder[b.priority] ?? 2;
+                      return priorityA.compareTo(priorityB);
+                    }
                   });
 
                   return subTasks.asMap().entries.map((entry) {
@@ -611,7 +621,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                     color: ColorsManager.textColor,
                                     fontSize: UtilsReponsive.height(17, context),
                                     fontWeight: FontWeight.w800,
-                                    decoration: TextDecoration.lineThrough,
+                                    // decoration: TextDecoration.lineThrough,
                                   ),
                                 )
                               : Text(
@@ -721,7 +731,9 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                   ),
                   Expanded(
                     flex: 1,
-                    child: taskModel.assignTasks!.isNotEmpty && taskModel.assignTasks!.length > 1
+                    child: taskModel.assignTasks!.isNotEmpty &&
+                            taskModel.assignTasks != null &&
+                            taskModel.assignTasks!.where((item) => item.status == "active").toList().length > 1
                         ? Row(
                             children: [
                               CachedNetworkImage(
@@ -759,14 +771,14 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                 child: Align(
                                   alignment: Alignment.center,
                                   child: Text(
-                                    '+${taskModel.assignTasks!.length - 1}',
+                                    '+${taskModel.assignTasks!.where((assign) => assign.status == "active").length - 1}',
                                     style: TextStyle(color: Colors.white, fontSize: 14),
                                   ),
                                 ),
                               )
                             ],
                           )
-                        : taskModel.assignTasks!.isNotEmpty && taskModel.assignTasks!.length == 1
+                        : taskModel.assignTasks!.isNotEmpty && taskModel.assignTasks!.where((item) => item.status == "active").toList().length == 1
                             ? Row(children: [
                                 SizedBox(
                                   width: UtilsReponsive.width(20, context),

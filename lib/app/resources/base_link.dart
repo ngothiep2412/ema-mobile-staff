@@ -45,8 +45,10 @@ class BaseLink {
   static const seenAllNotification = '/api/v1/notification/seen-all';
   static const checkIn = '/api/v1/timesheet/check-in';
   static const getDetailTimesheet = '/api/v1/timesheet';
-  static const deleteNotification = '/api/v1/notification/delete/';
+  static const deleteNotification = '/api/v1/notification/delete';
   static const deleteAllNotification = '/api/v1/notification/delete-all';
   static const getTaskByDate = '/api/v1/task/filterByDate';
   static const getAllEmployeeV2 = '/api/v1/division/list/assignee/employee';
+  static const getConversation = '/api/v1/conversations';
+  static const getMessages = '/api/v1/conversations/';
 }

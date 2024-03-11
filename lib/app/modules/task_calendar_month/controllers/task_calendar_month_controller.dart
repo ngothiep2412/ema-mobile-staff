@@ -53,7 +53,8 @@ class TaskCalendarMonthController extends BaseController {
 
     dateStarTask.value = DateTime.parse(convertDateFormat(startDate));
     await getDetailEmployee();
-    onDaySelected(dateStarTask.value, dateStarTask.value);
+    onDaySelected(dateStarTask.value.add(const Duration(hours: 7)), dateStarTask.value.add(const Duration(hours: 7)));
+    print('startDate ${dateStarTask}');
     // selectedTasks = ValueNotifier(getTasksForDay(selectedDay!));
   }
 
@@ -69,7 +70,7 @@ class TaskCalendarMonthController extends BaseController {
 
   String convertDateFormat(String dateString) {
     // Định dạng ban đầu của ngày
-    final originalFormat = DateFormat('dd-MM-yyyy');
+    final originalFormat = DateFormat('yyyy-MM-dd');
 
     // Định dạng bạn muốn chuyển đổi sang
     final desiredFormat = DateFormat('yyyy-MM-dd');
@@ -83,10 +84,10 @@ class TaskCalendarMonthController extends BaseController {
 
   String convertDateFormatV2(String dateString) {
     // Định dạng ban đầu của ngày
-    final originalFormat = DateFormat('dd-MM-yyyy');
+    final originalFormat = DateFormat('yyyy-MM-dd');
 
     // Định dạng bạn muốn chuyển đổi sang
-    final desiredFormat = DateFormat('dd/MM/yyyy');
+    final desiredFormat = DateFormat('dd-MM-yyyy');
 
     // Parse ngày từ định dạng ban đầu
     final date = originalFormat.parse(dateString);
@@ -112,12 +113,12 @@ class TaskCalendarMonthController extends BaseController {
         for (var event in employeeModel.listEvent!) {
           // Lặp qua mỗi nhiệm vụ trong sự kiện
           event.listTask!.forEach((task) {
-            String startDateString = convertDateFormat(task.startDate!);
-            String endDateString = convertDateFormat(task.endDate!);
+            String startDateString = task.startDate!;
+            String endDateString = task.endDate!;
 
             // Parse ngày bắt đầu và kết thúc từ string thành DateTime
-            var startDate = DateTime.parse(startDateString);
-            var endDate = DateTime.parse(endDateString);
+            var startDate = DateTime.parse(startDateString).add(const Duration(hours: 7));
+            var endDate = DateTime.parse(endDateString).add(const Duration(hours: 7));
             // Thêm nhiệm vụ vào danh sách tasks cho mỗi ngày từ startDate đến endDate
             for (var date = startDate; date.isBefore(endDate.add(const Duration(days: 1))); date = date.add(const Duration(days: 1))) {
               tasks.putIfAbsent(date, () => []).add(TaskItem(
