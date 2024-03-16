@@ -19,6 +19,8 @@ class TaskOverallViewController extends BaseController {
 
   RxBool isLoading = false.obs;
 
+  RxBool checkView = true.obs;
+
   RxList<String> filterList = <String>[
     "Không chọn",
     "Ngày tạo (Tăng dần)",
@@ -34,6 +36,7 @@ class TaskOverallViewController extends BaseController {
 
   Future<void> refreshPage() async {
     listTask.clear();
+    checkView.value = true;
     jwt = GetStorage().read('JWT');
     isLoading.value = true;
     await getListTask();
@@ -41,28 +44,34 @@ class TaskOverallViewController extends BaseController {
   }
 
   Future<void> getTaskDetail(String taskID) async {
-    Get.toNamed(Routes.TASK_DETAIL_VIEW, arguments: {"taskID": taskID});
+    Get.toNamed(Routes.TASK_DETAIL_VIEW,
+        arguments: {"taskID": taskID, "isNavigateOverall": true, "isNavigateNotification": false, "isNavigateSchedule": false});
   }
 
   Future<void> getListTask() async {
-    String jwt = GetStorage().read('JWT');
-    isLoading.value = true;
-    Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
-    listTask.clear();
-    List<TaskModel> list = [];
-    list = await TaskOverallApi.getTask(jwt, eventID);
-    if (list.isNotEmpty) {
-      for (var item in list) {
-        if (item.assignTasks!.isNotEmpty) {
-          if (item.parent == null && item.status != Status.CANCEL && item.assignTasks![0].user!.id == decodedToken['id']) {
-            listTask.add(item);
+    try {
+      String jwt = GetStorage().read('JWT');
+      isLoading.value = true;
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+      listTask.clear();
+      List<TaskModel> list = [];
+      list = await TaskOverallApi.getTask(jwt, eventID);
+      if (list.isNotEmpty) {
+        for (var item in list) {
+          if (item.assignTasks!.isNotEmpty) {
+            if (item.parent == null && item.status != Status.CANCEL && item.assignTasks![0].user!.id == decodedToken['id']) {
+              listTask.add(item);
+            }
           }
         }
-      }
 
-      // listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
+        // listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
+      }
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+      checkView.value = false;
     }
-    isLoading.value = false;
   }
 
   filter(String value) {

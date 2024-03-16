@@ -8,6 +8,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
+import 'package:hrea_mobile_staff/app/modules/subtask-detail-view/api/subtask_detail_api.dart';
 import 'package:hrea_mobile_staff/app/modules/subtask-detail-view/model/attachment_model.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/task.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/user_model.dart';
@@ -26,9 +27,13 @@ import 'package:path_provider/path_provider.dart';
 // import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class TaskDetailViewController extends BaseController {
-  TaskDetailViewController({required this.taskID});
+  TaskDetailViewController(
+      {required this.taskID, required this.isNavigateOverall, required this.isNavigateNotification, required this.isNavigateSchedule});
 
   String taskID = '';
+  bool isNavigateOverall = false;
+  bool isNavigateNotification = false;
+  bool isNavigateSchedule = false;
 
   Rx<TaskModel> taskModel = TaskModel().obs;
 
@@ -87,6 +92,7 @@ class TaskDetailViewController extends BaseController {
   RxDouble est = 0.0.obs;
 
   RxBool isCheckin = false.obs;
+  RxBool checkView = false.obs;
 
   // late IO.Socket socket;
 
@@ -156,12 +162,9 @@ class TaskDetailViewController extends BaseController {
       count.value = 0;
 
       if (progressSubTaskDone.value == 1) {
-        await updateStatusTask('DONE', taskID);
+        await updateStatusTask('DONE', taskID, true);
       }
 
-      if (progressSubTaskDone.value == 1) {
-        await updateStatusTask('DONE', taskID);
-      }
       //
       // else {
       //   if (taskModel.value.startDate!.day == taskModel.value.endDate!.day && DateTime.now().toLocal().isAfter(taskModel.value.startDate!)) {
@@ -218,6 +221,7 @@ class TaskDetailViewController extends BaseController {
     } catch (e) {
       isLoading.value = false;
       print(e);
+      checkView.value = false;
     }
   }
 
@@ -247,7 +251,10 @@ class TaskDetailViewController extends BaseController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    await getTaskDetail();
+    checkView.value = await checkTaskForUser();
+    if (checkView.value) {
+      await getTaskDetail();
+    }
     // connectAndListen();
     // var myJSON = jsonDecode(
     //     r'[{"insert": "The Two Towers"}, {"insert": "\n", "attributes": {"header": 1}}, {"insert": "Aragorn sped on up the hill.\n"}]');
@@ -298,37 +305,50 @@ class TaskDetailViewController extends BaseController {
     } else {
       try {
         checkToken();
-        List<FileModel> listFile = [];
-        if (filePicker.isNotEmpty) {
-          for (var item in filePicker) {
-            File fileResult = File(item.path!);
-            UploadFileModel responseApi = await TaskDetailApi.uploadFile(jwt, fileResult, item.extension ?? '', 'comment');
+        bool checkTask = await checkTaskForUser();
+        if (checkTask) {
+          List<FileModel> listFile = [];
+          if (filePicker.isNotEmpty) {
+            for (var item in filePicker) {
+              File fileResult = File(item.path!);
+              UploadFileModel responseApi = await TaskDetailApi.uploadFile(jwt, fileResult, item.extension ?? '', 'comment');
+              if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+                listFile.add(FileModel(fileName: responseApi.result!.fileName, fileUrl: responseApi.result!.downloadUrl));
+              } else {
+                checkView.value = false;
+              }
+            }
+            ResponseApi responseApi = await TaskDetailApi.createComment(jwt, taskID, commentController.text, listFile);
             if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-              listFile.add(FileModel(fileName: responseApi.result!.fileName, fileUrl: responseApi.result!.downloadUrl));
+              listComment.value = await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+              listComment.sort((comment1, comment2) {
+                return comment2.createdAt!.compareTo(comment1.createdAt!);
+              });
+              getAllAttachment();
+            } else {
+              checkView.value = false;
+            }
+          } else {
+            ResponseApi responseApi = await TaskDetailApi.createComment(jwt, taskID, commentController.text, listFile);
+            if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+              listComment.value = await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+              listComment.sort((comment1, comment2) {
+                return comment2.createdAt!.compareTo(comment1.createdAt!);
+              });
+              getAllAttachment();
+            } else {
+              checkView.value = false;
             }
           }
-          ResponseApi responseApi = await TaskDetailApi.createComment(jwt, taskID, commentController.text, listFile);
-          if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-            listComment.value = await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
-            listComment.sort((comment1, comment2) {
-              return comment2.createdAt!.compareTo(comment1.createdAt!);
-            });
-            getAllAttachment();
-          }
+          commentController.text = '';
+          filePicker.value = [];
         } else {
-          ResponseApi responseApi = await TaskDetailApi.createComment(jwt, taskID, commentController.text, listFile);
-          if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-            listComment.value = await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
-            listComment.sort((comment1, comment2) {
-              return comment2.createdAt!.compareTo(comment1.createdAt!);
-            });
-            getAllAttachment();
-          }
+          Get.snackbar('Thông báo', 'Công việc này không khả dụng nữa',
+              snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
         }
-        commentController.text = '';
-        filePicker.value = [];
       } catch (e) {
         print(e);
+        checkView.value = false;
       }
     }
   }
@@ -405,47 +425,94 @@ class TaskDetailViewController extends BaseController {
   }
 
   Future<void> refreshPage() async {
-    String jwt = GetStorage().read('JWT');
     isLoading.value = true;
-    // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
-    // UserModel assigner =
-    //     await TaskDetailApi.getAssignerDetail(jwt, taskModel.value.createdBy!);
-    // if (assigner.statusCode == 200 || assigner.statusCode == 201) {
-    //   taskModel.value.nameAssigner = assigner.result!.fullName;
-    //   taskModel.value.avatarAssigner = assigner.result!.avatar;
-    // }
-    await getTaskDetail();
+    bool checkTask = await checkTaskForUser();
+    if (checkTask) {
+      await getTaskDetail();
+    } else {
+      Get.snackbar('Thông báo', 'Công việc này không khả dụng nữa',
+          snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
+    }
+
     isLoading.value = false;
   }
 
-  Future<void> updateStatusTask(String status, String taskID) async {
+  Future<void> updateStatusTask(String status, String taskID, bool isSubTask) async {
     isLoading.value = true;
     try {
       checkToken();
-      ResponseApi responseApi = await TaskDetailApi.updateStatusTask(jwt, taskID, status);
-      if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-        // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
-        // UserModel assigner = await TaskDetailApi.getAssignerDetail(
-        //     jwt, taskModel.value.createdBy!);
-        // if (assigner.statusCode == 200 || assigner.statusCode == 201) {
-        //   taskModel.value.nameAssigner = assigner.result!.fullName;
-        //   taskModel.value.avatarAssigner = assigner.result!.avatar;
+      bool checkTask = await checkTaskForUser();
+      if (checkTask) {
+        if (isSubTask) {
+          ResponseApi responseApi = await TaskDetailApi.updateStatusTask(jwt, taskID, status);
+          if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+            if (status == 'DONE' || status == 'CONFIRM') {
+              ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, 100);
+              if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
+                errorUpdateTask.value = true;
+                errorUpdateTaskText.value = 'Có lỗi xảy ra';
+                isLoading.value = false;
+              }
+            }
 
-        // }
-        await getTaskDetail();
-        Get.find<TaskOverallViewController>().getListTask();
-        errorUpdateTask.value = false;
+            if (isNavigateOverall == true) {
+              Get.find<TaskOverallViewController>().getListTask();
+            }
+            await getTaskDetail();
+
+            errorUpdateTask.value = false;
+          } else {
+            checkView.value = false;
+          }
+          // if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
+          //   errorUpdateTask.value = true;
+          //   errorUpdateTaskText.value = responseApi.message!;
+          // }
+        } else {
+          bool allSubTasksDone = true; // Giả sử tất cả các subTask đều là Done ban đầu
+          if (status == 'DONE' && taskModel.value.subTask != null) {
+            for (var subTask in taskModel.value.subTask!) {
+              if (subTask.status != Status.CONFIRM) {
+                allSubTasksDone = false;
+                break; // Không cần kiểm tra tiếp nếu có ít nhất một subTask chưa Done
+              }
+            }
+          }
+          if (allSubTasksDone) {
+            checkToken();
+            ResponseApi responseApi = await TaskDetailApi.updateStatusTask(jwt, taskID, status);
+            if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+              if (isNavigateOverall == true) {
+                Get.find<TaskOverallViewController>().getListTask();
+              }
+
+              await getTaskDetail();
+
+              errorUpdateTask.value = false;
+            } else {
+              checkView.value = false;
+            }
+            // if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
+            //   errorUpdateTask.value = true;
+            //   errorUpdateTaskText.value = responseApi.message!;
+            // }
+          } else {
+            Get.snackbar('Không thể cập nhật', 'Tất cả công việc con phải Đã Xác Thực thì mới đổi thành trạng thái Hoàn thành',
+                snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
+          }
+        }
+      } else {
+        Get.snackbar('Thông báo', 'Công việc này không khả dụng nữa',
+            snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
       }
-      if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
-        errorUpdateTask.value = true;
-        errorUpdateTaskText.value = responseApi.message!;
-      }
+
       isLoading.value = false;
     } catch (e) {
       errorUpdateTask.value = true;
       errorUpdateTaskText.value = 'Có lỗi xảy ra';
       isLoading.value = false;
       print(e);
+      checkView.value = false;
     }
   }
 
@@ -478,39 +545,39 @@ class TaskDetailViewController extends BaseController {
     isLoading.value = true;
     // SharedPreferences prefs = await SharedPreferences.getInstance();
     checkToken();
-    //  else {
-    //   jwt = prefs.getString('JWT')!;
-    // }
+
     if (titleSubTaskController.text.isEmpty) {
       errorUpdateTask.value = true;
       errorUpdateTaskText.value = 'Phải đặt tên tiêu đề công việc nhỏ';
       isLoading.value = false;
     } else {
       try {
-        ResponseApi responseApi =
-            await TaskDetailApi.createSubTask(jwt, titleSubTaskController.text, taskModel.value.eventDivision!.event!.id!, taskModel.value.id!);
-        if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-          // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
-          // UserModel assigner = await TaskDetailApi.getAssignerDetail(
-          //     jwt, taskModel.value.createdBy!);
-          // if (assigner.statusCode == 200 || assigner.statusCode == 201) {
-          //   taskModel.value.nameAssigner = assigner.result!.fullName;
-          //   taskModel.value.avatarAssigner = assigner.result!.avatar;
+        bool checkTask = await checkTaskForUser();
+        if (checkTask) {
+          ResponseApi responseApi =
+              await TaskDetailApi.createSubTask(jwt, titleSubTaskController.text, taskModel.value.eventDivision!.event!.id!, taskModel.value.id!);
+          if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+            errorUpdateTask.value = false;
 
-          // }
-          errorUpdateTask.value = false;
-          await getTaskDetail();
-          Get.find<TaskOverallViewController>().getListTask();
+            await getTaskDetail();
+            // Get.find<TaskOverallViewController>().getListTask();
+          } else {
+            errorUpdateTask.value = true;
+            errorUpdateTaskText.value = responseApi.message!;
+            checkView.value = false;
+          }
         } else {
-          errorUpdateTask.value = true;
-          errorUpdateTaskText.value = responseApi.message!;
+          Get.snackbar('Thông báo', 'Công việc này không khả dụng nữa',
+              snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
         }
+
         isLoading.value = false;
       } catch (e) {
         errorUpdateTask.value = true;
         errorUpdateTaskText.value = 'Có lỗi xảy ra';
         isLoading.value = false;
         print(e);
+        checkView.value = false;
       }
     }
   }
@@ -685,16 +752,25 @@ class TaskDetailViewController extends BaseController {
   Future<void> deleteComment(CommentModel commentModel) async {
     try {
       checkToken();
-      ResponseApi responseApi = await TaskDetailApi.deleteComment(jwt, commentModel.id!);
-      if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-        listComment.value = await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
-        listComment.sort((comment1, comment2) {
-          return comment2.createdAt!.compareTo(comment1.createdAt!);
-        });
-        getAllAttachment();
+      bool checkTask = await checkTaskForUser();
+      if (checkTask) {
+        ResponseApi responseApi = await TaskDetailApi.deleteComment(jwt, commentModel.id!);
+        if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+          listComment.value = await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+          listComment.sort((comment1, comment2) {
+            return comment2.createdAt!.compareTo(comment1.createdAt!);
+          });
+          getAllAttachment();
+        } else {
+          checkView.value = false;
+        }
+      } else {
+        Get.snackbar('Thông báo', 'Công việc này không khả dụng nữa',
+            snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
       }
     } catch (e) {
       print(e);
+      checkView.value = false;
     }
   }
 
@@ -707,6 +783,7 @@ class TaskDetailViewController extends BaseController {
       });
       // isLoadingDeleteComment.value = false;
     } catch (e) {
+      checkView.value = false;
       // isLoadingDeleteComment.value = false;
     }
   }
@@ -727,38 +804,79 @@ class TaskDetailViewController extends BaseController {
   Future<void> editComment(CommentModel commentModel, String content, String commentID, List<PlatformFile> filePickerEditCommentFile) async {
     try {
       checkToken();
-      List<CommentFile> list = [];
-      for (var item in listComment) {
-        if (item.id == commentID) {
-          for (var files in item.commentFiles!) {
-            list.add(files);
+      bool checkTask = await checkTaskForUser();
+      if (checkTask) {
+        List<CommentFile> list = [];
+        for (var item in listComment) {
+          if (item.id == commentID) {
+            for (var files in item.commentFiles!) {
+              list.add(files);
+            }
           }
         }
-      }
-      List<FileModel> listFile = [];
-      if (filePickerEditCommentFile.isNotEmpty) {
-        for (var item in filePickerEditCommentFile) {
-          File fileResult = File(item.path!);
-          UploadFileModel responseApi = await TaskDetailApi.uploadFile(jwt, fileResult, item.extension ?? '', 'comment');
-          if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-            listFile.add(FileModel(fileName: responseApi.result!.fileName, fileUrl: responseApi.result!.downloadUrl));
+        List<FileModel> listFile = [];
+        if (filePickerEditCommentFile.isNotEmpty) {
+          for (var item in filePickerEditCommentFile) {
+            File fileResult = File(item.path!);
+            UploadFileModel responseApi = await TaskDetailApi.uploadFile(jwt, fileResult, item.extension ?? '', 'comment');
+            if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+              listFile.add(FileModel(fileName: responseApi.result!.fileName, fileUrl: responseApi.result!.downloadUrl));
+            } else {
+              checkView.value = false;
+            }
+          }
+          for (var fileNew in listFile) {
+            list.add(CommentFile(fileName: fileNew.fileName, fileUrl: fileNew.fileUrl));
           }
         }
-        for (var fileNew in listFile) {
-          list.add(CommentFile(fileName: fileNew.fileName, fileUrl: fileNew.fileUrl));
-        }
-      }
 
-      ResponseApi responseApi = await TaskDetailApi.updateComment(jwt, commentModel.id!, content, list);
-      if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-        listComment.value = await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
-        listComment.sort((comment1, comment2) {
-          return comment2.createdAt!.compareTo(comment1.createdAt!);
-        });
-        // getAllAttachment();
+        ResponseApi responseApi = await TaskDetailApi.updateComment(jwt, commentModel.id!, content, list);
+        if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+          listComment.value = await TaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+          listComment.sort((comment1, comment2) {
+            return comment2.createdAt!.compareTo(comment1.createdAt!);
+          });
+          // getAllAttachment();
+        } else {
+          checkView.value = false;
+        }
+      } else {
+        Get.snackbar('Thông báo', 'Công việc này không khả dụng nữa',
+            snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
       }
     } catch (e) {
       print(e);
+      checkView.value = false;
+    }
+  }
+
+  Future<bool> checkTaskForUser() async {
+    try {
+      checkToken();
+      Rx<TaskModel> taskModelCheck = TaskModel().obs;
+      taskModelCheck.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
+      if (taskModelCheck.value.status == null || taskModelCheck.value.priority == null) {
+        return false;
+      }
+
+      taskModelCheck.value.assignTasks = taskModelCheck.value.assignTasks!.where((task) => task.status == "active").toList();
+
+      bool isCheckTask = false;
+      if (taskModelCheck.value.assignTasks != null && taskModelCheck.value.assignTasks!.isNotEmpty) {
+        for (var item in taskModelCheck.value.assignTasks!) {
+          if (item.user!.id == idUser && item.status == "active") {
+            isCheckTask = true;
+            break;
+          }
+        }
+      }
+      if (isCheckTask) {
+        return true;
+      }
+
+      return false;
+    } catch (e) {
+      return false;
     }
   }
 }

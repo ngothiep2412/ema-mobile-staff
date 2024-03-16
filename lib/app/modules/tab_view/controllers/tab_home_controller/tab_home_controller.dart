@@ -21,26 +21,32 @@ class TabHomeController extends BaseController {
   String jwt = '';
   String idUser = '';
 
+  RxBool checkInView = true.obs;
+
   Future<void> refreshpage() async {
-    listEventUpComing.clear();
-    listEventToday.clear();
-    print('1: ${isLoading.value}');
-    isLoading.value = true;
-    listEventUpComing.value = await TabHomeApi.getEventUpComing(jwt, idUser);
-    listEvent.value = await TabHomeApi.getEvent(jwt);
+    checkInView.value = true;
+    try {
+      listEventUpComing.clear();
+      listEventToday.clear();
+      isLoading.value = true;
+      listEventUpComing.value = await TabHomeApi.getEventUpComing(jwt, idUser);
+      listEvent.value = await TabHomeApi.getEvent(jwt);
 
-    listEventToday.value = await TabHomeApi.getEventToday(jwt, idUser);
+      listEventToday.value = await TabHomeApi.getEventToday(jwt, idUser);
 
-    for (var todayEvent in listEventToday) {
-      // Tìm sự kiện trong ngày trong danh sách sự kiện sắp diễn ra
-      var index = listEventUpComing.indexWhere((upcomingEvent) => upcomingEvent.id == todayEvent.id);
-      print('$index');
-      if (index != -1) {
-        listEventUpComing.removeAt(index);
+      for (var todayEvent in listEventToday) {
+        // Tìm sự kiện trong ngày trong danh sách sự kiện sắp diễn ra
+        var index = listEventUpComing.indexWhere((upcomingEvent) => upcomingEvent.id == todayEvent.id);
+        print('$index');
+        if (index != -1) {
+          listEventUpComing.removeAt(index);
+        }
       }
-    }
 
-    isLoading.value = false;
+      isLoading.value = false;
+    } catch (e) {
+      checkInView.value = false;
+    }
   }
 
   void checkToken() {
@@ -59,36 +65,33 @@ class TabHomeController extends BaseController {
   }
 
   Future<void> getEvent() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      checkToken();
+      print('JWT 123: $jwt');
+      isLoading.value = true;
+      listEvent.value = await TabHomeApi.getEvent(jwt);
+      listEventUpComing.value = await TabHomeApi.getEventUpComing(jwt, idUser);
+      listEventToday.value = await TabHomeApi.getEventToday(jwt, idUser);
 
-    checkToken();
-    print('JWT 123: $jwt');
-    isLoading.value = true;
-    listEvent.value = await TabHomeApi.getEvent(jwt);
-    listEventUpComing.value = await TabHomeApi.getEventUpComing(jwt, idUser);
-    listEventToday.value = await TabHomeApi.getEventToday(jwt, idUser);
-
-    for (var todayEvent in listEventToday) {
-      // Tìm sự kiện trong ngày trong danh sách sự kiện sắp diễn ra
-      var index = listEventUpComing.indexWhere((upcomingEvent) => upcomingEvent.id == todayEvent.id);
-      print('$index');
-      if (index != -1) {
-        listEventUpComing.removeAt(index);
+      for (var todayEvent in listEventToday) {
+        // Tìm sự kiện trong ngày trong danh sách sự kiện sắp diễn ra
+        var index = listEventUpComing.indexWhere((upcomingEvent) => upcomingEvent.id == todayEvent.id);
+        print('$index');
+        if (index != -1) {
+          listEventUpComing.removeAt(index);
+        }
       }
-    }
 
-    isLoading.value = false;
+      isLoading.value = false;
+    } catch (e) {
+      checkInView.value = false;
+    }
   }
 
   @override
   Future<void> onInit() async {
     super.onInit();
     await getEvent();
-
-    // listEvent.value = [
-    //   EventModel(id:'1',image: 'https://www.shutterstock.com/image-vector/events-colorful-typography-banner-260nw-1356206768.jpg',title: 'Công việc cá nhân'),
-    //   EventModel(id:'2',image: 'https://www.adobe.com/content/dam/www/us/en/events/overview-page/eventshub_evergreen_opengraph_1200x630_2x.jpg',title: 'Lễ kỉ niệm 10 năm')
-    // ];
   }
 
   @override

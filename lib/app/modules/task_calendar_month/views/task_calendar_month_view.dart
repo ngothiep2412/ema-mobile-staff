@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrea_mobile_staff/app/base/base_view.dart';
-import 'package:hrea_mobile_staff/app/modules/tab_view/model/task.dart';
 import 'package:hrea_mobile_staff/app/modules/task_calendar_month/model/task_item.dart';
+import 'package:hrea_mobile_staff/app/resources/assets_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
 import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_staff/app/resources/style_manager.dart';
@@ -15,9 +15,72 @@ class TaskCalendarMonthView extends BaseView<TaskCalendarMonthController> {
   const TaskCalendarMonthView({Key? key}) : super(key: key);
   @override
   Widget buildView(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blue.withOpacity(0.9),
-      body: _content(context),
+    return Obx(
+      () => Scaffold(
+        backgroundColor: Colors.blue.withOpacity(0.9),
+        body: controller.checkInView.value == false
+            ? SafeArea(
+                child: Column(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        IconButton(
+                            onPressed: () => Get.back(),
+                            icon: const Icon(
+                              Icons.arrow_back_ios_new,
+                              color: ColorsManager.backgroundWhite,
+                            )),
+                        SizedBox(
+                          width: UtilsReponsive.width(5, context),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Lịch của ${controller.userName}',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontFamily: 'Nunito',
+                                color: ColorsManager.backgroundWhite,
+                                fontSize: UtilsReponsive.height(20, context),
+                                fontWeight: FontWeight.w800),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 6,
+                    child: Container(
+                      color: Colors.white,
+                      child: (Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              ImageAssets.noInternet,
+                              fit: BoxFit.cover,
+                              width: UtilsReponsive.widthv2(context, 200),
+                              height: UtilsReponsive.heightv2(context, 200),
+                            ),
+                            SizedBox(
+                              height: UtilsReponsive.height(20, context),
+                            ),
+                            Text(
+                              'Đang có lỗi xảy ra',
+                              style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w800, ColorsManager.primary),
+                            ),
+                          ],
+                        ),
+                      )),
+                    ),
+                  )
+                ],
+              ))
+            : _content(context),
+      ),
     );
   }
 
@@ -32,7 +95,7 @@ class TaskCalendarMonthView extends BaseView<TaskCalendarMonthController> {
               children: [
                 IconButton(
                     onPressed: () => Get.back(),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back_ios_new,
                       color: ColorsManager.backgroundWhite,
                     )),
@@ -55,12 +118,12 @@ class TaskCalendarMonthView extends BaseView<TaskCalendarMonthController> {
             ),
           ),
           Expanded(
-            flex: 8,
+            flex: 6,
             child: Container(
-              decoration: BoxDecoration(),
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Obx(
                 () => TableCalendar(
+                    rowHeight: UtilsReponsive.height(40, context),
                     startingDayOfWeek: StartingDayOfWeek.monday,
                     locale: "vi_VN",
                     headerStyle: const HeaderStyle(
@@ -97,6 +160,7 @@ class TaskCalendarMonthView extends BaseView<TaskCalendarMonthController> {
                       return getWidgetCellMarker(day, context, controller.tasks);
                     }),
                     calendarStyle: CalendarStyle(
+                      // tablePadding: EdgeInsets.all(10),
                       todayDecoration: BoxDecoration(
                         color: Colors.grey,
                         shape: BoxShape.circle,
@@ -126,9 +190,96 @@ class TaskCalendarMonthView extends BaseView<TaskCalendarMonthController> {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: ColorsManager.grey.withOpacity(0.7),
+                      radius: UtilsReponsive.height(10, context),
+                    ),
+                    SizedBox(
+                      width: UtilsReponsive.width(5, context),
+                    ),
+                    Text(
+                      'Đang chuẩn bị',
+                      overflow: TextOverflow.ellipsis,
+                      style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.backgroundWhite),
+                    ),
+                    SizedBox(
+                      width: UtilsReponsive.width(5, context),
+                    ),
+                    CircleAvatar(
+                      backgroundColor: ColorsManager.blue.withOpacity(0.7),
+                      radius: UtilsReponsive.height(10, context),
+                    ),
+                    SizedBox(
+                      width: UtilsReponsive.width(5, context),
+                    ),
+                    Text(
+                      'Đang diễn ra',
+                      overflow: TextOverflow.ellipsis,
+                      style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.backgroundWhite),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: ColorsManager.red.withOpacity(0.7),
+                      radius: UtilsReponsive.height(10, context),
+                    ),
+                    SizedBox(
+                      width: UtilsReponsive.width(5, context),
+                    ),
+                    Text(
+                      'Quá hạn',
+                      overflow: TextOverflow.ellipsis,
+                      style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.backgroundWhite),
+                    ),
+                    SizedBox(
+                      width: UtilsReponsive.width(5, context),
+                    ),
+                    CircleAvatar(
+                      backgroundColor: ColorsManager.green.withOpacity(0.7),
+                      radius: UtilsReponsive.height(10, context),
+                    ),
+                    SizedBox(
+                      width: UtilsReponsive.width(5, context),
+                    ),
+                    Text(
+                      'Hoàn thành',
+                      overflow: TextOverflow.ellipsis,
+                      style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.backgroundWhite),
+                    ),
+                    SizedBox(
+                      width: UtilsReponsive.width(5, context),
+                    ),
+                    CircleAvatar(
+                      backgroundColor: ColorsManager.purple.withOpacity(0.7),
+                      radius: UtilsReponsive.height(10, context),
+                    ),
+                    SizedBox(
+                      width: UtilsReponsive.width(5, context),
+                    ),
+                    Text(
+                      'Đã xác thực',
+                      overflow: TextOverflow.ellipsis,
+                      style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.backgroundWhite),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: UtilsReponsive.height(15, context),
+          ),
           Obx(
             () => Expanded(
-              flex: 3,
+              flex: 5,
               child: Container(
                 padding: EdgeInsets.only(top: controller.taskShow.isNotEmpty ? UtilsReponsive.height(30, context) : 0),
                 decoration: const BoxDecoration(
@@ -213,9 +364,9 @@ class TaskCalendarMonthView extends BaseView<TaskCalendarMonthController> {
                 width: 5,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: taskModel.priority! == Priority.LOW
+                  color: taskModel.priority! == 'LOW'
                       ? ColorsManager.green
-                      : taskModel.priority! == Priority.MEDIUM
+                      : taskModel.priority! == 'MEDIUM'
                           ? ColorsManager.yellow
                           : ColorsManager.red,
                 ),
@@ -237,13 +388,13 @@ class TaskCalendarMonthView extends BaseView<TaskCalendarMonthController> {
                         Icon(
                           size: 20,
                           Icons.calendar_month,
-                          color: taskModel.status == Status.PENDING
+                          color: taskModel.status == 'PENDING'
                               ? ColorsManager.grey
-                              : taskModel.status! == Status.PROCESSING
+                              : taskModel.status! == 'PROCESSING'
                                   ? ColorsManager.blue
-                                  : taskModel.status! == Status.DONE
+                                  : taskModel.status! == 'DONE'
                                       ? ColorsManager.green
-                                      : taskModel.status! == Status.CONFIRM
+                                      : taskModel.status! == 'CONFIRM'
                                           ? ColorsManager.purple
                                           : ColorsManager.red,
                         ),
@@ -263,13 +414,13 @@ class TaskCalendarMonthView extends BaseView<TaskCalendarMonthController> {
                             style: TextStyle(
                                 fontSize: 13,
                                 fontFamily: 'Nunito',
-                                color: taskModel.status == Status.PENDING
+                                color: taskModel.status == 'PENDING'
                                     ? ColorsManager.grey
-                                    : taskModel.status! == Status.PROCESSING
+                                    : taskModel.status! == 'PROCESSING'
                                         ? ColorsManager.blue
-                                        : taskModel.status! == Status.DONE
+                                        : taskModel.status! == 'DONE'
                                             ? ColorsManager.green
-                                            : taskModel.status! == Status.CONFIRM
+                                            : taskModel.status! == 'CONFIRM'
                                                 ? ColorsManager.purple
                                                 : ColorsManager.red,
                                 // fontSize: UtilsReponsive.height(5, context),
@@ -285,24 +436,24 @@ class TaskCalendarMonthView extends BaseView<TaskCalendarMonthController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    taskModel.status! == Status.DONE
+                    taskModel.status! == 'CONFIRM'
                         ? CircleAvatar(
-                            backgroundColor: ColorsManager.grey.withOpacity(0.7),
+                            backgroundColor: ColorsManager.grey.withOpacity(0.2),
                             radius: UtilsReponsive.height(20, context),
                             child: Icon(
                               Icons.check_circle,
-                              color: ColorsManager.green.withOpacity(0.7),
-                              size: 20,
+                              color: ColorsManager.purple.withOpacity(0.7),
+                              size: 40,
                             ),
                           )
                         : CircleAvatar(
-                            backgroundColor: taskModel.status! == Status.PENDING
+                            backgroundColor: taskModel.status! == 'PENDING'
                                 ? ColorsManager.grey.withOpacity(0.7)
-                                : taskModel.status! == Status.PROCESSING
+                                : taskModel.status! == 'PROCESSING'
                                     ? ColorsManager.blue.withOpacity(0.7)
-                                    : taskModel.status! == Status.OVERDUE
+                                    : taskModel.status! == 'OVERDUE'
                                         ? ColorsManager.red.withOpacity(0.7)
-                                        : ColorsManager.purple.withOpacity(0.7),
+                                        : ColorsManager.green.withOpacity(0.7),
                             radius: UtilsReponsive.height(20, context),
                           ),
                   ],
@@ -333,12 +484,12 @@ class TaskCalendarMonthView extends BaseView<TaskCalendarMonthController> {
           UtilsReponsive.height(2, context),
         ),
         margin: EdgeInsets.only(bottom: UtilsReponsive.height(2, context), left: UtilsReponsive.height(0, context)),
-        height: 18,
-        width: 14,
+        height: UtilsReponsive.height(10, context),
+        width: UtilsReponsive.height(10, context),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: tasks[day.toLocal()] != null ? Colors.redAccent : Colors.transparent, // Thiết lập màu sắc cho BoxShape
+          color: tasks[day.toLocal()] != null ? Colors.orangeAccent : Colors.transparent, // Thiết lập màu sắc cho BoxShape
         ),
       ),
     );

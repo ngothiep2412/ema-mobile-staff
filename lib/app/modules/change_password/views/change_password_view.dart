@@ -226,7 +226,7 @@ class ChangePasswordView extends BaseView<ChangePasswordController> {
                   'Thành công',
                   style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
                   'Thay đổi mật khẩu thành công',
                   style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),

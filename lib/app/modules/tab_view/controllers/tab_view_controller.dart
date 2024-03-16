@@ -14,7 +14,6 @@ import 'package:hrea_mobile_staff/app/modules/tab_view/model/user_division_model
 import 'package:hrea_mobile_staff/app/modules/tab_view/views/tab_chat_view/tab_chat_view.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/views/tab_home_view/tab_home_view.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/views/tab_notification_view/tab_notification_view.dart';
-import 'package:hrea_mobile_staff/app/modules/tab_view/views/tab_request_view/tab_request_view.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/views/tab_setting_view/tab_setting_view.dart';
 
 import 'package:hrea_mobile_staff/app/resources/base_link.dart';
@@ -71,14 +70,15 @@ class TabViewController extends BaseController {
     socket!.onConnectError((data) => print('Connect Error: $data'));
     socket!.onDisconnect((data) => print('Socket.IO server disconnected'));
     socket!.emit("getOnlineUser", {});
-
-    List<ChatUserModel> list = await TabChatApi.getAllChatUser(jwt, 1);
-    if (list.isNotEmpty) {
-      for (var chatUser in list) {
-        socket!.emit("onConversationJoin", (chatUser.id));
-      }
-    }
+    socket!.emit('userJoin', {});
     socket!.emit("getOnlineGroupUsers", {});
+
+    // List<ChatUserModel> list = await TabChatApi.getAllChatUser(jwt, 1);
+    // if (list.isNotEmpty) {
+    //   for (var chatUser in list) {
+    //     socket!.emit("onConversationJoin", (chatUser.id));
+    //   }
+    // }
     socket!.on(
         "onlineGroupUsersReceived",
         (data) async => {
@@ -130,7 +130,7 @@ class TabViewController extends BaseController {
 
     socket!.on('notification', (data) async {
       Get.find<TabNotificationController>().uploadNoti();
-      Get.find<TabViewController>().checkAllNotiSeen.value = false;
+      // Get.find<TabViewController>().checkAllNotiSeen.value = false;
       // listNotifications.value = list;
 
       // listNotifications.add(NotificationModel(

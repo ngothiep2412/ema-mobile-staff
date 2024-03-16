@@ -13,7 +13,6 @@ class TabHomeApi {
         'Authorization': 'Bearer $jwtToken',
       },
     );
-    print('abc event' + response.statusCode.toString());
     if (response.statusCode == 201 || response.statusCode == 200) {
       var jsonData = jsonDecode(response.body)["result"];
       List<EventModel> listEvent = [];
@@ -33,7 +32,6 @@ class TabHomeApi {
         'Authorization': 'Bearer $jwtToken',
       },
     );
-    print('abc event' + response.statusCode.toString());
     if (response.statusCode == 201 || response.statusCode == 200) {
       var jsonData = jsonDecode(response.body)["result"];
       List<EventModel> listEvent = [];
@@ -53,7 +51,6 @@ class TabHomeApi {
         'Authorization': 'Bearer $jwtToken',
       },
     );
-    print('abc event' + response.statusCode.toString());
     if (response.statusCode == 201 || response.statusCode == 200) {
       var jsonData = jsonDecode(response.body)["result"];
       List<EventModel> listEvent = [];

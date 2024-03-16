@@ -33,6 +33,7 @@ abstract class Routes {
   static const TASK_SCHEDULE = _Paths.TASK_SCHEDULE;
   static const TASK_CALENDAR_MONTH = _Paths.TASK_CALENDAR_MONTH;
   static const PROFILE_CHAT = _Paths.PROFILE_CHAT;
+  static const TIMELINE_REASSIGN = _Paths.TIMELINE_REASSIGN;
 }
 
 abstract class _Paths {
@@ -67,4 +68,5 @@ abstract class _Paths {
   static const TASK_SCHEDULE = '/task-schedule';
   static const TASK_CALENDAR_MONTH = '/task-calendar-month';
   static const PROFILE_CHAT = '/profile-chat';
+  static const TIMELINE_REASSIGN = '/timeline-reassign';
 }

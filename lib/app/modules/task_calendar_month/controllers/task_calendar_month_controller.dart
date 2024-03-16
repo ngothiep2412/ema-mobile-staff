@@ -19,6 +19,7 @@ class TaskCalendarMonthController extends BaseController {
   final count = 0.obs;
 
   var dateStarTask = DateTime.now().obs;
+  RxBool checkInView = true.obs;
 
   void onDaySelected(DateTime day, DateTime focusesDay) {
     dateStarTask.value = day;
@@ -136,6 +137,7 @@ class TaskCalendarMonthController extends BaseController {
       }
     } catch (e) {
       print(e);
+      checkInView.value = false;
     }
   }
 

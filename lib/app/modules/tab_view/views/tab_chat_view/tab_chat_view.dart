@@ -31,227 +31,264 @@ class TabChatView extends BaseView<TabChatController> {
                   // size: 30.0,
                 ),
               )
-            : Column(children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Center(
-                        child: Text(
-                          'Đoạn chat',
-                          style: GetTextStyle.getTextStyle(22, 'Nunito', FontWeight.w800, ColorsManager.primary),
+            : controller.checkInView.value == false
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: RefreshIndicator(
+                          onRefresh: controller.refreshpage,
+                          child: ListView(children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center, // Đặt crossAxisAlignment thành center
+                              children: [
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height / 4,
+                                ),
+                                Image.asset(
+                                  ImageAssets.noInternet,
+                                  fit: BoxFit.cover,
+                                  width: UtilsReponsive.widthv2(context, 200),
+                                  height: UtilsReponsive.heightv2(context, 200),
+                                ),
+                                SizedBox(
+                                  height: UtilsReponsive.height(20, context),
+                                ),
+                                Text(
+                                  'Đang có lỗi xảy ra',
+                                  style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w800, ColorsManager.primary),
+                                ),
+                              ],
+                            ),
+                          ]),
                         ),
                       ),
-                    ),
-                    // Icon(
-                    //   Icons.filter_alt_outlined,
-                    //   color: ColorsManager.primary,
-                    // ),
-                    // SizedBox(
-                    //   width: UtilsReponsive.width(10, context),
-                    // ),
-                  ],
-                ),
-                SizedBox(
-                  height: UtilsReponsive.height(20, context),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: RefreshIndicator(
-                      onRefresh: controller.refreshpage,
-                      child: ListView(
-                        // controller: controller.scrollController,
-                        children: [
-                          GestureDetector(
-                            onTap: () => showSearch(
-                              context: context,
-                              delegate: CustomSearch(listUserDivision: controller.listAllUser, listUserOnline: controller.listUserOnline),
+                    ],
+                  )
+                : Column(children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              'Đoạn chat',
+                              style: GetTextStyle.getTextStyle(22, 'Nunito', FontWeight.w800, ColorsManager.primary),
                             ),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius: BorderRadius.circular(20),
-                                // boxShadow: [
-                                //   BoxShadow(
-                                //     color: Colors.grey.withOpacity(0.5),
-                                //     blurRadius: 5,
-                                //     spreadRadius: 2,
-                                //     offset: Offset(0, 3),
-                                //   )
-                                // ],
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  const Icon(
-                                    Icons.search,
-                                    color: Color(0xFF113953),
+                          ),
+                        ),
+                        // Icon(
+                        //   Icons.filter_alt_outlined,
+                        //   color: ColorsManager.primary,
+                        // ),
+                        // SizedBox(
+                        //   width: UtilsReponsive.width(10, context),
+                        // ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: UtilsReponsive.height(20, context),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: RefreshIndicator(
+                          onRefresh: controller.refreshpage,
+                          child: ListView(
+                            // controller: controller.scrollController,
+                            children: [
+                              GestureDetector(
+                                onTap: () => showSearch(
+                                  context: context,
+                                  delegate: CustomSearch(listUserDivision: controller.listAllUser, listUserOnline: controller.listUserOnline),
+                                ),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: UtilsReponsive.height(10, context),
                                   ),
-                                  Container(
-                                    width: UtilsReponsive.width(200, context),
-                                    height: UtilsReponsive.height(50, context),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 10),
-
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Tìm kiếm',
-                                            style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, Color(0xffA7A7A7)),
-                                          ),
-                                        ],
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(20),
+                                    // boxShadow: [
+                                    //   BoxShadow(
+                                    //     color: Colors.grey.withOpacity(0.5),
+                                    //     blurRadius: 5,
+                                    //     spreadRadius: 2,
+                                    //     offset: Offset(0, 3),
+                                    //   )
+                                    // ],
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      const Icon(
+                                        Icons.search,
+                                        color: Color(0xFF113953),
                                       ),
+                                      Container(
+                                        width: UtilsReponsive.width(200, context),
+                                        height: UtilsReponsive.height(50, context),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: UtilsReponsive.height(10, context),
+                                          ),
 
-                                      // TextFormField(
-                                      //   decoration: const InputDecoration(
-                                      //     hintText: "Tìm kiếm",
-                                      //     border: InputBorder.none,
-                                      //   ),
-                                      //   onTap: () => showSearch(
-                                      //     context: context,
-                                      //     delegate: CustomSearch(
-                                      //       listEvent: controller.listEvent,
-                                      //     ),
-                                      //   ),
-                                      // ),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Tìm kiếm',
+                                                style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, const Color(0xffA7A7A7)),
+                                              ),
+                                            ],
+                                          ),
+
+                                          // TextFormField(
+                                          //   decoration: const InputDecoration(
+                                          //     hintText: "Tìm kiếm",
+                                          //     border: InputBorder.none,
+                                          //   ),
+                                          //   onTap: () => showSearch(
+                                          //     context: context,
+                                          //     delegate: CustomSearch(
+                                          //       listEvent: controller.listEvent,
+                                          //     ),
+                                          //   ),
+                                          // ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: UtilsReponsive.height(20, context),
+                              ),
+                              SizedBox(
+                                height: UtilsReponsive.height(100, context), // Adjust the height as needed
+                                child: Obx(
+                                  () => ListView.separated(
+                                    separatorBuilder: (context, index) => SizedBox(
+                                      width: UtilsReponsive.height(20, context),
+                                    ),
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: controller.listAllUser.length, // Provide the item count
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Get.toNamed('/chat-detail', arguments: {
+                                            "email": controller.listAllUser[index].email,
+                                            "userIDChat": controller.listAllUser[index].id,
+                                            "name": controller.listAllUser[index].fullName,
+                                            "avatar": controller.listAllUser[index].avatar,
+                                            "listUserOnline": controller.listUserOnline
+                                          });
+                                        },
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Stack(
+                                              children: [
+                                                // User avatar
+                                                CircleAvatar(
+                                                  radius: 26,
+                                                  backgroundImage: CachedNetworkImageProvider('${controller.listAllUser[index].avatar}'),
+                                                  backgroundColor: Theme.of(context).cardColor,
+                                                ),
+                                                // Status indicator positioned relative to the avatar
+                                                controller.listAllUser[index].online!
+                                                    ? Positioned(
+                                                        bottom: 0,
+                                                        right: 0,
+                                                        child: Container(
+                                                          width: UtilsReponsive.width(14, context),
+                                                          height: UtilsReponsive.height(14, context),
+                                                          decoration: BoxDecoration(
+                                                            shape: BoxShape.circle,
+                                                            color: Colors.green, // Màu nền là màu xanh
+                                                            border: Border.all(color: Colors.white, width: 2), // Viền trắng xung quanh
+                                                          ),
+                                                        ))
+                                                    : const SizedBox(),
+                                              ],
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(top: 5.0),
+                                                child: Text(
+                                                  controller.listAllUser[index].fullName!.length > 10
+                                                      ? '${controller.listAllUser[index].fullName!.substring(0, 10)}...'
+                                                      : controller.listAllUser[index].fullName!,
+                                                  style: const TextStyle(
+                                                    fontFamily: 'Nunito',
+                                                    fontSize: 11,
+                                                    letterSpacing: 0.3,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
+                    ),
+                    SizedBox(
+                      height: UtilsReponsive.height(20, context),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Obx(
+                        () => controller.listChatUser.isNotEmpty
+                            ? ListView.builder(
+                                controller: controller.scrollController,
+                                itemCount: controller.listChatUser.length,
+                                shrinkWrap: true,
+
+                                // physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  if (index == controller.listChatUser.length - 1 && controller.isMoreDataAvailable.value == true) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                  return chatUsersList(chatUserModel: controller.listChatUser[index], controller: controller, context: context);
+                                },
+                              )
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    height: UtilsReponsive.height(200, context),
+                                    child: Image.asset(ImageAssets.noChat, fit: BoxFit.fill),
+                                  ),
+                                  SizedBox(
+                                    height: UtilsReponsive.height(10, context),
+                                  ),
+                                  Center(
+                                    child: Text(
+                                      'Bạn chưa có cuộc hội thoại',
+                                      style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, ColorsManager.primary),
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: UtilsReponsive.height(20, context),
-                          ),
-                          SizedBox(
-                            height: UtilsReponsive.height(100, context), // Adjust the height as needed
-                            child: Obx(
-                              () => ListView.separated(
-                                separatorBuilder: (context, index) => SizedBox(
-                                  width: UtilsReponsive.height(20, context),
-                                ),
-                                scrollDirection: Axis.horizontal,
-                                itemCount: controller.listAllUser.length, // Provide the item count
-                                itemBuilder: (BuildContext context, int index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Get.toNamed('/chat-detail', arguments: {
-                                        "email": controller.listAllUser[index].email,
-                                        "userIDChat": controller.listAllUser[index].id,
-                                        "name": controller.listAllUser[index].fullName,
-                                        "avatar": controller.listAllUser[index].avatar,
-                                        "listUserOnline": controller.listUserOnline
-                                      });
-                                    },
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Stack(
-                                          children: [
-                                            // User avatar
-                                            CircleAvatar(
-                                              radius: 26,
-                                              backgroundImage: CachedNetworkImageProvider('${controller.listAllUser[index].avatar}'),
-                                              backgroundColor: Theme.of(context).cardColor,
-                                            ),
-                                            // Status indicator positioned relative to the avatar
-                                            controller.listAllUser[index].online!
-                                                ? Positioned(
-                                                    bottom: 0,
-                                                    right: 0,
-                                                    child: Container(
-                                                      width: 14,
-                                                      height: 14,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color: Colors.green, // Màu nền là màu xanh
-                                                        border: Border.all(color: Colors.white, width: 2), // Viền trắng xung quanh
-                                                      ),
-                                                    ))
-                                                : SizedBox(),
-                                          ],
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(top: 5.0),
-                                            child: Text(
-                                              controller.listAllUser[index].fullName!.length > 10
-                                                  ? '${controller.listAllUser[index].fullName!.substring(0, 10)}...'
-                                                  : controller.listAllUser[index].fullName!,
-                                              style: const TextStyle(
-                                                fontFamily: 'Nunito',
-                                                fontSize: 11,
-                                                letterSpacing: 0.3,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
-                      )),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Obx(
-                    () => controller.listChatUser.isNotEmpty
-                        ? ListView.builder(
-                            controller: controller.scrollController,
-                            itemCount: controller.listChatUser.length,
-                            shrinkWrap: true,
-
-                            // physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              if (index == controller.listChatUser.length - 1 && controller.isMoreDataAvailable.value == true) {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                              return chatUsersList(chatUserModel: controller.listChatUser[index], controller: controller);
-                            },
-                          )
-                        : Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                height: UtilsReponsive.height(200, context),
-                                width: UtilsReponsive.width(150, context),
-                                child: CachedNetworkImage(
-                                  imageBuilder: (context, imageProvider) =>
-                                      Container(decoration: BoxDecoration(image: DecorationImage(fit: BoxFit.cover, image: imageProvider))),
-                                  imageUrl:
-                                      'https://cdn2.iconfinder.com/data/icons/interface-116/200/no-conversation-1--no-conversation-INTERFACE-CHAT-ZERO-MESSAGES-NOTIFICATIONS-APP-ALONE-SAD-MAN-SIT-512.png',
-                                  placeholder: (context, url) => CircularProgressIndicator(),
-                                  errorWidget: (context, url, error) => Icon(Icons.error),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Center(
-                                child: Text(
-                                  'Bạn chưa có cuộc hội thoại',
-                                  style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, ColorsManager.textColor2),
-                                ),
-                              ),
-                            ],
-                          ),
-                  ),
-                )
-              ]),
+                      ),
+                    )
+                  ]),
       ),
     ));
   }
 }
 
-Widget chatUsersList({required ChatUserModel chatUserModel, required TabChatController controller}) {
+Widget chatUsersList({required ChatUserModel chatUserModel, required TabChatController controller, required BuildContext context}) {
   return GestureDetector(
     onTap: () {
       if (chatUserModel.creator!.id! == controller.idUser) {
@@ -291,18 +328,21 @@ Widget chatUsersList({required ChatUserModel chatUserModel, required TabChatCont
                         right: 0,
                         child: chatUserModel.online != null
                             ? Container(
-                                width: 14,
-                                height: 14,
+                                width: UtilsReponsive.width(16, context),
+                                height: UtilsReponsive.height(16, context),
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Colors.green, // Màu nền là màu xanh
-                                  border: Border.all(color: Colors.white, width: 2), // Viền trắng xung quanh
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: UtilsReponsive.width(2, context),
+                                  ), // Viền trắng xung quanh
                                 ))
-                            : SizedBox(),
+                            : const SizedBox(),
                       ),
                     ]),
                     SizedBox(
-                      width: 16,
+                      width: UtilsReponsive.width(16, context),
                     ),
                     Expanded(
                       child: Container(
@@ -337,7 +377,7 @@ Widget chatUsersList({required ChatUserModel chatUserModel, required TabChatCont
                                             fontFamily: 'Nunito', fontSize: 14, color: ColorsManager.textColor2, fontWeight: FontWeight.w600),
                                       ),
                                 Text(
-                                  '${calculateTimeDifferenceMessenger(chatUserModel.lastMessageSentAt!)}',
+                                  calculateTimeDifferenceMessenger(chatUserModel.lastMessageSentAt!),
                                   style: const TextStyle(
                                       fontFamily: 'Nunito', fontSize: 14, color: ColorsManager.textColor2, fontWeight: FontWeight.w600),
                                 ),
@@ -432,7 +472,7 @@ class CustomSearch extends SearchDelegate {
                               height: UtilsReponsive.heightv2(context, 50),
                             ),
                           )
-                        : Container(
+                        : SizedBox(
                             width: UtilsReponsive.widthv2(context, 45),
                             height: UtilsReponsive.heightv2(context, 50),
                             child: Stack(
@@ -458,7 +498,7 @@ class CustomSearch extends SearchDelegate {
                                             border: Border.all(color: Colors.white, width: 2), // Viền trắng xung quanh
                                           ),
                                         ))
-                                    : SizedBox(),
+                                    : const SizedBox(),
                               ],
                             ),
                           ),
@@ -472,7 +512,7 @@ class CustomSearch extends SearchDelegate {
                   ],
                 )),
               )
-            : SizedBox();
+            : const SizedBox();
       },
     );
   }

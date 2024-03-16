@@ -41,14 +41,19 @@ class TabChatController extends BaseController {
   List<UserDivisionModel> tempOnlineUsers = [];
   List<UserDivisionModel> tempOfflineUsers = [];
 
+  RxBool checkInView = true.obs;
+
   Future<void> refreshpage() async {
     page = 1;
     listChatUser.clear();
-    // connect();
-    await getListChatUser(page);
+    checkInView.value = true;
+
+    connect();
     // await getUser();
     // connect();
-    // socket!.emit("getOnlineUser", {});
+    socket!.emit("getOnlineUser", {});
+    socket!.emit('userJoin', {});
+    socket!.emit("getOnlineGroupUsers", {});
 
     // List<ChatUserModel> list = await TabChatApi.getAllChatUser(jwt, 1);
     // if (list.isNotEmpty) {
@@ -57,7 +62,48 @@ class TabChatController extends BaseController {
     //   }
     // }
 
-    // socket!.on('userJoin', (data) => {print('data ${data}')});
+    socket!.on(
+        "onlineGroupUsersReceived",
+        (data) async => {
+              tempOnlineUsers = [],
+              tempOfflineUsers = [],
+              listUserOffline.clear(),
+              listUserOnline.clear(),
+              print('${data['onlineUsers']}'),
+              for (var item in data['onlineUsers'])
+                {
+                  if (item['id'] != idUser)
+                    {
+                      tempOnlineUsers.add(UserDivisionModel(
+                        id: item['id'],
+                        fullName: item['fullName'],
+                        email: item['email'],
+                        avatar: item['avatar'],
+                        online: true,
+                      ))
+                    }
+                },
+              listUserOnline.addAll(tempOnlineUsers),
+              for (var item in data['offlineUsers'])
+                {
+                  if (item['id'] != idUser)
+                    {
+                      tempOfflineUsers.add(UserDivisionModel(
+                        id: item['id'],
+                        fullName: item['fullName'],
+                        email: item['email'],
+                        avatar: item['avatar'],
+                        online: false,
+                      ))
+                    }
+                },
+              listUserOffline.addAll(tempOfflineUsers),
+              listAllUser.value = tempOnlineUsers + tempOfflineUsers,
+            });
+
+    socket!.on('userJoin', (data) => {print('data ${data}')});
+
+    await getListChatUser(page);
   }
 
   Future<void> connect() async {
@@ -68,7 +114,7 @@ class TabChatController extends BaseController {
       "autoConnect": false
     });
     socket!.connect();
-    // socket!.onConnect((data) => print('Connection established'));
+    socket!.onConnect((data) => print('Connection established'));
     // socket!.onConnectError((data) => print('Connect Error: $data'));
     // socket!.onDisconnect((data) => print('Socket.IO server disconnected'));
   }
@@ -229,6 +275,7 @@ class TabChatController extends BaseController {
       errorGetChatUser.value = true;
       isLoading.value = false;
       errorGetChatUserText.value = "Có lỗi xảy ra";
+      checkInView.value = false;
     }
   }
 
@@ -252,7 +299,7 @@ class TabChatController extends BaseController {
       isLoading.value = false;
     } catch (e) {
       isMoreDataAvailable(false);
-      print(e);
+      checkInView.value = false;
       ;
     }
   }

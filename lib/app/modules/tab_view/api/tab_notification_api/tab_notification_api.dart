@@ -8,14 +8,13 @@ import 'package:hrea_mobile_staff/app/resources/base_link.dart';
 class TabNotificationApi {
   static Future<List<NotificationModel>> getAllNotification(String jwtToken, int page) async {
     var response = await http.get(
-      Uri.parse('${BaseLink.localBaseLink}${BaseLink.getAllNotification}?sizePage=10&currentPage=$page'),
+      Uri.parse('${BaseLink.localBaseLink}${BaseLink.getAllNotification}?sizePage=20&currentPage=$page'),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",
         'Authorization': 'Bearer $jwtToken',
       },
     );
-    print('abc task' + response.statusCode.toString());
     if (response.statusCode == 201 || response.statusCode == 200) {
       var jsonData = jsonDecode(response.body)["result"]["data"];
       List<NotificationModel> listNotifications = [];

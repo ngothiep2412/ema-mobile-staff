@@ -58,6 +58,8 @@ import '../modules/task_calendar_month/bindings/task_calendar_month_binding.dart
 import '../modules/task_calendar_month/views/task_calendar_month_view.dart';
 import '../modules/task_schedule/bindings/task_schedule_binding.dart';
 import '../modules/task_schedule/views/task_schedule_view.dart';
+import '../modules/timeline_reassign/bindings/timeline_reassign_binding.dart';
+import '../modules/timeline_reassign/views/timeline_reassign_view.dart';
 
 part 'app_routes.dart';
 
@@ -211,6 +213,11 @@ class AppPages {
       name: _Paths.PROFILE_CHAT,
       page: () => const ProfileChatView(),
       binding: ProfileChatBinding(),
+    ),
+    GetPage(
+      name: _Paths.TIMELINE_REASSIGN,
+      page: () => const TimelineReassignView(),
+      binding: TimelineReassignBinding(),
     ),
   ];
 }

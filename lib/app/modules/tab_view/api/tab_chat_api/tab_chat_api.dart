@@ -14,7 +14,6 @@ class TabChatApi {
         'Authorization': 'Bearer $jwtToken',
       },
     );
-    print('abc chat' + response.statusCode.toString());
     if (response.statusCode == 201 || response.statusCode == 200) {
       var jsonData = jsonDecode(response.body)["result"]["data"];
       List<ChatUserModel> listChatUser = [];
@@ -34,7 +33,6 @@ class TabChatApi {
         'Authorization': 'Bearer $jwtToken',
       },
     );
-    print('abc chat' + response.statusCode.toString());
     if (response.statusCode == 201 || response.statusCode == 200) {
       var jsonData = jsonDecode(response.body)["result"]["data"];
       List<ChatUserModel> listChatUser = [];
@@ -54,7 +52,6 @@ class TabChatApi {
         'Authorization': 'Bearer $jwtToken',
       },
     );
-    print('abc get employee' + response.statusCode.toString());
     if (response.statusCode == 201 || response.statusCode == 200) {
       var jsonData = jsonDecode(response.body)["result"]["data"];
       List<UserDivisionModel> listUserDivision = [];

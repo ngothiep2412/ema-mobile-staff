@@ -1,14 +1,15 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
-import 'package:hrea_mobile_staff/app/modules/subtask-detail-view/api/subtask_detail_api.dart';
+
 import 'package:hrea_mobile_staff/app/modules/tab_view/api/tab_notification_api/tab_notification_api.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/controllers/tab_view_controller.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/notification.dart';
-import 'package:hrea_mobile_staff/app/modules/tab_view/model/task.dart';
+
 import 'package:hrea_mobile_staff/app/resources/base_link.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
@@ -22,7 +23,7 @@ class TabNotificationController extends BaseController {
 
   var page = 1;
   RxBool mark = false.obs;
-  ScrollController scrollController = ScrollController();
+  var scrollController = ScrollController().obs;
   var isMoreDataAvailable = false.obs;
 
   String jwt = '';
@@ -41,10 +42,12 @@ class TabNotificationController extends BaseController {
 
   IO.Socket? socket;
 
+  RxBool checkInView = true.obs;
+
   @override
   Future<void> onInit() async {
     super.onInit();
-    connect();
+    // connect();
     await getAllNotification(page);
 
     paginateNotification();
@@ -101,19 +104,27 @@ class TabNotificationController extends BaseController {
 
       ResponseApi responseApi = await TabNotificationApi.seenAllNotification(jwt);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-        List<NotificationModel> list = await TabNotificationApi.getAllNotification(jwt, page);
+        int pageView = 1;
+        List<NotificationModel> list = await TabNotificationApi.getAllNotification(jwt, pageView);
 
         list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+        if (list.length < listNotifications.length) {
+          List<NotificationModel> listV2 = await TabNotificationApi.getAllNotification(jwt, pageView + 1);
+          list = list + listV2;
+        }
 
         listNotifications.value = list;
-      } else {}
+        Get.find<TabViewController>().checkAllNotiSeen.value = true;
+      } else {
+        checkInView.value = false;
+      }
       isLoading.value = false;
-      Get.find<TabViewController>().checkAllNotiSeen.value = true;
     } catch (e) {
       log(e.toString());
       errorGetNotification.value = true;
       isLoading.value = false;
       errorGetNotificationText.value = "Có lỗi xảy ra";
+      checkInView.value = false;
     }
   }
 
@@ -122,22 +133,29 @@ class TabNotificationController extends BaseController {
       checkToken();
       ResponseApi responseApi = await TabNotificationApi.deleteNotification(jwt, notificationID);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-        List<NotificationModel> list = await TabNotificationApi.getAllNotification(jwt, page);
+        int pageView = 1;
+        List<NotificationModel> list = await TabNotificationApi.getAllNotification(jwt, pageView);
 
         list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+        if (list.length < listNotifications.length) {
+          List<NotificationModel> listV2 = await TabNotificationApi.getAllNotification(jwt, pageView + 1);
+          list = list + listV2;
+        }
 
         listNotifications.value = list;
         print('aaa123');
       } else {
         errorGetNotification.value = true;
-
+        checkInView.value = false;
         errorGetNotificationText.value = "Có lỗi xảy ra";
+        checkInView.value = false;
       }
     } catch (e) {
       log(e.toString());
       errorGetNotification.value = true;
 
       errorGetNotificationText.value = "Có lỗi xảy ra";
+      checkInView.value = false;
     }
   }
 
@@ -145,20 +163,16 @@ class TabNotificationController extends BaseController {
     try {
       checkToken();
 
-      ResponseApi responseApi = await TabNotificationApi.deleteAllNotification(jwt);
-      if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-        List<NotificationModel> list = await TabNotificationApi.getAllNotification(jwt, page);
+      await TabNotificationApi.deleteAllNotification(jwt);
 
-        list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
-
-        listNotifications.value = list;
-        Get.find<TabViewController>().checkAllNotiSeen.value = true;
-      } else {}
+      listNotifications.value = [];
+      Get.find<TabViewController>().checkAllNotiSeen.value = true;
     } catch (e) {
       log(e.toString());
       errorGetNotification.value = true;
 
       errorGetNotificationText.value = "Có lỗi xảy ra";
+      checkInView.value = false;
     }
   }
 
@@ -169,9 +183,14 @@ class TabNotificationController extends BaseController {
       ResponseApi responseApi = await TabNotificationApi.seenANotification(jwt, notificationID);
       print('aa ${responseApi.statusCode}');
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-        List<NotificationModel> list = await TabNotificationApi.getAllNotification(jwt, page);
+        int pageView = 1;
+        List<NotificationModel> list = await TabNotificationApi.getAllNotification(jwt, pageView);
 
         list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+        if (list.length < listNotifications.length) {
+          List<NotificationModel> listV2 = await TabNotificationApi.getAllNotification(jwt, pageView + 1);
+          list = list + listV2;
+        }
 
         listNotifications.value = list;
         bool allRead = true;
@@ -188,8 +207,9 @@ class TabNotificationController extends BaseController {
         }
       } else {
         errorGetNotification.value = true;
-
+        checkInView.value = false;
         errorGetNotificationText.value = "Có lỗi xảy ra";
+        checkInView.value = false;
       }
     } catch (e) {
       log(e.toString());
@@ -197,6 +217,7 @@ class TabNotificationController extends BaseController {
       errorGetNotification.value = true;
 
       errorGetNotificationText.value = "Có lỗi xảy ra";
+      checkInView.value = false;
     }
   }
 
@@ -246,12 +267,13 @@ class TabNotificationController extends BaseController {
       errorGetNotification.value = true;
       isLoading.value = false;
       errorGetNotificationText.value = "Có lỗi xảy ra";
+      checkInView.value = false;
     }
   }
 
   void paginateNotification() {
-    scrollController.addListener(() {
-      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+    scrollController.value.addListener(() {
+      if (scrollController.value.position.pixels == scrollController.value.position.maxScrollExtent) {
         print('reached end');
         page++;
         getMoreNotification(page);
@@ -279,13 +301,13 @@ class TabNotificationController extends BaseController {
       isLoading.value = false;
     } catch (e) {
       isMoreDataAvailable(false);
-      print(e);
-      ;
+      checkInView.value = false;
     }
   }
 
   Future<void> refreshPage() async {
     // listBudget.clear();
+    checkInView.value = true;
     page = 1;
     await getAllNotification(page);
   }
@@ -296,24 +318,13 @@ class TabNotificationController extends BaseController {
     await getAllNotification(page);
   }
 
-  Future<void> getTaskDetail(String taskID, int index) async {
-    try {
-      checkToken();
-      TaskModel taskModel;
-      taskModel = await SubTaskDetailApi.getTaskDetail(jwt, taskID);
-      if (taskModel.parent != null) {
-        startDateParentTask = taskModel.parent!.startDate!;
-        endDateParentTask = taskModel.parent!.endDate!;
-        Get.toNamed(Routes.SUBTASK_DETAIL_VIEW, arguments: {
-          "taskID": listNotifications[index].commonId,
-          "isNavigateDetail": false,
-          "endDate": endDateParentTask,
-          "startDate": startDateParentTask,
-        });
-      }
-    } catch (e) {
-      isLoading.value = false;
-      print(e);
-    }
+  Future<void> getSubTaskDetail(String taskID, int index) async {
+    Get.toNamed(Routes.SUBTASK_DETAIL_VIEW, arguments: {
+      "taskID": listNotifications[index].commonId,
+      "isNavigateDetail": false,
+      "isNavigateOverall": false,
+      "endDate": endDateParentTask,
+      "startDate": startDateParentTask,
+    });
   }
 }

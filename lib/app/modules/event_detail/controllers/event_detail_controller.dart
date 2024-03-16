@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
@@ -20,7 +19,8 @@ class EventDetailController extends BaseController {
   DateFormat dateFormat = DateFormat('dd-MM-yyyy', 'vi');
   String jwt = '';
 
-  final count = 0.obs;
+  RxBool checkInView = true.obs;
+
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -62,7 +62,7 @@ class EventDetailController extends BaseController {
       isLoading.value = false;
     } catch (e) {
       isLoading.value = false;
-      print(e);
+      checkInView.value = false;
     }
   }
 
