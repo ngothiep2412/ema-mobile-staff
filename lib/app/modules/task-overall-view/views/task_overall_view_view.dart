@@ -536,7 +536,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                   taskModel.endDate != null
                       ? Expanded(
                           child: Text(
-                              'Hạn: ${controller.dateFormat.format(taskModel.startDate!)} - ${controller.dateFormat.format(taskModel.endDate!)}',
+                              'Hạn: ${controller.dateFormat.format(taskModel.startDate!.toLocal())} - ${controller.dateFormat.format(taskModel.endDate!.toLocal())}',
                               overflow: TextOverflow.clip
                               // ${getCurrentTime(taskModel.startDate!)} - ${controller.dateFormat.format(taskModel.endDate!)} ${getCurrentTime(taskModel.endDate!)}'
                               ,
@@ -743,7 +743,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                   : taskModel.startDate != null && taskModel.endDate != null
                                       ? Text(
                                           // '${controller.dateFormat.format(taskModel.startDate!)} ${getCurrentTime(taskModel.startDate!)} - ${controller.dateFormat.format(taskModel.endDate!)} ${getCurrentTime(taskModel.endDate!)}'
-                                          '${controller.dateFormat.format(taskModel.startDate!)} - ${controller.dateFormat.format(taskModel.endDate!)}',
+                                          '${controller.dateFormat.format(taskModel.startDate!.toLocal())} - ${controller.dateFormat.format(taskModel.endDate!.toLocal())}',
                                           style: GetTextStyle.getTextStyle(
                                             14,
                                             'Nunito',
@@ -761,7 +761,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                         )
                                       : taskModel.startDate != null
                                           ? Text(
-                                              controller.dateFormat.format(taskModel.startDate!),
+                                              controller.dateFormat.format(taskModel.startDate!.toLocal()),
                                               style: GetTextStyle.getTextStyle(
                                                 14,
                                                 'Nunito',
@@ -779,7 +779,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                             )
                                           : taskModel.endDate != null
                                               ? Text(
-                                                  controller.dateFormat.format(taskModel.endDate!),
+                                                  controller.dateFormat.format(taskModel.endDate!.toLocal()),
                                                   style: GetTextStyle.getTextStyle(
                                                     14,
                                                     'Nunito',

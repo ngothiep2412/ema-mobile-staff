@@ -192,8 +192,8 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                           child: controller.taskModel.value.endDate != null
                                               ? _timeBuilder(
                                                   context: context,
-                                                  startTime: controller.dateFormat.format(controller.taskModel.value.startDate!),
-                                                  endTime: controller.dateFormat.format(controller.taskModel.value.endDate!))
+                                                  startTime: controller.dateFormat.format(controller.taskModel.value.startDate!.toLocal()),
+                                                  endTime: controller.dateFormat.format(controller.taskModel.value.endDate!.toLocal()))
                                               : Row(children: [
                                                   Icon(
                                                       size: UtilsReponsive.width(25, context),
@@ -1754,8 +1754,10 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                             Get.toNamed('/task-calendar-month', arguments: {
                                                               'userID': controller.listEmployee[index].id,
                                                               'userName': controller.listEmployee[index].profile!.fullName,
-                                                              'startDate': controller.dateFormatv2.format(controller.taskModel.value.startDate!),
-                                                              'endDate': controller.dateFormatv2.format(controller.taskModel.value.endDate!),
+                                                              'startDate':
+                                                                  controller.dateFormatv2.format(controller.taskModel.value.startDate!.toLocal()),
+                                                              'endDate':
+                                                                  controller.dateFormatv2.format(controller.taskModel.value.endDate!.toLocal()),
                                                             });
                                                           },
                                                           child: Container(
@@ -2115,8 +2117,10 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                             Get.toNamed('/task-calendar-month', arguments: {
                                                               'userID': controller.listEmployee[index].id,
                                                               'userName': controller.listEmployee[index].profile!.fullName,
-                                                              'startDate': controller.dateFormatv2.format(controller.taskModel.value.startDate!),
-                                                              'endDate': controller.dateFormatv2.format(controller.taskModel.value.endDate!),
+                                                              'startDate':
+                                                                  controller.dateFormatv2.format(controller.taskModel.value.startDate!.toLocal()),
+                                                              'endDate':
+                                                                  controller.dateFormatv2.format(controller.taskModel.value.endDate!.toLocal()),
                                                             });
                                                           },
                                                           child: Container(
@@ -2473,8 +2477,8 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                   Get.toNamed('/task-calendar-month', arguments: {
                                     'userID': controller.listEmployeeSupportView[index].id,
                                     'userName': controller.listEmployeeSupportView[index].profile!.fullName,
-                                    'startDate': controller.dateFormatv2.format(controller.taskModel.value.startDate!),
-                                    'endDate': controller.dateFormatv2.format(controller.taskModel.value.endDate!),
+                                    'startDate': controller.dateFormatv2.format(controller.taskModel.value.startDate!.toLocal()),
+                                    'endDate': controller.dateFormatv2.format(controller.taskModel.value.endDate!.toLocal()),
                                   });
                                 },
                                 child: Container(

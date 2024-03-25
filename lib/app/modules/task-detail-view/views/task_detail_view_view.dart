@@ -151,8 +151,8 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                       ),
                                       child: _timeBuilder(
                                         context: context,
-                                        startTime: controller.dateFormat.format(controller.taskModel.value.startDate!),
-                                        endTime: controller.dateFormat.format(controller.taskModel.value.endDate!),
+                                        startTime: controller.dateFormat.format(controller.taskModel.value.startDate!.toLocal()),
+                                        endTime: controller.dateFormat.format(controller.taskModel.value.endDate!.toLocal()),
                                       ),
                                     ),
                                   ),
@@ -857,7 +857,6 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
           },
           itemBuilder: (BuildContext context) {
             return <PopupMenuEntry<String>>[
-             
               PopupMenuItem<String>(
                 value: 'viewReassign',
                 child: Text(
@@ -1618,7 +1617,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                               child: e.startDate != null
                                                                   ? Expanded(
                                                                       child: Text(
-                                                                        '${controller.dateFormatf2.format(e.startDate!)} - ${controller.dateFormatf2.format(e.endDate!)}',
+                                                                        '${controller.dateFormatf2.format(e.startDate!.toLocal())} - ${controller.dateFormatf2.format(e.endDate!.toLocal())}',
                                                                         overflow: TextOverflow.ellipsis,
                                                                         style: TextStyle(
                                                                             fontFamily: 'Nunito',

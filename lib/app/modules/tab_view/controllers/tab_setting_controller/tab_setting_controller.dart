@@ -11,12 +11,19 @@ class TabSettingController extends BaseController {
 
   RxBool isLoading = false.obs;
 
+  RxBool checkInView = true.obs;
+
   Future<void> getProfile() async {
-    String jwt = GetStorage().read('JWT');
-    print('JWT 123: $jwt');
-    isLoading.value = true;
-    userModel.value = await TabSettingApi.getProfile(jwt);
-    isLoading.value = false;
+    try {
+      String jwt = GetStorage().read('JWT');
+      print('JWT 123: $jwt');
+      isLoading.value = true;
+      userModel.value = await TabSettingApi.getProfile(jwt);
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+      checkInView.value = false;
+    }
   }
 
   final count = 0.obs;
@@ -36,4 +43,10 @@ class TabSettingController extends BaseController {
   }
 
   void increment() => count.value++;
+
+  Future<void> refreshPage() async {
+    // listBudget.clear();
+    checkInView.value = true;
+    await getProfile();
+  }
 }

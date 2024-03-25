@@ -444,26 +444,37 @@ class TaskDetailViewController extends BaseController {
       bool checkTask = await checkTaskForUser();
       if (checkTask) {
         if (isSubTask) {
-          ResponseApi responseApi = await TaskDetailApi.updateStatusTask(jwt, taskID, status);
-          if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-            if (status == 'DONE' || status == 'CONFIRM') {
-              ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, 100);
-              if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
-                errorUpdateTask.value = true;
-                errorUpdateTaskText.value = 'Có lỗi xảy ra';
-                isLoading.value = false;
-              }
+          if (status == 'DONE' || status == 'CONFIRM') {
+            ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, 100, status);
+            if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
+              checkView.value = false;
             }
-
-            if (isNavigateOverall == true) {
-              Get.find<TaskOverallViewController>().getListTask();
-            }
-            await getTaskDetail();
-
-            errorUpdateTask.value = false;
           } else {
-            checkView.value = false;
+            ResponseApi responseApi = await SubTaskDetailApi.updateStatusTask(jwt, taskID, status);
+            if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
+              checkView.value = false;
+            }
           }
+          // ResponseApi responseApi = await TaskDetailApi.updateStatusTask(jwt, taskID, status);
+          // if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+          //   if (status == 'DONE' || status == 'CONFIRM') {
+          //     ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, 100);
+          //     if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
+          //       errorUpdateTask.value = true;
+          //       errorUpdateTaskText.value = 'Có lỗi xảy ra';
+          //       isLoading.value = false;
+          //     }
+          //   }
+
+          if (isNavigateOverall == true) {
+            Get.find<TaskOverallViewController>().getListTask();
+          }
+          await getTaskDetail();
+
+          errorUpdateTask.value = false;
+          // } else {
+          //   checkView.value = false;
+          // }
           // if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
           //   errorUpdateTask.value = true;
           //   errorUpdateTaskText.value = responseApi.message!;
@@ -552,15 +563,17 @@ class TaskDetailViewController extends BaseController {
       isLoading.value = false;
     } else {
       try {
+        String title = titleSubTaskController.text;
         bool checkTask = await checkTaskForUser();
         if (checkTask) {
-          ResponseApi responseApi =
-              await TaskDetailApi.createSubTask(jwt, titleSubTaskController.text, taskModel.value.eventDivision!.event!.id!, taskModel.value.id!);
+          ResponseApi responseApi = await TaskDetailApi.createSubTask(jwt, title, taskModel.value.eventDivision!.event!.id!, taskModel.value.id!);
           if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
             errorUpdateTask.value = false;
 
+            if (isNavigateOverall == true) {
+              Get.find<TaskOverallViewController>().getListTask();
+            }
             await getTaskDetail();
-            // Get.find<TaskOverallViewController>().getListTask();
           } else {
             errorUpdateTask.value = true;
             errorUpdateTaskText.value = responseApi.message!;

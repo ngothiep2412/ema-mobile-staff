@@ -50,7 +50,7 @@ class TabNotificationController extends BaseController {
     // connect();
     await getAllNotification(page);
 
-    paginateNotification();
+    await paginateNotification();
   }
 
   Future<void> connect() async {
@@ -271,17 +271,17 @@ class TabNotificationController extends BaseController {
     }
   }
 
-  void paginateNotification() {
-    scrollController.value.addListener(() {
+  Future<void> paginateNotification() async {
+    scrollController.value.addListener(() async {
       if (scrollController.value.position.pixels == scrollController.value.position.maxScrollExtent) {
         print('reached end');
         page++;
-        getMoreNotification(page);
+        await getMoreNotification(page);
       }
     });
   }
 
-  void getMoreNotification(var page) async {
+  Future<void> getMoreNotification(var page) async {
     try {
       List<NotificationModel> list = [];
 

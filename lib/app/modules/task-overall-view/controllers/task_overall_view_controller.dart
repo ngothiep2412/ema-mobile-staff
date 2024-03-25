@@ -78,7 +78,7 @@ class TaskOverallViewController extends BaseController {
     filterChoose.value = value;
     isLoading.value = true;
     if (filterChoose.value.contains("Không chọn")) {
-      listTask.value = List.from(listTask)..sort((a, b) => a.endDate!.compareTo(b.endDate!));
+      listTask.value = List.from(listTask)..sort((a, b) => a.startDate!.compareTo(b.startDate!));
     } else if (filterChoose.value.contains("Ngày tạo (Tăng dần)")) {
       listTask.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
     } else if (filterChoose.value.contains("Ngày tạo (Giảm dần)")) {
@@ -105,7 +105,7 @@ class TaskOverallViewController extends BaseController {
         return priorityA.compareTo(priorityB);
       });
     } else if (filterChoose.value == '') {
-      listTask.value = List.from(listTask)..sort((a, b) => a.endDate!.compareTo(b.endDate!));
+      listTask.value = List.from(listTask)..sort((a, b) => a.startDate!.compareTo(b.startDate!));
     }
     Future.delayed(const Duration(seconds: 1), () {
       isLoading.value = false;
