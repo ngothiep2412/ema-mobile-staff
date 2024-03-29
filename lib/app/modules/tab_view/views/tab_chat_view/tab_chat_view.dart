@@ -244,7 +244,7 @@ class TabChatView extends BaseView<TabChatController> {
                       height: UtilsReponsive.height(20, context),
                     ),
                     Expanded(
-                      flex: 2,
+                      flex: 3,
                       child: Obx(
                         () => controller.listChatUser.isNotEmpty
                             ? ListView.builder(
@@ -428,7 +428,14 @@ class CustomSearch extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    throw UnimplementedError();
+    try {
+      throw UnimplementedError();
+    } catch (e) {
+      // Bắt lỗi ở đây
+      // Có thể log lỗi hoặc thực hiện các hành động khác nếu cần
+      // Ví dụ: print("Có lỗi xảy ra: $e");
+      return SizedBox(); // Trả về một widget trống để ẩn thông báo lỗi
+    }
   }
 
   @override

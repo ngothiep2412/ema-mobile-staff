@@ -23,8 +23,8 @@ class TaskOverallViewController extends BaseController {
 
   RxList<String> filterList = <String>[
     "Không chọn",
-    "Ngày tạo (Tăng dần)",
-    "Ngày tạo (Giảm dần)",
+    // "Ngày tạo (Tăng dần)",
+    // "Ngày tạo (Giảm dần)",
     "Hạn hoàn thành (Tăng dần)",
     "Hạn hoàn thành (Giảm dần)",
     "Mức độ ưu tiên (Tăng dần)",
@@ -78,11 +78,11 @@ class TaskOverallViewController extends BaseController {
     filterChoose.value = value;
     isLoading.value = true;
     if (filterChoose.value.contains("Không chọn")) {
-      listTask.value = List.from(listTask)..sort((a, b) => a.startDate!.compareTo(b.startDate!));
-    } else if (filterChoose.value.contains("Ngày tạo (Tăng dần)")) {
-      listTask.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
-    } else if (filterChoose.value.contains("Ngày tạo (Giảm dần)")) {
-      listTask.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+      // listTask.value = List.from(listTask)..sort((a, b) => a.startDate!.compareTo(b.startDate!));
+      // } else if (filterChoose.value.contains("Ngày tạo (Tăng dần)")) {
+      //   listTask.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
+      // } else if (filterChoose.value.contains("Ngày tạo (Giảm dần)")) {
+      //   listTask.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
     } else if (filterChoose.value.contains("Hạn hoàn thành (Tăng dần)")) {
       listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
     } else if (filterChoose.value.contains("Hạn hoàn thành (Giảm dần)")) {

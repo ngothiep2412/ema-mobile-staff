@@ -14,6 +14,7 @@ class ForgotPasswordController extends BaseController {
   ResponseApi? responseApi;
   RxBool errorForgotPassword = false.obs;
   RxString errorForgotPasswordText = ''.obs;
+  RxBool disableButton = true.obs;
 
   final count = 0.obs;
   @override
@@ -48,8 +49,7 @@ class ForgotPasswordController extends BaseController {
         if (responseApi!.statusCode == 400 || responseApi!.statusCode == 500) {
           errorForgotPassword.value = true;
           errorForgotPasswordText.value = "Email không tồn tại";
-        } else if (responseApi!.statusCode == 200 ||
-            responseApi!.statusCode == 201) {
+        } else if (responseApi!.statusCode == 200 || responseApi!.statusCode == 201) {
           GetStorage().write('Email', emailTxt.value);
           // prefs.setString('Email', emailTxt.value);
           errorForgotPassword.value = false;
@@ -67,7 +67,12 @@ class ForgotPasswordController extends BaseController {
 
   setEmail(String value) {
     emailTxt.value = value;
-    validatorEmail();
+    if (emailTxt.isEmpty) {
+      disableButton.value = true;
+    } else {
+      disableButton.value = false;
+      validatorEmail();
+    }
   }
 
   validatorEmail() {

@@ -475,11 +475,25 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                           icon: const Icon(
                                                             Icons.attach_file_outlined,
                                                           )),
-                                                      suffixIcon: IconButton(
-                                                          onPressed: () async {
-                                                            await controller.createComment();
-                                                          },
-                                                          icon: const Icon(Icons.double_arrow_sharp)),
+                                                      suffixIcon: controller.isLoadingComment.value != true
+                                                          ? IconButton(
+                                                              onPressed: () async {
+                                                                await controller.createComment();
+                                                              },
+                                                              icon: const Icon(Icons.double_arrow_sharp))
+                                                          : Container(
+                                                              width: 10,
+                                                              height: 10,
+                                                              child: SpinKitFadingCircle(
+                                                                color: ColorsManager.primary,
+                                                                size: 20,
+                                                              ),
+                                                            ),
+                                                      //  IconButton(
+                                                      //     onPressed: () async {
+                                                      //       await controller.createComment();
+                                                      //     },
+                                                      //     icon: const Icon(Icons.double_arrow_sharp)),
                                                       contentPadding: EdgeInsets.all(UtilsReponsive.width(15, context)),
                                                       hintText: 'Nhập bình luận',
                                                       focusedBorder: UnderlineInputBorder(
@@ -522,11 +536,25 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                           icon: const Icon(
                                                             Icons.attach_file_outlined,
                                                           )),
-                                                      suffixIcon: IconButton(
-                                                          onPressed: () async {
-                                                            await controller.createComment();
-                                                          },
-                                                          icon: const Icon(Icons.double_arrow_sharp)),
+                                                      suffixIcon: controller.isLoadingComment.value != true
+                                                          ? IconButton(
+                                                              onPressed: () async {
+                                                                await controller.createComment();
+                                                              },
+                                                              icon: const Icon(Icons.double_arrow_sharp))
+                                                          : Container(
+                                                              width: 10,
+                                                              height: 10,
+                                                              child: SpinKitFadingCircle(
+                                                                color: ColorsManager.primary,
+                                                                size: 20,
+                                                              ),
+                                                            ),
+                                                      // IconButton(
+                                                      //     onPressed: () async {
+                                                      //       await controller.createComment();
+                                                      //     },
+                                                      //     icon: const Icon(Icons.double_arrow_sharp)),
                                                       contentPadding: EdgeInsets.all(UtilsReponsive.width(15, context)),
                                                       hintText: 'Nhập bình luận',
                                                       focusedBorder: UnderlineInputBorder(
@@ -606,59 +634,137 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
       child: ListView(
         shrinkWrap: true,
         children: [
-          "Đang chuẩn bị",
+          // "Đang chuẩn bị",
           "Đang thực hiện",
           "Hoàn thành",
           "Đã xác thực",
-          "Quá hạn",
+          // "Quá hạn",
         ]
             .map(
-              (e) => GestureDetector(
-                onTap: () {
-                  if (e == "Đang chuẩn bị") {
-                    controller.updateStatusTask("PENDING", taskID, true);
-                    Navigator.of(context).pop();
-                  } else if (e == "Đang thực hiện") {
-                    controller.updateStatusTask("PROCESSING", taskID, true);
-                    Navigator.of(context).pop();
-                  } else if (e == "Hoàn thành") {
-                    controller.updateStatusTask("DONE", taskID, true);
-                    Navigator.of(context).pop();
-                  } else if (e == "Đã xác thực") {
-                    controller.updateStatusTask("CONFIRM", taskID, true);
-                    Navigator.of(context).pop();
-                  } else if (e == "Quá hạn") {
-                    controller.updateStatusTask("OVERDUE", taskID, true);
-                    Navigator.of(context).pop();
-                  }
-                },
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: e == "Đang chuẩn bị"
-                          ? ColorsManager.grey
-                          : e == "Đang thực hiện"
-                              ? ColorsManager.primary
-                              : e == "Hoàn thành"
-                                  ? ColorsManager.green
-                                  : e == "Đã xác thực"
-                                      ? ColorsManager.purple
-                                      : ColorsManager.red,
-                      child: Text(e[0],
-                          style: TextStyle(
-                              letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(16, context), fontWeight: FontWeight.w800)),
+              (e) => Padding(
+                padding: EdgeInsets.only(top: 5, right: 10, left: 10, bottom: 5),
+                child: GestureDetector(
+                  onTap: () {
+                    if (e == "Đang chuẩn bị") {
+                      controller.updateStatusTask("PENDING", taskID, true);
+                      Navigator.of(context).pop();
+                    } else if (e == "Đang thực hiện") {
+                      controller.updateStatusTask("PROCESSING", taskID, true);
+                      Navigator.of(context).pop();
+                    } else if (e == "Hoàn thành") {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text(
+                              "Xác nhận",
+                              style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
+                            ),
+                            content: const Text(
+                              "Bạn có muốn đổi trạng thái công việc này là hoàn thành",
+                              style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // Đóng hộp thoại
+                                },
+                                child: Text(
+                                  "Hủy",
+                                  style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.primary),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                  // await controller.updateStatusTask("DONE", taskID);
+                                  await controller.updateStatusTask("DONE", taskID, true);
+                                  // Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  "Có",
+                                  style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.red),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    } else if (e == "Đã xác thực") {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text(
+                              "Xác nhận",
+                              style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
+                            ),
+                            content: const Text(
+                              "Bạn có muốn đổi trạng thái công việc này là đã xác thực",
+                              style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // Đóng hộp thoại
+                                },
+                                child: Text(
+                                  "Hủy",
+                                  style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.primary),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                  // await controller.updateStatusTask("DONE", taskID);
+                                  await controller.updateStatusTask("CONFIRM", taskID, true);
+                                  // Navigator.of(context).pop();
+                                  // Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  "Có",
+                                  style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.red),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    } else if (e == "Quá hạn") {
+                      controller.updateStatusTask("OVERDUE", taskID, true);
+                      Navigator.of(context).pop();
+                    }
+                  },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                    title: Text(
-                      e,
-                      style: TextStyle(
-                          fontFamily: 'Nunito',
-                          letterSpacing: 1,
-                          color: ColorsManager.textColor,
-                          fontSize: UtilsReponsive.height(16, context),
-                          fontWeight: FontWeight.w600),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: e == "Đang chuẩn bị"
+                            ? ColorsManager.grey
+                            : e == "Đang thực hiện"
+                                ? ColorsManager.primary
+                                : e == "Hoàn thành"
+                                    ? ColorsManager.green
+                                    : e == "Đã xác thực"
+                                        ? ColorsManager.purple
+                                        : ColorsManager.red,
+                        child: Text(e[0],
+                            style: TextStyle(
+                                letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(16, context), fontWeight: FontWeight.w800)),
+                      ),
+                      title: Text(
+                        e,
+                        style: TextStyle(
+                            fontFamily: 'Nunito',
+                            letterSpacing: 1,
+                            color: ColorsManager.textColor,
+                            fontSize: UtilsReponsive.height(16, context),
+                            fontWeight: FontWeight.w600),
+                      ),
                     ),
                   ),
                 ),
@@ -679,53 +785,92 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
       child: ListView(
         shrinkWrap: true,
         children: [
-          "Đang chuẩn bị",
+          // "Đang chuẩn bị",
           "Đang thực hiện",
           "Hoàn thành",
-          "Quá hạn",
+          // "Quá hạn",
         ]
             .map(
-              (e) => GestureDetector(
-                onTap: () {
-                  if (e == "Đang chuẩn bị") {
-                    controller.updateStatusTask("PENDING", taskID, false);
-                    Navigator.of(context, rootNavigator: true).pop();
-                  } else if (e == "Đang thực hiện") {
-                    controller.updateStatusTask("PROCESSING", taskID, false);
-                    Navigator.of(context, rootNavigator: true).pop();
-                  } else if (e == "Hoàn thành") {
-                    controller.updateStatusTask("DONE", taskID, false);
-                    Navigator.of(context, rootNavigator: true).pop();
-                  } else if (e == "Quá hạn") {
-                    controller.updateStatusTask("OVERDUE", taskID, false);
-                    Navigator.of(context, rootNavigator: true).pop();
-                  }
-                },
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: e == "Đang chuẩn bị"
-                          ? ColorsManager.grey
-                          : e == "Đang thực hiện"
-                              ? ColorsManager.blue
-                              : e == "Hoàn thành"
-                                  ? ColorsManager.green
-                                  : ColorsManager.red,
-                      child: Text(e[0],
-                          style: TextStyle(
-                              letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(16, context), fontWeight: FontWeight.w800)),
+              (e) => Padding(
+                padding: EdgeInsets.only(top: 5, right: 10, left: 10, bottom: 5),
+                child: GestureDetector(
+                  onTap: () {
+                    if (e == "Đang chuẩn bị") {
+                      controller.updateStatusTask("PENDING", taskID, false);
+                      Navigator.of(context, rootNavigator: true).pop();
+                    } else if (e == "Đang thực hiện") {
+                      controller.updateStatusTask("PROCESSING", taskID, false);
+                      Navigator.of(context, rootNavigator: true).pop();
+                    } else if (e == "Hoàn thành") {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text(
+                              "Xác nhận",
+                              style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
+                            ),
+                            content: const Text(
+                              "Bạn có muốn đổi trạng thái công việc này là hoàn thành",
+                              style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // Đóng hộp thoại
+                                },
+                                child: Text(
+                                  "Hủy",
+                                  style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.primary),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context, rootNavigator: true).pop();
+
+                                  await controller.updateStatusTask("DONE", taskID, false);
+                                },
+                                child: Text(
+                                  "Có",
+                                  style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.red),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    } else if (e == "Quá hạn") {
+                      controller.updateStatusTask("OVERDUE", taskID, false);
+                      Navigator.of(context, rootNavigator: true).pop();
+                    }
+                  },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                    title: Text(
-                      e,
-                      style: TextStyle(
-                          fontFamily: 'Nunito',
-                          letterSpacing: 1,
-                          color: ColorsManager.textColor2,
-                          fontSize: UtilsReponsive.height(16, context),
-                          fontWeight: FontWeight.w600),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: e == "Đang chuẩn bị"
+                            ? ColorsManager.grey
+                            : e == "Đang thực hiện"
+                                ? ColorsManager.blue
+                                : e == "Hoàn thành"
+                                    ? ColorsManager.green
+                                    : ColorsManager.red,
+                        child: Text(e[0],
+                            style: TextStyle(
+                                letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(16, context), fontWeight: FontWeight.w800)),
+                      ),
+                      title: Text(
+                        e,
+                        style: TextStyle(
+                            fontFamily: 'Nunito',
+                            letterSpacing: 1,
+                            color: ColorsManager.textColor2,
+                            fontSize: UtilsReponsive.height(16, context),
+                            fontWeight: FontWeight.w600),
+                      ),
                     ),
                   ),
                 ),
@@ -1530,9 +1675,9 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                       TextButton(
                                         child: Text('Lưu', style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary)),
                                         onPressed: () {
+                                          Navigator.of(context).pop();
                                           controller.createSubTask();
                                           controller.errorUpdateTask.value == true ? _errorMessage(context) : _successMessage(context);
-                                          Navigator.of(context).pop();
                                           controller.titleSubTaskController.text = '';
                                         },
                                       ),

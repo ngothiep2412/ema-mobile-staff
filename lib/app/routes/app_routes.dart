@@ -3,7 +3,7 @@ part of 'app_pages.dart';
 
 abstract class Routes {
   Routes._();
-  static const HOME = _Paths.HOME;
+  // static const HOME = _Paths.HOME;
   static const LOGIN = _Paths.LOGIN;
   static const TAB_VIEW = _Paths.TAB_VIEW;
   static const FORGOT_PASSWORD = _Paths.FORGOT_PASSWORD;
@@ -21,24 +21,28 @@ abstract class Routes {
   static const CREATE_BUDGET = _Paths.CREATE_BUDGET;
   static const EDIT_BUDGET = _Paths.EDIT_BUDGET;
   static const EVENT_DETAIL = _Paths.EVENT_DETAIL;
-  static const TIME_SHEET = _Paths.TIME_SHEET;
-  static const CREATE_REQUEST = _Paths.CREATE_REQUEST;
-  static const REQUEST_DETAIL = _Paths.REQUEST_DETAIL;
-  static const EDIT_REQUEST = _Paths.EDIT_REQUEST;
+  // static const TIME_SHEET = _Paths.TIME_SHEET;
+  // static const CREATE_REQUEST = _Paths.CREATE_REQUEST;
+  // static const REQUEST_DETAIL = _Paths.REQUEST_DETAIL;
+  // static const EDIT_REQUEST = _Paths.EDIT_REQUEST;
   static const CHANGE_PASSWORD = _Paths.CHANGE_PASSWORD;
   static const POLICY = _Paths.POLICY;
-  static const CHECK_IN = _Paths.CHECK_IN;
-  static const CHECK_IN_DETAIL = _Paths.CHECK_IN_DETAIL;
+  // static const CHECK_IN = _Paths.CHECK_IN;
+  // static const CHECK_IN_DETAIL = _Paths.CHECK_IN_DETAIL;
   static const CHAT_DETAIL = _Paths.CHAT_DETAIL;
   static const TASK_SCHEDULE = _Paths.TASK_SCHEDULE;
   static const TASK_CALENDAR_MONTH = _Paths.TASK_CALENDAR_MONTH;
   static const PROFILE_CHAT = _Paths.PROFILE_CHAT;
   static const TIMELINE_REASSIGN = _Paths.TIMELINE_REASSIGN;
+  static const TRANSACTION_DETAIL = _Paths.TRANSACTION_DETAIL;
+  static const REQUEST_TRANSACTION = _Paths.REQUEST_TRANSACTION;
+  static const CREATE_REQUEST_TRANSACTION = _Paths.CREATE_REQUEST_TRANSACTION;
+  static const DETAIL_REQUEST_TRANSACTION = _Paths.DETAIL_REQUEST_TRANSACTION;
 }
 
 abstract class _Paths {
   _Paths._();
-  static const HOME = '/home';
+  // static const HOME = '/home';
   static const LOGIN = '/login';
   static const TAB_VIEW = '/tab-view';
   static const FORGOT_PASSWORD = '/forgot-password';
@@ -56,17 +60,21 @@ abstract class _Paths {
   static const CREATE_BUDGET = '/create-budget';
   static const EDIT_BUDGET = '/edit-budget';
   static const EVENT_DETAIL = '/event-detail';
-  static const TIME_SHEET = '/time-sheet';
-  static const CREATE_REQUEST = '/create-request';
-  static const REQUEST_DETAIL = '/request-detail';
-  static const EDIT_REQUEST = '/edit-request';
+  // static const TIME_SHEET = '/time-sheet';
+  // static const CREATE_REQUEST = '/create-request';
+  // static const REQUEST_DETAIL = '/request-detail';
+  // static const EDIT_REQUEST = '/edit-request';
   static const CHANGE_PASSWORD = '/change-password';
   static const POLICY = '/policy';
-  static const CHECK_IN = '/check-in';
-  static const CHECK_IN_DETAIL = '/check-in-detail';
+  // static const CHECK_IN = '/check-in';
+  // static const CHECK_IN_DETAIL = '/check-in-detail';
   static const CHAT_DETAIL = '/chat-detail';
   static const TASK_SCHEDULE = '/task-schedule';
   static const TASK_CALENDAR_MONTH = '/task-calendar-month';
   static const PROFILE_CHAT = '/profile-chat';
   static const TIMELINE_REASSIGN = '/timeline-reassign';
+  static const TRANSACTION_DETAIL = '/transaction-detail';
+  static const REQUEST_TRANSACTION = '/request-transaction';
+  static const CREATE_REQUEST_TRANSACTION = '/create-request-transaction';
+  static const DETAIL_REQUEST_TRANSACTION = '/detail-request-transaction';
 }

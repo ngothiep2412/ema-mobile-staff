@@ -177,6 +177,18 @@ class TabNotificationView extends BaseView<TabNotificationController> {
                                                         "isNavigateNotification": true,
                                                         "isNavigateSchedule": false
                                                       });
+                                                    } else if (controller.listNotifications[index].type == "BUDGET" &&
+                                                        controller.listNotifications[index].title!.startsWith("Yêu")) {
+                                                      Get.toNamed(Routes.DETAIL_REQUEST_TRANSACTION, arguments: {
+                                                        "transactionID": controller.listNotifications[index].commonId,
+                                                        "isNotiNavigate": false,
+                                                      });
+                                                    } else if (controller.listNotifications[index].type == "BUDGET") {
+                                                      // print('aaa ${controller.listNotifications[index].title!.startsWith("Yêu")}');
+                                                      Get.toNamed(Routes.TRANSACTION_DETAIL, arguments: {
+                                                        "transactionID": controller.listNotifications[index].commonId,
+                                                        "isNotiNavigate": true
+                                                      });
                                                     }
                                                   },
                                                   child: Container(

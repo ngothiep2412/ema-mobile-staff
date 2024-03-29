@@ -15,6 +15,7 @@ import 'package:hrea_mobile_staff/app/modules/tab_view/model/user_model.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/api/task_detail_api.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/comment_model.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/file_model.dart';
+import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/item_model.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/uploadfile_model.dart';
 import 'package:hrea_mobile_staff/app/modules/task-overall-view/controllers/task_overall_view_controller.dart';
 import 'package:hrea_mobile_staff/app/resources/color_manager.dart';
@@ -93,6 +94,8 @@ class TaskDetailViewController extends BaseController {
 
   RxBool isCheckin = false.obs;
   RxBool checkView = false.obs;
+
+  RxBool isLoadingComment = false.obs;
 
   // late IO.Socket socket;
 
@@ -304,6 +307,7 @@ class TaskDetailViewController extends BaseController {
           snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
     } else {
       try {
+        isLoadingComment.value = true;
         checkToken();
         bool checkTask = await checkTaskForUser();
         if (checkTask) {
@@ -346,8 +350,10 @@ class TaskDetailViewController extends BaseController {
           Get.snackbar('Thông báo', 'Công việc này không khả dụng nữa',
               snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
         }
+        isLoadingComment.value = false;
       } catch (e) {
         print(e);
+        isLoadingComment.value = false;
         checkView.value = false;
       }
     }
@@ -439,20 +445,34 @@ class TaskDetailViewController extends BaseController {
 
   Future<void> updateStatusTask(String status, String taskID, bool isSubTask) async {
     isLoading.value = true;
+    DateTime now = DateTime.now().toLocal();
+
     try {
       checkToken();
       bool checkTask = await checkTaskForUser();
       if (checkTask) {
         if (isSubTask) {
           if (status == 'DONE' || status == 'CONFIRM') {
-            ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, 100, status);
-            if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
-              checkView.value = false;
+            if (taskModel.value.startDate!.toLocal().isAfter(now) || taskModel.value.endDate!.toLocal().isBefore(now)) {
+              Get.snackbar('Thông báo', 'Công việc này có thời hạn công việc không cho phép cập nhật',
+                  snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
+              // return;
+            } else {
+              ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, 100, status);
+              if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
+                checkView.value = false;
+              }
             }
           } else {
-            ResponseApi responseApi = await SubTaskDetailApi.updateStatusTask(jwt, taskID, status);
-            if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
-              checkView.value = false;
+            if (taskModel.value.startDate!.toLocal().isAfter(now) || taskModel.value.endDate!.toLocal().isBefore(now)) {
+              Get.snackbar('Thông báo', 'Công việc này có thời hạn công việc không cho phép cập nhật',
+                  snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
+              // return;
+            } else {
+              ResponseApi responseApi = await SubTaskDetailApi.updateStatusTask(jwt, taskID, status);
+              if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
+                checkView.value = false;
+              }
             }
           }
           // ResponseApi responseApi = await TaskDetailApi.updateStatusTask(jwt, taskID, status);
@@ -565,8 +585,16 @@ class TaskDetailViewController extends BaseController {
       try {
         String title = titleSubTaskController.text;
         bool checkTask = await checkTaskForUser();
+        String itemID = '';
         if (checkTask) {
-          ResponseApi responseApi = await TaskDetailApi.createSubTask(jwt, title, taskModel.value.eventDivision!.event!.id!, taskModel.value.id!);
+          List<ItemModel> itemModel = await TaskDetailApi.getAllItem(jwt, idUser, taskModel.value.eventDivision!.event!.id!);
+          for (var i in itemModel) {
+            if (i.id == taskModel.value.id) {
+              itemID = i.item!.id!;
+            }
+          }
+          ResponseApi responseApi =
+              await TaskDetailApi.createSubTask(jwt, title, taskModel.value.eventDivision!.event!.id!, taskModel.value.id!, itemID);
           if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
             errorUpdateTask.value = false;
 
@@ -727,12 +755,27 @@ class TaskDetailViewController extends BaseController {
   }
 
   void checkToken() {
+    DateTime now = DateTime.now().toLocal();
     if (GetStorage().read('JWT') != null) {
       jwt = GetStorage().read('JWT');
       Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+      print('decodedToken ${decodedToken}');
+      print('now ${now}');
+
+      DateTime expTime = DateTime.fromMillisecondsSinceEpoch(decodedToken['exp'] * 1000);
+      print(expTime.toLocal());
       idUser = decodedToken['id'];
+      // if (JwtDecoder.isExpired(jwt)) {
+      //   Get.offAllNamed(Routes.LOGIN);
+      //   return;
+      // }
+      if (expTime.toLocal().isBefore(now)) {
+        Get.offAllNamed(Routes.LOGIN);
+        return;
+      }
     } else {
       Get.offAllNamed(Routes.LOGIN);
+      return;
     }
   }
 

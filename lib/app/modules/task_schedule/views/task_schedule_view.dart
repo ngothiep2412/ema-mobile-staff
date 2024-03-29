@@ -421,15 +421,15 @@ class TaskScheduleView extends BaseView<TaskScheduleController> {
                       maxLines: 2,
                       style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                     ),
-                    SizedBox(
-                      height: UtilsReponsive.height(10, context),
-                    ),
-                    Text(
-                      'Hạng mục: ${taskModel.parent!.title!}',
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.textColor),
-                    ),
+                    // SizedBox(
+                    //   height: UtilsReponsive.height(10, context),
+                    // ),
+                    // Text(
+                    //   'Hạng mục: ${taskModel.parent!.title!}',
+                    //   overflow: TextOverflow.ellipsis,
+                    //   maxLines: 2,
+                    //   style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.textColor),
+                    // ),
                     SizedBox(
                       height: UtilsReponsive.height(10, context),
                     ),

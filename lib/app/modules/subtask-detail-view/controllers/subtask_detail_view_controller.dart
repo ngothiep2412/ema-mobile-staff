@@ -105,6 +105,8 @@ class SubtaskDetailViewController extends BaseController {
 
   RxBool checkView = false.obs;
 
+  RxBool isLoadingComment = false.obs;
+
   // RxBool isEditComment = false.obs;
 
   Future<void> getTaskDetail() async {
@@ -254,12 +256,27 @@ class SubtaskDetailViewController extends BaseController {
   }
 
   void checkToken() {
+    DateTime now = DateTime.now().toLocal();
     if (GetStorage().read('JWT') != null) {
       jwt = GetStorage().read('JWT');
       Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+      print('decodedToken ${decodedToken}');
+      print('now ${now}');
+
+      DateTime expTime = DateTime.fromMillisecondsSinceEpoch(decodedToken['exp'] * 1000);
+      print(expTime.toLocal());
       idUser = decodedToken['id'];
+      // if (JwtDecoder.isExpired(jwt)) {
+      //   Get.offAllNamed(Routes.LOGIN);
+      //   return;
+      // }
+      if (expTime.toLocal().isBefore(now)) {
+        Get.offAllNamed(Routes.LOGIN);
+        return;
+      }
     } else {
       Get.offAllNamed(Routes.LOGIN);
+      return;
     }
   }
 
@@ -1156,6 +1173,7 @@ class SubtaskDetailViewController extends BaseController {
           snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
     } else {
       try {
+        isLoadingComment.value = true;
         checkToken();
         bool checkTask = await checkTaskForUser();
         if (checkTask) {
@@ -1198,8 +1216,10 @@ class SubtaskDetailViewController extends BaseController {
           Get.snackbar('Thông báo', 'Công việc này không khả dụng nữa',
               snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
         }
+        isLoadingComment.value = false;
       } catch (e) {
         print(e);
+        isLoadingComment.value = false;
         checkView.value = false;
       }
     }

@@ -16,7 +16,7 @@ class ProfileApi {
       "address": address,
       "avatar": avatar,
       "gender": gender,
-      "role": "STAFF",
+      // "role": "Trưởng Nhóm",
       // "isFullTime": false,
     };
 

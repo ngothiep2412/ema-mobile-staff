@@ -251,7 +251,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                     color: Colors.green,
                                   ),
                                   child: Text(
-                                    'Quản lý ngân sách',
+                                    'Ngân sách công việc',
                                     style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w800, ColorsManager.backgroundWhite),
                                   ),
                                 ),

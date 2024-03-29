@@ -46,10 +46,8 @@ class EditBudgetController extends BaseController {
   void onInit() {
     super.onInit();
 
-    String formatValueEstExp =
-        NumberFormat("#,##0", "vi_VN").format(budget.value.estExpense);
-    String formatValueRealExp =
-        NumberFormat("#,##0", "vi_VN").format(budget.value.realExpense);
+    String formatValueEstExp = NumberFormat("#,##0", "vi_VN").format(budget.value.estExpense);
+    String formatValueRealExp = NumberFormat("#,##0", "vi_VN").format(budget.value.realExpense);
     budgetNameController.text = budget.value.budgetName!;
     estExpenseController.text = formatValueEstExp;
     realExpenseController.text = formatValueRealExp;
@@ -86,19 +84,15 @@ class EditBudgetController extends BaseController {
       isLoading.value = false;
     } else if (estExpenseController.text.isEmpty) {
       errorUpdateBudget.value = true;
-      errorUpdateBudgetText.value =
-          "Vui lòng nhập số tiền chi phí ước tính";
+      errorUpdateBudgetText.value = "Vui lòng nhập số tiền chi phí ước tính";
       isLoading.value = false;
     } else if (estExpenseController.text.isNotEmpty && amountEstExpense < 999) {
       errorUpdateBudget.value = true;
-      errorUpdateBudgetText.value =
-          "Vui lòng nhập số tiền chi phí ước tính lớn hơn 999 đồng";
+      errorUpdateBudgetText.value = "Vui lòng nhập số tiền chi phí ước tính lớn hơn 999 đồng";
       isLoading.value = false;
-    } else if (realExpenseController.text.isNotEmpty &&
-        amountRealExpense < 999) {
+    } else if (realExpenseController.text.isNotEmpty && amountRealExpense < 999) {
       errorUpdateBudget.value = true;
-      errorUpdateBudgetText.value =
-          "Vui lòng nhập số tiền chi phí thực tế lớn hơn 999 đồng";
+      errorUpdateBudgetText.value = "Vui lòng nhập số tiền chi phí thực tế lớn hơn 999 đồng";
       isLoading.value = false;
     } else if (supplierController.text.isEmpty) {
       errorUpdateBudget.value = true;
@@ -111,56 +105,32 @@ class EditBudgetController extends BaseController {
 
         if (jwtToken != null) {
           if (imageFile == null) {
-            responseApi = await EditBudgetApi.updateBudget(
-                eventID,
-                budgetNameController.text,
-                amountEstExpense,
-                amountRealExpense,
-                descriptionController.text,
-                imageUrl.value,
-                supplierController.text,
-                budget.value.id!,
-                jwtToken);
-            if (responseApi!.statusCode == 200 ||
-                responseApi!.statusCode == 201) {
+            responseApi = await EditBudgetApi.updateBudget(eventID, budgetNameController.text, amountEstExpense, amountRealExpense,
+                descriptionController.text, imageUrl.value, supplierController.text, budget.value.id!, jwtToken);
+            if (responseApi!.statusCode == 200 || responseApi!.statusCode == 201) {
               errorUpdateBudget.value = false;
-              await Get.find<BudgetController>().getAllRequestBudget(1);
-              await Get.find<BudgetDetailController>()
-                  .getBudgetDetail(budget.value.id!);
+              // await Get.find<BudgetController>().getAllRequestBudget(1);
+              await Get.find<BudgetDetailController>().getBudgetDetail(budget.value.id!);
             } else {
               errorUpdateBudget.value = true;
               errorUpdateBudgetText.value = "Không thể cập nhật thông tin";
             }
           } else {
-            UploadFileModel responseApi =
-                await EditBudgetApi.uploadFile(jwtToken, file!);
-            if (responseApi.statusCode == 200 ||
-                responseApi.statusCode == 201) {
-              ResponseApi responseApiv2 = await EditBudgetApi.updateBudget(
-                  eventID,
-                  budgetNameController.text,
-                  amountEstExpense,
-                  amountRealExpense,
-                  descriptionController.text,
-                  responseApi.result!.downloadUrl!,
-                  supplierController.text,
-                  budget.value.id!,
-                  jwtToken);
-              if (responseApiv2.statusCode == 200 ||
-                  responseApiv2.statusCode == 201) {
+            UploadFileModel responseApi = await EditBudgetApi.uploadFile(jwtToken, file!);
+            if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+              ResponseApi responseApiv2 = await EditBudgetApi.updateBudget(eventID, budgetNameController.text, amountEstExpense, amountRealExpense,
+                  descriptionController.text, responseApi.result!.downloadUrl!, supplierController.text, budget.value.id!, jwtToken);
+              if (responseApiv2.statusCode == 200 || responseApiv2.statusCode == 201) {
                 errorUpdateBudget.value = false;
-                await Get.find<BudgetController>().getAllRequestBudget(1);
-                await Get.find<BudgetDetailController>()
-                    .getBudgetDetail(budget.value.id!);
+                // await Get.find<BudgetController>().getAllRequestBudget(1);
+                await Get.find<BudgetDetailController>().getBudgetDetail(budget.value.id!);
               } else {
                 errorUpdateBudget.value = true;
-                errorUpdateBudgetText.value =
-                    "Không thể cập nhật khoản chi";
+                errorUpdateBudgetText.value = "Không thể cập nhật khoản chi";
               }
             } else {
               errorUpdateBudget.value = true;
-              errorUpdateBudgetText.value =
-                  "Kích thước file phải nhỏ hơn 10mb";
+              errorUpdateBudgetText.value = "Kích thước file phải nhỏ hơn 10mb";
             }
           }
           isLoading.value = false;
@@ -183,15 +153,11 @@ class EditBudgetController extends BaseController {
     if (file != null) {
       imageFile = File(file!.path);
       selectImagePath.value = file!.path;
-      selectImageSize.value =
-          "${((File(selectImagePath.value)).lengthSync() / 1024 / 1024).toStringAsFixed(2)}Mb";
-      double fileLength =
-          File(selectImagePath.value).lengthSync() / 1024 / 1024;
+      selectImageSize.value = "${((File(selectImagePath.value)).lengthSync() / 1024 / 1024).toStringAsFixed(2)}Mb";
+      double fileLength = File(selectImagePath.value).lengthSync() / 1024 / 1024;
       if (fileLength > 10) {
         Get.snackbar('Lỗi', 'Không thể lấy hình lớn hơn 10mb',
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.redAccent,
-            colorText: Colors.white);
+            snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.redAccent, colorText: Colors.white);
         isLoading.value = false;
         return;
       }
@@ -201,9 +167,7 @@ class EditBudgetController extends BaseController {
       //     "${((File(selectImagePath.value)).lengthSync() / 1024 / 1024).toStringAsFixed(2)}Mb";
     } else {
       Get.snackbar('Lỗi', 'Không thể lấy hình ảnh',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.redAccent,
-          colorText: Colors.white);
+          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.redAccent, colorText: Colors.white);
     }
   }
 }

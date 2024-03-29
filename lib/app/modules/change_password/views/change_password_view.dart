@@ -13,6 +13,7 @@ class ChangePasswordView extends BaseView<ChangePasswordController> {
   @override
   Widget buildView(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: _appBar(context),
         body: Container(
           child: Column(
@@ -156,13 +157,15 @@ class ChangePasswordView extends BaseView<ChangePasswordController> {
                           width: double.infinity,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: ColorsManager.primary,
+                            color: controller.disableButton.value ? Colors.grey : ColorsManager.primary,
                           ),
                           child: MaterialButton(
-                            onPressed: () async {
-                              await controller.resetPassword();
-                              controller.errorChangePassword.value ? _errorMessage(Get.context!) : _successMessage(Get.context!);
-                            },
+                            onPressed: controller.disableButton.value
+                                ? null
+                                : () async {
+                                    await controller.resetPassword();
+                                    controller.errorChangePassword.value ? _errorMessage(Get.context!) : _successMessage(Get.context!);
+                                  },
                             child: controller.isLoading.value
                                 ? Center(
                                     child: CircularProgressIndicator(

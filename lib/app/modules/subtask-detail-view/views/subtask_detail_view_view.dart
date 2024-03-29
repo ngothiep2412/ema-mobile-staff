@@ -1027,11 +1027,25 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                               await controller.selectFileComment();
                                                             },
                                                             icon: const Icon(Icons.attach_file_outlined)),
-                                                        suffixIcon: IconButton(
-                                                            onPressed: () async {
-                                                              await controller.createComment();
-                                                            },
-                                                            icon: const Icon(Icons.double_arrow_sharp)),
+                                                        suffixIcon: controller.isLoadingComment.value != true
+                                                            ? IconButton(
+                                                                onPressed: () async {
+                                                                  await controller.createComment();
+                                                                },
+                                                                icon: const Icon(Icons.double_arrow_sharp))
+                                                            : Container(
+                                                                width: 10,
+                                                                height: 10,
+                                                                child: SpinKitFadingCircle(
+                                                                  color: ColorsManager.primary,
+                                                                  size: 20,
+                                                                ),
+                                                              ),
+                                                        // IconButton(
+                                                        //     onPressed: () async {
+                                                        //       await controller.createComment();
+                                                        //     },
+                                                        //     icon: const Icon(Icons.double_arrow_sharp)),
                                                         contentPadding: EdgeInsets.all(UtilsReponsive.width(15, context)),
                                                         hintText: 'Nhập bình luận',
                                                         focusedBorder: const UnderlineInputBorder(
@@ -1065,11 +1079,25 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                             icon: const Icon(
                                                               Icons.attach_file_outlined,
                                                             )),
-                                                        suffixIcon: IconButton(
-                                                            onPressed: () async {
-                                                              await controller.createComment();
-                                                            },
-                                                            icon: const Icon(Icons.double_arrow_sharp)),
+                                                        suffixIcon: controller.isLoadingComment.value != true
+                                                            ? IconButton(
+                                                                onPressed: () async {
+                                                                  await controller.createComment();
+                                                                },
+                                                                icon: const Icon(Icons.double_arrow_sharp))
+                                                            : Container(
+                                                                width: 10,
+                                                                height: 10,
+                                                                child: SpinKitFadingCircle(
+                                                                  color: ColorsManager.primary,
+                                                                  size: 20,
+                                                                ),
+                                                              ),
+                                                        //  IconButton(
+                                                        //     onPressed: () async {
+                                                        //       await controller.createComment();
+                                                        //     },
+                                                        //     icon: const Icon(Icons.double_arrow_sharp)),
                                                         contentPadding: EdgeInsets.all(UtilsReponsive.width(15, context)),
                                                         hintText: 'Nhập bình luận',
                                                         focusedBorder: const UnderlineInputBorder(
@@ -1194,59 +1222,62 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
       child: ListView(
         shrinkWrap: true,
         children: [
-          "Đang chuẩn bị",
+          // "Đang chuẩn bị",
           "Đang thực hiện",
           "Hoàn thành",
           "Đã xác thực",
-          "Quá hạn",
+          // "Quá hạn",
         ]
             .map(
-              (e) => GestureDetector(
-                onTap: () {
-                  if (e == "Đang chuẩn bị") {
-                    controller.updateStatusTask("PENDING", taskID);
-                    Navigator.of(context).pop();
-                  } else if (e == "Đang thực hiện") {
-                    controller.updateStatusTask("PROCESSING", taskID);
-                    Navigator.of(context).pop();
-                  } else if (e == "Hoàn thành") {
-                    controller.updateStatusTask("DONE", taskID);
-                    Navigator.of(context).pop();
-                  } else if (e == "Đã xác thực") {
-                    controller.updateStatusTask("CONFIRM", taskID);
-                    Navigator.of(context).pop();
-                  } else if (e == "Quá hạn") {
-                    controller.updateStatusTask("OVERDUE", taskID);
-                    Navigator.of(context).pop();
-                  }
-                },
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: e == "Đang chuẩn bị"
-                          ? ColorsManager.grey
-                          : e == "Đang thực hiện"
-                              ? ColorsManager.primary
-                              : e == "Hoàn thành"
-                                  ? ColorsManager.green
-                                  : e == "Đã xác thực"
-                                      ? ColorsManager.purple
-                                      : ColorsManager.red,
-                      child: Text(e[0],
-                          style: TextStyle(
-                              letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(18, context), fontWeight: FontWeight.w800)),
+              (e) => Padding(
+                padding: EdgeInsets.only(top: 5, right: 10, left: 10, bottom: 5),
+                child: GestureDetector(
+                  onTap: () {
+                    if (e == "Đang chuẩn bị") {
+                      controller.updateStatusTask("PENDING", taskID);
+                      Navigator.of(context).pop();
+                    } else if (e == "Đang thực hiện") {
+                      controller.updateStatusTask("PROCESSING", taskID);
+                      Navigator.of(context).pop();
+                    } else if (e == "Hoàn thành") {
+                      controller.updateStatusTask("DONE", taskID);
+                      Navigator.of(context).pop();
+                    } else if (e == "Đã xác thực") {
+                      controller.updateStatusTask("CONFIRM", taskID);
+                      Navigator.of(context).pop();
+                    } else if (e == "Quá hạn") {
+                      controller.updateStatusTask("OVERDUE", taskID);
+                      Navigator.of(context).pop();
+                    }
+                  },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                    title: Text(
-                      e,
-                      style: TextStyle(
-                          fontFamily: 'Nunito',
-                          letterSpacing: 1,
-                          color: ColorsManager.textColor2,
-                          fontSize: UtilsReponsive.height(18, context),
-                          fontWeight: FontWeight.w800),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: e == "Đang chuẩn bị"
+                            ? ColorsManager.grey
+                            : e == "Đang thực hiện"
+                                ? ColorsManager.primary
+                                : e == "Hoàn thành"
+                                    ? ColorsManager.green
+                                    : e == "Đã xác thực"
+                                        ? ColorsManager.purple
+                                        : ColorsManager.red,
+                        child: Text(e[0],
+                            style: TextStyle(
+                                letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(18, context), fontWeight: FontWeight.w800)),
+                      ),
+                      title: Text(
+                        e,
+                        style: TextStyle(
+                            fontFamily: 'Nunito',
+                            letterSpacing: 1,
+                            color: ColorsManager.textColor2,
+                            fontSize: UtilsReponsive.height(18, context),
+                            fontWeight: FontWeight.w800),
+                      ),
                     ),
                   ),
                 ),
@@ -1685,16 +1716,22 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                   children: [
                                                     Row(
                                                       children: [
-                                                        Text(
-                                                          controller.listEmployee[index].profile!.fullName!.length > 15
-                                                              ? '${controller.listEmployee[index].profile!.fullName!.substring(0, 15)}...'
-                                                              : controller.listEmployee[index].profile!.fullName!,
-                                                          style: TextStyle(
-                                                            fontFamily: 'Nunito',
-                                                            letterSpacing: 1,
-                                                            color: ColorsManager.textColor,
-                                                            fontSize: UtilsReponsive.height(17, context),
-                                                            fontWeight: FontWeight.w700,
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            Get.toNamed(Routes.PROFILE_CHAT,
+                                                                arguments: {"idUserChat": controller.listEmployee[index].id});
+                                                          },
+                                                          child: Text(
+                                                            controller.listEmployee[index].profile!.fullName!.length > 15
+                                                                ? '${controller.listEmployee[index].profile!.fullName!.substring(0, 15)}...'
+                                                                : controller.listEmployee[index].profile!.fullName!,
+                                                            style: TextStyle(
+                                                              fontFamily: 'Nunito',
+                                                              letterSpacing: 1,
+                                                              color: ColorsManager.textColor,
+                                                              fontSize: UtilsReponsive.height(17, context),
+                                                              fontWeight: FontWeight.w700,
+                                                            ),
                                                           ),
                                                         ),
                                                         SizedBox(width: UtilsReponsive.width(10, context)), // Khoảng cách giữa
@@ -2048,16 +2085,22 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                   children: [
                                                     Row(
                                                       children: [
-                                                        Text(
-                                                          controller.listEmployee[index].profile!.fullName!.length > 15
-                                                              ? '${controller.listEmployee[index].profile!.fullName!.substring(0, 15)}...'
-                                                              : controller.listEmployee[index].profile!.fullName!,
-                                                          style: TextStyle(
-                                                            fontFamily: 'Nunito',
-                                                            letterSpacing: 1,
-                                                            color: ColorsManager.textColor,
-                                                            fontSize: UtilsReponsive.height(17, context),
-                                                            fontWeight: FontWeight.w700,
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            Get.toNamed(Routes.PROFILE_CHAT,
+                                                                arguments: {"idUserChat": controller.listEmployee[index].id});
+                                                          },
+                                                          child: Text(
+                                                            controller.listEmployee[index].profile!.fullName!.length > 15
+                                                                ? '${controller.listEmployee[index].profile!.fullName!.substring(0, 15)}...'
+                                                                : controller.listEmployee[index].profile!.fullName!,
+                                                            style: TextStyle(
+                                                              fontFamily: 'Nunito',
+                                                              letterSpacing: 1,
+                                                              color: ColorsManager.textColor,
+                                                              fontSize: UtilsReponsive.height(17, context),
+                                                              fontWeight: FontWeight.w700,
+                                                            ),
                                                           ),
                                                         ),
                                                         SizedBox(width: UtilsReponsive.width(10, context)), // Khoảng cách giữa
@@ -2408,16 +2451,21 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                         children: [
                           Row(
                             children: [
-                              Text(
-                                controller.listEmployeeSupportView[index].profile!.fullName!.length > 15
-                                    ? '${controller.listEmployeeSupportView[index].profile!.fullName!.substring(0, 15)}...'
-                                    : controller.listEmployeeSupportView[index].profile!.fullName!,
-                                style: TextStyle(
-                                  fontFamily: 'Nunito',
-                                  letterSpacing: 1,
-                                  color: ColorsManager.textColor,
-                                  fontSize: UtilsReponsive.height(17, context),
-                                  fontWeight: FontWeight.w700,
+                              GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(Routes.PROFILE_CHAT, arguments: {"idUserChat": controller.listEmployeeSupportView[index].id});
+                                },
+                                child: Text(
+                                  controller.listEmployeeSupportView[index].profile!.fullName!.length > 15
+                                      ? '${controller.listEmployeeSupportView[index].profile!.fullName!.substring(0, 15)}...'
+                                      : controller.listEmployeeSupportView[index].profile!.fullName!,
+                                  style: TextStyle(
+                                    fontFamily: 'Nunito',
+                                    letterSpacing: 1,
+                                    color: ColorsManager.textColor,
+                                    fontSize: UtilsReponsive.height(17, context),
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
                               SizedBox(width: UtilsReponsive.width(10, context)), // Khoảng cách giữa

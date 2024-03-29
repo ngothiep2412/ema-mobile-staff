@@ -223,8 +223,8 @@ class ProfileView extends BaseView<ProfileController> {
                     () => Container(
                       height: UtilsReponsive.heightv2(context, 60),
                       child: ElevatedButton(
-                        onPressed: () {
-                          controller.updateProfile();
+                        onPressed: () async {
+                          await controller.updateProfile();
                           print('${controller.errorUpdateProfile}');
                           controller.errorUpdateProfile.value ? _errorMessage(context) : _successMessage(context);
                         },

@@ -41,12 +41,27 @@ class CreateBudgetController extends BaseController {
   }
 
   void checkToken() {
+    DateTime now = DateTime.now().toLocal();
     if (GetStorage().read('JWT') != null) {
       jwt = GetStorage().read('JWT');
       Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+      print('decodedToken ${decodedToken}');
+      print('now ${now}');
+
+      DateTime expTime = DateTime.fromMillisecondsSinceEpoch(decodedToken['exp'] * 1000);
+      print(expTime.toLocal());
       idUser = decodedToken['id'];
+      // if (JwtDecoder.isExpired(jwt)) {
+      //   Get.offAllNamed(Routes.LOGIN);
+      //   return;
+      // }
+      if (expTime.toLocal().isBefore(now)) {
+        Get.offAllNamed(Routes.LOGIN);
+        return;
+      }
     } else {
       Get.offAllNamed(Routes.LOGIN);
+      return;
     }
   }
 
@@ -62,13 +77,11 @@ class CreateBudgetController extends BaseController {
       isLoading.value = false;
     } else if (estExpenseController.text.isEmpty) {
       errorCreateBudget.value = true;
-      errorCreateBudgetText.value =
-          "Vui lòng nhập số tiền chi phí ước tính";
+      errorCreateBudgetText.value = "Vui lòng nhập số tiền chi phí ước tính";
       isLoading.value = false;
     } else if (amount < 999 && estExpenseController.text.isNotEmpty) {
       errorCreateBudget.value = true;
-      errorCreateBudgetText.value =
-          "Vui lòng nhập số tiền chi phí ước tính lớn hơn 999 đồng";
+      errorCreateBudgetText.value = "Vui lòng nhập số tiền chi phí ước tính lớn hơn 999 đồng";
       isLoading.value = false;
     } else if (supplierController.text.isEmpty) {
       errorCreateBudget.value = true;
@@ -79,16 +92,10 @@ class CreateBudgetController extends BaseController {
         checkToken();
 
         ResponseApi responseApiv = await CreateBudgetApi.createBudget(
-            eventID,
-            budgetNameController.text,
-            amount,
-            descriptionController.text,
-            supplierController.text,
-            idUser,
-            jwt);
+            eventID, budgetNameController.text, amount, descriptionController.text, supplierController.text, idUser, jwt);
         if (responseApiv.statusCode == 200 || responseApiv.statusCode == 201) {
           errorCreateBudget.value = false;
-          await Get.find<BudgetController>().getAllRequestBudget(1);
+          // await Get.find<BudgetController>().getAllRequestBudget(1);
           budgetNameController.text = '';
           descriptionController.text = '';
           estExpenseController.text = '';

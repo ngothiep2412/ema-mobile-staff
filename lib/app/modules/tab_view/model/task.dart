@@ -68,7 +68,7 @@ class TaskModel {
         endDate: json["endDate"] == null ? null : DateTime.parse(json["endDate"]),
         description: json["description"],
         priority: json["priority"] == null ? null : priorityValues.map[json["priority"]]!,
-        status: json["status"] == null ? null : statusValues.map[json["status"]]!,
+        status: json["status"] == null || json["status"] == '' ? null : statusValues.map[json["status"]]!,
         estimationTime: json["estimationTime"],
         progress: json["progress"],
         effort: json["effort"],

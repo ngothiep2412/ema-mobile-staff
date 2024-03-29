@@ -68,14 +68,35 @@ class TaskScheduleController extends BaseController {
     isLoading.value = false;
   }
 
+  // Future<void> getListTask(String date) async {
+  //   try {
+  //     String jwt = GetStorage().read('JWT');
+  //     dateString = date;
+  //     isLoading.value = true;
+  //     // Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+  //     listTask.clear();
+  //     List<TaskModel> list = [];
+  //     list = await TaskScheduleApi.getTaskByDate(jwt, dateString, idUser);
+  //     listTask.value = list;
+  //     isLoading.value = false;
+  //   } catch (e) {
+  //     checkView.value = false;
+  //   }
+  // }
   Future<void> getListTask(String date) async {
     try {
       String jwt = GetStorage().read('JWT');
       dateString = date;
+      date = date.replaceAll("Z", ""); // Loại bỏ "Z" ở cuối
+
+      DateTime dateTime = DateTime.parse(date);
+      dateString = dateTime.toLocal().toString();
+      print('dateString $dateString');
       isLoading.value = true;
       // Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
       listTask.clear();
       List<TaskModel> list = [];
+
       list = await TaskScheduleApi.getTaskByDate(jwt, dateString, idUser);
       listTask.value = list;
       isLoading.value = false;
@@ -85,12 +106,27 @@ class TaskScheduleController extends BaseController {
   }
 
   void checkToken() {
+    DateTime now = DateTime.now().toLocal();
     if (GetStorage().read('JWT') != null) {
       jwt = GetStorage().read('JWT');
       Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+      print('decodedToken ${decodedToken}');
+      print('now ${now}');
+
+      DateTime expTime = DateTime.fromMillisecondsSinceEpoch(decodedToken['exp'] * 1000);
+      print(expTime.toLocal());
       idUser = decodedToken['id'];
+      // if (JwtDecoder.isExpired(jwt)) {
+      //   Get.offAllNamed(Routes.LOGIN);
+      //   return;
+      // }
+      if (expTime.toLocal().isBefore(now)) {
+        Get.offAllNamed(Routes.LOGIN);
+        return;
+      }
     } else {
       Get.offAllNamed(Routes.LOGIN);
+      return;
     }
   }
 }

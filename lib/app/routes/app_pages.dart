@@ -8,26 +8,20 @@ import '../modules/change_password/bindings/change_password_binding.dart';
 import '../modules/change_password/views/change_password_view.dart';
 import '../modules/chat_detail/bindings/chat_detail_binding.dart';
 import '../modules/chat_detail/views/chat_detail_view.dart';
-import '../modules/check_in/bindings/check_in_binding.dart';
-import '../modules/check_in/views/check_in_view.dart';
-import '../modules/check_in_detail/bindings/check_in_detail_binding.dart';
-import '../modules/check_in_detail/views/check_in_detail_view.dart';
 import '../modules/create_budget/bindings/create_budget_binding.dart';
 import '../modules/create_budget/views/create_budget_view.dart';
-import '../modules/create_request/bindings/create_request_binding.dart';
-import '../modules/create_request/views/create_request_view.dart';
+import '../modules/create_request_transaction/bindings/create_request_transaction_binding.dart';
+import '../modules/create_request_transaction/views/create_request_transaction_view.dart';
+import '../modules/detail_request_transaction/bindings/detail_request_transaction_binding.dart';
+import '../modules/detail_request_transaction/views/detail_request_transaction_view.dart';
 import '../modules/edit-description/bindings/edit_description_binding.dart';
 import '../modules/edit-description/views/edit_description_view.dart';
 import '../modules/edit_budget/bindings/edit_budget_binding.dart';
 import '../modules/edit_budget/views/edit_budget_view.dart';
-import '../modules/edit_request/bindings/edit_request_binding.dart';
-import '../modules/edit_request/views/edit_request_view.dart';
 import '../modules/event_detail/bindings/event_detail_binding.dart';
 import '../modules/event_detail/views/event_detail_view.dart';
 import '../modules/forgot_password/bindings/forgot_password_binding.dart';
 import '../modules/forgot_password/views/forgot_password_view.dart';
-import '../modules/home/bindings/home_binding.dart';
-import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/otp/bindings/otp_binding.dart';
@@ -38,8 +32,8 @@ import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/profile_chat/bindings/profile_chat_binding.dart';
 import '../modules/profile_chat/views/profile_chat_view.dart';
-import '../modules/request_detail/bindings/request_detail_binding.dart';
-import '../modules/request_detail/views/request_detail_view.dart';
+import '../modules/request_transaction/bindings/request_transaction_binding.dart';
+import '../modules/request_transaction/views/request_transaction_view.dart';
 import '../modules/reset_password/bindings/reset_password_binding.dart';
 import '../modules/reset_password/views/reset_password_view.dart';
 import '../modules/reset_password_successfully/bindings/reset_password_successfully_binding.dart';
@@ -60,20 +54,28 @@ import '../modules/task_schedule/bindings/task_schedule_binding.dart';
 import '../modules/task_schedule/views/task_schedule_view.dart';
 import '../modules/timeline_reassign/bindings/timeline_reassign_binding.dart';
 import '../modules/timeline_reassign/views/timeline_reassign_view.dart';
+import '../modules/transaction_detail/bindings/transaction_detail_binding.dart';
+import '../modules/transaction_detail/views/transaction_detail_view.dart';
+
+// import '../modules/check_in/bindings/check_in_binding.dart';
+// import '../modules/check_in/views/check_in_view.dart';
+// import '../modules/check_in_detail/bindings/check_in_detail_binding.dart';
+// import '../modules/check_in_detail/views/check_in_detail_view.dart';
+// import '../modules/create_request/bindings/create_request_binding.dart';
+// import '../modules/create_request/views/create_request_view.dart';
+// import '../modules/edit_request/bindings/edit_request_binding.dart';
+// import '../modules/edit_request/views/edit_request_view.dart';
+// import '../modules/request_detail/bindings/request_detail_binding.dart';
+// import '../modules/request_detail/views/request_detail_view.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.LOGIN;
+  static const INITIAL = Routes.SPLASH_SCREEN;
 
   static final routes = [
-    GetPage(
-      name: _Paths.HOME,
-      page: () => const HomeView(),
-      binding: HomeBinding(),
-    ),
     GetPage(
       name: _Paths.LOGIN,
       page: () => const LoginView(),
@@ -159,21 +161,21 @@ class AppPages {
       page: () => const EventDetailView(),
       binding: EventDetailBinding(),
     ),
-    GetPage(
-      name: _Paths.CREATE_REQUEST,
-      page: () => const CreateRequestView(),
-      binding: CreateRequestBinding(),
-    ),
-    GetPage(
-      name: _Paths.REQUEST_DETAIL,
-      page: () => const RequestDetailView(),
-      binding: RequestDetailBinding(),
-    ),
-    GetPage(
-      name: _Paths.EDIT_REQUEST,
-      page: () => const EditRequestView(),
-      binding: EditRequestBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.CREATE_REQUEST,
+    //   page: () => const CreateRequestView(),
+    //   binding: CreateRequestBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.REQUEST_DETAIL,
+    //   page: () => const RequestDetailView(),
+    //   binding: RequestDetailBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.EDIT_REQUEST,
+    //   page: () => const EditRequestView(),
+    //   binding: EditRequestBinding(),
+    // ),
     GetPage(
       name: _Paths.CHANGE_PASSWORD,
       page: () => const ChangePasswordView(),
@@ -184,16 +186,16 @@ class AppPages {
       page: () => const PolicyView(),
       binding: PolicyBinding(),
     ),
-    GetPage(
-      name: _Paths.CHECK_IN,
-      page: () => CheckInView(),
-      binding: CheckInBinding(),
-    ),
-    GetPage(
-      name: _Paths.CHECK_IN_DETAIL,
-      page: () => const CheckInDetailView(),
-      binding: CheckInDetailBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.CHECK_IN,
+    //   page: () => CheckInView(),
+    //   binding: CheckInBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.CHECK_IN_DETAIL,
+    //   page: () => const CheckInDetailView(),
+    //   binding: CheckInDetailBinding(),
+    // ),
     GetPage(
       name: _Paths.CHAT_DETAIL,
       page: () => const ChatDetailView(),
@@ -218,6 +220,26 @@ class AppPages {
       name: _Paths.TIMELINE_REASSIGN,
       page: () => const TimelineReassignView(),
       binding: TimelineReassignBinding(),
+    ),
+    GetPage(
+      name: _Paths.TRANSACTION_DETAIL,
+      page: () => const TransactionDetailView(),
+      binding: TransactionDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.REQUEST_TRANSACTION,
+      page: () => const RequestTransactionView(),
+      binding: RequestTransactionBinding(),
+    ),
+    GetPage(
+      name: _Paths.CREATE_REQUEST_TRANSACTION,
+      page: () => const CreateRequestTransactionView(),
+      binding: CreateRequestTransactionBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL_REQUEST_TRANSACTION,
+      page: () => const DetailRequestTransactionView(),
+      binding: DetailRequestTransactionBinding(),
     ),
   ];
 }

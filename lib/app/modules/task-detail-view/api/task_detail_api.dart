@@ -4,6 +4,7 @@ import 'package:hrea_mobile_staff/app/modules/tab_view/model/task.dart';
 import 'package:hrea_mobile_staff/app/modules/tab_view/model/user_model.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/comment_model.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/file_model.dart';
+import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/item_model.dart';
 import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/uploadfile_model.dart';
 import 'package:hrea_mobile_staff/app/resources/base_link.dart';
 import 'package:hrea_mobile_staff/app/resources/response_api_model.dart';
@@ -217,7 +218,7 @@ class TaskDetailApi {
     }
   }
 
-  static Future<ResponseApi> createSubTask(String jwtToken, String title, String eventID, String parentTask) async {
+  static Future<ResponseApi> createSubTask(String jwtToken, String title, String eventID, String parentTask, String itemID) async {
     Map<String, dynamic> body = {
       "title": title,
       "eventID": eventID,
@@ -225,7 +226,8 @@ class TaskDetailApi {
       "parentTask": parentTask,
       "priority": "LOW",
       "assignee": [],
-      "progress": 0
+      "progress": 0,
+      "itemId": itemID,
     };
 
     var response = await http.post(Uri.parse('${BaseLink.localBaseLink}${BaseLink.createSubTask}'),
@@ -332,6 +334,25 @@ class TaskDetailApi {
       return Future<ResponseApi>.value(ResponseApi.fromJson(jsonDecode(response.body)));
     } else if (response.statusCode == 400 || response.statusCode == 500) {
       return Future<ResponseApi>.value(ResponseApi.fromJson(jsonDecode(response.body)));
+    } else {
+      throw Exception('Exception');
+    }
+  }
+
+  static Future<List<ItemModel>> getAllItem(String jwtToken, String userID, String eventID) async {
+    var response = await http.get(
+      Uri.parse('${BaseLink.localBaseLink}${BaseLink.getAllItem}?assignee=$userID&eventID=$eventID'),
+      headers: {
+        "Accept": "application/json",
+        "content-type": "application/json",
+        'Authorization': 'Bearer $jwtToken',
+      },
+    );
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body)["result"];
+      List<ItemModel> listItem = [];
+      listItem.addAll(jsonData.map((events) => ItemModel.fromJson(events)).cast<ItemModel>());
+      return listItem;
     } else {
       throw Exception('Exception');
     }

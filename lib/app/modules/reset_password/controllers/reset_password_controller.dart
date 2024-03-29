@@ -18,6 +18,8 @@ class ResetPasswordController extends BaseController {
   RxString errorResetPasswordText = ''.obs;
   RxBool isLoading = false.obs;
 
+  RxBool disableButton = true.obs;
+
   final count = 0.obs;
   @override
   void onInit() {
@@ -39,8 +41,7 @@ class ResetPasswordController extends BaseController {
     isLoading.value = true;
     if (passwordTxt.value.isEmpty && confirmPasswordTxt.value.isEmpty) {
       errorResetPassword.value = true;
-      errorResetPasswordText.value =
-          "Vui lòng nhập mật khẩu và xác nhận mật khẩu";
+      errorResetPasswordText.value = "Vui lòng nhập mật khẩu và xác nhận mật khẩu";
       isLoading.value = false;
     } else if (passwordTxt.value.isEmpty) {
       errorResetPassword.value = true;
@@ -52,26 +53,22 @@ class ResetPasswordController extends BaseController {
       isLoading.value = false;
     } else if (passwordTxt.value.length < 6) {
       errorResetPassword.value = true;
-      errorResetPasswordText.value =
-          "Vui lòng nhập mật khẩu có ít nhất 6 kí tự";
+      errorResetPasswordText.value = "Vui lòng nhập mật khẩu có ít nhất 6 kí tự";
       isLoading.value = false;
     } else if (confirmPasswordTxt.value.length < 6) {
       errorResetPassword.value = true;
-      errorResetPasswordText.value =
-          "Vui lòng nhập xác nhận mật khẩu có ít nhất 6 kí tự";
+      errorResetPasswordText.value = "Vui lòng nhập xác nhận mật khẩu có ít nhất 6 kí tự";
       isLoading.value = false;
     } else if (confirmPasswordTxt.value != passwordTxt.value) {
       errorResetPassword.value = true;
-      errorResetPasswordText.value =
-          "Xác nhận mật khẩu và mật khẩu khác nhau";
+      errorResetPasswordText.value = "Xác nhận mật khẩu và mật khẩu khác nhau";
       isLoading.value = false;
     } else {
       try {
         // String emailTxt = prefs.getString('Email')!;
         String emailTxt = GetStorage().read('Email');
         // String emailTxt = "ngothiep2412@gmail.com";
-        responseApi =
-            await ResetPasswordApi.resetPassword(emailTxt, passwordTxt.value);
+        responseApi = await ResetPasswordApi.resetPassword(emailTxt, passwordTxt.value);
         print('responseApi ${responseApi!.toJson().toString()}');
         if (responseApi!.statusCode == 200 || responseApi!.statusCode == 201) {
           errorResetPassword.value = false;
@@ -89,10 +86,29 @@ class ResetPasswordController extends BaseController {
 
   setPassword(String value) {
     passwordTxt.value = value;
+
+    if (passwordTxt.isEmpty || confirmPasswordTxt.isEmpty) {
+      disableButton.value = true;
+    } else {
+      if (confirmPasswordTxt.value != passwordTxt.value) {
+        disableButton.value = true;
+      } else {
+        disableButton.value = false;
+      }
+    }
   }
 
   setConfirmPassword(String value) {
     confirmPasswordTxt.value = value;
+    if (passwordTxt.isEmpty || confirmPasswordTxt.isEmpty) {
+      disableButton.value = true;
+    } else {
+      if (confirmPasswordTxt.value != passwordTxt.value) {
+        disableButton.value = true;
+      } else {
+        disableButton.value = false;
+      }
+    }
   }
 
   void increment() => count.value++;

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
-import 'package:hrea_mobile_staff/app/modules/budget/api/budget_api.dart';
-import 'package:hrea_mobile_staff/app/modules/budget/model/budget_model.dart';
+import 'package:hrea_mobile_staff/app/modules/task-detail-view/api/task_detail_api.dart';
+import 'package:hrea_mobile_staff/app/modules/task-detail-view/model/item_model.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -16,7 +16,7 @@ class BudgetController extends BaseController {
 
   DateTime createdAt = DateTime(2023, 10, 17, 14, 30);
 
-  DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'vi');
+  DateFormat dateFormat = DateFormat('dd-MM-yyyy', 'vi');
 
   RxBool isModalVisible = false.obs;
 
@@ -28,20 +28,14 @@ class BudgetController extends BaseController {
   RxBool errorGetBudget = false.obs;
   RxString errorGetBudgetText = ''.obs;
 
-  RxList<BudgetModel> listBudget = <BudgetModel>[].obs;
+  RxList<ItemModel> itemModelList = <ItemModel>[].obs;
 
-  ScrollController scrollController = ScrollController();
-  var isMoreDataAvailable = false.obs;
-  var page = 1;
-  var isDataProcessing = false.obs;
-
+  RxBool checkView = true.obs;
   @override
   Future<void> onInit() async {
     super.onInit();
 
-    await getAllRequestBudget(page);
-
-    paginateBudget();
+    await getAllRequestBudget();
   }
 
   @override
@@ -52,7 +46,6 @@ class BudgetController extends BaseController {
   @override
   void onClose() {
     super.onClose();
-    scrollController.dispose();
   }
 
   void createBudget() {
@@ -60,56 +53,49 @@ class BudgetController extends BaseController {
   }
 
   void checkToken() {
+    DateTime now = DateTime.now().toLocal();
     if (GetStorage().read('JWT') != null) {
       jwt = GetStorage().read('JWT');
       Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+      print('decodedToken ${decodedToken}');
+      print('now ${now}');
+
+      DateTime expTime = DateTime.fromMillisecondsSinceEpoch(decodedToken['exp'] * 1000);
+      print(expTime.toLocal());
       idUser = decodedToken['id'];
+      // if (JwtDecoder.isExpired(jwt)) {
+      //   Get.offAllNamed(Routes.LOGIN);
+      //   return;
+      // }
+      if (expTime.toLocal().isBefore(now)) {
+        Get.offAllNamed(Routes.LOGIN);
+        return;
+      }
     } else {
       Get.offAllNamed(Routes.LOGIN);
+      return;
     }
   }
 
   Future<void> refreshPage() async {
     // listBudget.clear();
-    page = 1;
-    await getAllRequestBudget(page);
+    checkView.value = true;
+    await getAllRequestBudget();
   }
 
-  Future<void> getAllRequestBudget(var page) async {
+  Future<void> getAllRequestBudget() async {
     isLoading.value = true;
-    isMoreDataAvailable.value = false;
+
     try {
       checkToken();
-      listBudget.clear();
-      List<BudgetModel> listProcessing =
-          await BudgetApi.getAllBudget(jwt, eventID, page, idUser, 1);
-      List<BudgetModel> listNotProcessing =
-          await BudgetApi.getAllBudget(jwt, eventID, page, idUser, 2);
-      List<BudgetModel> listTotal = [];
-      if (listProcessing.isNotEmpty) {
-        listTotal = listProcessing;
+      List<ItemModel> itemModel = await TaskDetailApi.getAllItem(jwt, idUser, eventID);
+
+      if (itemModel.isNotEmpty) {
+        itemModelList.value = itemModel;
       }
-      if (listNotProcessing.isNotEmpty) {
-        for (var item in listNotProcessing) {
-          listTotal.add(item);
-        }
-      }
-      listTotal.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
-
-      listBudget.value = listTotal;
-
-      listBudget.value = listBudget.where((e) => e.status != "CANCEL").toList();
-
-      // if (list.isNotEmpty) {
-      //   for (var item in list) {
-      //     if (item.status != "CANCEL" && item.createBy == idUser) {
-      //       listBudget.add(item);
-      //     }
-      //   }
-      // }
-
       isLoading.value = false;
     } catch (e) {
+      checkView.value = false;
       log(e.toString());
       errorGetBudget.value = true;
       isLoading.value = false;
@@ -117,45 +103,16 @@ class BudgetController extends BaseController {
     }
   }
 
-  void paginateBudget() {
-    scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
-        print('reached end');
-        page++;
-        getMoreBudget(page);
-      }
-    });
-  }
+  String formatCurrency(int amount) {
+    String formattedAmount = amount.toString();
+    final length = formattedAmount.length;
 
-  void getMoreBudget(var page) async {
-    try {
-      List<BudgetModel> listProcessing =
-          await BudgetApi.getAllBudget(jwt, eventID, page, idUser, 1);
-      List<BudgetModel> listNotProcessing =
-          await BudgetApi.getAllBudget(jwt, eventID, page, idUser, 2);
-      List<BudgetModel> listTotal = [];
-      if (listProcessing.isNotEmpty) {
-        listTotal = listProcessing;
+    if (length > 3) {
+      for (var i = length - 3; i > 0; i -= 3) {
+        formattedAmount = formattedAmount.replaceRange(i, i, ',');
       }
-      if (listNotProcessing.isNotEmpty) {
-        for (var item in listNotProcessing) {
-          listTotal.add(item);
-        }
-      }
-      if (listTotal.isNotEmpty) {
-        isMoreDataAvailable(true);
-      } else {
-        isMoreDataAvailable(false);
-      }
-      listTotal.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
-
-      listBudget.addAll(listTotal);
-      listBudget.value = listBudget.where((e) => e.status != "CANCEL").toList();
-    } catch (e) {
-      isMoreDataAvailable(false);
-      print(e);
-      ;
     }
+
+    return formattedAmount;
   }
 }

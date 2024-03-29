@@ -15,4 +15,6 @@ class ImageAssets {
   static const String noChat = "$IMAGE_PATH/conversation.png";
   static const String noEvent = "$IMAGE_PATH/no_event.jpg";
   static const String noAssign = "$IMAGE_PATH/noAssign.png";
+  static const String noBudget = "$IMAGE_PATH/no_budget.jpg";
+
 }

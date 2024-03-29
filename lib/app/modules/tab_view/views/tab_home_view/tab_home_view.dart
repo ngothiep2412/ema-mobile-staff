@@ -147,7 +147,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      const Icon(
+                                      Icon(
                                         Icons.search,
                                         color: Color(0xFF113953),
                                       ),
@@ -196,36 +196,11 @@ class TabHomeView extends BaseView<TabHomeController> {
                       Expanded(
                         flex: 2,
                         child: Padding(
-                          padding: EdgeInsets.only(
-                            left: UtilsReponsive.height(20, context),
-                            right: UtilsReponsive.height(20, context),
-                          ),
+                          padding: EdgeInsets.only(left: UtilsReponsive.height(20, context), right: UtilsReponsive.height(20, context)),
                           child: RefreshIndicator(
                             onRefresh: controller.refreshpage,
                             child: ListView(
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    TextButton(
-                                      onPressed: () {},
-                                      child: Text(
-                                        'Thống kê',
-                                        style: GetTextStyle.getTextStyle(19, 'Nunito', FontWeight.w800, Colors.blueAccent),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: UtilsReponsive.width(5, context),
-                                    ),
-                                    Icon(
-                                      Icons.analytics,
-                                      color: Colors.blueGrey,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: UtilsReponsive.height(10, context),
-                                ),
                                 Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
@@ -239,7 +214,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                                 Obx(
                                   () => controller.listEventToday.isNotEmpty
                                       ? Container(
-                                          height: MediaQuery.of(context).size.height / 2,
+                                          height: MediaQuery.of(context).size.height / 2.5,
                                           padding: EdgeInsets.all(UtilsReponsive.width(8, context)),
                                           child: GridView.builder(
                                             scrollDirection: Axis.horizontal,
@@ -250,14 +225,14 @@ class TabHomeView extends BaseView<TabHomeController> {
                                             },
                                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount: 1,
-                                              mainAxisSpacing: 10,
+                                              mainAxisSpacing: 5,
                                               crossAxisSpacing: 10,
                                               childAspectRatio: 1,
                                             ),
                                           ),
                                         )
                                       : Container(
-                                          height: MediaQuery.of(context).size.height / 3,
+                                          height: MediaQuery.of(context).size.height / 2.5,
                                           child: Column(
                                             children: [
                                               Container(
@@ -282,7 +257,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     'Các sự kiện sắp tới',
-                                    style: GetTextStyle.getTextStyle(19, 'Nunito', FontWeight.w700, const Color(0xffA7A7A7)),
+                                    style: GetTextStyle.getTextStyle(19, 'Nunito', FontWeight.w700, Color(0xffA7A7A7)),
                                   ),
                                 ),
                                 SizedBox(
@@ -291,7 +266,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                                 Obx(
                                   () => controller.listEventUpComing.isNotEmpty
                                       ? Container(
-                                          height: MediaQuery.of(context).size.height / 2,
+                                          height: MediaQuery.of(context).size.height / 2.5,
                                           // height: MediaQuery.of(context).size.height / 1.38,
                                           padding: EdgeInsets.all(UtilsReponsive.width(8, context)),
                                           child: GridView.builder(
@@ -303,14 +278,14 @@ class TabHomeView extends BaseView<TabHomeController> {
                                             },
                                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount: 1,
-                                              mainAxisSpacing: 10,
+                                              mainAxisSpacing: 5,
                                               crossAxisSpacing: 10,
                                               childAspectRatio: 1,
                                             ),
                                           ),
                                         )
                                       : Container(
-                                          height: MediaQuery.of(context).size.height / 3,
+                                          height: MediaQuery.of(context).size.height / 2.5,
                                           child: Column(
                                             children: [
                                               Container(
@@ -365,7 +340,7 @@ class TabHomeView extends BaseView<TabHomeController> {
           child: Column(
             children: [
               Container(
-                height: UtilsReponsive.height(220, context),
+                height: UtilsReponsive.height(140, context),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -462,9 +437,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: UtilsReponsive.height(4, context),
-                          vertical: UtilsReponsive.height(2, context)), // Thêm padding cho khoảng cách giữa văn bản và viền của Container
+                      padding: const EdgeInsets.all(3.0), // Thêm padding cho khoảng cách giữa văn bản và viền của Container
                       decoration: BoxDecoration(
                         color: eventModel.status == "PENDING"
                             ? Colors.blueGrey
@@ -484,7 +457,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                                     ? "Đang diễn ra"
                                     : "Đã kết thúc",
                         style: TextStyle(
-                            fontFamily: 'Nunito', fontWeight: FontWeight.w800, fontSize: UtilsReponsive.height(15, context), color: Colors.white),
+                            fontFamily: 'Nunito', fontWeight: FontWeight.w800, fontSize: UtilsReponsive.height(12, context), color: Colors.white),
                       ),
                     )
                   ],
