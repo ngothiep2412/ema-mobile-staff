@@ -1134,7 +1134,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: Text(
-                        'Thay đổi tiêu đề task',
+                        'Thay đổi tiêu đề công việc con',
                         style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w800, ColorsManager.primary),
                       ),
                       content: TextField(
@@ -1153,8 +1153,13 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                           child: Text('Lưu', style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.primary)),
                           onPressed: () async {
                             Navigator.of(context, rootNavigator: true).pop();
-                            await controller.updateTitleTask(controller.titleSubTaskController.text, controller.taskModel.value.id!);
-                            // Navigator.of(context).pop();
+                            if (controller.titleSubTaskController.text.isEmpty) {
+                              Get.snackbar('Thông báo', 'Tên công việc con không được rỗng',
+                                  snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
+                            } else {
+                              await controller.updateTitleTask(controller.titleSubTaskController.text, controller.taskModel.value.id!);
+                              // Navigator.of(context).pop();
+                            }
                           },
                         ),
                       ],
@@ -1233,21 +1238,90 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 padding: EdgeInsets.only(top: 5, right: 10, left: 10, bottom: 5),
                 child: GestureDetector(
                   onTap: () {
-                    if (e == "Đang chuẩn bị") {
-                      controller.updateStatusTask("PENDING", taskID);
-                      Navigator.of(context).pop();
-                    } else if (e == "Đang thực hiện") {
+                    if (e == "Đang thực hiện") {
                       controller.updateStatusTask("PROCESSING", taskID);
                       Navigator.of(context).pop();
                     } else if (e == "Hoàn thành") {
-                      controller.updateStatusTask("DONE", taskID);
-                      Navigator.of(context).pop();
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text(
+                              "Xác nhận",
+                              style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
+                            ),
+                            content: const Text(
+                              "Bạn có muốn đổi trạng thái công việc này là hoàn thành",
+                              style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // Đóng hộp thoại
+                                },
+                                child: Text(
+                                  "Hủy",
+                                  style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.primary),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                  // await controller.updateStatusTask("DONE", taskID);
+                                  controller.updateStatusTask("DONE", taskID);
+                                  // Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  "Có",
+                                  style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.red),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     } else if (e == "Đã xác thực") {
-                      controller.updateStatusTask("CONFIRM", taskID);
-                      Navigator.of(context).pop();
-                    } else if (e == "Quá hạn") {
-                      controller.updateStatusTask("OVERDUE", taskID);
-                      Navigator.of(context).pop();
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text(
+                              "Xác nhận",
+                              style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
+                            ),
+                            content: const Text(
+                              "Bạn có muốn đổi trạng thái công việc này là đã xác thực",
+                              style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // Đóng hộp thoại
+                                },
+                                child: Text(
+                                  "Hủy",
+                                  style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.primary),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                  // await controller.updateStatusTask("DONE", taskID);
+                                  controller.updateStatusTask("CONFIRM", taskID);
+                                  // Navigator.of(context).pop();
+                                  // Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  "Có",
+                                  style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.red),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     }
                   },
                   child: Card(
@@ -3027,13 +3101,13 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                           style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.primary),
                                         ),
                                         content: Text(
-                                          'Bạn có chắc chắn muốn xóa bình luận này không?',
+                                          'Xóa một bình luận là vĩnh viễn. Không có cách hoàn tác',
                                           style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                                         ),
                                         actions: [
                                           TextButton(
                                             child: Text(
-                                              'Không',
+                                              'Hủy',
                                               style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.primary),
                                             ),
                                             onPressed: () {
@@ -3042,7 +3116,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                           ),
                                           TextButton(
                                             child: Text(
-                                              'Có',
+                                              'Xác nhận',
                                               style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.red),
                                             ),
                                             onPressed: () {
@@ -3892,7 +3966,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                 ),
                 Spacer(),
                 Text(
-                  'Thay đổi công việc thành công',
+                  'Cập nhật trạng thái thành công',
                   style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w700, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,

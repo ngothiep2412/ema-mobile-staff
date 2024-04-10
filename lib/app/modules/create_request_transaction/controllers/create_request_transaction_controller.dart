@@ -98,7 +98,7 @@ class CreateRequestTransactionController extends BaseController {
           await Get.find<RequestTransactionController>().getAllRequestBudget(1);
         } else {
           errorCreateBudget.value = true;
-          errorCreateBudgetText.value = "Không thể tạo đơn";
+          errorCreateBudgetText.value = "Không thể tạo yêu cầu giao dịch cho công việc này";
         }
 
         isLoading.value = false;

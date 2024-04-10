@@ -1,4 +1,5 @@
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_staff/app/base/base_controller.dart';
@@ -122,7 +123,9 @@ class TransactionDetailController extends BaseController {
         }
         await getBudgetDetail(transactionID);
       } else {
-        checkView.value = false;
+        Get.snackbar('Lỗi',
+            'Số tiền yêu cầu của giao dịch này vượt quá hạn mức còn lại. Vui lòng tạo một giao dịch với số tiền này để quản lý mở thêm hạn mức chi tiêu cho công việc này',
+            snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.redAccent, colorText: Colors.white);
       }
       isLoading.value = false;
     } catch (e) {

@@ -442,15 +442,27 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                 width: UtilsReponsive.width(10, context),
               ),
               Expanded(
-                child: Text(
-                  taskModel.title!,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontFamily: 'Nunito',
-                      color: ColorsManager.textColor,
-                      fontSize: UtilsReponsive.height(20, context),
-                      fontWeight: FontWeight.w800),
-                ),
+                child: taskModel.status == Status.CONFIRM
+                    ? Text(
+                        taskModel.title!,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          color: ColorsManager.textColor,
+                          fontSize: UtilsReponsive.height(20, context),
+                          fontWeight: FontWeight.w800,
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      )
+                    : Text(
+                        taskModel.title!,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontFamily: 'Nunito',
+                            color: ColorsManager.textColor,
+                            fontSize: UtilsReponsive.height(20, context),
+                            fontWeight: FontWeight.w800),
+                      ),
               )
             ],
           ),
@@ -700,15 +712,26 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            taskModel.title!,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontFamily: 'Nunito',
-                                color: ColorsManager.textColor,
-                                fontSize: UtilsReponsive.height(16, context),
-                                fontWeight: FontWeight.w800),
-                          ),
+                          taskModel.status == Status.CONFIRM
+                              ? Text(
+                                  taskModel.title!,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontFamily: 'Nunito',
+                                      color: ColorsManager.textColor,
+                                      fontSize: UtilsReponsive.height(16, context),
+                                      fontWeight: FontWeight.w800,
+                                      decoration: TextDecoration.lineThrough),
+                                )
+                              : Text(
+                                  taskModel.title!,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontFamily: 'Nunito',
+                                      color: ColorsManager.textColor,
+                                      fontSize: UtilsReponsive.height(16, context),
+                                      fontWeight: FontWeight.w800),
+                                ),
                           SizedBox(
                             height: UtilsReponsive.height(5, context),
                           ),

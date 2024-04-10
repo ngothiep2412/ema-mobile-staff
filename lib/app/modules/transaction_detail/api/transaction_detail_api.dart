@@ -44,8 +44,10 @@ class TransactionDetailApi {
           );
 
     print('update detail' + response.statusCode.toString());
+    var jsonData = jsonDecode(response.body);
     if (response.statusCode == 201 || response.statusCode == 200) {
-      var jsonData = jsonDecode(response.body);
+      return Future<ResponseApi>.value(ResponseApi.fromJson(jsonData));
+    } else if (response.statusCode == 400 || response.statusCode == 500) {
       return Future<ResponseApi>.value(ResponseApi.fromJson(jsonData));
     } else {
       throw Exception('Exception');

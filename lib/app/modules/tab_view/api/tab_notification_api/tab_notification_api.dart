@@ -16,7 +16,7 @@ class TabNotificationApi {
       },
     );
     if (response.statusCode == 201 || response.statusCode == 200) {
-      var jsonData = jsonDecode(response.body)["result"]["data"];
+      var jsonData = jsonDecode(response.body)["result"]["data"]["notifications"];
       List<NotificationModel> listNotifications = [];
       listNotifications.addAll(jsonData.map((listNotifications) => NotificationModel.fromJson(listNotifications)).cast<NotificationModel>());
       return listNotifications;

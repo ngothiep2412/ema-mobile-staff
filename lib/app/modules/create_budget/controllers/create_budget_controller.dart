@@ -73,7 +73,7 @@ class CreateBudgetController extends BaseController {
     if (budgetNameController.text == '') {
       print(budgetNameController.text);
       errorCreateBudget.value = true;
-      errorCreateBudgetText.value = "Vui lòng nhập tên khoản chi";
+      errorCreateBudgetText.value = "Vui lòng nhập tên yêu cầu ngân sách";
       isLoading.value = false;
     } else if (estExpenseController.text.isEmpty) {
       errorCreateBudget.value = true;

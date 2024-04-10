@@ -164,9 +164,9 @@ class TaskDetailViewController extends BaseController {
       print(taskModel);
       count.value = 0;
 
-      if (progressSubTaskDone.value == 1) {
-        await updateStatusTask('DONE', taskID, true);
-      }
+      // if (progressSubTaskDone.value == 1) {
+      //   await updateStatusTaskV2('DONE', taskID, true);
+      // }
 
       //
       // else {
@@ -453,7 +453,9 @@ class TaskDetailViewController extends BaseController {
       if (checkTask) {
         if (isSubTask) {
           if (status == 'DONE' || status == 'CONFIRM') {
-            if (taskModel.value.startDate!.toLocal().isAfter(now) || taskModel.value.endDate!.toLocal().isBefore(now)) {
+            if (taskModel.value.startDate!.toLocal().isAfter(now)
+                // || taskModel.value.endDate!.toLocal().isBefore(now)
+                ) {
               Get.snackbar('Thông báo', 'Công việc này có thời hạn công việc không cho phép cập nhật',
                   snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
               // return;
@@ -464,7 +466,9 @@ class TaskDetailViewController extends BaseController {
               }
             }
           } else {
-            if (taskModel.value.startDate!.toLocal().isAfter(now) || taskModel.value.endDate!.toLocal().isBefore(now)) {
+            if (taskModel.value.startDate!.toLocal().isAfter(now)
+                // || taskModel.value.endDate!.toLocal().isBefore(now)
+                ) {
               Get.snackbar('Thông báo', 'Công việc này có thời hạn công việc không cho phép cập nhật',
                   snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
               // return;
@@ -500,36 +504,44 @@ class TaskDetailViewController extends BaseController {
           //   errorUpdateTaskText.value = responseApi.message!;
           // }
         } else {
-          bool allSubTasksDone = true; // Giả sử tất cả các subTask đều là Done ban đầu
-          if (status == 'DONE' && taskModel.value.subTask != null) {
-            for (var subTask in taskModel.value.subTask!) {
-              if (subTask.status != Status.CONFIRM) {
-                allSubTasksDone = false;
-                break; // Không cần kiểm tra tiếp nếu có ít nhất một subTask chưa Done
-              }
-            }
-          }
-          if (allSubTasksDone) {
-            checkToken();
-            ResponseApi responseApi = await TaskDetailApi.updateStatusTask(jwt, taskID, status);
-            if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-              if (isNavigateOverall == true) {
-                Get.find<TaskOverallViewController>().getListTask();
-              }
-
-              await getTaskDetail();
-
-              errorUpdateTask.value = false;
-            } else {
-              checkView.value = false;
-            }
-            // if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
-            //   errorUpdateTask.value = true;
-            //   errorUpdateTaskText.value = responseApi.message!;
-            // }
-          } else {
-            Get.snackbar('Không thể cập nhật', 'Tất cả công việc con phải Đã Xác Thực thì mới đổi thành trạng thái Hoàn thành',
+          if (taskModel.value.startDate!.toLocal().isAfter(now)
+              // || taskModel.value.endDate!.toLocal().isBefore(now)
+              ) {
+            Get.snackbar('Thông báo', 'Công việc này có thời hạn công việc không cho phép cập nhật',
                 snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
+            // return;
+          } else {
+            bool allSubTasksDone = true; // Giả sử tất cả các subTask đều là Done ban đầu
+            if (status == 'DONE' && taskModel.value.subTask != null) {
+              for (var subTask in taskModel.value.subTask!) {
+                if (subTask.status != Status.CONFIRM) {
+                  allSubTasksDone = false;
+                  break; // Không cần kiểm tra tiếp nếu có ít nhất một subTask chưa Done
+                }
+              }
+            }
+            if (allSubTasksDone) {
+              checkToken();
+              ResponseApi responseApi = await TaskDetailApi.updateStatusTask(jwt, taskID, status);
+              if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+                if (isNavigateOverall == true) {
+                  Get.find<TaskOverallViewController>().getListTask();
+                }
+
+                await getTaskDetail();
+
+                errorUpdateTask.value = false;
+              } else {
+                checkView.value = false;
+              }
+              // if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
+              //   errorUpdateTask.value = true;
+              //   errorUpdateTaskText.value = responseApi.message!;
+              // }
+            } else {
+              Get.snackbar('Không thể cập nhật', 'Tất cả công việc con phải Đã Xác Thực thì mới đổi thành trạng thái Hoàn thành',
+                  snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
+            }
           }
         }
       } else {
@@ -919,8 +931,15 @@ class TaskDetailViewController extends BaseController {
 
       bool isCheckTask = false;
       if (taskModelCheck.value.assignTasks != null && taskModelCheck.value.assignTasks!.isNotEmpty) {
-        for (var item in taskModelCheck.value.assignTasks!) {
-          if (item.user!.id == idUser && item.status == "active") {
+        // for (var item in taskModelCheck.value.assignTasks!) {
+        //   if (item.user!.id == idUser && item.status == "active") {
+        //     isCheckTask = true;
+        //     break;
+        //   }
+        // }
+
+        for (var index = 0; index < taskModelCheck.value.assignTasks!.length; index++) {
+          if (taskModelCheck.value.assignTasks![index].user!.id == idUser) {
             isCheckTask = true;
             break;
           }

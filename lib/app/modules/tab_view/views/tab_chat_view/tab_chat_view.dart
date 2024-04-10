@@ -320,7 +320,9 @@ Widget chatUsersList({required ChatUserModel chatUserModel, required TabChatCont
                   children: [
                     Stack(children: [
                       CircleAvatar(
-                        backgroundImage: CachedNetworkImageProvider(chatUserModel.recipient!.profile!.avatar!),
+                        backgroundImage: CachedNetworkImageProvider(chatUserModel.creator!.id == controller.idUser
+                            ? chatUserModel.recipient!.profile!.avatar!
+                            : chatUserModel.creator!.profile!.avatar!),
                         maxRadius: 25,
                       ),
                       Positioned(

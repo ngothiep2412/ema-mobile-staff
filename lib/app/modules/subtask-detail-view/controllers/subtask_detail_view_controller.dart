@@ -203,7 +203,7 @@ class SubtaskDetailViewController extends BaseController {
           // if (value == 100) {
           //   await updateStatusTask('DONE', taskID);
           // }
-          Get.snackbar('Thành công', 'Thay đổi công việc thành công',
+          Get.snackbar('Thành công', 'Cập nhật trạng thái thành công',
               snackPosition: SnackPosition.BOTTOM, backgroundColor: const Color.fromARGB(255, 81, 146, 83), colorText: Colors.white);
           //  else {
           //   if (taskModel.value.startDate!.day == taskModel.value.endDate!.day && DateTime.now().toLocal().isAfter(taskModel.value.startDate!)) {
@@ -1400,11 +1400,18 @@ class SubtaskDetailViewController extends BaseController {
       bool isCheckTask = false;
       if (taskModelCheck.value.parent!.assignTasks != null && taskModelCheck.value.parent!.assignTasks!.isNotEmpty) {
         for (var item in taskModelCheck.value.parent!.assignTasks!) {
-          if (item.user!.id == idUser && item.status == "active") {
+          if (item.user!.id == idUser) {
             isCheckTask = true;
             break;
           }
         }
+
+        // for (var index = 0; index < taskModelCheck.value.parent!.assignTasks!.length; index++) {
+        //   if (taskModelCheck.value.parent!.assignTasks![index].user!.id == idUser) {
+        //     isCheckTask = true;
+        //     break;
+        //   }
+        // }
       }
       if (isCheckTask) {
         return true;

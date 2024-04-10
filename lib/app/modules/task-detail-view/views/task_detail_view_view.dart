@@ -761,9 +761,9 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                         style: TextStyle(
                             fontFamily: 'Nunito',
                             letterSpacing: 1,
-                            color: ColorsManager.textColor,
-                            fontSize: UtilsReponsive.height(16, context),
-                            fontWeight: FontWeight.w600),
+                            color: ColorsManager.textColor2,
+                            fontSize: UtilsReponsive.height(18, context),
+                            fontWeight: FontWeight.w800),
                       ),
                     ),
                   ),
@@ -868,8 +868,8 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                             fontFamily: 'Nunito',
                             letterSpacing: 1,
                             color: ColorsManager.textColor2,
-                            fontSize: UtilsReponsive.height(16, context),
-                            fontWeight: FontWeight.w600),
+                            fontSize: UtilsReponsive.height(18, context),
+                            fontWeight: FontWeight.w800),
                       ),
                     ),
                   ),
@@ -1426,13 +1426,13 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                           style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                                         ),
                                         content: Text(
-                                          'Bạn có chắc chắn muốn xóa bình luận này không?',
+                                          'Xóa một bình luận là vĩnh viễn. Không có cách hoàn tác',
                                           style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w600, ColorsManager.textColor2),
                                         ),
                                         actions: [
                                           TextButton(
                                             child: Text(
-                                              'Không',
+                                              'Hủy',
                                               style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                                             ),
                                             onPressed: () {
@@ -1441,7 +1441,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                           ),
                                           TextButton(
                                             child: Text(
-                                              'Có',
+                                              'Xác nhận',
                                               style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.red),
                                             ),
                                             onPressed: () {
@@ -1746,16 +1746,28 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
-                                                        Text(
-                                                          e.title!,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(
-                                                              fontFamily: 'Nunito',
-                                                              letterSpacing: 1,
-                                                              color: ColorsManager.textColor,
-                                                              fontSize: UtilsReponsive.height(16, context),
-                                                              fontWeight: FontWeight.w800),
-                                                        ),
+                                                        e.status == Status.CONFIRM
+                                                            ? Text(
+                                                                e.title!,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                style: TextStyle(
+                                                                    fontFamily: 'Nunito',
+                                                                    letterSpacing: 1,
+                                                                    color: ColorsManager.textColor,
+                                                                    fontSize: UtilsReponsive.height(16, context),
+                                                                    fontWeight: FontWeight.w800,
+                                                                    decoration: TextDecoration.lineThrough),
+                                                              )
+                                                            : Text(
+                                                                e.title!,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                style: TextStyle(
+                                                                    fontFamily: 'Nunito',
+                                                                    letterSpacing: 1,
+                                                                    color: ColorsManager.textColor,
+                                                                    fontSize: UtilsReponsive.height(16, context),
+                                                                    fontWeight: FontWeight.w800),
+                                                              ),
                                                         Row(
                                                           children: [
                                                             Container(
