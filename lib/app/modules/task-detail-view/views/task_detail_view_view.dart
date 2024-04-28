@@ -601,9 +601,9 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
             margin: EdgeInsets.only(left: UtilsReponsive.width(10, context)),
             child: Text(
               // '$startTime ${getCurrentTime(controller.taskModel.value.startDate!)} - $endTime ${getCurrentTime(controller.taskModel.value.endDate!)}',
-              'Hạn: $startTime - $endTime',
+              '$startTime ${getCurrentTime(controller.taskModel.value.startDate!.toLocal())} - $endTime ${getCurrentTime(controller.taskModel.value.endDate!.toLocal())}',
               style: TextStyle(
-                  letterSpacing: 1,
+                  // letterSpacing: 1,
                   overflow: TextOverflow.clip,
                   fontFamily: 'Nunito',
                   color: controller.taskModel.value.status == Status.PENDING

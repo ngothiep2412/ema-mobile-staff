@@ -9,6 +9,7 @@ import 'package:hrea_mobile_staff/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_staff/app/resources/style_manager.dart';
 import 'package:hrea_mobile_staff/app/routes/app_pages.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:hrea_mobile_staff/app/utils/calculate_time_difference.dart';
 import '../controllers/task_overall_view_controller.dart';
 
 class TaskOverallViewView extends BaseView<TaskOverallViewController> {
@@ -764,23 +765,47 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                           fontWeight: FontWeight.w700),
                                     )
                                   : taskModel.startDate != null && taskModel.endDate != null
-                                      ? Text(
-                                          // '${controller.dateFormat.format(taskModel.startDate!)} ${getCurrentTime(taskModel.startDate!)} - ${controller.dateFormat.format(taskModel.endDate!)} ${getCurrentTime(taskModel.endDate!)}'
-                                          '${controller.dateFormat.format(taskModel.startDate!.toLocal())} - ${controller.dateFormat.format(taskModel.endDate!.toLocal())}',
-                                          style: GetTextStyle.getTextStyle(
-                                            14,
-                                            'Nunito',
-                                            FontWeight.w700,
-                                            taskModel.status! == Status.PENDING
-                                                ? ColorsManager.grey
-                                                : taskModel.status! == Status.PROCESSING
-                                                    ? ColorsManager.blue
-                                                    : taskModel.status! == Status.DONE
-                                                        ? ColorsManager.green
-                                                        : taskModel.status! == Status.OVERDUE
-                                                            ? ColorsManager.red
-                                                            : Colors.purpleAccent,
-                                          ),
+                                      ? Column(
+                                          children: [
+                                            Text(
+                                                // '${controller.dateFormat.format(taskModel.startDate!)} ${getCurrentTime(taskModel.startDate!)} - ${controller.dateFormat.format(taskModel.endDate!)} ${getCurrentTime(taskModel.endDate!)}'
+                                                '${controller.dateFormat.format(taskModel.startDate!.toLocal())} ${getCurrentTime(taskModel.startDate!.toLocal())}',
+                                                style: TextStyle(
+                                                  letterSpacing: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  fontSize: 14,
+                                                  fontFamily: 'Nunito',
+                                                  fontWeight: FontWeight.w700,
+                                                  color: taskModel.status! == Status.PENDING
+                                                      ? ColorsManager.grey
+                                                      : taskModel.status! == Status.PROCESSING
+                                                          ? ColorsManager.blue
+                                                          : taskModel.status! == Status.DONE
+                                                              ? ColorsManager.green
+                                                              : taskModel.status! == Status.OVERDUE
+                                                                  ? ColorsManager.red
+                                                                  : Colors.purpleAccent,
+                                                )),
+                                            Text(
+                                                // '${controller.dateFormat.format(taskModel.startDate!)} ${getCurrentTime(taskModel.startDate!)} - ${controller.dateFormat.format(taskModel.endDate!)} ${getCurrentTime(taskModel.endDate!)}'
+                                                '- ${controller.dateFormat.format(taskModel.endDate!.toLocal())} ${getCurrentTime(taskModel.endDate!.toLocal())}',
+                                                style: TextStyle(
+                                                  letterSpacing: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  fontSize: 14,
+                                                  fontFamily: 'Nunito',
+                                                  fontWeight: FontWeight.w700,
+                                                  color: taskModel.status! == Status.PENDING
+                                                      ? ColorsManager.grey
+                                                      : taskModel.status! == Status.PROCESSING
+                                                          ? ColorsManager.blue
+                                                          : taskModel.status! == Status.DONE
+                                                              ? ColorsManager.green
+                                                              : taskModel.status! == Status.OVERDUE
+                                                                  ? ColorsManager.red
+                                                                  : Colors.purpleAccent,
+                                                )),
+                                          ],
                                         )
                                       : taskModel.startDate != null
                                           ? Text(

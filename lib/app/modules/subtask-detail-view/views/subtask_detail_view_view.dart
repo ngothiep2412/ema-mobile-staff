@@ -1507,9 +1507,9 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
             margin: EdgeInsets.only(left: UtilsReponsive.width(10, context)),
             child: Text(
               // '$startTime ${getCurrentTime(controller.taskModel.value.startDate!)} - $endTime ${getCurrentTime(controller.taskModel.value.endDate!)}',
-              'Hạn: $startTime - $endTime',
+              '$startTime ${getCurrentTime(controller.taskModel.value.startDate!.toLocal())} - $endTime ${getCurrentTime(controller.taskModel.value.endDate!.toLocal())}',
               style: TextStyle(
-                  letterSpacing: 1,
+                  // letterSpacing: 1,
                   fontFamily: 'Nunito',
                   overflow: TextOverflow.clip,
                   color: controller.taskModel.value.status == Status.PENDING
@@ -1533,7 +1533,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
   Future<DateTime?> pickDate(BuildContext context) => showDatePicker(
       context: context,
       currentDate: DateTime.now().toUtc().add(const Duration(hours: 7)),
-      initialDate: controller.taskModel.value.endDate ?? DateTime.now().toUtc().add(const Duration(hours: 7)),
+      initialDate: controller.taskModel.value.endDate!.toLocal(),
       firstDate: DateTime(1900),
       lastDate: DateTime(2100));
 
@@ -1543,10 +1543,10 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
       initialTime: TimeOfDay(
           hour: controller.taskModel.value.startDate == null
               ? DateTime.now().toUtc().add(const Duration(hours: 7)).hour
-              : controller.taskModel.value.startDate!.hour,
+              : controller.taskModel.value.startDate!.toLocal().hour,
           minute: controller.taskModel.value.startDate == null
               ? DateTime.now().toUtc().add(const Duration(hours: 7)).minute
-              : controller.taskModel.value.startDate!.minute));
+              : controller.taskModel.value.startDate!.toLocal().minute));
 
   Future<TimeOfDay?> pickTimeEndDate(BuildContext context) => showTimePicker(
       context: context,
@@ -1554,10 +1554,10 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
       initialTime: TimeOfDay(
           hour: controller.taskModel.value.endDate == null
               ? DateTime.now().toUtc().add(const Duration(hours: 7)).hour
-              : controller.taskModel.value.endDate!.hour,
+              : controller.taskModel.value.endDate!.toLocal().hour,
           minute: controller.taskModel.value.endDate == null
               ? DateTime.now().toUtc().add(const Duration(hours: 7)).minute
-              : controller.taskModel.value.endDate!.minute));
+              : controller.taskModel.value.endDate!.toLocal().minute));
 
   _showBottomLeader({required BuildContext context}) {
     Get.bottomSheet(Container(
@@ -2278,11 +2278,11 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
     await Get.defaultDialog(
       confirm: GestureDetector(
           onTap: () async {
-            // bool isErrorStartDate = true;
-            // bool isErrorEndDate = true;
+            bool isErrorStartDate = true;
+            bool isErrorEndDate = true;
 
-            // bool isStartDateCancel = false;
-            // bool isEndDateCancel = false;
+            bool isStartDateCancel = false;
+            bool isEndDateCancel = false;
 
             DateTime newStartDate = DateTime(
               controller.listChange.first!.year,
@@ -2312,109 +2312,117 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
             //   }
             // }
 
-            // while (isErrorStartDate) {
-            //   TimeOfDay? timeStartDate = await pickTimeStartDate(Get.context!);
-            //   if (timeStartDate == null) {
-            //     isStartDateCancel = true;
-            //     return;
-            //   }
-            //   final newDate = DateTime(controller.listChange.first!.year, controller.listChange.first!.month, controller.listChange.first!.day,
-            //       timeStartDate.hour, timeStartDate.minute);
-            //   newStartDate = newDate;
+            while (isErrorStartDate) {
+              TimeOfDay? timeStartDate = await pickTimeStartDate(Get.context!);
+              if (timeStartDate == null) {
+                isStartDateCancel = true;
+                return;
+              }
+              final newDate = DateTime(controller.listChange.first!.year, controller.listChange.first!.month, controller.listChange.first!.day,
+                  timeStartDate.hour, timeStartDate.minute);
+              newStartDate = newDate;
 
-            //   if (!newDate.toLocal().isAfter(controller.startDateTaskParent.toLocal())) {
-            //     Get.snackbar(
-            //       'Thông báo 1',
-            //       'Giờ bắt đầu của công việc nhỏ phải nhỏ hơn giờ bắt đầu ${controller.dateFormat.format(controller.startDateTaskParent.toLocal())} ${getCurrentTime(controller.startDateTaskParent.toLocal())} của công việc lớn',
-            //       snackPosition: SnackPosition.TOP,
-            //       margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
-            //       backgroundColor: ColorsManager.backgroundGrey,
-            //       colorText: ColorsManager.textColor2,
-            //       duration: const Duration(seconds: 4),
-            //     );
+              // if (!newDate.toLocal().isAfter(controller.endDate.value.toLocal())) {
+              //   Get.snackbar(
+              //     'Thông báo',
+              //     'Giờ bắt đầu của công việc nhỏ phải nhỏ hơn giờ kết thúc ${controller.dateFormat.format(controller.endDate.value.toLocal())} ${getCurrentTime(controller.endDate.value.toLocal())} của công việc nhỏ',
+              //     snackPosition: SnackPosition.TOP,
+              //     margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
+              //     backgroundColor: ColorsManager.backgroundGrey,
+              //     colorText: ColorsManager.textColor2,
+              //     duration: const Duration(seconds: 4),
+              //   );
 
-            //     isErrorStartDate = true;
-            //   } else if (newDate //23/10 0202
-            //       .toLocal()
-            //       .isAfter(controller.endDateTaskParent.toLocal())) {
-            //     //23/10/1231
-            //     Get.snackbar(
-            //       'Thông báo 2',
-            //       'Giờ bắt đầu của công việc nhỏ phải nhỏ hơn giờ kết thúc ${controller.dateFormat.format(controller.endDateTaskParent.toLocal())} ${getCurrentTime(controller.endDateTaskParent.toLocal())} của công việc lớn',
-            //       snackPosition: SnackPosition.TOP,
-            //       margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
-            //       backgroundColor: ColorsManager.backgroundGrey,
-            //       colorText: ColorsManager.textColor2,
-            //       duration: const Duration(seconds: 4),
-            //     );
-            //     isErrorEndDate = true;
-            //   } else {
-            //     isErrorStartDate = false;
-            //   }
-            // }
+              //   isErrorStartDate = true;
+              // }
+              //  else if (newDate //23/10 0202
+              //     .toLocal()
+              //     .isAfter(controller.endDateTaskParent.toLocal())) {
+              //   //23/10/1231
+              //   Get.snackbar(
+              //     'Thông báo 2',
+              //     'Giờ bắt đầu của công việc nhỏ phải nhỏ hơn giờ kết thúc ${controller.dateFormat.format(controller.endDateTaskParent.toLocal())} ${getCurrentTime(controller.endDateTaskParent.toLocal())} của công việc lớn',
+              //     snackPosition: SnackPosition.TOP,
+              //     margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
+              //     backgroundColor: ColorsManager.backgroundGrey,
+              //     colorText: ColorsManager.textColor2,
+              //     duration: const Duration(seconds: 4),
+              //   );
+              //   isErrorEndDate = true;
+              // }
 
-            // while (isErrorEndDate) {
-            //   // TimeOfDay? timeEndDate = await pickTimeEndDate(Get.context!);
-            //   // if (timeEndDate == null) {
-            //   //   isEndDateCancel = true;
-            //   //   return;
-            //   // }
-            //   final newDate = DateTime(
-            //     controller.listChange.last!.year,
-            //     controller.listChange.last!.month,
-            //     controller.listChange.last!.day,
-            //   );
-            //   newEndDate = newDate;
+              // else {
+              isErrorStartDate = false;
+              // }
+            }
 
-            //   if (newDate.toLocal().isAfter(controller.endDateTaskParent.toLocal())) {
-            //     Get.snackbar(
-            //       'Thông báo',
-            //       'Ngày kết thúc của công việc nhỏ phải nhỏ hơn ngày kết thúc ${controller.dateFormat.format(controller.endDateTaskParent.toLocal())} ${getCurrentTime(controller.endDateTaskParent.toLocal())} của công việc lớn',
-            //       snackPosition: SnackPosition.TOP,
-            //       margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
-            //       backgroundColor: ColorsManager.backgroundGrey,
-            //       colorText: ColorsManager.textColor2,
-            //       duration: const Duration(seconds: 4),
-            //     );
-            //     isErrorEndDate = true;
-            //   } else if (newStartDate.isAfter(newEndDate)) {
-            //     Get.snackbar(
-            //       'Thông báo',
-            //       'Ngày kết thúc của công việc nhỏ phải lớn hơn giờ bắt đầu ${controller.dateFormat.format(newStartDate)} ${getCurrentTime(newStartDate)} của công việc nhỏ',
-            //       snackPosition: SnackPosition.TOP,
-            //       margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
-            //       backgroundColor: ColorsManager.backgroundGrey,
-            //       colorText: ColorsManager.textColor2,
-            //       duration: const Duration(seconds: 4),
-            //     );
-            //     isErrorEndDate = true;
-            //     // } else if (newEndDate.difference(newStartDate).inMinutes < 15) {
-            //     //   Get.snackbar(
-            //     //     'Thông báo',
-            //     //     'Ngày kết thúc của công việc nhỏ phải lớn hơn 15 phút so với giờ bắt đầu của công việc nhỏ',
-            //     //     snackPosition: SnackPosition.TOP,
-            //     //     margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
-            //     //     backgroundColor: ColorsManager.backgroundGrey,
-            //     //     colorText: ColorsManager.textColor2,
-            //     //     duration: const Duration(seconds: 4),
-            //     //   );
-            //     //   isErrorEndDate = true;
-            //   } else {
-            //     isErrorEndDate = false;
-            //   }
-            // }
+            while (isErrorEndDate) {
+              TimeOfDay? timeEndDate = await pickTimeEndDate(Get.context!);
+              if (timeEndDate == null) {
+                isEndDateCancel = true;
+                return;
+              }
+              final newDate = DateTime(controller.listChange.first!.year, controller.listChange.first!.month, controller.listChange.first!.day,
+                  timeEndDate.hour, timeEndDate.minute);
 
-            // if (isEndDateCancel == true || isStartDateCancel == true) {
-            //   Get.back();
-            // }
+              print(newDate);
+              newEndDate = newDate;
 
-            // if (isErrorEndDate == false) {
-            controller.startDate.value = newStartDate;
-            controller.endDate.value = newEndDate;
-            Get.back();
-            await controller.updateDateTime(taskID, controller.startDate.value, controller.endDate.value);
-            controller.errorUpdateSubTask.value ? _errorMessage(context) : _successMessage(context);
-            // }
+              if (newDate.toLocal().isBefore(newStartDate.toLocal())) {
+                Get.snackbar(
+                  'Thông báo',
+                  'Giờ kết thúc của công việc nhỏ phải lớn hơn giờ bắt đầu ${controller.dateFormat.format(newStartDate.toLocal())} ${getCurrentTime(newStartDate.toLocal())} của công việc nhỏ',
+                  snackPosition: SnackPosition.TOP,
+                  margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
+                  backgroundColor: Colors.redAccent,
+                  colorText: ColorsManager.backgroundWhite,
+                  duration: const Duration(seconds: 4),
+                );
+                isErrorEndDate = true;
+              }
+              //  else if (newStartDate.isAfter(newEndDate)) {
+              //   Get.snackbar(
+              //     'Thông báo',
+              //     'Ngày kết thúc của công việc nhỏ phải lớn hơn giờ bắt đầu ${controller.dateFormat.format(newStartDate)} ${getCurrentTime(newStartDate)} của công việc nhỏ',
+              //     snackPosition: SnackPosition.TOP,
+              //     margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
+              //     backgroundColor: ColorsManager.backgroundGrey,
+              //     colorText: ColorsManager.textColor2,
+              //     duration: const Duration(seconds: 4),
+              //   );
+              //   isErrorEndDate = true;
+              //   }
+              //   else
+
+              else if (newEndDate.difference(newStartDate).inMinutes < 15) {
+                print(newEndDate);
+                print(newStartDate);
+                Get.snackbar(
+                  'Thông báo',
+                  'Giờ kết thúc của công việc nhỏ phải lớn hơn 15 phút so với giờ bắt ${controller.dateFormat.format(newStartDate.toLocal())} ${getCurrentTime(newStartDate.toLocal())} của công việc nhỏ ',
+                  snackPosition: SnackPosition.TOP,
+                  margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
+                  backgroundColor: Colors.redAccent,
+                  colorText: ColorsManager.backgroundWhite,
+                  duration: const Duration(seconds: 4),
+                );
+                isErrorEndDate = true;
+              } else {
+                isErrorEndDate = false;
+              }
+            }
+
+            if (isEndDateCancel == true || isStartDateCancel == true) {
+              Get.back();
+            }
+
+            if (isErrorEndDate == false) {
+              controller.startDate.value = newStartDate;
+              controller.endDate.value = newEndDate;
+              Get.back();
+              await controller.updateDateTime(taskID, controller.startDate.value, controller.endDate.value);
+              controller.errorUpdateSubTask.value ? _errorMessage(context) : _successMessage(context);
+            }
           },
           child: Container(
             padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
