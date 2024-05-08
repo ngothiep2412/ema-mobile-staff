@@ -208,7 +208,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                         style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w800, ColorsManager.textColor),
                                       ),
                                       Text(
-                                        '${controller.formatCurrency((controller.budgetItemModel.value.itemExisted!.plannedAmount! * controller.budgetItemModel.value.itemExisted!.plannedPrice! * ((controller.budgetItemModel.value.itemExisted!.percentage!) / 100)).toInt())} VNĐ',
+                                        '${controller.formatCurrency((controller.budgetItemModel.value.itemExisted!.plannedAmount! * controller.budgetItemModel.value.itemExisted!.plannedPrice! * ((controller.budgetItemModel.value.itemExisted!.percentage!) / 100)).toInt().ceil())} VNĐ',
                                         style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w800, ColorsManager.textColor),
                                       ),
                                     ],

@@ -206,7 +206,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                   //                       builder: (BuildContext context) {
                                   //                         return AlertDialog(
                                   //                           title: Text('Nhập con số công sức',
-                                  //                               style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w600, ColorsManager.primary)),
+                                  //                               style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w700, ColorsManager.primary)),
                                   //                           content: TextField(
                                   //                             keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                   //                             inputFormatters: <TextInputFormatter>[
@@ -219,7 +219,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                   //                             TextButton(
                                   //                               child: Text('Hủy',
                                   //                                   style: GetTextStyle.getTextStyle(
-                                  //                                       16, 'Nunito', FontWeight.w600, ColorsManager.textColor2)),
+                                  //                                       16, 'Nunito', FontWeight.w700, ColorsManager.textColor2)),
                                   //                               onPressed: () {
                                   //                                 Navigator.of(context).pop();
                                   //                               },
@@ -227,7 +227,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                   //                             TextButton(
                                   //                               child: Text('Lưu',
                                   //                                   style: GetTextStyle.getTextStyle(
-                                  //                                       16, 'Nunito', FontWeight.w600, ColorsManager.primary)),
+                                  //                                       16, 'Nunito', FontWeight.w700, ColorsManager.primary)),
                                   //                               onPressed: () async {
                                   //                                 await controller.updateEffort(
                                   //                                     controller.taskModel.value.id!, double.parse(controller.effortController.text));
@@ -426,152 +426,155 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                               ),
                             ),
                           ),
-                          Obx(
-                            () => controller.isCheckEditComment.value
-                                ? SizedBox()
-                                : Positioned(
-                                    bottom: 0,
-                                    left: 0,
-                                    right: 0,
-                                    child: Obx(
-                                      () => controller.filePicker.isNotEmpty
-                                          ? Container(
-                                              decoration: const BoxDecoration(
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: ColorsManager.textColor,
-                                                    blurRadius: 1.0,
-                                                  ),
-                                                ],
-                                                color: Colors.white,
-                                              ),
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    height: UtilsReponsive.height(170, context),
-                                                    padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
-                                                    child: ListView.separated(
-                                                      scrollDirection: Axis.horizontal,
-                                                      itemCount: controller.filePicker.length,
-                                                      separatorBuilder: (context, index) => SizedBox(width: UtilsReponsive.width(15, context)),
-                                                      itemBuilder: (context, index) {
-                                                        return attchFileComment(controller.filePicker[index], context, index);
-                                                      },
+                          controller.taskModel.value.status != Status.CONFIRM
+                              ? Obx(
+                                  () => controller.isCheckEditComment.value
+                                      ? SizedBox()
+                                      : Positioned(
+                                          bottom: 0,
+                                          left: 0,
+                                          right: 0,
+                                          child: Obx(
+                                            () => controller.filePicker.isNotEmpty
+                                                ? Container(
+                                                    decoration: const BoxDecoration(
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: ColorsManager.textColor,
+                                                          blurRadius: 1.0,
+                                                        ),
+                                                      ],
+                                                      color: Colors.white,
                                                     ),
-                                                  ),
-                                                  TextField(
-                                                    onChanged: (value) => {controller.commentController.text = value},
-                                                    controller: controller.commentController,
-                                                    focusNode: controller.focusNodeComment,
-                                                    keyboardType: TextInputType.text,
-                                                    maxLines: 5,
-                                                    minLines: 1,
-                                                    cursorColor: Colors.black,
-                                                    decoration: InputDecoration(
-                                                      prefixIcon: IconButton(
-                                                          onPressed: () async {
-                                                            await controller.selectFile();
-                                                          },
-                                                          icon: const Icon(
-                                                            Icons.attach_file_outlined,
-                                                          )),
-                                                      suffixIcon: controller.isLoadingComment.value != true
-                                                          ? IconButton(
-                                                              onPressed: () async {
-                                                                await controller.createComment();
-                                                              },
-                                                              icon: const Icon(Icons.double_arrow_sharp))
-                                                          : Container(
-                                                              width: 10,
-                                                              height: 10,
-                                                              child: SpinKitFadingCircle(
-                                                                color: ColorsManager.primary,
-                                                                size: 20,
-                                                              ),
+                                                    child: Column(
+                                                      children: [
+                                                        Container(
+                                                          height: UtilsReponsive.height(170, context),
+                                                          padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
+                                                          child: ListView.separated(
+                                                            scrollDirection: Axis.horizontal,
+                                                            itemCount: controller.filePicker.length,
+                                                            separatorBuilder: (context, index) => SizedBox(width: UtilsReponsive.width(15, context)),
+                                                            itemBuilder: (context, index) {
+                                                              return attchFileComment(controller.filePicker[index], context, index);
+                                                            },
+                                                          ),
+                                                        ),
+                                                        TextField(
+                                                          onChanged: (value) => {controller.commentController.text = value},
+                                                          controller: controller.commentController,
+                                                          focusNode: controller.focusNodeComment,
+                                                          keyboardType: TextInputType.text,
+                                                          maxLines: 5,
+                                                          minLines: 1,
+                                                          cursorColor: Colors.black,
+                                                          decoration: InputDecoration(
+                                                            prefixIcon: IconButton(
+                                                                onPressed: () async {
+                                                                  await controller.selectFile();
+                                                                },
+                                                                icon: const Icon(
+                                                                  Icons.attach_file_outlined,
+                                                                )),
+                                                            suffixIcon: controller.isLoadingComment.value != true
+                                                                ? IconButton(
+                                                                    onPressed: () async {
+                                                                      await controller.createComment();
+                                                                    },
+                                                                    icon: const Icon(Icons.double_arrow_sharp))
+                                                                : Container(
+                                                                    width: 10,
+                                                                    height: 10,
+                                                                    child: SpinKitFadingCircle(
+                                                                      color: ColorsManager.primary,
+                                                                      size: 20,
+                                                                    ),
+                                                                  ),
+                                                            //  IconButton(
+                                                            //     onPressed: () async {
+                                                            //       await controller.createComment();
+                                                            //     },
+                                                            //     icon: const Icon(Icons.double_arrow_sharp)),
+                                                            contentPadding: EdgeInsets.all(UtilsReponsive.width(15, context)),
+                                                            hintText: 'Nhập bình luận',
+                                                            focusedBorder: UnderlineInputBorder(
+                                                              borderSide: BorderSide(color: ColorsManager.grey),
                                                             ),
-                                                      //  IconButton(
-                                                      //     onPressed: () async {
-                                                      //       await controller.createComment();
-                                                      //     },
-                                                      //     icon: const Icon(Icons.double_arrow_sharp)),
-                                                      contentPadding: EdgeInsets.all(UtilsReponsive.width(15, context)),
-                                                      hintText: 'Nhập bình luận',
-                                                      focusedBorder: UnderlineInputBorder(
-                                                        borderSide: BorderSide(color: ColorsManager.grey),
-                                                      ),
-                                                      enabledBorder: UnderlineInputBorder(
-                                                        borderSide:
-                                                            BorderSide(color: ColorsManager.grey), // Màu gạch dưới khi TextField không được chọn
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                          : Container(
-                                              decoration: const BoxDecoration(
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: ColorsManager.backgroundWhite,
-                                                    blurRadius: 1.0,
-                                                  ),
-                                                ],
-                                                color: Colors.white,
-                                              ),
-                                              child: Column(
-                                                children: [
-                                                  TextField(
-                                                    onChanged: (value) => {controller.commentController.text = value},
-                                                    controller: controller.commentController,
-                                                    focusNode: controller.focusNodeComment,
-                                                    keyboardType: TextInputType.text,
-                                                    maxLines: 5,
-                                                    minLines: 1,
-                                                    cursorColor: Colors.black,
-                                                    decoration: InputDecoration(
-                                                      prefixIcon: IconButton(
-                                                          onPressed: () async {
-                                                            await controller.selectFile();
-                                                          },
-                                                          icon: const Icon(
-                                                            Icons.attach_file_outlined,
-                                                          )),
-                                                      suffixIcon: controller.isLoadingComment.value != true
-                                                          ? IconButton(
-                                                              onPressed: () async {
-                                                                await controller.createComment();
-                                                              },
-                                                              icon: const Icon(Icons.double_arrow_sharp))
-                                                          : Container(
-                                                              width: 10,
-                                                              height: 10,
-                                                              child: SpinKitFadingCircle(
-                                                                color: ColorsManager.primary,
-                                                                size: 20,
-                                                              ),
+                                                            enabledBorder: UnderlineInputBorder(
+                                                              borderSide: BorderSide(
+                                                                  color: ColorsManager.grey), // Màu gạch dưới khi TextField không được chọn
                                                             ),
-                                                      // IconButton(
-                                                      //     onPressed: () async {
-                                                      //       await controller.createComment();
-                                                      //     },
-                                                      //     icon: const Icon(Icons.double_arrow_sharp)),
-                                                      contentPadding: EdgeInsets.all(UtilsReponsive.width(15, context)),
-                                                      hintText: 'Nhập bình luận',
-                                                      focusedBorder: UnderlineInputBorder(
-                                                        borderSide: BorderSide(color: ColorsManager.grey), // Màu gạch dưới khi TextField được chọn
-                                                      ),
-                                                      enabledBorder: UnderlineInputBorder(
-                                                        borderSide:
-                                                            BorderSide(color: ColorsManager.grey), // Màu gạch dưới khi TextField không được chọn
-                                                      ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                : Container(
+                                                    decoration: const BoxDecoration(
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: ColorsManager.backgroundWhite,
+                                                          blurRadius: 1.0,
+                                                        ),
+                                                      ],
+                                                      color: Colors.white,
+                                                    ),
+                                                    child: Column(
+                                                      children: [
+                                                        TextField(
+                                                          onChanged: (value) => {controller.commentController.text = value},
+                                                          controller: controller.commentController,
+                                                          focusNode: controller.focusNodeComment,
+                                                          keyboardType: TextInputType.text,
+                                                          maxLines: 5,
+                                                          minLines: 1,
+                                                          cursorColor: Colors.black,
+                                                          decoration: InputDecoration(
+                                                            prefixIcon: IconButton(
+                                                                onPressed: () async {
+                                                                  await controller.selectFile();
+                                                                },
+                                                                icon: const Icon(
+                                                                  Icons.attach_file_outlined,
+                                                                )),
+                                                            suffixIcon: controller.isLoadingComment.value != true
+                                                                ? IconButton(
+                                                                    onPressed: () async {
+                                                                      await controller.createComment();
+                                                                    },
+                                                                    icon: const Icon(Icons.double_arrow_sharp))
+                                                                : Container(
+                                                                    width: 10,
+                                                                    height: 10,
+                                                                    child: SpinKitFadingCircle(
+                                                                      color: ColorsManager.primary,
+                                                                      size: 20,
+                                                                    ),
+                                                                  ),
+                                                            // IconButton(
+                                                            //     onPressed: () async {
+                                                            //       await controller.createComment();
+                                                            //     },
+                                                            //     icon: const Icon(Icons.double_arrow_sharp)),
+                                                            contentPadding: EdgeInsets.all(UtilsReponsive.width(15, context)),
+                                                            hintText: 'Nhập bình luận',
+                                                            focusedBorder: UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(color: ColorsManager.grey), // Màu gạch dưới khi TextField được chọn
+                                                            ),
+                                                            enabledBorder: UnderlineInputBorder(
+                                                              borderSide: BorderSide(
+                                                                  color: ColorsManager.grey), // Màu gạch dưới khi TextField không được chọn
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
-                                                ],
-                                              ),
-                                            ),
-                                    ),
-                                  ),
-                          )
+                                          ),
+                                        ),
+                                )
+                              : SizedBox()
                         ],
                       ),
                     ),
@@ -601,7 +604,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
             margin: EdgeInsets.only(left: UtilsReponsive.width(10, context)),
             child: Text(
               // '$startTime ${getCurrentTime(controller.taskModel.value.startDate!)} - $endTime ${getCurrentTime(controller.taskModel.value.endDate!)}',
-              '$startTime ${getCurrentTime(controller.taskModel.value.startDate!.toLocal())} - $endTime ${getCurrentTime(controller.taskModel.value.endDate!.toLocal())}',
+              'Hạn: $startTime - $endTime',
               style: TextStyle(
                   // letterSpacing: 1,
                   overflow: TextOverflow.clip,
@@ -1219,7 +1222,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                         itemCount: controller.listComment.length,
                         separatorBuilder: (context, index) => SizedBox(height: UtilsReponsive.height(30, context)),
                         itemBuilder: (context, index) {
-                          return comment(controller.listComment[index], context);
+                          return comment(controller.listComment[index], context, index);
                         }),
                   )
                 : GestureDetector(
@@ -1242,7 +1245,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                             ),
                             Text(
                               'Để lại bình luận đầu tiên',
-                              style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w600, ColorsManager.primary),
+                              style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.primary),
                             ),
                           ],
                         ),
@@ -1255,8 +1258,8 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
     );
   }
 
-  StatefulBuilder comment(CommentModel commentModel, BuildContext context) {
-    bool isEditComment = false;
+  StatefulBuilder comment(CommentModel commentModel, BuildContext context, int index) {
+    // bool isEditComment = false;
     TextEditingController commentTextController = TextEditingController(text: commentModel.text);
     List<PlatformFile> filePickerEditCommentFile = [];
     return StatefulBuilder(builder: (context, setStateX) {
@@ -1307,7 +1310,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                           letterSpacing: 1,
                           color: ColorsManager.textColor,
                           fontSize: UtilsReponsive.height(14, context),
-                          fontWeight: FontWeight.w600),
+                          fontWeight: FontWeight.w700),
                     ),
                   ],
                 ),
@@ -1332,7 +1335,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                               return _filesComment(
                                 commentModel.commentFiles![index],
                                 context,
-                                isEditComment,
+                                controller.listComment[index].isEditComment!,
                               );
                             },
                           ),
@@ -1353,7 +1356,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                             letterSpacing: 1,
                             color: ColorsManager.textColor2,
                             fontSize: UtilsReponsive.height(14, context),
-                            fontWeight: FontWeight.w600),
+                            fontWeight: FontWeight.w700),
                       ),
                       Container(
                         margin: EdgeInsets.only(top: UtilsReponsive.height(8, context)),
@@ -1363,8 +1366,8 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                           itemCount: filePickerEditCommentFile.length,
                           separatorBuilder: (context, index) => SizedBox(width: UtilsReponsive.width(15, context)),
                           itemBuilder: (context, index) {
-                            return editFileComment(
-                                filePickerEditCommentFile[index], context, index, isEditComment, setStateX, filePickerEditCommentFile);
+                            return editFileComment(filePickerEditCommentFile[index], context, index, controller.listComment[index].isEditComment!,
+                                setStateX, filePickerEditCommentFile);
                           },
                         ),
                       ),
@@ -1372,7 +1375,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                   )
                 : const SizedBox(),
             SizedBox(height: UtilsReponsive.height(10, context)),
-            isEditComment == true
+            controller.listComment[index].isEditComment == true
                 ? Container(
                     constraints: BoxConstraints(maxHeight: UtilsReponsive.height(300, context), minHeight: UtilsReponsive.height(100, context)),
                     child: FormFieldWidget(
@@ -1390,26 +1393,28 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                         letterSpacing: 1,
                         color: ColorsManager.textColor,
                         fontSize: UtilsReponsive.height(18, context),
-                        fontWeight: FontWeight.w600),
+                        fontWeight: FontWeight.w700),
                   ),
             SizedBox(height: UtilsReponsive.width(10, context)),
-            isEditComment == false
+            controller.listComment[index].isEditComment == false
                 ? Row(
                     children: [
                       InkWell(
                           onTap: () {
                             controller.isCheckEditComment.value = true;
                             setStateX(() {
-                              isEditComment = true;
+                              controller.listComment[index].isEditComment = true;
                             });
                           },
                           child: commentModel.user!.id == controller.idUser
                               ? Align(
                                   alignment: Alignment.topLeft,
-                                  child: Text(
-                                    'Chỉnh sửa',
-                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w600, ColorsManager.primary),
-                                  ))
+                                  child: controller.taskModel.value.status != Status.CONFIRM
+                                      ? Text(
+                                          'Chỉnh sửa',
+                                          style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.primary),
+                                        )
+                                      : SizedBox())
                               : const SizedBox()),
                       SizedBox(
                         width: UtilsReponsive.width(10, context),
@@ -1423,17 +1428,17 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                       return AlertDialog(
                                         title: Text(
                                           'Xác nhận xóa bình luận',
-                                          style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
+                                          style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.primary),
                                         ),
                                         content: Text(
                                           'Xóa một bình luận là vĩnh viễn. Không có cách hoàn tác',
-                                          style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w600, ColorsManager.textColor2),
+                                          style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                                         ),
                                         actions: [
                                           TextButton(
                                             child: Text(
                                               'Hủy',
-                                              style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
+                                              style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.primary),
                                             ),
                                             onPressed: () {
                                               Navigator.of(context).pop();
@@ -1442,12 +1447,12 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                           TextButton(
                                             child: Text(
                                               'Xác nhận',
-                                              style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.red),
+                                              style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.red),
                                             ),
                                             onPressed: () {
                                               controller.deleteComment(commentModel);
                                               setStateX(() {
-                                                isEditComment = true;
+                                                controller.listComment[index].isEditComment = true;
                                               });
                                               Navigator.of(context).pop();
                                             },
@@ -1458,10 +1463,12 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                               },
                               child: Align(
                                   alignment: Alignment.topLeft,
-                                  child: Text(
-                                    'Xóa',
-                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w600, ColorsManager.red),
-                                  )))
+                                  child: controller.taskModel.value.status != Status.CONFIRM
+                                      ? Text(
+                                          'Xóa',
+                                          style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.red),
+                                        )
+                                      : SizedBox()))
                           : const SizedBox(),
                     ],
                   )
@@ -1482,17 +1489,26 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                             } else {
                               await controller.editComment(commentModel, commentTextController.text, commentModel.id!, filePickerEditCommentFile);
                               setStateX(() {
-                                isEditComment = false;
+                                controller.listComment[index].isEditComment = false;
                               });
                               controller.isCheckEditComment.value = false;
                             }
                           },
                           child: Align(
                               alignment: Alignment.topLeft,
-                              child: Text(
-                                'Lưu',
-                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w600, ColorsManager.primary),
-                              ))),
+                              child: controller.isLoadingCommentV2.value
+                                  ? Container(
+                                      width: 30,
+                                      height: 30,
+                                      child: SpinKitFadingCircle(
+                                        color: ColorsManager.primary,
+                                        size: 20,
+                                      ),
+                                    )
+                                  : Text(
+                                      'Lưu',
+                                      style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.primary),
+                                    ))),
                       SizedBox(
                         width: UtilsReponsive.width(10, context),
                       ),
@@ -1501,7 +1517,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                             await controller.cancel(commentModel.id!);
                             filePickerEditCommentFile.clear();
                             setStateX(() {
-                              isEditComment = false;
+                              controller.listComment[index].isEditComment = false;
                             });
                             controller.isCheckEditComment.value = false;
                           },
@@ -1509,7 +1525,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Hủy',
-                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w600, ColorsManager.red),
+                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.red),
                               ))),
                       SizedBox(
                         width: UtilsReponsive.width(10, context),
@@ -1540,7 +1556,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Thêm tệp',
-                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w600, ColorsManager.textColor2),
+                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                               ))),
                       SizedBox(
                         width: UtilsReponsive.width(10, context),
@@ -1653,43 +1669,47 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                         children: [
                           InkWell(
                             onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text('Thêm công việc con',
-                                        style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w600, ColorsManager.primary)),
-                                    content: TextField(
-                                      onChanged: (value) => {controller.titleSubTaskController.text = value},
-                                      controller: controller.titleSubTaskController,
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        child:
-                                            Text('Hủy', style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.textColor2)),
-                                        onPressed: () {
-                                          controller.titleSubTaskController.text = '';
-                                          Navigator.of(context).pop();
-                                        },
+                              if (controller.taskModel.value.status != Status.CONFIRM) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Thêm công việc con',
+                                          style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w700, ColorsManager.primary)),
+                                      content: TextField(
+                                        onChanged: (value) => {controller.titleSubTaskController.text = value},
+                                        controller: controller.titleSubTaskController,
                                       ),
-                                      TextButton(
-                                        child: Text('Lưu', style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary)),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                          controller.createSubTask();
-                                          controller.errorUpdateTask.value == true ? _errorMessage(context) : _successMessage(context);
-                                          controller.titleSubTaskController.text = '';
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
+                                      actions: [
+                                        TextButton(
+                                          child:
+                                              Text('Hủy', style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.textColor2)),
+                                          onPressed: () {
+                                            controller.titleSubTaskController.text = '';
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        TextButton(
+                                          child: Text('Lưu', style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.primary)),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            controller.createSubTask();
+                                            controller.errorUpdateTask.value == true ? _errorMessage(context) : _successMessage(context);
+                                            controller.titleSubTaskController.text = '';
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
                             },
-                            child: Text(
-                              '+  Thêm công việc con',
-                              style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w600, ColorsManager.primary),
-                            ),
+                            child: controller.taskModel.value.status != Status.CONFIRM
+                                ? Text(
+                                    '+  Thêm công việc con',
+                                    style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w700, ColorsManager.primary),
+                                  )
+                                : SizedBox(),
                           ),
                         ],
                       ),
@@ -1803,7 +1823,9 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                   flex: 5,
                                                   child: GestureDetector(
                                                     onTap: () {
-                                                      _showBottomSheetStatusSubtask(context, e.id!);
+                                                      if (controller.taskModel.value.status != Status.CONFIRM) {
+                                                        _showBottomSheetStatusSubtask(context, e.id!);
+                                                      }
                                                     },
                                                     child: Container(
                                                       padding: EdgeInsets.symmetric(horizontal: UtilsReponsive.height(5, context)),
@@ -1942,7 +1964,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Tùy chọn",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -1950,7 +1972,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               ListTile(
                 title: Text(
                   'Xóa',
-                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w600, color: ColorsManager.red),
+                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w700, color: ColorsManager.red),
                 ),
                 onTap: () {
                   _showDeleteFileCommentConfirmation(context, commentFile, popupContext);
@@ -1970,11 +1992,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Xóa tệp này?",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           content: const Text(
             "Một khi nó đã mất, thì nó đã mất.",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           actions: <Widget>[
             TextButton(
@@ -1983,7 +2005,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               },
               child: Text(
                 "Hủy",
-                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.primary),
               ),
             ),
             TextButton(
@@ -1994,7 +2016,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               },
               child: Text(
                 "Xóa",
-                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.red),
               ),
             ),
           ],
@@ -2011,7 +2033,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Tùy chọn",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -2019,7 +2041,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               ListTile(
                 title: Text(
                   'Xóa',
-                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w600, color: ColorsManager.red),
+                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w700, color: ColorsManager.red),
                 ),
                 onTap: () {
                   _showDeleteAttachmentCommentConfirmation(context, index, popupContext);
@@ -2040,7 +2062,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Tùy chọn",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -2048,7 +2070,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               ListTile(
                 title: Text(
                   'Xóa',
-                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w600, color: ColorsManager.red),
+                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w700, color: ColorsManager.red),
                 ),
                 onTap: () {
                   _showDeleteAttachmentCommentConfirmationV2(context, index, popupContext, setStateX, filePickerEditCommentFile);
@@ -2068,11 +2090,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Xóa tệp này?",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           content: const Text(
             "Một khi nó đã mất, thì nó đã mất.",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           actions: <Widget>[
             TextButton(
@@ -2081,7 +2103,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               },
               child: Text(
                 "Hủy",
-                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.primary),
               ),
             ),
             TextButton(
@@ -2092,7 +2114,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               },
               child: Text(
                 "Xóa",
-                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.red),
               ),
             ),
           ],
@@ -2109,11 +2131,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Xóa tệp này?",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           content: const Text(
             "Một khi nó đã mất, thì nó đã mất.",
-            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
           ),
           actions: <Widget>[
             TextButton(
@@ -2122,7 +2144,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               },
               child: Text(
                 "Hủy",
-                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.primary),
               ),
             ),
             TextButton(
@@ -2133,7 +2155,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               },
               child: Text(
                 "Xóa",
-                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.red),
               ),
             ),
           ],
@@ -2183,17 +2205,17 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                   child: fileName.length > 35
                       ? Text(
                           fileName.length > 35 ? '${fileName.substring(0, 35)}...' : fileName,
-                          style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w600, color: ColorsManager.textColor),
+                          style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
                         )
                       : Text(
                           fileName,
-                          style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w600, color: ColorsManager.textColor),
+                          style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
                         ),
                 ),
                 Expanded(
                     child: Text(
                   fileSize,
-                  style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+                  style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
                 )),
               ]),
             ),
@@ -2244,17 +2266,17 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                   child: fileName.length > 35
                       ? Text(
                           fileName.length > 35 ? '${fileName.substring(0, 35)}...' : fileName,
-                          style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w600, color: ColorsManager.textColor),
+                          style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
                         )
                       : Text(
                           fileName,
-                          style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w600, color: ColorsManager.textColor),
+                          style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
                         ),
                 ),
                 Expanded(
                     child: Text(
                   fileSize,
-                  style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+                  style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
                 )),
               ]),
             ),
@@ -2300,11 +2322,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               child: commentFile.fileName!.length > 35
                   ? Text(
                       commentFile.fileName!.length > 35 ? '${commentFile.fileName!.substring(0, 35)}...' : commentFile.fileName!,
-                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w600, color: ColorsManager.textColor),
+                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
                     )
                   : Text(
                       commentFile.fileName!,
-                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w600, color: ColorsManager.textColor),
+                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
                     ),
             ),
             // const Expanded(
@@ -2313,7 +2335,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
             //     children: [
             //       Text(
             //         'Kích thước',
-            //         style: TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            //         style: TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
             //       ),
             //     ],
             //   ),
@@ -2359,11 +2381,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               child: attachmentModel.fileName!.length > 35
                   ? Text(
                       attachmentModel.fileName!.length > 35 ? '${attachmentModel.fileName!.substring(0, 35)}...' : attachmentModel.fileName!,
-                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 11, fontWeight: FontWeight.w600, color: ColorsManager.textColor),
+                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 11, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
                     )
                   : Text(
                       attachmentModel.fileName!,
-                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 11, fontWeight: FontWeight.w600, color: ColorsManager.textColor),
+                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 11, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
                     ),
             ),
             // const Expanded(
@@ -2372,7 +2394,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
             //     children: [
             //       Text(
             //         'Kích thước',
-            //         style: TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            //         style: TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
             //       ),
             //     ],
             //   ),
@@ -2427,7 +2449,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                         children: [
                           Text(
                             'Thêm mô tả...',
-                            style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w600, ColorsManager.textColor2),
+                            style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                           ),
                         ],
                       ),
@@ -2467,7 +2489,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                 const Spacer(),
                 Text(
                   'Thay đổi thông tin công việc thành công',
-                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w600, Colors.white),
+                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w700, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -2510,7 +2532,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                   Obx(
                     () => Text(
                       controller.errorUpdateTaskText.value,
-                      style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w600, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w700, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

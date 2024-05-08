@@ -435,7 +435,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                   child: Icon(
                     Icons.info,
                     color: Colors.white,
-                    size: UtilsReponsive.height(30, context),
+                    size: UtilsReponsive.height(28, context),
                   ),
                 ),
               ),
@@ -477,12 +477,12 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                   children: [
                     taskModel.status! == Status.CONFIRM
                         ? CircleAvatar(
-                            backgroundColor: ColorsManager.grey.withOpacity(0.7),
+                            backgroundColor: ColorsManager.backgroundWhite.withOpacity(0.7),
                             radius: UtilsReponsive.height(13, context),
                             child: Icon(
                               Icons.check_circle,
-                              color: ColorsManager.green.withOpacity(0.7),
-                              size: UtilsReponsive.height(25, context),
+                              color: ColorsManager.purple,
+                              size: UtilsReponsive.height(28, context),
                             ),
                           )
                         : CircleAvatar(
@@ -784,7 +784,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                                               ? ColorsManager.green
                                                               : taskModel.status! == Status.OVERDUE
                                                                   ? ColorsManager.red
-                                                                  : Colors.purpleAccent,
+                                                                  : ColorsManager.purple,
                                                 )),
                                             Text(
                                                 // '${controller.dateFormat.format(taskModel.startDate!)} ${getCurrentTime(taskModel.startDate!)} - ${controller.dateFormat.format(taskModel.endDate!)} ${getCurrentTime(taskModel.endDate!)}'
@@ -803,7 +803,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                                               ? ColorsManager.green
                                                               : taskModel.status! == Status.OVERDUE
                                                                   ? ColorsManager.red
-                                                                  : Colors.purpleAccent,
+                                                                  : ColorsManager.purple,
                                                 )),
                                           ],
                                         )

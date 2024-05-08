@@ -96,6 +96,7 @@ class TaskDetailViewController extends BaseController {
   RxBool checkView = false.obs;
 
   RxBool isLoadingComment = false.obs;
+  RxBool isLoadingCommentV2 = false.obs;
 
   // late IO.Socket socket;
 
@@ -873,6 +874,7 @@ class TaskDetailViewController extends BaseController {
     try {
       checkToken();
       bool checkTask = await checkTaskForUser();
+      isLoadingCommentV2.value = true;
       if (checkTask) {
         List<CommentFile> list = [];
         for (var item in listComment) {
@@ -912,8 +914,10 @@ class TaskDetailViewController extends BaseController {
         Get.snackbar('Thông báo', 'Công việc này không khả dụng nữa',
             snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
       }
+      isLoadingCommentV2.value = false;
     } catch (e) {
       print(e);
+      isLoadingCommentV2.value = false;
       checkView.value = false;
     }
   }

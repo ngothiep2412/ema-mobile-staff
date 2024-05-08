@@ -54,7 +54,8 @@ class TaskCalendarMonthController extends BaseController {
 
     dateStarTask.value = DateTime.parse(convertDateFormat(startDate));
     await getDetailEmployee();
-    onDaySelected(dateStarTask.value.add(const Duration(hours: 7)), dateStarTask.value.add(const Duration(hours: 7)));
+    // onDaySelected(dateStarTask.value.add(const Duration(hours: 7)), dateStarTask.value.add(const Duration(hours: 7)));
+    onDaySelected(dateStarTask.value.toLocal(), dateStarTask.value.toLocal());
     print('startDate ${dateStarTask}');
     // selectedTasks = ValueNotifier(getTasksForDay(selectedDay!));
   }
@@ -128,16 +129,18 @@ class TaskCalendarMonthController extends BaseController {
 
         for (var event in employeeModel.listEvent!) {
           // Lặp qua mỗi nhiệm vụ trong sự kiện
-          event.listTask!.forEach((task) {
+          for (var task in event.listTask!) {
             String startDateString = task.startDate!;
             String endDateString = task.endDate!;
 
             // Parse ngày bắt đầu và kết thúc từ string thành DateTime
-            var startDate = DateTime.parse(startDateString).add(const Duration(hours: 7));
-            var endDate = DateTime.parse(endDateString).add(const Duration(hours: 7));
+            // var startDate = DateTime.parse(startDateString).add(const Duration(hours: 7));
+            var startDate = DateTime.parse(startDateString);
+            // var endDate = DateTime.parse(endDateString).add(const Duration(hours: 7));
+            var endDate = DateTime.parse(endDateString);
             // Thêm nhiệm vụ vào danh sách tasks cho mỗi ngày từ startDate đến endDate
             for (var date = startDate; date.isBefore(endDate.add(const Duration(days: 1))); date = date.add(const Duration(days: 1))) {
-              tasks.putIfAbsent(date, () => []).add(TaskItem(
+              tasks.putIfAbsent(DateFormat('yyyy-MM-dd').parse(DateFormat('yyyy-MM-dd').format(date)), () => []).add(TaskItem(
                     id: task.id,
                     title: task.title,
                     startDate: task.startDate,
@@ -146,7 +149,7 @@ class TaskCalendarMonthController extends BaseController {
                     status: task.status,
                   ));
             }
-          });
+          }
         }
         print('test ngay: $tasks');
       }
@@ -165,7 +168,8 @@ class TaskCalendarMonthController extends BaseController {
   }
 
   void getTask(DateTime day) {
-    DateTime dateTime = day.toLocal();
+    // DateTime dateTime = day.toLocal();
+    DateTime dateTime = DateFormat('yyyy-MM-dd').parse(DateFormat('yyyy-MM-dd').format(day.toLocal()));
     List<TaskItem> taskItems = tasks[dateTime] ?? [];
     // Nếu dateTime có trong tasks thì trả về danh sách TaskItem, nếu không trả về danh sách trống
     // taskShow.clear();

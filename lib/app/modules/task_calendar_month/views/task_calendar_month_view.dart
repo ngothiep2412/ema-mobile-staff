@@ -126,7 +126,7 @@ class TaskCalendarMonthView extends BaseView<TaskCalendarMonthController> {
                     rowHeight: UtilsReponsive.height(40, context),
                     startingDayOfWeek: StartingDayOfWeek.monday,
                     locale: "vi_VN",
-                    headerStyle: const HeaderStyle(
+                    headerStyle: HeaderStyle(
                         // leftChevronVisible: false,
                         // rightChevronVisible: false,
                         formatButtonVisible: false,
@@ -134,14 +134,14 @@ class TaskCalendarMonthView extends BaseView<TaskCalendarMonthController> {
                         // titleTextFormatter: ,
                         leftChevronIcon: Icon(
                           Icons.chevron_left,
-                          color: ColorsManager.textColor,
+                          color: ColorsManager.calendar,
                         ),
                         rightChevronIcon: Icon(
                           Icons.chevron_right,
-                          color: ColorsManager.textColor,
+                          color: ColorsManager.calendar,
                         ),
                         titleTextStyle: TextStyle(
-                          color: ColorsManager.textColor,
+                          color: ColorsManager.calendar,
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
                         )),
@@ -380,6 +380,7 @@ class TaskCalendarMonthView extends BaseView<TaskCalendarMonthController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
+                      overflow: TextOverflow.ellipsis,
                       taskModel.title!,
                       style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.textColor),
                     ),
@@ -409,6 +410,7 @@ class TaskCalendarMonthView extends BaseView<TaskCalendarMonthController> {
                           // ),
                           margin: EdgeInsets.only(left: UtilsReponsive.width(10, context)),
                           child: Text(
+                            overflow: TextOverflow.ellipsis,
                             // '$startTime ${getCurrentTime(controller.taskModel.value.startDate!)} - $endTime ${getCurrentTime(controller.taskModel.value.endDate!)}',
                             'Hạn: ${controller.convertDateFormatV2(taskModel.startDate!)} - ${controller.convertDateFormatV2(taskModel.endDate!)}',
                             style: TextStyle(

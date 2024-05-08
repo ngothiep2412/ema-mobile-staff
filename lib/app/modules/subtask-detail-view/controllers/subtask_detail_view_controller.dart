@@ -37,7 +37,7 @@ class SubtaskDetailViewController extends BaseController {
       required this.isNavigateOverall});
   String taskID = '';
   bool isNavigateOverall = false;
-  Rx<TaskModel> taskModel = TaskModel().obs;
+  Rx<TaskModel> taskModel = TaskModel(parent: TaskModel()).obs;
   bool isNavigateDetail = false;
 
   final isLoading = false.obs;
@@ -106,6 +106,7 @@ class SubtaskDetailViewController extends BaseController {
   RxBool checkView = false.obs;
 
   RxBool isLoadingComment = false.obs;
+  RxBool isLoadingCommentV2 = false.obs;
 
   // RxBool isEditComment = false.obs;
 
@@ -675,23 +676,34 @@ class SubtaskDetailViewController extends BaseController {
         //   taskModel.value.avatarAssigner = assigner.result!.avatar;
 
         // }
-        if (status == 'DONE' || status == 'CONFIRM') {
-          ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, 100, status);
-          if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
-            checkView.value = false;
-          }
+        DateTime now = DateTime.now().toLocal();
+        print('now $now');
+        print('taskModel.value.startDate!.toLocal() ${taskModel.value.startDate!.toLocal()}');
+        if (taskModel.value.startDate!.toLocal().isAfter(now) || taskModel.value.endDate!.toLocal().isBefore(now)
+            // || taskModel.value.endDate!.toLocal().isBefore(now)
+            ) {
+          Get.snackbar('Thông báo', 'Công việc này có thời hạn công việc không cho phép cập nhật',
+              snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
+          // return;
         } else {
-          ResponseApi responseApi = await SubTaskDetailApi.updateStatusTask(jwt, taskID, status);
-          if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
-            checkView.value = false;
+          if (status == 'DONE' || status == 'CONFIRM') {
+            ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, 100, status);
+            if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
+              checkView.value = false;
+            }
+          } else {
+            ResponseApi responseApi = await SubTaskDetailApi.updateStatusTask(jwt, taskID, status);
+            if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
+              checkView.value = false;
+            }
           }
-        }
 
-        await updatePageOverall();
-        errorUpdateSubTask.value = false;
-        // } else {
-        //   checkView.value = false;
-        // }
+          await updatePageOverall();
+          errorUpdateSubTask.value = false;
+          // } else {
+          //   checkView.value = false;
+          // }
+        }
       } else {
         Get.snackbar('Thông báo', 'Công việc này không khả dụng nữa',
             snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
@@ -1343,6 +1355,7 @@ class SubtaskDetailViewController extends BaseController {
     try {
       checkToken();
       bool checkTask = await checkTaskForUser();
+      isLoadingCommentV2.value = true;
       if (checkTask) {
         List<CommentFile> list = [];
         for (var item in listComment) {
@@ -1380,8 +1393,10 @@ class SubtaskDetailViewController extends BaseController {
         Get.snackbar('Thông báo', 'Công việc này không khả dụng nữa',
             snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
       }
+      isLoadingCommentV2.value = false;
     } catch (e) {
       print(e);
+      isLoadingCommentV2.value = false;
       checkView.value = false;
     }
   }

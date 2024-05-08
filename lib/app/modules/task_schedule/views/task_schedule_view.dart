@@ -448,11 +448,11 @@ class TaskScheduleView extends BaseView<TaskScheduleController> {
                   children: [
                     taskModel.status! == Status.CONFIRM
                         ? CircleAvatar(
-                            backgroundColor: ColorsManager.grey.withOpacity(0.2),
+                            backgroundColor: ColorsManager.backgroundWhite.withOpacity(0.2),
                             radius: UtilsReponsive.height(20, context),
                             child: Icon(
                               Icons.check_circle,
-                              color: ColorsManager.purple.withOpacity(0.7),
+                              color: ColorsManager.purple,
                               size: 40,
                             ),
                           )
